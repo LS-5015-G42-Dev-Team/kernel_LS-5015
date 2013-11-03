@@ -27,6 +27,15 @@
 
 #define DT_CMD_HDR 6
 
+#ifdef CONFIG_MACH_LONGCHEER
+#define LCM_SUPPORT_READ_VERSION
+#endif
+#ifdef LCM_SUPPORT_READ_VERSION
+char g_lcm_id[128];
+#endif
+
+#define DT_CMD_HDR 6
+
 /* NT35596 panel specific status variables */
 #define NT35596_BUF_3_STATUS 0x02
 #define NT35596_BUF_4_STATUS 0x40
