@@ -508,9 +508,13 @@ static int32_t msm_actuator_init_step_table(struct msm_actuator_ctrl_t *a_ctrl,
 		max_code_size *= 2;
 
 	a_ctrl->max_code_size = max_code_size;
+
+	if ((a_ctrl->actuator_state == ACTUATOR_POWER_UP) &&
+		(a_ctrl->step_position_table != NULL)) {
+		kfree(a_ctrl->step_position_table);
+	}
 	/* free the step_position_table to allocate a new one */
 	kfree(a_ctrl->step_position_table);
-
 	a_ctrl->step_position_table = NULL;
 
 	if (set_info->af_tuning_params.total_steps
