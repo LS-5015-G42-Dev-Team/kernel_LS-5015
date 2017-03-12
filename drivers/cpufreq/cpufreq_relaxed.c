@@ -19,7 +19,7 @@
 
 /* Relaxed version macros */
 #define RELAXED_VERSION_MAJOR			(1)
-#define RELAXED_VERSION_MINOR			(2)
+#define RELAXED_VERSION_MINOR			(3)
 
 /* Relaxed governor macros */
 #define DEF_FREQUENCY_UP_THRESHOLD		(98)
