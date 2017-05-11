@@ -25,6 +25,10 @@
 
 #include "mdss_dsi.h"
 
+#ifdef CONFIG_STATE_NOTIFIER
+#include <linux/state_notifier.h>
+#endif
+
 #define DT_CMD_HDR 6
 
 #ifdef CONFIG_MACH_LONGCHEER
@@ -640,6 +644,10 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 
 	pr_debug("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
 
+	#ifdef CONFIG_STATE_NOTIFIER
+	       state_resume();
+	#endif
+
 	if (pinfo->dcs_cmd_by_left) {
 		if (ctrl->ndx != DSI_CTRL_LEFT)
 			goto end;
@@ -708,6 +716,10 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 
 	pr_debug("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
 
+	#ifdef CONFIG_STATE_NOTIFIER
+	       state_suspend();
+	#endif
+
 	if (pinfo->dcs_cmd_by_left) {
 		if (ctrl->ndx != DSI_CTRL_LEFT)
 			goto end;
@@ -745,6 +757,11 @@ static int mdss_dsi_panel_low_power_config(struct mdss_panel_data *pdata,
 		pinfo->blank_state = MDSS_PANEL_BLANK_LOW_POWER;
 	else
 		pinfo->blank_state = MDSS_PANEL_BLANK_UNBLANK;
+
+        #ifdef CONFIG_STATE_NOTIFIER
+	if (enable)
+	   state_suspend();
+        #endif
 
 	pr_debug("%s:-\n", __func__);
 	return 0;
