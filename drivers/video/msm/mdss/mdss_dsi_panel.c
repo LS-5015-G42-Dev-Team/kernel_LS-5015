@@ -46,6 +46,10 @@ char g_lcm_id[128];
 #define NT35596_BUF_5_STATUS 0x80
 #define NT35596_MAX_ERR_CNT 2
 
+extern void lazyplug_enter_lazy(bool enter, bool video);
+
+bool display_on = true;
+
 #define MIN_REFRESH_RATE 48
 #define DEFAULT_MDP_TRANSFER_TIME 14000
 
@@ -638,6 +642,13 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 
 	display_on = true;
 
+#ifdef CONFIG_POWERSUSPEND
+       set_power_suspend_state_panel_hook(POWER_SUSPEND_INACTIVE);
+#endif
+
+	display_on = true;
+	lazyplug_enter_lazy(false, false);
+
 	pinfo = &pdata->panel_info;
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
@@ -727,6 +738,13 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 
 	if (ctrl->off_cmds.cmd_cnt)
 		mdss_dsi_panel_cmds_send(ctrl, &ctrl->off_cmds);
+
+#ifdef CONFIG_POWERSUSPEND
+       set_power_suspend_state_panel_hook(POWER_SUSPEND_ACTIVE);
+#endif
+
+	display_on = false;
+	lazyplug_enter_lazy(true, false);
 
 end:
 	pinfo->blank_state = MDSS_PANEL_BLANK_BLANK;
