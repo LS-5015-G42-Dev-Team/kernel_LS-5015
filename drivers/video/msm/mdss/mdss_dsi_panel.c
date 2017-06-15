@@ -48,8 +48,6 @@ char g_lcm_id[128];
 
 extern void lazyplug_enter_lazy(bool enter, bool video);
 
-bool display_on = true;
-
 #define MIN_REFRESH_RATE 48
 #define DEFAULT_MDP_TRANSFER_TIME 14000
 
@@ -646,7 +644,6 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
        set_power_suspend_state_panel_hook(POWER_SUSPEND_INACTIVE);
 #endif
 
-	display_on = true;
 	lazyplug_enter_lazy(false, false);
 
 	pinfo = &pdata->panel_info;
@@ -743,7 +740,6 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
        set_power_suspend_state_panel_hook(POWER_SUSPEND_ACTIVE);
 #endif
 
-	display_on = false;
 	lazyplug_enter_lazy(true, false);
 
 end:
