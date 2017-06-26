@@ -230,7 +230,6 @@ static int f2fs_set_acl(struct inode *inode, int type, struct posix_acl *acl)
 			set_acl_inode(fi, inode->i_mode);
 		}
 		break;
-
 	case ACL_TYPE_DEFAULT:
 		name_index = F2FS_XATTR_INDEX_POSIX_ACL_DEFAULT;
 		if (!S_ISDIR(inode->i_mode))
