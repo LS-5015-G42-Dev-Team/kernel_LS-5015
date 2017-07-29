@@ -368,40 +368,20 @@ static int tz_resume(struct devfreq *devfreq)
 static int tz_suspend(struct devfreq *devfreq)
 {
 	struct devfreq_msm_adreno_tz_data *priv = devfreq->data;
-	
-	#ifdef CONFIG_ADRENO_IDLER
-	if (adreno_idler_active == false)
-	{
-	#endif
-	   unsigned int scm_data[2] = {0, 0};
-	   __secure_tz_reset_entry2(scm_data, sizeof(scm_data), priv->is_64);
-	#ifdef CONFIG_ADRENO_IDLER
-	}
-	else
-	    suspended = true;
-	#endif
+	struct devfreq_dev_profile *profile = devfreq->profile;
+	unsigned long freq;
+
+	suspended = true;
 
 	priv->bin.total_time = 0;
 	priv->bin.busy_time = 0;
-	#ifdef CONFIG_ADRENO_IDLER
-	if (adreno_idler_active == false)
-	#endif
-	   return 0;
-	#ifdef CONFIG_ADRENO_IDLER
-	else
-	{
-	    unsigned long freq;
-	    struct devfreq_dev_profile *profile = devfreq->profile;
+	priv->bus.total_time = 0;
+	priv->bus.gpu_time = 0;
+	priv->bus.ram_time = 0;
 
-	    priv->bus.total_time = 0;
-	    priv->bus.gpu_time = 0;
-	    priv->bus.ram_time = 0;
+	freq = profile->freq_table[profile->max_state - 1];
 
-	    freq = profile->freq_table[profile->max_state - 1];
-
-	    return profile->target(devfreq->dev.parent, &freq, 0);
-	}
-	#endif
+	return profile->target(devfreq->dev.parent, &freq, 0);
 }
 
 static int tz_handler(struct devfreq *devfreq, unsigned int event, void *data)
