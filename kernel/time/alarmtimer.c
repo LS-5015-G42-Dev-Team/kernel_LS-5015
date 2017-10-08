@@ -26,6 +26,9 @@
 #include <linux/workqueue.h>
 #include <linux/freezer.h>
 
+#define ALARM_DELTA 300
+
+>>>>>>> 0c66fcb... kernel: alarm: Increase power-on alarm before alarm time to 300 sec
 /**
  * struct alarm_base - Alarm timer bases
  * @lock:		Lock for syncrhonized access to the base
