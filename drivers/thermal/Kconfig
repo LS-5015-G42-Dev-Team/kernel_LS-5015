@@ -134,7 +134,8 @@ config FRANCO_THERMAL
        depends on THERMAL_TSENS8960 || THERMAL_TSENS8974
        depends on CPU_FREQ || CPU_FREQ_MSM
        help
-	   A Simple Thermal Monitoring and Regulation Alternative.
+	   A Simple Thermal Monitoring and Regulation Alternative with Support for
+	   Shoaib's Core Control.
 
 endchoice
 
