@@ -29,6 +29,8 @@
 unsigned int temp_threshold = 65;
 module_param(temp_threshold, int, 0644);
 
+uint32_t Throttle_Freq = 800000;
+
 static struct thermal_info {
 	uint32_t cpuinfo_max_freq;
 	uint32_t limited_max_freq;
@@ -47,27 +49,9 @@ static struct thermal_info {
 	.min_interval_us = 1000000,
 };
 
-enum thermal_freqs {
-	FREQ_HELL		= 729600,
-	FREQ_VERY_HOT		= 1036800,
-	FREQ_HOT		= 1497600,
-	FREQ_WARM		= 1728000,
-};
-
-enum threshold_levels {
-	LEVEL_HELL		= 1 << 4,
-	LEVEL_VERY_HOT		= 1 << 3,
-	LEVEL_HOT		= 1 << 2,
-};
-
 struct msm_thermal_data msm_thermal_info;
 
 static struct delayed_work check_temp_work;
-
-unsigned short get_threshold(void)
-{
-	return temp_threshold;
-}
 
 static int msm_thermal_cpufreq_callback(struct notifier_block *nfb,
 		unsigned long event, void *data)
@@ -134,14 +118,8 @@ static void check_temp(struct work_struct *work)
 		}
 	}
 
-	if (temp >= temp_threshold + LEVEL_HELL)
-		freq = FREQ_HELL;
-	else if (temp >= temp_threshold + LEVEL_VERY_HOT)
-		freq = FREQ_VERY_HOT;
-	else if (temp >= temp_threshold + LEVEL_HOT)
-		freq = FREQ_HOT;
-	else if (temp > temp_threshold)
-		freq = FREQ_WARM;
+	if (temp >= temp_threshold)
+	   freq = Throttle_Freq;
 
 	if (freq)
 	{
