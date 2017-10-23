@@ -30,7 +30,7 @@ unsigned int temp_threshold = 65;
 module_param(temp_threshold, int, 0644);
 
 // Core Control sysFS Toggle.
-bool core_control = true;
+bool core_control = false;
 static struct kobject *cc_kobj;
 
 uint32_t Throttle_Freq = 800000;
