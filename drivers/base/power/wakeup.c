@@ -30,8 +30,6 @@ static bool enable_wlan_wake_ws = false;
 module_param(enable_wlan_wake_ws, bool, 0644);
 static bool enable_bluedroid_timer_ws = false;
 module_param(enable_bluedroid_timer_ws, bool, 0644);
-static bool enable_qcom_rx_wakelock_ws = false;
-module_param(enable_qcom_rx_wakelock_ws, bool, 0644);
 static bool enable_msm_hsic_ws = false;
 module_param(enable_msm_hsic_ws, bool, 0644);
 static bool enable_qcom_rx_wakelock_ws = false;
@@ -380,13 +378,11 @@ static void update_prevent_sleep_time(struct wakeup_source *ws, ktime_t now)
 }
 #else
 static inline void update_prevent_sleep_time(struct wakeup_source *ws,
-                                             ktime_t now) {}
+                                             ktime_t now) {
 	ktime_t delta = ktime_sub(now, ws->start_prevent_time);
 	ws->prevent_sleep_time = ktime_add(ws->prevent_sleep_time, delta);
 }
-#else
-static inline void update_prevent_sleep_time(struct wakeup_source *ws,
-					     ktime_t now) {}
+
 #endif
 
 /**
@@ -596,38 +592,6 @@ static void wakeup_source_activate(struct wakeup_source *ws)
 	trace_wakeup_source_activate(ws->name, cec);
 }
 
-static bool wakeup_source_blocker(struct wakeup_source *ws)
-{
-	unsigned int wslen = 0;
-
-	if (ws) {
-		wslen = strlen(ws->name);
-
-		if ((!enable_ipa_ws && !strncmp(ws->name, "IPA_WS", wslen)) ||
-			(!enable_wlan_extscan_wl_ws &&
-				!strncmp(ws->name, "wlan_extscan_wl", wslen)) ||
-			(!enable_qcom_rx_wakelock_ws &&
-				!strncmp(ws->name, "qcom_rx_wakelock", wslen)) ||
-			(!enable_wlan_ws &&
-				!strncmp(ws->name, "wlan", wslen)) ||
-			(!enable_netmgr_wl_ws &&
-                                !strncmp(ws->name, "netmgr_wl", wslen)) ||
-			(!enable_timerfd_ws &&
-				!strncmp(ws->name, "[timerfd]", wslen)) ||
-			(!enable_netlink_ws &&
-				!strncmp(ws->name, "NETLINK", wslen))) {
-			if (ws->active) {
-				wakeup_source_deactivate(ws);
-				pr_info("forcefully deactivate wakeup source: %s\n",
-					ws->name);
-			}
-
-			return true;
-		}
-	}
-
-	return false;
-}
 
 /**
  * wakeup_source_report_event - Report wakeup event using the given source.
