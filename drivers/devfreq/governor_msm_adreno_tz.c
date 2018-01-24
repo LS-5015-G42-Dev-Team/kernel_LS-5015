@@ -25,6 +25,7 @@
 #include <linux/powersuspend.h>
 #include "governor.h"
 
+
 #ifdef CONFIG_ADRENO_IDLER
 #include <linux/adreno_idler.h>
 #endif
@@ -187,7 +188,7 @@ extern int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq
 #ifdef CONFIG_SIMPLE_GPU_ALGORITHM
 extern int simple_gpu_active;
 extern int simple_gpu_algorithm(int level, int *val,
-				struct devfreq_msm_adreno_tz_data *priv->is_64);
+				struct devfreq_msm_adreno_tz_data *priv);
 #endif
 
 static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
@@ -259,7 +260,7 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 			scm_data[0] = level;
 			scm_data[1] = priv->bin.total_time;
 			scm_data[2] = priv->bin.busy_time;
-			scm_data[3] = context_count;
+
 			__secure_tz_update_entry3(scm_data, sizeof(scm_data),
 						&val, sizeof(val), priv->is_64);
 		}
