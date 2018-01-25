@@ -76,6 +76,9 @@ struct lpm_debug {
 
 struct lpm_cluster *lpm_root_node;
 
+#define MAXSAMPLES 5
+
+static bool lpm_prediction = true;
 static DEFINE_PER_CPU(struct lpm_cluster*, cpu_cluster);
 static bool suspend_in_progress;
 static struct hrtimer lpm_hrtimer;
