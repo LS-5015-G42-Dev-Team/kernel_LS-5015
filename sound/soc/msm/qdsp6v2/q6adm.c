@@ -1,4 +1,5 @@
-/* Copyright (c) 2012-2014, 2016-2017 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2014, 2016-2017 The Linux Foundation. All rights 
+ * reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1367,9 +1368,16 @@ fail_cmd:
 	return ret;
 }
 
-static void remap_cal_data(struct cal_block_data *cal_block, int cal_index)
+static int remap_cal_data(struct cal_block_data *cal_block, int cal_index)
 {
 	int ret = 0;
+
+	if (cal_block->map_data.ion_client == NULL) {
+		pr_err("%s: No ION allocation for cal index %d!\n",
+			__func__, cal_index);
+		ret = -EINVAL;
+		goto done;
+	}
 
 	if ((cal_block->map_data.map_size > 0) &&
 		(cal_block->map_data.q6map_handle == 0)) {
@@ -1390,7 +1398,7 @@ static void remap_cal_data(struct cal_block_data *cal_block, int cal_index)
 			mem_map_handles[cal_index]);
 	}
 done:
-	return;
+	return ret;
 }
 
 static void send_adm_custom_topology(void)
@@ -1414,7 +1422,13 @@ static void send_adm_custom_topology(void)
 
 	pr_debug("%s: Sending cal_index %d\n", __func__, cal_index);
 
-	remap_cal_data(cal_block, cal_index);
+	result = remap_cal_data(cal_block, cal_index);
+	if (result) {
+		pr_err("%s: Remap_cal_data failed for cal %d!\n",
+		__func__, cal_index);
+		goto unlock;
+	}
+
 	atomic_set(&this_adm.mem_map_index, cal_index);
 	atomic_set(&this_adm.mem_map_handles[cal_index],
 		cal_block->map_data.q6map_handle);
@@ -1935,14 +1949,14 @@ int adm_open(int port_id, int path, int rate, int channel_mode, int topology,
 		} else if (channel_mode == 4) {
 			open.dev_channel_mapping[0] = PCM_CHANNEL_FL;
 			open.dev_channel_mapping[1] = PCM_CHANNEL_FR;
-			open.dev_channel_mapping[2] = PCM_CHANNEL_RB;
-			open.dev_channel_mapping[3] = PCM_CHANNEL_LB;
+			open.dev_channel_mapping[2] = PCM_CHANNEL_LS;
+			open.dev_channel_mapping[3] = PCM_CHANNEL_RS;
 		} else if (channel_mode == 5) {
 			open.dev_channel_mapping[0] = PCM_CHANNEL_FL;
 			open.dev_channel_mapping[1] = PCM_CHANNEL_FR;
 			open.dev_channel_mapping[2] = PCM_CHANNEL_FC;
-			open.dev_channel_mapping[3] = PCM_CHANNEL_LB;
-			open.dev_channel_mapping[4] = PCM_CHANNEL_RB;
+			open.dev_channel_mapping[3] = PCM_CHANNEL_LS;
+			open.dev_channel_mapping[4] = PCM_CHANNEL_RS;
 		} else if (channel_mode == 6) {
 			open.dev_channel_mapping[0] = PCM_CHANNEL_FL;
 			open.dev_channel_mapping[1] = PCM_CHANNEL_FR;
@@ -1955,10 +1969,10 @@ int adm_open(int port_id, int path, int rate, int channel_mode, int topology,
 			open.dev_channel_mapping[1] = PCM_CHANNEL_FR;
 			open.dev_channel_mapping[2] = PCM_CHANNEL_LFE;
 			open.dev_channel_mapping[3] = PCM_CHANNEL_FC;
-			open.dev_channel_mapping[4] = PCM_CHANNEL_LB;
-			open.dev_channel_mapping[5] = PCM_CHANNEL_RB;
-			open.dev_channel_mapping[6] = PCM_CHANNEL_FLC;
-			open.dev_channel_mapping[7] = PCM_CHANNEL_FRC;
+			open.dev_channel_mapping[4] = PCM_CHANNEL_LS;
+			open.dev_channel_mapping[5] = PCM_CHANNEL_RS;
+			open.dev_channel_mapping[6] = PCM_CHANNEL_LB;
+			open.dev_channel_mapping[7] = PCM_CHANNEL_RB;
 		} else {
 			pr_err("%s: invalid num_chan %d\n", __func__,
 					channel_mode);
@@ -1973,8 +1987,8 @@ int adm_open(int port_id, int path, int rate, int channel_mode, int topology,
 			__func__, open.endpoint_id_1, open.sample_rate,
 			open.topology_id);
 
-		if (open.topology_id == VPM_TX_LEC_STEREO_REF ||
-			open.topology_id == VPM_TX_LEC_MONO_REF) {
+		if ((this_adm.ec_ref_cfg.channel != 0) && (path != 1) &&
+			(open.endpoint_id_2 != 0xFFFF)) {
 			int ref_end_channel_mode = this_adm.ec_ref_cfg.channel;
 			use_open_v6 = true;
 			/* overwrite open opcode and pkt size here to use
@@ -2259,27 +2273,6 @@ int adm_close(int port_id, int perf_mode, int copp_idx)
 					ADM_MEM_MAP_INDEX_SOURCE_TRACKING], 0);
 		}
 
-		if ((afe_get_port_type(port_id) == MSM_AFE_PORT_TYPE_TX) &&
-		    (this_adm.sourceTrackingData.memmap.paddr != 0)) {
-			atomic_set(&this_adm.mem_map_index,
-				   ADM_MEM_MAP_INDEX_SOURCE_TRACKING);
-			ret = adm_memory_unmap_regions();
-			if (ret < 0) {
-				pr_err("%s: adm mem unmmap err %d",
-					__func__, ret);
-			}
-			msm_audio_ion_free(
-				this_adm.sourceTrackingData.ion_client,
-				this_adm.sourceTrackingData.ion_handle);
-			this_adm.sourceTrackingData.ion_client = NULL;
-			this_adm.sourceTrackingData.ion_handle = NULL;
-			this_adm.sourceTrackingData.memmap.size = 0;
-			this_adm.sourceTrackingData.memmap.kvaddr = NULL;
-			this_adm.sourceTrackingData.memmap.paddr = 0;
-			this_adm.sourceTrackingData.apr_cmd_status = -1;
-			atomic_set(&this_adm.mem_map_handles[
-					ADM_MEM_MAP_INDEX_SOURCE_TRACKING], 0);
-		}
 
 		close.hdr_field = APR_HDR_FIELD(APR_MSG_TYPE_SEQ_CMD,
 						APR_HDR_LEN(APR_HDR_SIZE),
@@ -2574,6 +2567,18 @@ static int adm_unmap_cal_data(int32_t cal_type,
 		pr_err("%s: could not get cal index %d!\n",
 			__func__, cal_index);
 		ret = -EINVAL;
+		goto done;
+	}
+
+	if (cal_block == NULL) {
+		pr_err("%s: Cal block is NULL!\n",
+						__func__);
+		goto done;
+	}
+
+	if (cal_block->map_data.q6map_handle == 0) {
+		pr_err("%s: Map handle is NULL, nothing to unmap\n",
+				__func__);
 		goto done;
 	}
 
