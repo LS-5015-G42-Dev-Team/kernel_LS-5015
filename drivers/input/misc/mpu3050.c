@@ -714,7 +714,11 @@ static int mpu3050_probe(struct i2c_client *client,
 	sensor->cdev.delay_msec = sensor->poll_interval;
 	sensor->cdev.sensors_enable = mpu3050_enable_set;
 	sensor->cdev.sensors_poll_delay = mpu3050_poll_delay_set;
+<<<<<<< HEAD
 	ret = sensors_classdev_register(&sensor->idev->dev, &sensor->cdev);
+=======
+	ret = sensors_classdev_register(&client->dev, &sensor->cdev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (ret) {
 		dev_err(&client->dev, "class device create failed: %d\n", ret);

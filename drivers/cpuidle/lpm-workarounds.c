@@ -13,14 +13,20 @@
 
 #include <linux/module.h>
 #include <linux/kernel.h>
+<<<<<<< HEAD
 #include <linux/init.h>
 #include <linux/of.h>
 #include <linux/err.h>
 #include <linux/io.h>
+=======
+#include <linux/of.h>
+#include <linux/err.h>
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/device.h>
 #include <linux/platform_device.h>
 #include <linux/regulator/consumer.h>
 #include <linux/regulator/rpm-smd-regulator.h>
+<<<<<<< HEAD
 #include <linux/msm_thermal.h>
 #include <linux/delay.h>
 #include <linux/cpu.h>
@@ -131,6 +137,41 @@ static void process_lpm_workarounds(struct work_struct *w)
 		unregister_hotcpu_notifier(&lpm_wa_nblk);
 	}
 }
+=======
+
+static struct regulator *lpm_cx_reg;
+static struct work_struct dummy_vote_work;
+static struct workqueue_struct *lpm_wa_wq;
+static bool lpm_wa_cx_turbo_unvote;
+static bool skip_l2_spm;
+
+/* While exiting from RPM assisted power collapse on some targets like MSM8939
+ * the CX is bumped to turbo mode by RPM. To reduce the power impact, APSS
+ * low power driver need to remove the CX turbo vote.
+ */
+static void send_dummy_cx_vote(struct work_struct *w)
+{
+	if (lpm_cx_reg) {
+		regulator_set_voltage(lpm_cx_reg,
+			RPM_REGULATOR_CORNER_SUPER_TURBO,
+			RPM_REGULATOR_CORNER_SUPER_TURBO);
+
+		regulator_set_voltage(lpm_cx_reg,
+			RPM_REGULATOR_CORNER_NONE,
+			RPM_REGULATOR_CORNER_SUPER_TURBO);
+	}
+}
+
+/*
+ * lpm_wa_cx_unvote_send(): Unvote for CX turbo mode
+ */
+void lpm_wa_cx_unvote_send(void)
+{
+	if (lpm_wa_cx_turbo_unvote)
+		queue_work(lpm_wa_wq, &dummy_vote_work);
+}
+EXPORT_SYMBOL(lpm_wa_cx_unvote_send);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /*
  * lpm_wa_skip_l2_spm: Dont program the l2 SPM as TZ is programming the
@@ -142,6 +183,7 @@ bool lpm_wa_get_skip_l2_spm(void)
 }
 EXPORT_SYMBOL(lpm_wa_get_skip_l2_spm);
 
+<<<<<<< HEAD
 static ssize_t store_clock_gating_enabled(struct kobject *kobj,
 		struct kobj_attribute *attr, const char *buf, size_t count)
 {
@@ -290,12 +332,65 @@ static int lpm_wa_probe(struct platform_device *pdev)
 		}
 	}
 	register_hotcpu_notifier(&lpm_wa_nblk);
+=======
+
+static int lpm_wa_cx_unvote_init(struct platform_device *pdev)
+{
+	int ret = 0;
+
+	lpm_cx_reg = devm_regulator_get(&pdev->dev, "lpm-cx");
+	if (IS_ERR(lpm_cx_reg)) {
+		ret = PTR_ERR(lpm_cx_reg);
+		if (ret != -EPROBE_DEFER)
+			pr_err("Unable to get the CX regulator\n");
+		return ret;
+	}
+
+	INIT_WORK(&dummy_vote_work, send_dummy_cx_vote);
+
+	lpm_wa_wq = alloc_workqueue("lpm-wa",
+				WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_HIGHPRI, 1);
+
+	return ret;
+}
+
+static int lpm_wa_cx_unvote_exit(void)
+{
+	if (lpm_wa_wq)
+		destroy_workqueue(lpm_wa_wq);
+
+	return 0;
+}
+
+static int lpm_wa_probe(struct platform_device *pdev)
+{
+	int ret = 0;
+
+	lpm_wa_cx_turbo_unvote = of_property_read_bool(pdev->dev.of_node,
+					"qcom,lpm-wa-cx-turbo-unvote");
+	if (lpm_wa_cx_turbo_unvote) {
+		ret = lpm_wa_cx_unvote_init(pdev);
+		if (ret) {
+			pr_err("%s: Failed to initialize lpm_wa_cx_unvote (%d)\n",
+				__func__, ret);
+			return ret;
+		}
+	}
+
+	skip_l2_spm = of_property_read_bool(pdev->dev.of_node,
+					"qcom,lpm-wa-skip-l2-spm");
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return ret;
 }
 
 static int lpm_wa_remove(struct platform_device *pdev)
 {
 	int ret = 0;
+<<<<<<< HEAD
+=======
+	if (lpm_wa_cx_turbo_unvote)
+		ret = lpm_wa_cx_unvote_exit();
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return ret;
 }

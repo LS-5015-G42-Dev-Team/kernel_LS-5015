@@ -739,9 +739,12 @@ static int smb358_hw_init(struct smb358_charger *chip)
 
 	if (!chip->disable_apsd)
 		reg = CHG_CTRL_APSD_EN_BIT;
+<<<<<<< HEAD
 	else
 		reg = 0;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	rc = smb358_masked_write(chip, CHG_CTRL_REG,
 				CHG_CTRL_APSD_EN_MASK, reg);
 	if (rc) {
@@ -1294,7 +1297,11 @@ static int chg_uv(struct smb358_charger *chip, u8 status)
 						POWER_SUPPLY_TYPE_USB);
 		power_supply_set_present(chip->usb_psy, chip->chg_present);
 
+<<<<<<< HEAD
 		if (chip->bms_controlled_charging) {
+=======
+		if (chip->bms_controlled_charging)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			/*
 			* Disable SOC based USB suspend to enable charging on
 			* USB insertion.
@@ -1302,9 +1309,14 @@ static int chg_uv(struct smb358_charger *chip, u8 status)
 			rc = smb358_charging_disable(chip, SOC, false);
 			if (rc < 0)
 				dev_err(chip->dev,
+<<<<<<< HEAD
 				"Couldn't disable usb suspend rc = %d\n",
 								rc);
 		}
+=======
+					"Couldn't disable usb suspend rc = %d\n",
+									rc);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	if (status != 0) {
@@ -2217,7 +2229,11 @@ static int smb_parse_dt(struct smb358_charger *chip)
 		chip->inhibit_disabled, chip->recharge_disabled,
 						chip->recharge_mv);
 	pr_debug("vfloat-mv = %d, iterm-disabled = %d,",
+<<<<<<< HEAD
 			chip->vfloat_mv, chip->iterm_disabled);
+=======
+			chip->vfloat_mv, chip->iterm_ma);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pr_debug("fastchg-current = %d, charging-disabled = %d,",
 			chip->fastchg_current_max_ma,
 					chip->charging_disabled);

@@ -192,6 +192,7 @@ static struct kmem_cache *object_cache;
 static struct kmem_cache *scan_area_cache;
 
 /* set if tracing memory operations is enabled */
+<<<<<<< HEAD
 static int kmemleak_enabled;
 /* same as above but only for the kmemleak_free() callback */
 static int kmemleak_free_enabled;
@@ -203,6 +204,17 @@ static int kmemleak_early_log = 1;
 static int kmemleak_warning;
 /* set if a fatal kmemleak error has occurred */
 static int kmemleak_error;
+=======
+static atomic_t kmemleak_enabled = ATOMIC_INIT(0);
+/* set in the late_initcall if there were no errors */
+static atomic_t kmemleak_initialized = ATOMIC_INIT(0);
+/* enables or disables early logging of the memory operations */
+static atomic_t kmemleak_early_log = ATOMIC_INIT(1);
+/* set if a kmemleak warning was issued */
+static atomic_t kmemleak_warning = ATOMIC_INIT(0);
+/* set if a fatal kmemleak error has occurred */
+static atomic_t kmemleak_error = ATOMIC_INIT(0);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* minimum and maximum address that may be valid pointers */
 static unsigned long min_addr = ULONG_MAX;
@@ -280,7 +292,11 @@ static void kmemleak_disable(void);
 #define kmemleak_warn(x...)	do {		\
 	pr_warning(x);				\
 	dump_stack();				\
+<<<<<<< HEAD
 	kmemleak_warning = 1;			\
+=======
+	atomic_set(&kmemleak_warning, 1);	\
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 } while (0)
 
 /*
@@ -818,7 +834,11 @@ static void __init log_early(int op_type, const void *ptr, size_t size,
 	unsigned long flags;
 	struct early_log *log;
 
+<<<<<<< HEAD
 	if (kmemleak_error) {
+=======
+	if (atomic_read(&kmemleak_error)) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		/* kmemleak stopped recording, just count the requests */
 		crt_early_log++;
 		return;
@@ -853,7 +873,11 @@ static void early_alloc(struct early_log *log)
 	unsigned long flags;
 	int i;
 
+<<<<<<< HEAD
 	if (!kmemleak_enabled || !log->ptr || IS_ERR(log->ptr))
+=======
+	if (!atomic_read(&kmemleak_enabled) || !log->ptr || IS_ERR(log->ptr))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return;
 
 	/*
@@ -906,9 +930,15 @@ void __ref kmemleak_alloc(const void *ptr, size_t size, int min_count,
 {
 	pr_debug("%s(0x%p, %zu, %d)\n", __func__, ptr, size, min_count);
 
+<<<<<<< HEAD
 	if (kmemleak_enabled && ptr && !IS_ERR(ptr))
 		create_object((unsigned long)ptr, size, min_count, gfp);
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
+		create_object((unsigned long)ptr, size, min_count, gfp);
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_ALLOC, ptr, size, min_count);
 }
 EXPORT_SYMBOL_GPL(kmemleak_alloc);
@@ -932,11 +962,19 @@ void __ref kmemleak_alloc_percpu(const void __percpu *ptr, size_t size)
 	 * Percpu allocations are only scanned and not reported as leaks
 	 * (min_count is set to 0).
 	 */
+<<<<<<< HEAD
 	if (kmemleak_enabled && ptr && !IS_ERR(ptr))
 		for_each_possible_cpu(cpu)
 			create_object((unsigned long)per_cpu_ptr(ptr, cpu),
 				      size, 0, GFP_KERNEL);
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
+		for_each_possible_cpu(cpu)
+			create_object((unsigned long)per_cpu_ptr(ptr, cpu),
+				      size, 0, GFP_KERNEL);
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_ALLOC_PERCPU, ptr, size, 0);
 }
 EXPORT_SYMBOL_GPL(kmemleak_alloc_percpu);
@@ -952,9 +990,15 @@ void __ref kmemleak_free(const void *ptr)
 {
 	pr_debug("%s(0x%p)\n", __func__, ptr);
 
+<<<<<<< HEAD
 	if (kmemleak_free_enabled && ptr && !IS_ERR(ptr))
 		delete_object_full((unsigned long)ptr);
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
+		delete_object_full((unsigned long)ptr);
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_FREE, ptr, 0, 0);
 }
 EXPORT_SYMBOL_GPL(kmemleak_free);
@@ -972,9 +1016,15 @@ void __ref kmemleak_free_part(const void *ptr, size_t size)
 {
 	pr_debug("%s(0x%p)\n", __func__, ptr);
 
+<<<<<<< HEAD
 	if (kmemleak_enabled && ptr && !IS_ERR(ptr))
 		delete_object_part((unsigned long)ptr, size);
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
+		delete_object_part((unsigned long)ptr, size);
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_FREE_PART, ptr, size, 0);
 }
 EXPORT_SYMBOL_GPL(kmemleak_free_part);
@@ -992,11 +1042,19 @@ void __ref kmemleak_free_percpu(const void __percpu *ptr)
 
 	pr_debug("%s(0x%p)\n", __func__, ptr);
 
+<<<<<<< HEAD
 	if (kmemleak_free_enabled && ptr && !IS_ERR(ptr))
 		for_each_possible_cpu(cpu)
 			delete_object_full((unsigned long)per_cpu_ptr(ptr,
 								      cpu));
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
+		for_each_possible_cpu(cpu)
+			delete_object_full((unsigned long)per_cpu_ptr(ptr,
+								      cpu));
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_FREE_PERCPU, ptr, 0, 0);
 }
 EXPORT_SYMBOL_GPL(kmemleak_free_percpu);
@@ -1012,9 +1070,15 @@ void __ref kmemleak_not_leak(const void *ptr)
 {
 	pr_debug("%s(0x%p)\n", __func__, ptr);
 
+<<<<<<< HEAD
 	if (kmemleak_enabled && ptr && !IS_ERR(ptr))
 		make_gray_object((unsigned long)ptr);
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
+		make_gray_object((unsigned long)ptr);
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_NOT_LEAK, ptr, 0, 0);
 }
 EXPORT_SYMBOL(kmemleak_not_leak);
@@ -1032,9 +1096,15 @@ void __ref kmemleak_ignore(const void *ptr)
 {
 	pr_debug("%s(0x%p)\n", __func__, ptr);
 
+<<<<<<< HEAD
 	if (kmemleak_enabled && ptr && !IS_ERR(ptr))
 		make_black_object((unsigned long)ptr);
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
+		make_black_object((unsigned long)ptr);
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_IGNORE, ptr, 0, 0);
 }
 EXPORT_SYMBOL(kmemleak_ignore);
@@ -1054,9 +1124,15 @@ void __ref kmemleak_scan_area(const void *ptr, size_t size, gfp_t gfp)
 {
 	pr_debug("%s(0x%p)\n", __func__, ptr);
 
+<<<<<<< HEAD
 	if (kmemleak_enabled && ptr && size && !IS_ERR(ptr))
 		add_scan_area((unsigned long)ptr, size, gfp);
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && size && !IS_ERR(ptr))
+		add_scan_area((unsigned long)ptr, size, gfp);
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_SCAN_AREA, ptr, size, 0);
 }
 EXPORT_SYMBOL(kmemleak_scan_area);
@@ -1074,9 +1150,15 @@ void __ref kmemleak_no_scan(const void *ptr)
 {
 	pr_debug("%s(0x%p)\n", __func__, ptr);
 
+<<<<<<< HEAD
 	if (kmemleak_enabled && ptr && !IS_ERR(ptr))
 		object_no_scan((unsigned long)ptr);
 	else if (kmemleak_early_log)
+=======
+	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
+		object_no_scan((unsigned long)ptr);
+	else if (atomic_read(&kmemleak_early_log))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		log_early(KMEMLEAK_NO_SCAN, ptr, 0, 0);
 }
 EXPORT_SYMBOL(kmemleak_no_scan);
@@ -1101,7 +1183,11 @@ static bool update_checksum(struct kmemleak_object *object)
  */
 static int scan_should_stop(void)
 {
+<<<<<<< HEAD
 	if (!kmemleak_enabled)
+=======
+	if (!atomic_read(&kmemleak_enabled))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return 1;
 
 	/*
@@ -1647,14 +1733,22 @@ static ssize_t kmemleak_write(struct file *file, const char __user *user_buf,
 		return ret;
 
 	if (strncmp(buf, "clear", 5) == 0) {
+<<<<<<< HEAD
 		if (kmemleak_enabled)
+=======
+		if (atomic_read(&kmemleak_enabled))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			kmemleak_clear();
 		else
 			__kmemleak_do_cleanup();
 		goto out;
 	}
 
+<<<<<<< HEAD
 	if (!kmemleak_enabled) {
+=======
+	if (!atomic_read(&kmemleak_enabled)) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		ret = -EBUSY;
 		goto out;
 	}
@@ -1726,6 +1820,7 @@ static void kmemleak_do_cleanup(struct work_struct *work)
 	mutex_lock(&scan_mutex);
 	stop_scan_thread();
 
+<<<<<<< HEAD
 	/*
 	 * Once the scan thread has stopped, it is safe to no longer track
 	 * object freeing. Ordering of the scan thread stopping and the memory
@@ -1733,6 +1828,8 @@ static void kmemleak_do_cleanup(struct work_struct *work)
 	 */
 	kmemleak_free_enabled = 0;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (!kmemleak_found_leaks)
 		__kmemleak_do_cleanup();
 	else
@@ -1750,6 +1847,7 @@ static DECLARE_WORK(cleanup_work, kmemleak_do_cleanup);
 static void kmemleak_disable(void)
 {
 	/* atomically check whether it was already invoked */
+<<<<<<< HEAD
 	if (cmpxchg(&kmemleak_error, 0, 1))
 		return;
 
@@ -1761,6 +1859,17 @@ static void kmemleak_disable(void)
 		schedule_work(&cleanup_work);
 	else
 		kmemleak_free_enabled = 0;
+=======
+	if (atomic_cmpxchg(&kmemleak_error, 0, 1))
+		return;
+
+	/* stop any memory operation tracing */
+	atomic_set(&kmemleak_enabled, 0);
+
+	/* check whether it is too early for a kernel thread */
+	if (atomic_read(&kmemleak_initialized))
+		schedule_work(&cleanup_work);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	pr_info("Kernel memory leak detector disabled\n");
 }
@@ -1801,10 +1910,16 @@ void __init kmemleak_init(void)
 	int i;
 	unsigned long flags;
 
+<<<<<<< HEAD
 	kmemleak_early_log = 0;
 
 #ifdef CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF
 	if (!kmemleak_skip_disable) {
+=======
+#ifdef CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF
+	if (!kmemleak_skip_disable) {
+		atomic_set(&kmemleak_early_log, 0);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		kmemleak_disable();
 		return;
 	}
@@ -1822,6 +1937,7 @@ void __init kmemleak_init(void)
 
 	/* the kernel is still in UP mode, so disabling the IRQs is enough */
 	local_irq_save(flags);
+<<<<<<< HEAD
 	if (kmemleak_error) {
 		local_irq_restore(flags);
 		return;
@@ -1829,6 +1945,14 @@ void __init kmemleak_init(void)
 		kmemleak_enabled = 1;
 		kmemleak_free_enabled = 1;
 	}
+=======
+	atomic_set(&kmemleak_early_log, 0);
+	if (atomic_read(&kmemleak_error)) {
+		local_irq_restore(flags);
+		return;
+	} else
+		atomic_set(&kmemleak_enabled, 1);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	local_irq_restore(flags);
 
 	/*
@@ -1872,9 +1996,15 @@ void __init kmemleak_init(void)
 				      log->op_type);
 		}
 
+<<<<<<< HEAD
 		if (kmemleak_warning) {
 			print_log_trace(log);
 			kmemleak_warning = 0;
+=======
+		if (atomic_read(&kmemleak_warning)) {
+			print_log_trace(log);
+			atomic_set(&kmemleak_warning, 0);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 	}
 }
@@ -1886,9 +2016,15 @@ static int __init kmemleak_late_init(void)
 {
 	struct dentry *dentry;
 
+<<<<<<< HEAD
 	kmemleak_initialized = 1;
 
 	if (kmemleak_error) {
+=======
+	atomic_set(&kmemleak_initialized, 1);
+
+	if (atomic_read(&kmemleak_error)) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		/*
 		 * Some error occurred and kmemleak was disabled. There is a
 		 * small chance that kmemleak_disable() was called immediately

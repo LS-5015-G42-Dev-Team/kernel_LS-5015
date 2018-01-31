@@ -25,16 +25,26 @@
 #include "mdss_fb.h"
 #include "mdss.h"
 
+<<<<<<< HEAD
 #define MDP_VSYNC_CLK_RATE			19200000
 #define MDP_CORE_CLK_RATE_SVS			160000000
 #define MDP_CORE_CLK_RATE_SUPER_SVS		200000000
 #define MDP_CORE_CLK_RATE_MAX			307200000
+=======
+#define MDP_VSYNC_CLK_RATE	19200000
+#define MDP_CORE_CLK_RATE_SVS	160000000
+#define MDP_CORE_CLK_RATE_SUPER_SVS	200000000
+#define MDP_CORE_CLK_RATE_MAX	307200000
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* PPP cant work at SVS for panel res above qHD */
 #define SVS_MAX_PIXEL		(540 * 960)
 
 #define KOFF_TIMEOUT msecs_to_jiffies(84)
+<<<<<<< HEAD
 #define WAIT_DMA_TIMEOUT msecs_to_jiffies(84)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 enum  {
 	MDP3_CLK_AHB,
@@ -186,12 +196,16 @@ struct mdp3_hw_resource {
 	struct regulator *vdd_cx;
 	struct regulator *fs;
 	bool fs_ena;
+<<<<<<< HEAD
 	int  clk_ena;
 	bool idle_pc_enabled;
 	bool idle_pc;
 	atomic_t active_intf_cnt;
 	u8 smart_blit_en;
 	bool solid_fill_vote_en;
+=======
+	u8 smart_blit_en;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct mdp3_img_data {
@@ -240,11 +254,14 @@ int mdp3_dynamic_clock_gating_ctrl(int enable);
 int mdp3_footswitch_ctrl(int enable);
 int mdp3_qos_remapper_setup(struct mdss_panel_data *panel);
 int mdp3_splash_done(struct mdss_panel_info *panel_info);
+<<<<<<< HEAD
 int mdp3_autorefresh_disable(struct mdss_panel_info *panel_info);
 
 void mdp3_calc_dma_res(struct mdss_panel_info *panel_info, u64 *clk_rate,
 		u64 *ab, u64 *ib, uint32_t bpp);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define MDP3_REG_WRITE(addr, val) writel_relaxed(val, mdp3_res->mdp_base + addr)
 #define MDP3_REG_READ(addr) readl_relaxed(mdp3_res->mdp_base + addr)

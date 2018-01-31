@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -15,7 +19,10 @@
 
 #include <linux/ioctl.h>
 #include <linux/ipa_qmi_service_v01.h>
+<<<<<<< HEAD
 #include <linux/msm_ipa.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /**
  * unique magic number of the IPA_WAN device
@@ -23,6 +30,7 @@
 #define WAN_IOC_MAGIC 0x69
 
 #define WAN_IOCTL_ADD_FLT_RULE		0
+<<<<<<< HEAD
 #define WAN_IOCTL_ADD_FLT_INDEX		1
 #define WAN_IOCTL_VOTE_FOR_BW_MBPS	2
 #define WAN_IOCTL_POLL_TETHERING_STATS  3
@@ -98,6 +106,9 @@ struct wan_ioctl_query_dl_filter_stats {
 	/* provide right index to 1st firewall rule */
 	uint32_t index;
 };
+=======
+#define WAN_IOCTL_ADD_FLT_INDEX		2
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define WAN_IOC_ADD_FLT_RULE _IOWR(WAN_IOC_MAGIC, \
 		WAN_IOCTL_ADD_FLT_RULE, \
@@ -107,6 +118,7 @@ struct wan_ioctl_query_dl_filter_stats {
 		WAN_IOCTL_ADD_FLT_INDEX, \
 		struct ipa_fltr_installed_notif_req_msg_v01 *)
 
+<<<<<<< HEAD
 #define WAN_IOC_VOTE_FOR_BW_MBPS _IOWR(WAN_IOC_MAGIC, \
 		WAN_IOCTL_VOTE_FOR_BW_MBPS, \
 		uint32_t *)
@@ -135,4 +147,6 @@ struct wan_ioctl_query_dl_filter_stats {
 		WAN_IOCTL_QUERY_DL_FILTER_STATS, \
 		struct wan_ioctl_query_dl_filter_stats *)
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif /* _RMNET_IPA_FD_IOCTL_H */

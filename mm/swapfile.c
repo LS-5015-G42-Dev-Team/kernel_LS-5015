@@ -413,7 +413,11 @@ scan:
 		}
 	}
 	offset = si->lowest_bit;
+<<<<<<< HEAD
 	while (offset < scan_base) {
+=======
+	while (++offset < scan_base) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (!si->swap_map[offset]) {
 			spin_lock(&si->lock);
 			goto checks;
@@ -427,7 +431,10 @@ scan:
 			cond_resched();
 			latency_ration = LATENCY_LIMIT;
 		}
+<<<<<<< HEAD
 		offset++;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	spin_lock(&si->lock);
 

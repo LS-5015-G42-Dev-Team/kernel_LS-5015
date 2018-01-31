@@ -674,6 +674,7 @@ int snd_info_card_free(struct snd_card *card)
 	return 0;
 }
 
+<<<<<<< HEAD
 /*
  * snd_register_module_info - create and register module
  * @module: the module pointer
@@ -704,12 +705,18 @@ struct snd_info_entry *snd_register_module_info(struct module *module,
 	return entry;
 }
 EXPORT_SYMBOL(snd_register_module_info);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /**
  * snd_info_get_line - read one line from the procfs buffer
  * @buffer: the procfs buffer
  * @line: the buffer to store
+<<<<<<< HEAD
  * @len: the max. buffer size
+=======
+ * @len: the max. buffer size - 1
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * Reads one line from the buffer and stores the string.
  *
@@ -729,7 +736,11 @@ int snd_info_get_line(struct snd_info_buffer *buffer, char *line, int len)
 			buffer->stop = 1;
 		if (c == '\n')
 			break;
+<<<<<<< HEAD
 		if (len > 1) {
+=======
+		if (len) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			len--;
 			*line++ = c;
 		}

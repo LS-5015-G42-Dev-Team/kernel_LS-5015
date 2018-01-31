@@ -824,6 +824,7 @@ first_try:
 			}
 		}
 
+<<<<<<< HEAD
 		spin_lock_irq(&epfile->ffs->eps_lock);
 		/*
 		 * While we were acquiring lock endpoint got disabled
@@ -837,15 +838,25 @@ first_try:
 			ret = -ENODEV;
 			goto error;
 		}
+=======
+		buffer_len = !read ? len : round_up(len,
+						ep->ep->desc->wMaxPacketSize);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		/* Do we halt? */
 		halt = !read == !epfile->in;
 		if (halt && epfile->isoc) {
+<<<<<<< HEAD
 			spin_unlock_irq(&epfile->ffs->eps_lock);
 			ret = -EINVAL;
 			goto error;
 		}
 		spin_unlock_irq(&epfile->ffs->eps_lock);
+=======
+			ret = -EINVAL;
+			goto error;
+		}
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		/* Allocate & copy */
 		if (!halt && !data) {

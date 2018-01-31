@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012, 2014-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012, 2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -18,21 +22,33 @@
 
 #include <linux/tracepoint.h>
 
+<<<<<<< HEAD
 TRACE_EVENT(rpm_smd_ack_recvd,
 
 	TP_PROTO(unsigned int irq, unsigned int msg_id, int errno),
 
 	TP_ARGS(irq, msg_id, errno),
+=======
+TRACE_EVENT(rpm_ack_recd,
+
+	TP_PROTO(unsigned int irq, unsigned int msg_id),
+
+	TP_ARGS(irq, msg_id),
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	TP_STRUCT__entry(
 		__field(int, irq)
 		__field(int, msg_id)
+<<<<<<< HEAD
 		__field(int, errno)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	),
 
 	TP_fast_assign(
 		__entry->irq = irq;
 		__entry->msg_id = msg_id;
+<<<<<<< HEAD
 		__entry->errno = errno;
 	),
 
@@ -70,18 +86,50 @@ DECLARE_EVENT_CLASS(rpm_send_msg,
 		__field(u32, msg_id)
 		__field(u32, rsc_type)
 		__field(u32, rsc_id)
+=======
+	),
+
+	TP_printk("ctx:%s id:%d",
+		__entry->irq ? "noslp" : "sleep",
+		__entry->msg_id)
+);
+
+TRACE_EVENT(rpm_send_message,
+
+	TP_PROTO(unsigned int irq, unsigned int set, unsigned int rsc_type,
+		unsigned int rsc_id, unsigned int msg_id),
+
+	TP_ARGS(irq, set, rsc_type, rsc_id, msg_id),
+
+	TP_STRUCT__entry(
+		__field(u32, irq)
+		__field(u32, set)
+		__field(u32, rsc_type)
+		__field(u32, rsc_id)
+		__field(u32, msg_id)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		__array(char, name, 5)
 	),
 
 	TP_fast_assign(
+<<<<<<< HEAD
 		__entry->msg_id = msg_id;
 		__entry->name[4] = 0;
 		__entry->rsc_type = rsc_type;
 		__entry->rsc_id = rsc_id;
+=======
+		__entry->irq	= irq;
+		__entry->name[4] = 0;
+		__entry->set = set;
+		__entry->rsc_type = rsc_type;
+		__entry->rsc_id = rsc_id;
+		__entry->msg_id = msg_id;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		memcpy(__entry->name, &rsc_type, sizeof(uint32_t));
 
 	),
 
+<<<<<<< HEAD
 	TP_printk("msg_id:%d, rsc_type:0x%08x(%s), rsc_id:0x%08x",
 			__entry->msg_id,
 			__entry->rsc_type, __entry->name,
@@ -106,6 +154,14 @@ DEFINE_EVENT(rpm_send_msg, rpm_smd_send_active_set,
 	TP_ARGS(msg_id, rsc_type, rsc_id)
 );
 
+=======
+	TP_printk("ctx:%s set:%s rsc_type:0x%08x(%s), rsc_id:0x%08x, id:%d",
+			__entry->irq ? "noslp" : "sleep",
+			__entry->set ? "slp" : "act",
+			__entry->rsc_type, __entry->name,
+			__entry->rsc_id, __entry->msg_id)
+);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif
 #define TRACE_INCLUDE_FILE trace_rpm_smd
 #include <trace/define_trace.h>

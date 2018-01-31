@@ -139,6 +139,7 @@ no non-lazy callbacks ("." is printed otherwise, as shown above) and
 "D" indicates that dyntick-idle processing is enabled ("." is printed
 otherwise, for example, if disabled via the "nohz=" kernel boot parameter).
 
+<<<<<<< HEAD
 If the relevant grace-period kthread has been unable to run prior to
 the stall warning, the following additional line is printed:
 
@@ -148,6 +149,8 @@ Starving the grace-period kthreads of CPU time can of course result in
 RCU CPU stall warnings even when all CPUs and tasks have passed through
 the required quiescent states.
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 Multiple Warnings From One Stall
 
@@ -179,11 +182,14 @@ o	A CPU looping with bottom halves disabled.  This condition can
 o	For !CONFIG_PREEMPT kernels, a CPU looping anywhere in the kernel
 	without invoking schedule().
 
+<<<<<<< HEAD
 o	Anything that prevents RCU's grace-period kthreads from running.
 	This can result in the "All QSes seen" console-log message.
 	This message will include information on when the kthread last
 	ran and how often it should be expected to run.
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 o	A CPU-bound real-time task in a CONFIG_PREEMPT kernel, which might
 	happen to preempt a low-priority task in the middle of an RCU
 	read-side critical section.   This is especially damaging if

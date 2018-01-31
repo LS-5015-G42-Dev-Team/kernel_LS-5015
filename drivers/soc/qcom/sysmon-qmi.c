@@ -414,7 +414,11 @@ int sysmon_send_shutdown(struct subsys_desc *dest_desc)
 	struct sysmon_qmi_data *data = NULL, *temp;
 	const char *dest_ss = dest_desc->name;
 	char req = 0;
+<<<<<<< HEAD
 	int ret, shutdown_ack_ret;
+=======
+	int ret;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (dest_ss == NULL)
 		return -EINVAL;
@@ -469,6 +473,7 @@ int sysmon_send_shutdown(struct subsys_desc *dest_desc)
 							data->name);
 		ret = -ETIMEDOUT;
 	}
+<<<<<<< HEAD
 
 	/*
 	 * Subsystem SSCTL service might not be able to send the QMI
@@ -481,6 +486,8 @@ int sysmon_send_shutdown(struct subsys_desc *dest_desc)
 		ret = shutdown_ack_ret;
 	} else if (shutdown_ack_ret > 0)
 		ret = 0;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 out:
 	mutex_unlock(&sysmon_lock);
 	return ret;

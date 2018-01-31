@@ -135,8 +135,12 @@ struct regmap {
 
 	/* if set, converts bulk rw to single rw */
 	bool use_single_rw;
+<<<<<<< HEAD
 	/* if set, the device supports multi write mode */
 	bool can_multi_write;
+=======
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct rb_root range_tree;
 	void *selector_work_buf;	/* Scratch buffer used for selector */
 };
@@ -223,10 +227,13 @@ static inline bool regcache_reg_present(struct regmap *map, unsigned int reg)
 int _regmap_raw_write(struct regmap *map, unsigned int reg,
 		      const void *val, size_t val_len, bool async);
 
+<<<<<<< HEAD
 int _regmap_raw_multi_reg_write(struct regmap *map,
 				const struct reg_default *regs,
 				size_t num_regs);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 void regmap_async_complete_cb(struct regmap_async *async, int ret);
 
 extern struct regcache_ops regcache_rbtree_ops;

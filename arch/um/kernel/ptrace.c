@@ -163,7 +163,11 @@ static void send_sigtrap(struct task_struct *tsk, struct uml_pt_regs *regs,
  * XXX Check PT_DTRACE vs TIF_SINGLESTEP for singlestepping check and
  * PT_PTRACED vs TIF_SYSCALL_TRACE for syscall tracing check
  */
+<<<<<<< HEAD
 int syscall_trace_enter(struct pt_regs *regs)
+=======
+void syscall_trace_enter(struct pt_regs *regs)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	audit_syscall_entry(HOST_AUDIT_ARCH,
 			    UPT_SYSCALL_NR(&regs->regs),
@@ -173,9 +177,15 @@ int syscall_trace_enter(struct pt_regs *regs)
 			    UPT_SYSCALL_ARG4(&regs->regs));
 
 	if (!test_thread_flag(TIF_SYSCALL_TRACE))
+<<<<<<< HEAD
 		return 0;
 
 	return tracehook_report_syscall_entry(regs);
+=======
+		return;
+
+	tracehook_report_syscall_entry(regs);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 void syscall_trace_leave(struct pt_regs *regs)

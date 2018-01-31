@@ -551,7 +551,10 @@ struct signal_struct {
 	atomic_t		sigcnt;
 	atomic_t		live;
 	int			nr_threads;
+<<<<<<< HEAD
 	struct list_head	thread_head;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	wait_queue_head_t	wait_chldexit;	/* for wait4() */
 
@@ -1233,12 +1236,21 @@ struct task_struct {
 				 * execve */
 	unsigned in_iowait:1;
 
+<<<<<<< HEAD
+=======
+	/* task may not gain privileges */
+	unsigned no_new_privs:1;
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* Revert to default priority/policy when forking */
 	unsigned sched_reset_on_fork:1;
 	unsigned sched_contributes_to_load:1;
 
+<<<<<<< HEAD
 	unsigned long atomic_flags; /* Flags needing atomic access. */
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pid_t pid;
 	pid_t tgid;
 
@@ -1271,7 +1283,10 @@ struct task_struct {
 	/* PID/PID hash table linkage. */
 	struct pid_link pids[PIDTYPE_MAX];
 	struct list_head thread_group;
+<<<<<<< HEAD
 	struct list_head thread_node;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	struct completion *vfork_done;		/* for vfork() */
 	int __user *set_child_tid;		/* CLONE_CHILD_SETTID */
@@ -1279,7 +1294,10 @@ struct task_struct {
 
 	cputime_t utime, stime, utimescaled, stimescaled;
 	cputime_t gtime;
+<<<<<<< HEAD
 	unsigned long long cpu_power;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #ifndef CONFIG_VIRT_CPU_ACCOUNTING_NATIVE
 	struct cputime prev_cputime;
 #endif
@@ -1820,6 +1838,7 @@ static inline void memalloc_noio_restore(unsigned int flags)
 	current->flags = (current->flags & ~PF_MEMALLOC_NOIO) | flags;
 }
 
+<<<<<<< HEAD
 /* Per-process atomic flags. */
 #define PFA_NO_NEW_PRIVS 0x00000001	/* May not gain new privileges. */
 
@@ -1833,6 +1852,8 @@ static inline void task_set_no_new_privs(struct task_struct *p)
 	set_bit(PFA_NO_NEW_PRIVS, &p->atomic_flags);
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * task->jobctl flags
  */
@@ -2342,6 +2363,7 @@ extern bool current_is_single_threaded(void);
 #define while_each_thread(g, t) \
 	while ((t = next_thread(t)) != g)
 
+<<<<<<< HEAD
 #define __for_each_thread(signal, t)	\
 	list_for_each_entry_rcu(t, &(signal)->thread_head, thread_node)
 
@@ -2352,6 +2374,8 @@ extern bool current_is_single_threaded(void);
 #define for_each_process_thread(p, t)	\
 	for_each_process(p) for_each_thread(p, t)
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static inline int get_nr_threads(struct task_struct *tsk)
 {
 	return tsk->signal->nr_threads;

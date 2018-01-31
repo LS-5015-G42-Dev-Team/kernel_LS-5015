@@ -58,6 +58,7 @@ Optional Properties:
 				"HS200_1p2v" - indicates that host can support HS200 at 1.2v.
 				"DDR_1p8v" - indicates that host can support DDR mode at 1.8v.
 				"DDR_1p2v" - indicates that host can support DDR mode at 1.2v.
+<<<<<<< HEAD
 	- qcom,qos-planes: Allows for multiple configurations of pm_qos. If not provided defaults
 			    to SDHCI_QOS_MAX_POLICY i.e 3.
 	- qcom,cpu-dma-latency-us: This is the default(read/write) qos plane for sdhci.
@@ -71,6 +72,12 @@ Optional Properties:
 				specifies acceptable DMA latencies(dynamic) in microseconds.
 				Default value is 200 ms.
 
+=======
+	- qcom,cpu-dma-latency-us: specifies acceptable DMA latency in microseconds. There is
+				   no default value that the driver assumes if this property
+				   is not specified. So if this property is not specified,
+				   then SDHC driver will not vote for PM QOS.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
         - qcom,dat1-mpm-int:    specifies MPM interrupt number (e.g. sdhc_2 node below)
 				corresponding to DAT1 line of SDHC (used only if slot has dedicated
 				DAT1 MSM pin (not GPIO))
@@ -124,6 +131,7 @@ In the following, <supply> can be vdd (flash core voltage) or vdd-io (I/O voltag
 	  all the cores in the little cluster.
 	  The default CPU affinity mode is PM_QOS_REQ_AFFINE_IRQ to maintain
 	  backward compatibility.
+<<<<<<< HEAD
 	- qcom,cpu-affinity-r: specifies cpu-affinity type for read qos plane. Default is IRQ
 				type.
 	- qcom,cpu-affinity-w: specifies cpu-affinity type for write qos plane. Default is IRQ
@@ -139,6 +147,8 @@ In the following, <supply> can be vdd (flash core voltage) or vdd-io (I/O voltag
 				is dynamic qos which uses default qos plane. If this is specified
 				then driver uses read/write qos plane to vote for read/write
 				requests based on the vote/type of qos specfied by read/write plane.
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 Example:
 
@@ -170,10 +180,13 @@ Example:
 
 
                 qcom,bus-width = <4>;
+<<<<<<< HEAD
 		qcom,cpu-dma-latency-us = <301>;
 		qcom,cpu-affinity = "affine_cores";
 		qcom,cpu-affinity-mask = <0x0f>;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,nonremovable;
 		qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
 		qcom,clk-rates = <400000 20000000 25000000 50000000 100000000 200000000>;
@@ -212,10 +225,13 @@ Example:
 
 
                 qcom,bus-width = <4>;
+<<<<<<< HEAD
 		qcom,cpu-dma-latency-us = <301>;
 		qcom,cpu-affinity = "affine_cores";
 		qcom,cpu-affinity-mask = <0x0f>;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,clk-rates = <400000 20000000 25000000 50000000 100000000 200000000>;
 
 		qcom,pad-pull-on = <0x0 0x3 0x3>; /* no-pull, pull-up, pull-up */

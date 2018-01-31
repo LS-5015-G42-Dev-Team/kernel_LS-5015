@@ -286,11 +286,19 @@ irqreturn_t msm_iommu_secure_fault_handler_v2(int irq, void *dev_id)
 	iommu_access_ops->iommu_clk_on(drvdata);
 	tmp = msm_iommu_dump_fault_regs(drvdata->sec_id,
 					ctx_drvdata->num, regs);
+<<<<<<< HEAD
+=======
+	iommu_access_ops->iommu_clk_off(drvdata);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (tmp) {
 		pr_err("%s: Couldn't dump fault registers (%d) %s, ctx: %d\n",
 			__func__, tmp, drvdata->name, ctx_drvdata->num);
+<<<<<<< HEAD
 		goto clock_off;
+=======
+		goto free_regs;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	} else {
 		struct msm_iommu_context_reg ctx_regs[MAX_DUMP_REGS];
 		memset(ctx_regs, 0, sizeof(ctx_regs));
@@ -299,7 +307,11 @@ irqreturn_t msm_iommu_secure_fault_handler_v2(int irq, void *dev_id)
 		if (tmp < 0) {
 			ret = IRQ_NONE;
 			pr_err("Incorrect response from secure environment\n");
+<<<<<<< HEAD
 			goto clock_off;
+=======
+			goto free_regs;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 
 		if (ctx_regs[DUMP_REG_FSR].val) {
@@ -331,8 +343,11 @@ irqreturn_t msm_iommu_secure_fault_handler_v2(int irq, void *dev_id)
 			ret = IRQ_NONE;
 		}
 	}
+<<<<<<< HEAD
 clock_off:
 	iommu_access_ops->iommu_clk_off(drvdata);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 free_regs:
 	kfree(regs);
 lock_release:
@@ -491,7 +506,15 @@ static int msm_iommu_sec_map2(struct msm_scm_map2_req *map)
 	desc.args[4] = map->info.ctx_id;
 	desc.args[5] = map->info.va;
 	desc.args[6] = map->info.size;
+<<<<<<< HEAD
 	desc.args[7] = map->flags = 0;
+=======
+#ifdef CONFIG_MSM_IOMMU_TLBINVAL_ON_MAP
+	desc.args[7] = map->flags = IOMMU_TLBINVAL_FLAG;
+#else
+	desc.args[7] = map->flags = 0;
+#endif
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	desc.arginfo = SCM_ARGS(8, SCM_RW, SCM_VAL, SCM_VAL, SCM_VAL, SCM_VAL,
 				SCM_VAL, SCM_VAL, SCM_VAL);
 	if (!is_scm_armv8()) {

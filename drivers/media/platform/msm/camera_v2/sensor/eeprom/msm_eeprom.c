@@ -849,15 +849,21 @@ static int eeprom_config_read_cal_data32(struct msm_eeprom_ctrl_t *e_ctrl,
 		cdata.cfg.read_data.num_bytes);
 
 	/* should only be called once.  free kernel resource */
+<<<<<<< HEAD
 //remove it. when mm-qcamera-daemon crash,we can open camera apk again. by pengliu 20150514
 /*
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (!rc) {
 		kfree(e_ctrl->cal_data.mapdata);
 		kfree(e_ctrl->cal_data.map);
 		memset(&e_ctrl->cal_data, 0, sizeof(e_ctrl->cal_data));
 	}
+<<<<<<< HEAD
 */
 //remove end
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return rc;
 }
 

@@ -18,17 +18,26 @@
 #include <linux/compat.h>
 #include <linux/sched.h>
 #include <linux/seccomp.h>
+<<<<<<< HEAD
 #include <linux/slab.h>
 #include <linux/syscalls.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* #define SECCOMP_DEBUG 1 */
 
 #ifdef CONFIG_SECCOMP_FILTER
 #include <asm/syscall.h>
 #include <linux/filter.h>
+<<<<<<< HEAD
 #include <linux/pid.h>
 #include <linux/ptrace.h>
 #include <linux/security.h>
+=======
+#include <linux/ptrace.h>
+#include <linux/security.h>
+#include <linux/slab.h>
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/tracehook.h>
 #include <linux/uaccess.h>
 
@@ -97,7 +106,11 @@ u32 seccomp_bpf_load(int off)
 	if (off == BPF_DATA(nr))
 		return syscall_get_nr(current, regs);
 	if (off == BPF_DATA(arch))
+<<<<<<< HEAD
 		return syscall_get_arch();
+=======
+		return syscall_get_arch(current, regs);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (off >= BPF_DATA(args[0]) && off < BPF_DATA(args[6])) {
 		unsigned long value;
 		int arg = (off - BPF_DATA(args[0])) / sizeof(u64);
@@ -203,6 +216,7 @@ static int seccomp_check_filter(struct sock_filter *filter, unsigned int flen)
  */
 static u32 seccomp_run_filters(int syscall)
 {
+<<<<<<< HEAD
 	struct seccomp_filter *f = ACCESS_ONCE(current->seccomp.filter);
 	u32 ret = SECCOMP_RET_ALLOW;
 
@@ -213,18 +227,33 @@ static u32 seccomp_run_filters(int syscall)
 	/* Make sure cross-thread synced filter points somewhere sane. */
 	smp_read_barrier_depends();
 
+=======
+	struct seccomp_filter *f;
+	u32 ret = SECCOMP_RET_ALLOW;
+
+	/* Ensure unexpected behavior doesn't result in failing open. */
+	if (WARN_ON(current->seccomp.filter == NULL))
+		return SECCOMP_RET_KILL;
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/*
 	 * All filters in the list are evaluated and the lowest BPF return
 	 * value always takes priority (ignoring the DATA).
 	 */
+<<<<<<< HEAD
 	for (; f; f = f->prev) {
 		u32 cur_ret = sk_run_filter(NULL, f->insns);
 		
+=======
+	for (f = current->seccomp.filter; f; f = f->prev) {
+		u32 cur_ret = sk_run_filter(NULL, f->insns);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if ((cur_ret & SECCOMP_RET_ACTION) < (ret & SECCOMP_RET_ACTION))
 			ret = cur_ret;
 	}
 	return ret;
 }
+<<<<<<< HEAD
 #endif /* CONFIG_SECCOMP_FILTER */
 
 static inline bool seccomp_may_assign_mode(unsigned long seccomp_mode)
@@ -367,6 +396,16 @@ static inline void seccomp_sync_threads(void)
  * Returns filter on success or an ERR_PTR on failure.
  */
 static struct seccomp_filter *seccomp_prepare_filter(struct sock_fprog *fprog)
+=======
+
+/**
+ * seccomp_attach_filter: Attaches a seccomp filter to current.
+ * @fprog: BPF program to install
+ *
+ * Returns 0 on success or an errno on failure.
+ */
+static long seccomp_attach_filter(struct sock_fprog *fprog)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct seccomp_filter *filter;
 	unsigned long fp_size = fprog->len * sizeof(struct sock_filter);
@@ -374,13 +413,21 @@ static struct seccomp_filter *seccomp_prepare_filter(struct sock_fprog *fprog)
 	long ret;
 
 	if (fprog->len == 0 || fprog->len > BPF_MAXINSNS)
+<<<<<<< HEAD
 		return ERR_PTR(-EINVAL);
 	BUG_ON(INT_MAX / fprog->len < sizeof(struct sock_filter));
+=======
+		return -EINVAL;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	for (filter = current->seccomp.filter; filter; filter = filter->prev)
 		total_insns += filter->len + 4;  /* include a 4 instr penalty */
 	if (total_insns > MAX_INSNS_PER_PATH)
+<<<<<<< HEAD
 		return ERR_PTR(-ENOMEM);
+=======
+		return -ENOMEM;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/*
 	 * Installing a seccomp filter requires that the task have
@@ -388,16 +435,27 @@ static struct seccomp_filter *seccomp_prepare_filter(struct sock_fprog *fprog)
 	 * This avoids scenarios where unprivileged tasks can affect the
 	 * behavior of privileged children.
 	 */
+<<<<<<< HEAD
 	if (!task_no_new_privs(current) &&
 	    security_capable_noaudit(current_cred(), current_user_ns(),
 				     CAP_SYS_ADMIN) != 0)
 		return ERR_PTR(-EACCES);
+=======
+	if (!current->no_new_privs &&
+	    security_capable_noaudit(current_cred(), current_user_ns(),
+				     CAP_SYS_ADMIN) != 0)
+		return -EACCES;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Allocate a new seccomp_filter */
 	filter = kzalloc(sizeof(struct seccomp_filter) + fp_size,
 			 GFP_KERNEL|__GFP_NOWARN);
 	if (!filter)
+<<<<<<< HEAD
 		return ERR_PTR(-ENOMEM);;
+=======
+		return -ENOMEM;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	atomic_set(&filter->usage, 1);
 	filter->len = fprog->len;
 
@@ -416,6 +474,7 @@ static struct seccomp_filter *seccomp_prepare_filter(struct sock_fprog *fprog)
 	if (ret)
 		goto fail;
 
+<<<<<<< HEAD
 	return filter;
 
 fail:
@@ -425,15 +484,38 @@ fail:
 
 /**
  * seccomp_prepare_user_filter - prepares a user-supplied sock_fprog
+=======
+	/*
+	 * If there is an existing filter, make it the prev and don't drop its
+	 * task reference.
+	 */
+	filter->prev = current->seccomp.filter;
+	current->seccomp.filter = filter;
+	return 0;
+fail:
+	kfree(filter);
+	return ret;
+}
+
+/**
+ * seccomp_attach_user_filter - attaches a user-supplied sock_fprog
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * @user_filter: pointer to the user data containing a sock_fprog.
  *
  * Returns 0 on success and non-zero otherwise.
  */
+<<<<<<< HEAD
 static struct seccomp_filter *
 seccomp_prepare_user_filter(const char __user *user_filter)
 {
 	struct sock_fprog fprog;
 	struct seccomp_filter *filter = ERR_PTR(-EFAULT);
+=======
+long seccomp_attach_user_filter(char __user *user_filter)
+{
+	struct sock_fprog fprog;
+	long ret = -EFAULT;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #ifdef CONFIG_COMPAT
 	if (is_compat_task()) {
@@ -446,6 +528,7 @@ seccomp_prepare_user_filter(const char __user *user_filter)
 #endif
 	if (copy_from_user(&fprog, user_filter, sizeof(fprog)))
 		goto out;
+<<<<<<< HEAD
 	filter = seccomp_prepare_filter(&fprog);
 out:
 	return filter;
@@ -496,6 +579,11 @@ static long seccomp_attach_filter(unsigned int flags,
 		seccomp_sync_threads();
 
 	return 0;
+=======
+	ret = seccomp_attach_filter(&fprog);
+out:
+	return ret;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /* get_seccomp_filter - increments the reference count of the filter on @tsk */
@@ -508,6 +596,7 @@ void get_seccomp_filter(struct task_struct *tsk)
 	atomic_inc(&orig->usage);
 }
 
+<<<<<<< HEAD
 static inline void seccomp_filter_free(struct seccomp_filter *filter)
 {
 	if (filter) {
@@ -515,6 +604,8 @@ static inline void seccomp_filter_free(struct seccomp_filter *filter)
 	}
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /* put_seccomp_filter - decrements the ref count of tsk->seccomp.filter */
 void put_seccomp_filter(struct task_struct *tsk)
 {
@@ -523,7 +614,11 @@ void put_seccomp_filter(struct task_struct *tsk)
 	while (orig && atomic_dec_and_test(&orig->usage)) {
 		struct seccomp_filter *freeme = orig;
 		orig = orig->prev;
+<<<<<<< HEAD
 		seccomp_filter_free(freeme);
+=======
+		kfree(freeme);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 }
 
@@ -542,7 +637,11 @@ static void seccomp_send_sigsys(int syscall, int reason)
 	info.si_code = SYS_SECCOMP;
 	info.si_call_addr = (void __user *)KSTK_EIP(current);
 	info.si_errno = reason;
+<<<<<<< HEAD
 	info.si_arch = syscall_get_arch();
+=======
+	info.si_arch = syscall_get_arch(current, task_pt_regs(current));
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	info.si_syscall = syscall;
 	force_sig_info(SIGSYS, &info, current);
 }
@@ -567,10 +666,15 @@ static int mode1_syscalls_32[] = {
 
 int __secure_computing(int this_syscall)
 {
+<<<<<<< HEAD
+=======
+	int mode = current->seccomp.mode;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int exit_sig = 0;
 	int *syscall;
 	u32 ret;
 
+<<<<<<< HEAD
 	/*
 	 * Make sure that any changes to mode from another thread have
 	 * been seen after TIF_SECCOMP was seen.
@@ -578,6 +682,9 @@ int __secure_computing(int this_syscall)
 	rmb();
 
 	switch (current->seccomp.mode) {
+=======
+	switch (mode) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	case SECCOMP_MODE_STRICT:
 		syscall = mode1_syscalls;
 #ifdef CONFIG_COMPAT
@@ -663,6 +770,7 @@ long prctl_get_seccomp(void)
 }
 
 /**
+<<<<<<< HEAD
  * seccomp_set_mode_strict: internal function for setting strict seccomp
  *
  * Once current->seccomp.mode is non-zero, it may not be changed.
@@ -700,11 +808,22 @@ out:
  * This function may be called repeatedly to install additional filters.
  * Every filter successfully installed will be evaluated (in reverse order)
  * for each system call the task makes.
+=======
+ * prctl_set_seccomp: configures current->seccomp.mode
+ * @seccomp_mode: requested mode to use
+ * @filter: optional struct sock_fprog for use with SECCOMP_MODE_FILTER
+ *
+ * This function may be called repeatedly with a @seccomp_mode of
+ * SECCOMP_MODE_FILTER to install additional filters.  Every filter
+ * successfully installed will be evaluated (in reverse order) for each system
+ * call the task makes.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * Once current->seccomp.mode is non-zero, it may not be changed.
  *
  * Returns 0 on success or -EINVAL on failure.
  */
+<<<<<<< HEAD
 static long seccomp_set_mode_filter(unsigned int flags,
 				    const char __user *filter)
 {
@@ -811,4 +930,36 @@ long prctl_set_seccomp(unsigned long seccomp_mode, char __user *filter)
 
 	/* prctl interface doesn't have flags, so they are always zero. */
 	return do_seccomp(op, 0, uargs);
+=======
+long prctl_set_seccomp(unsigned long seccomp_mode, char __user *filter)
+{
+	long ret = -EINVAL;
+
+	if (current->seccomp.mode &&
+	    current->seccomp.mode != seccomp_mode)
+		goto out;
+
+	switch (seccomp_mode) {
+	case SECCOMP_MODE_STRICT:
+		ret = 0;
+#ifdef TIF_NOTSC
+		disable_TSC();
+#endif
+		break;
+#ifdef CONFIG_SECCOMP_FILTER
+	case SECCOMP_MODE_FILTER:
+		ret = seccomp_attach_user_filter(filter);
+		if (ret)
+			goto out;
+		break;
+#endif
+	default:
+		goto out;
+	}
+
+	current->seccomp.mode = seccomp_mode;
+	set_thread_flag(TIF_SECCOMP);
+out:
+	return ret;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }

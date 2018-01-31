@@ -400,9 +400,13 @@ EXPORT_SYMBOL(mmc_blk_init_bkops_statistics);
  */
 void mmc_start_delayed_bkops(struct mmc_card *card)
 {
+<<<<<<< HEAD
 	if (!card ||
 		!(mmc_card_get_bkops_en_manual(card)) ||
 		mmc_card_doing_bkops(card))
+=======
+	if (!card || !card->ext_csd.bkops_en || mmc_card_doing_bkops(card))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return;
 
 	if (card->bkops_info.sectors_changed <
@@ -439,7 +443,11 @@ void mmc_start_bkops(struct mmc_card *card, bool from_exception)
 	int err;
 
 	BUG_ON(!card);
+<<<<<<< HEAD
 	if (!(mmc_card_get_bkops_en_manual(card)))
+=======
+	if (!card->ext_csd.bkops_en)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return;
 
 	if ((card->bkops_info.cancel_delayed_work) && !from_exception) {

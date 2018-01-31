@@ -26,7 +26,11 @@
 #include <linux/uaccess.h>
 
 #include <asm/cacheflush.h>
+<<<<<<< HEAD
 #include <asm/unistd.h>
+=======
+#include <asm/unistd32.h>
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 static inline void
 do_compat_cache_op(unsigned long start, unsigned long end, int flags)

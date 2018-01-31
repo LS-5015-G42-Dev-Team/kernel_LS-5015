@@ -15,10 +15,13 @@
 #include "msm-pm8909.dtsi"
 #include "msm8909-regulator.dtsi"
 
+<<<<<<< HEAD
 / {
 	qcom,pmic-id = <0x1000D 0x0 0x0 0x0>;
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 &pm8909_vadc {
 	chan@0 {
 		label = "usb_in";

@@ -89,8 +89,16 @@ static bool rpfilter_mt(const struct sk_buff *skb, struct xt_action_param *par)
 	if (ipv4_is_multicast(iph->daddr)) {
 		if (ipv4_is_zeronet(iph->saddr))
 			return ipv4_is_local_multicast(iph->daddr) ^ invert;
+<<<<<<< HEAD
 	}
 	flow.flowi4_iif = LOOPBACK_IFINDEX;
+=======
+		flow.flowi4_iif = 0;
+	} else {
+		flow.flowi4_iif = LOOPBACK_IFINDEX;
+	}
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	flow.daddr = iph->saddr;
 	flow.saddr = rpfilter_get_saddr(iph->daddr);
 	flow.flowi4_oif = 0;

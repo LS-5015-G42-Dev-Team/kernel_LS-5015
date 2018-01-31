@@ -496,8 +496,13 @@ country HU: DFS-ETSI
 
 country ID:
 	# ref: http://www.postel.go.id/content/ID/regulasi/standardisasi/kepdir/bwa%205,8%20ghz.pdf
+<<<<<<< HEAD
 	(2402 - 2482 @ 20), (N/A, 30)
 	(5735 - 5815 @ 20), (N/A, 30)
+=======
+	(2402 - 2482 @ 40), (N/A, 30)
+	(5735 - 5815 @ 80), (N/A, 30)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 country IE: DFS-ETSI
 	(2402 - 2482 @ 40), (N/A, 20)

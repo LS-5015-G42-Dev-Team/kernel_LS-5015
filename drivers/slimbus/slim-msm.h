@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -215,7 +219,11 @@ struct msm_slim_qmi {
 	struct work_struct		ssr_up;
 };
 
+<<<<<<< HEAD
 struct msm_slim_ss {
+=======
+struct msm_slim_mdm {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct notifier_block nb;
 	void *ssr;
 	enum msm_ctrl_state state;
@@ -270,8 +278,12 @@ struct msm_slim_ctrl {
 	u32			ver;
 	struct msm_slim_qmi	qmi;
 	struct msm_slim_pdata	pdata;
+<<<<<<< HEAD
 	struct msm_slim_ss	ext_mdm;
 	struct msm_slim_ss	dsp;
+=======
+	struct msm_slim_mdm	mdm;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int			default_ipc_log_mask;
 	int			ipc_log_mask;
 	bool			sysfs_created;
@@ -379,7 +391,11 @@ int msm_send_msg_buf(struct msm_slim_ctrl *dev, u32 *buf, u8 len, u32 tx_reg);
 u32 *msm_get_msg_buf(struct msm_slim_ctrl *dev, int len,
 			struct completion *comp);
 u32 *msm_slim_manage_tx_msgq(struct msm_slim_ctrl *dev, bool getbuf,
+<<<<<<< HEAD
 			struct completion *comp, int err);
+=======
+			struct completion *comp);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int msm_slim_rx_msgq_get(struct msm_slim_ctrl *dev, u32 *data, int offset);
 int msm_slim_sps_init(struct msm_slim_ctrl *dev, struct resource *bam_mem,
 			u32 pipe_reg, bool remote);

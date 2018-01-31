@@ -354,7 +354,11 @@ static inline s64 lis3dh_acc_get_time_ns(void)
 {
 	struct timespec ts;
 
+<<<<<<< HEAD
 	get_monotonic_boottime(&ts);
+=======
+	ktime_get_ts(&ts);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return timespec_to_ns(&ts);
 }
 
@@ -1138,6 +1142,7 @@ static int lis3dh_acc_get_acceleration_data(struct lis3dh_acc_data *acc,
 static void lis3dh_acc_report_values(struct lis3dh_acc_data *acc,
 					int *xyz)
 {
+<<<<<<< HEAD
 	ktime_t timestamp;
 
 	timestamp = ktime_get_boottime();
@@ -1150,6 +1155,11 @@ static void lis3dh_acc_report_values(struct lis3dh_acc_data *acc,
 	input_event(acc->input_dev,
 		EV_SYN, SYN_TIME_NSEC,
 		ktime_to_timespec(timestamp).tv_nsec);
+=======
+	input_report_abs(acc->input_dev, ABS_X, xyz[0]);
+	input_report_abs(acc->input_dev, ABS_Y, xyz[1]);
+	input_report_abs(acc->input_dev, ABS_Z, xyz[2]);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	input_sync(acc->input_dev);
 }
 
@@ -1817,11 +1827,19 @@ static int lis3dh_acc_flush(struct sensors_classdev *sensors_cdev)
 {
 	struct lis3dh_acc_data *acc = container_of(sensors_cdev,
 			struct lis3dh_acc_data, cdev);
+<<<<<<< HEAD
 	s64 timestamp, sec, ns;
 	int err;
 	int fifo_cnt;
 	int i;
 	u32 time_ms;
+=======
+	s64 timestamp;
+	int err;
+	int fifo_cnt;
+	int i;
+	u32 time_h, time_l, time_ms;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int xyz[3] = {0};
 
 	timestamp = lis3dh_acc_get_time_ns();
@@ -1842,6 +1860,7 @@ static int lis3dh_acc_flush(struct sensors_classdev *sensors_cdev)
 		} else {
 			timestamp = timestamp +
 				(time_ms * LIS3DH_TIME_MS_TO_NS);
+<<<<<<< HEAD
 			sec = timestamp;
 			ns = do_div(sec, NSEC_PER_SEC);
 			input_event(acc->input_dev, EV_SYN, SYN_TIME_SEC, sec);
@@ -1850,6 +1869,16 @@ static int lis3dh_acc_flush(struct sensors_classdev *sensors_cdev)
 			input_report_abs(acc->input_dev, ABS_Y, xyz[1]);
 			input_report_abs(acc->input_dev, ABS_Z, xyz[2]);
 			input_sync(acc->input_dev);
+=======
+			time_h = (u32)(((u64)timestamp >> 32) & 0xFFFFFFFF);
+			time_l = (u32)(timestamp & 0xFFFFFFFF);
+
+			input_report_abs(acc->input_dev, ABS_RX,
+					time_h);
+			input_report_abs(acc->input_dev, ABS_RY,
+					time_l);
+			lis3dh_acc_report_values(acc, xyz);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 	}
 
@@ -2392,7 +2421,11 @@ static int lis3dh_acc_probe(struct i2c_client *client,
 	acc->cdev.sensors_write_cal_params = lis3dh_write_cal_params;
 	memset(&acc->cdev.cal_result, 0, sizeof(acc->cdev.cal_result));
 	acc->cdev.params = acc->calibrate_buf;
+<<<<<<< HEAD
 	err = sensors_classdev_register(&acc->input_dev->dev, &acc->cdev);
+=======
+	err = sensors_classdev_register(&client->dev, &acc->cdev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (err) {
 		dev_err(&client->dev,
 			"class device create failed: %d\n", err);

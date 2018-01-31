@@ -4,7 +4,11 @@
  *  FM HCI_SMD ( FM HCI Shared Memory Driver) is Qualcomm's Shared memory driver
  *  for the HCI protocol. This file is based on drivers/bluetooth/hci_vhci.c
  *
+<<<<<<< HEAD
  *  Copyright (c) 2000-2001, 2011-2012, 2014-2015 The Linux Foundation.
+=======
+ *  Copyright (c) 2000-2001, 2011-2012, 2014 The Linux Foundation.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *  All rights reserved.
  *
  *  Copyright (C) 2002-2003  Maxim Krasnyansky <maxk@qualcomm.com>
@@ -29,8 +33,11 @@
 #include <linux/workqueue.h>
 #include <soc/qcom/smd.h>
 #include <media/radio-iris.h>
+<<<<<<< HEAD
 #include <linux/wakelock.h>
 #include <linux/uaccess.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 struct radio_data {
 	struct radio_hci_dev *hdev;
@@ -38,6 +45,7 @@ struct radio_data {
 	struct smd_channel  *fm_channel;
 };
 struct radio_data hs;
+<<<<<<< HEAD
 DEFINE_MUTEX(fm_smd_enable);
 static int fmsmd_set;
 static bool chan_opened;
@@ -50,6 +58,14 @@ static void radio_hci_smd_exit(void);
 static void radio_hci_smd_destruct(struct radio_hci_dev *hdev)
 {
 	radio_hci_unregister_dev();
+=======
+
+static struct work_struct *reset_worker;
+
+static void radio_hci_smd_destruct(struct radio_hci_dev *hdev)
+{
+	radio_hci_unregister_dev(hs.hdev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 
@@ -170,11 +186,18 @@ static int radio_hci_smd_register_dev(struct radio_data *hsmd)
 	if (hdev == NULL)
 		return -ENODEV;
 
+<<<<<<< HEAD
+=======
+	hsmd->hdev = hdev;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	tasklet_init(&hsmd->rx_task, radio_hci_smd_recv_event,
 		(unsigned long) hsmd);
 	hdev->send  = radio_hci_smd_send_frame;
 	hdev->destruct = radio_hci_smd_destruct;
+<<<<<<< HEAD
 	hdev->close_smd = radio_hci_smd_exit;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Open the SMD Channel and device and register the callback function */
 	rc = smd_named_open_on_edge("APPS_FM", SMD_APPS_WCNSS,
@@ -197,12 +220,16 @@ static int radio_hci_smd_register_dev(struct radio_data *hsmd)
 		return -ENODEV;
 	}
 
+<<<<<<< HEAD
 	hsmd->hdev = hdev;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 
 static void radio_hci_smd_deregister(void)
 {
+<<<<<<< HEAD
 	radio_hci_unregister_dev();
 	kfree(hs.hdev);
 	hs.hdev = NULL;
@@ -210,10 +237,15 @@ static void radio_hci_smd_deregister(void)
 	smd_close(hs.fm_channel);
 	hs.fm_channel = 0;
 	fmsmd_set = 0;
+=======
+	smd_close(hs.fm_channel);
+	hs.fm_channel = 0;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static int radio_hci_smd_init(void)
 {
+<<<<<<< HEAD
 	int ret;
 
 	if (chan_opened) {
@@ -267,5 +299,18 @@ done:
 	return ret;
 }
 MODULE_DESCRIPTION("FM SMD driver");
+=======
+	return radio_hci_smd_register_dev(&hs);
+}
+module_init(radio_hci_smd_init);
+
+static void __exit radio_hci_smd_exit(void)
+{
+	radio_hci_smd_deregister();
+}
+module_exit(radio_hci_smd_exit);
+
+MODULE_DESCRIPTION("Bluetooth SMD driver");
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 MODULE_AUTHOR("Ankur Nandwani <ankurn@codeaurora.org>");
 MODULE_LICENSE("GPL v2");

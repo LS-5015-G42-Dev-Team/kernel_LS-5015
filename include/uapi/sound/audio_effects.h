@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -170,6 +174,7 @@ struct dts_eagle_param_desc {
 #define SOFT_VOLUME2_GAIN_MASTER_PARAM_LEN	\
 					SOFT_VOLUME_GAIN_MASTER_PARAM_LEN
 
+<<<<<<< HEAD
 #define PBE_CONF_MODULE_ID	0x00010C2A
 #define PBE_CONF_PARAM_ID	0x00010C49
 
@@ -179,6 +184,8 @@ struct dts_eagle_param_desc {
 #define PBE_ENABLE_PARAM_LEN		1
 #define PBE_CONFIG_PARAM_LEN		28
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define COMMAND_PAYLOAD_LEN	3
 #define COMMAND_PAYLOAD_SZ	(COMMAND_PAYLOAD_LEN * sizeof(uint32_t))
 #define MAX_INBAND_PARAM_SZ	4096
@@ -324,6 +331,7 @@ struct eq_params {
 	uint32_t freq_millihertz;
 };
 
+<<<<<<< HEAD
 #define PBE_ENABLE_PARAM_SZ	\
 			(PBE_ENABLE_PARAM_LEN*sizeof(uint32_t))
 #define PBE_CONFIG_PARAM_SZ	\
@@ -368,6 +376,8 @@ struct pbe_params {
 	struct pbe_config_t config;
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define SOFT_VOLUME_ENABLE_PARAM_SZ		\
 			(SOFT_VOLUME_ENABLE_PARAM_LEN*sizeof(uint32_t))
 #define SOFT_VOLUME_GAIN_MASTER_PARAM_SZ	\

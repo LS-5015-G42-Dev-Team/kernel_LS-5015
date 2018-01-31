@@ -72,7 +72,11 @@ void hci_send_to_sock(struct hci_dev *hdev, struct sk_buff *skb)
 	struct sock *sk;
 	struct sk_buff *skb_copy = NULL;
 
+<<<<<<< HEAD
 	BT_DBG("hdev %pK len %d", hdev, skb->len);
+=======
+	BT_DBG("hdev %p len %d", hdev, skb->len);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	read_lock(&hci_sk_list.lock);
 
@@ -180,7 +184,11 @@ void hci_send_to_monitor(struct hci_dev *hdev, struct sk_buff *skb)
 	if (!atomic_read(&monitor_promisc))
 		return;
 
+<<<<<<< HEAD
 	BT_DBG("hdev %pK len %d", hdev, skb->len);
+=======
+	BT_DBG("hdev %p len %d", hdev, skb->len);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	switch (bt_cb(skb)->pkt_type) {
 	case HCI_COMMAND_PKT:
@@ -413,7 +421,11 @@ static int hci_sock_release(struct socket *sock)
 	struct sock *sk = sock->sk;
 	struct hci_dev *hdev;
 
+<<<<<<< HEAD
 	BT_DBG("sock %pK sk %pK", sock, sk);
+=======
+	BT_DBG("sock %p sk %p", sock, sk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!sk)
 		return 0;
@@ -590,7 +602,11 @@ static int hci_sock_bind(struct socket *sock, struct sockaddr *addr,
 	struct hci_dev *hdev = NULL;
 	int len, err = 0;
 
+<<<<<<< HEAD
 	BT_DBG("sock %pK sk %pK", sock, sk);
+=======
+	BT_DBG("sock %p sk %p", sock, sk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!addr)
 		return -EINVAL;
@@ -679,7 +695,11 @@ static int hci_sock_getname(struct socket *sock, struct sockaddr *addr,
 	struct sock *sk = sock->sk;
 	struct hci_dev *hdev = hci_pi(sk)->hdev;
 
+<<<<<<< HEAD
 	BT_DBG("sock %pK sk %pK", sock, sk);
+=======
+	BT_DBG("sock %p sk %p", sock, sk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!hdev)
 		return -EBADFD;
@@ -740,7 +760,11 @@ static int hci_sock_recvmsg(struct kiocb *iocb, struct socket *sock,
 	struct sk_buff *skb;
 	int copied, err;
 
+<<<<<<< HEAD
 	BT_DBG("sock %pK, sk %pK", sock, sk);
+=======
+	BT_DBG("sock %p, sk %p", sock, sk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (flags & (MSG_OOB))
 		return -EOPNOTSUPP;
@@ -784,7 +808,11 @@ static int hci_sock_sendmsg(struct kiocb *iocb, struct socket *sock,
 	struct sk_buff *skb;
 	int err;
 
+<<<<<<< HEAD
 	BT_DBG("sock %pK sk %pK", sock, sk);
+=======
+	BT_DBG("sock %p sk %p", sock, sk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (msg->msg_flags & MSG_OOB)
 		return -EOPNOTSUPP;
@@ -888,7 +916,11 @@ static int hci_sock_setsockopt(struct socket *sock, int level, int optname,
 	struct sock *sk = sock->sk;
 	int err = 0, opt = 0;
 
+<<<<<<< HEAD
 	BT_DBG("sk %pK, opt %d", sk, optname);
+=======
+	BT_DBG("sk %p, opt %d", sk, optname);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	lock_sock(sk);
 
@@ -971,7 +1003,11 @@ static int hci_sock_getsockopt(struct socket *sock, int level, int optname,
 	struct sock *sk = sock->sk;
 	int len, opt, err = 0;
 
+<<<<<<< HEAD
 	BT_DBG("sk %pK, opt %d", sk, optname);
+=======
+	BT_DBG("sk %p, opt %d", sk, optname);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (get_user(len, optlen))
 		return -EFAULT;
@@ -1061,7 +1097,11 @@ static int hci_sock_create(struct net *net, struct socket *sock, int protocol,
 {
 	struct sock *sk;
 
+<<<<<<< HEAD
 	BT_DBG("sock %pK", sock);
+=======
+	BT_DBG("sock %p", sock);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (sock->type != SOCK_RAW)
 		return -ESOCKTNOSUPPORT;

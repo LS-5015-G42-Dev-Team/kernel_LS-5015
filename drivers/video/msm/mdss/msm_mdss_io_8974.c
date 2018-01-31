@@ -149,6 +149,7 @@ static void mdss_dsi_28nm_phy_init(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 		}
 	}
 
+<<<<<<< HEAD
 	if (pd->reg_ldo_mode) {
 		/* Regulator ctrl 0 */
 		MIPI_OUTP((temp_ctrl->phy_io.base) + 0x280, 0x0);
@@ -191,6 +192,31 @@ static void mdss_dsi_28nm_phy_init(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 		/* Regulator ctrl 0 */
 		MIPI_OUTP((temp_ctrl->phy_io.base) + 0x280, pd->regulator[0]);
 	}
+=======
+	/* Regulator ctrl 0 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x280, 0x0);
+	/* Regulator ctrl - CAL_PWR_CFG */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x298, pd->regulator[6]);
+
+	/* Regulator ctrl - TEST */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x294, pd->regulator[5]);
+	/* Regulator ctrl 3 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x28c, pd->regulator[3]);
+	/* Regulator ctrl 2 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x288, pd->regulator[2]);
+	/* Regulator ctrl 1 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x284, pd->regulator[1]);
+	/* Regulator ctrl 0 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x280, pd->regulator[0]);
+	/* Regulator ctrl 4 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x290, pd->regulator[4]);
+
+	/* LDO ctrl */
+	if (pd->reg_ldo_mode)
+		MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x1dc, 0x25);
+	else
+		MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x1dc, 0x00);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	off = 0x0140;	/* phy timing ctrl 0 - 11 */
 	for (i = 0; i < 12; i++) {
@@ -776,6 +802,7 @@ static void mdss_dsi_bus_clk_stop(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 	clk_disable_unprepare(ctrl_pdata->mdp_core_clk);
 }
 
+<<<<<<< HEAD
 static int mdss_dsi_ulp_escclk_prepare(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	int rc = 0;
@@ -790,6 +817,8 @@ esc_clk_err:
 	return rc;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int mdss_dsi_link_clk_prepare(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	int rc = 0;
@@ -834,6 +863,7 @@ static void mdss_dsi_link_clk_unprepare(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 	clk_unprepare(ctrl_pdata->esc_clk);
 }
 
+<<<<<<< HEAD
 static void mdss_dsi_ulp_escclk_unprepare(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	if (!ctrl_pdata) {
@@ -866,6 +896,8 @@ error:
 	return rc;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int mdss_dsi_link_clk_set_rate(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	u32 esc_clk_rate = 19200000;
@@ -907,6 +939,7 @@ error:
 	return rc;
 }
 
+<<<<<<< HEAD
 static int mdss_dsi_ulp_escclk_enable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	int rc = 0;
@@ -939,6 +972,8 @@ static void mdss_dsi_ulp_escclk_disable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 	clk_disable(ctrl_pdata->esc_clk);
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int mdss_dsi_link_clk_enable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	int rc = 0;
@@ -992,8 +1027,11 @@ static void mdss_dsi_link_clk_disable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 	clk_disable(ctrl_pdata->byte_clk);
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int mdss_dsi_link_clk_start(struct mdss_dsi_ctrl_pdata *ctrl)
 {
 	int rc = 0;
@@ -1031,6 +1069,7 @@ static void mdss_dsi_link_clk_stop(struct mdss_dsi_ctrl_pdata *ctrl)
 }
 
 /**
+<<<<<<< HEAD
  * mdss_dsi_ulp_escclk_start() - Enable DSI controller clock for ULPS transition
  * @ctrl: pointer to DSI controller structure
  *
@@ -1082,6 +1121,8 @@ static void mdss_dsi_ulp_escclk_stop(struct mdss_dsi_ctrl_pdata *ctrl)
 }
 
 /**
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * mdss_dsi_ulps_config() - Program DSI lanes to enter/exit ULPS mode
  * @ctrl: pointer to DSI controller structure
  * @enable: 1 to enter ULPS, 0 to exit ULPS
@@ -1247,6 +1288,7 @@ static int mdss_dsi_clamp_ctrl(struct mdss_dsi_ctrl_pdata *ctrl, int enable)
 	phyrst_reg_off = ctrl->ulps_phyrst_ctrl_off;
 	mipi = &ctrl->panel_data.panel_info.mipi;
 
+<<<<<<< HEAD
 	/* DSI lane clamp mask */
 	clamp_reg = mipi->phy_lane_clamp_mask;
 	/* clock lane will always be clamped */
@@ -1256,6 +1298,33 @@ static int mdss_dsi_clamp_ctrl(struct mdss_dsi_ctrl_pdata *ctrl, int enable)
 	if (ctrl->ulps)
 		clamp_reg |= clamp_reg >> 1;
 
+=======
+	/* clock lane will always be clamped */
+	clamp_reg = BIT(9);
+	if (ctrl->ulps)
+		clamp_reg |= BIT(8);
+	/* make a note of all active data lanes which need to be clamped */
+	if (mipi->data_lane0) {
+		clamp_reg |= BIT(7);
+		if (ctrl->ulps)
+			clamp_reg |= BIT(6);
+	}
+	if (mipi->data_lane1) {
+		clamp_reg |= BIT(5);
+		if (ctrl->ulps)
+			clamp_reg |= BIT(4);
+	}
+	if (mipi->data_lane2) {
+		clamp_reg |= BIT(3);
+		if (ctrl->ulps)
+			clamp_reg |= BIT(2);
+	}
+	if (mipi->data_lane3) {
+		clamp_reg |= BIT(1);
+		if (ctrl->ulps)
+			clamp_reg |= BIT(0);
+	}
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pr_debug("%s: called for ctrl%d, enable=%d, clamp_reg=0x%08x\n",
 		__func__, ctrl->ndx, enable, clamp_reg);
 	if (enable && !ctrl->mmss_clamp) {
@@ -1350,9 +1419,12 @@ static int mdss_dsi_core_power_ctrl(struct mdss_dsi_ctrl_pdata *ctrl,
 			}
 			ctrl->core_power = true;
 		}
+<<<<<<< HEAD
 		/* Disable dynamic clock gating*/
 		if (ctrl->mdss_util->dyn_clk_gating_ctrl)
 			ctrl->mdss_util->dyn_clk_gating_ctrl(0);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		rc = mdss_dsi_bus_clk_start(ctrl);
 		if (rc) {
@@ -1384,6 +1456,7 @@ static int mdss_dsi_core_power_ctrl(struct mdss_dsi_ctrl_pdata *ctrl,
 			 * Also, reset the ulps flag so that ulps_config
 			 * function would reconfigure the controller state to
 			 * ULPS.
+<<<<<<< HEAD
 			 *
 			 * Controller clock (escape clock) need to be turned on
 			 * in order for the controller to process ULPS entry
@@ -1395,6 +1468,9 @@ static int mdss_dsi_core_power_ctrl(struct mdss_dsi_ctrl_pdata *ctrl,
 					   __func__, rc);
 				goto error_bus_clk_start;
 			}
+=======
+			 */
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			ctrl->ulps = false;
 			rc = mdss_dsi_ulps_config(ctrl, 1);
 			if (rc) {
@@ -1402,7 +1478,10 @@ static int mdss_dsi_core_power_ctrl(struct mdss_dsi_ctrl_pdata *ctrl,
 					__func__, rc);
 				goto error_ulps;
 			}
+<<<<<<< HEAD
 			mdss_dsi_ulp_escclk_stop(ctrl);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 
 		rc = mdss_dsi_clamp_ctrl(ctrl, 0);

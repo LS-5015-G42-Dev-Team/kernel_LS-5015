@@ -201,6 +201,7 @@ kgsl_ioctl_gpumem_alloc_compat(struct kgsl_device_private *dev_priv,
 	param.size = (size_t)param32->size;
 	param.flags = param32->flags;
 
+<<<<<<< HEAD
 	/*
 	 * Since this is a 32 bit application the page aligned size is expected
 	 * to fit inside of 32 bits - check for overflow and return error if so
@@ -208,6 +209,8 @@ kgsl_ioctl_gpumem_alloc_compat(struct kgsl_device_private *dev_priv,
 	if (PAGE_ALIGN(param.size) >= UINT_MAX)
 		return -EINVAL;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	result = kgsl_ioctl_gpumem_alloc(dev_priv, cmd, &param);
 
 	param32->gpuaddr = gpuaddr_to_compat(param.gpuaddr);
@@ -231,6 +234,7 @@ kgsl_ioctl_gpumem_alloc_id_compat(struct kgsl_device_private *dev_priv,
 	param.mmapsize = (size_t)param32->mmapsize;
 	param.gpuaddr = (unsigned long)param32->gpuaddr;
 
+<<<<<<< HEAD
 	/*
 	 * Since this is a 32 bit application the page aligned size is expected
 	 * to fit inside of 32 bits - check for overflow and return error if so
@@ -238,6 +242,8 @@ kgsl_ioctl_gpumem_alloc_id_compat(struct kgsl_device_private *dev_priv,
 	if (PAGE_ALIGN(param.size) >= UINT_MAX)
 		return -EINVAL;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	result = kgsl_ioctl_gpumem_alloc_id(dev_priv, cmd, &param);
 
 	param32->id = param.id;

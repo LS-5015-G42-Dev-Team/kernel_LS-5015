@@ -2812,6 +2812,10 @@ static int i2c_msm_frmwrk_reg(struct platform_device *pdev,
 
 	ctrl->adapter.nr = pdev->id;
 	ctrl->adapter.dev.parent = &pdev->dev;
+<<<<<<< HEAD
+=======
+	ctrl->adapter.dev.of_node = pdev->dev.of_node;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ret = i2c_add_numbered_adapter(&ctrl->adapter);
 	if (ret) {
 		dev_err(ctrl->dev, "error i2c_add_adapter failed\n");

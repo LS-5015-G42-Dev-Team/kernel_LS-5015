@@ -119,8 +119,11 @@ struct snd_compr_ops {
 			struct snd_compr_metadata *metadata);
 	int (*get_metadata)(struct snd_compr_stream *stream,
 			struct snd_compr_metadata *metadata);
+<<<<<<< HEAD
 	int (*set_next_track_param)(struct snd_compr_stream *stream,
 			union snd_codec_options *codec_options);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int (*trigger)(struct snd_compr_stream *stream, int cmd);
 	int (*pointer)(struct snd_compr_stream *stream,
 			struct snd_compr_tstamp *tstamp);

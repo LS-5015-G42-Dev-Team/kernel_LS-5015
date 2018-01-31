@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -37,7 +41,10 @@
 
 #include "msm-pcm-q6-v2.h"
 #include "msm-pcm-routing-v2.h"
+<<<<<<< HEAD
 #include <linux/ratelimit.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 enum stream_state {
 	IDLE = 0,
@@ -498,7 +505,10 @@ static int msm_pcm_open(struct snd_pcm_substream *substream)
 	struct snd_soc_pcm_runtime *soc_prtd = substream->private_data;
 	struct msm_audio *prtd;
 	int ret = 0;
+<<<<<<< HEAD
 	static DEFINE_RATELIMIT_STATE(rl, HZ/2, 1);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	prtd = kzalloc(sizeof(struct msm_audio), GFP_KERNEL);
 	if (prtd == NULL) {
@@ -509,8 +519,12 @@ static int msm_pcm_open(struct snd_pcm_substream *substream)
 	prtd->audio_client = q6asm_audio_client_alloc(
 				(app_cb)event_handler, prtd);
 	if (!prtd->audio_client) {
+<<<<<<< HEAD
 		if (__ratelimit(&rl))
 			pr_err("%s: Could not allocate memory\n", __func__);
+=======
+		pr_info("%s: Could not allocate memory\n", __func__);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		kfree(prtd);
 		return -ENOMEM;
 	}
@@ -740,7 +754,11 @@ static int msm_pcm_capture_copy(struct snd_pcm_substream *substream,
 		pr_debug("%s: pcm stopped in_count 0\n", __func__);
 		return 0;
 	}
+<<<<<<< HEAD
 	pr_debug("Checking if valid buffer is available...%pK\n",
+=======
+	pr_debug("Checking if valid buffer is available...%p\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 						data);
 	data = q6asm_is_cpu_buf_avail(OUT, prtd->audio_client, &size, &idx);
 	bufptr = data;
@@ -897,7 +915,11 @@ static int msm_pcm_hw_params(struct snd_pcm_substream *substream,
 	if (buf == NULL || buf[0].data == NULL)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	pr_debug("%s:buf = %pK\n", __func__, buf);
+=======
+	pr_debug("%s:buf = %p\n", __func__, buf);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	dma_buf->dev.type = SNDRV_DMA_TYPE_DEV;
 	dma_buf->dev.dev = substream->pcm->card->dev;
 	dma_buf->private_data = NULL;

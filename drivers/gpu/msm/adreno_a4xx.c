@@ -1736,7 +1736,10 @@ static struct adreno_coresight a4xx_coresight = {
 	 (1 << A4XX_INT_CP_IB1_INT) |			\
 	 (1 << A4XX_INT_CP_IB2_INT) |			\
 	 (1 << A4XX_INT_CP_RB_INT) |			\
+<<<<<<< HEAD
 	 (1 << A4XX_INT_CACHE_FLUSH_TS) |		\
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	 (1 << A4XX_INT_CP_REG_PROTECT_FAULT) |		\
 	 (1 << A4XX_INT_CP_AHB_ERROR_HALT) |		\
 	 (1 << A4XX_INT_RBBM_ATB_BUS_OVERFLOW) |	\
@@ -1773,7 +1776,11 @@ static struct adreno_irq_funcs a4xx_irq_funcs[] = {
 	ADRENO_IRQ_CALLBACK(NULL), /* 17 - CP_RB_DONE_TS */
 	ADRENO_IRQ_CALLBACK(NULL), /* 18 - CP_VS_DONE_TS */
 	ADRENO_IRQ_CALLBACK(NULL), /* 19 - CP_PS_DONE_TS */
+<<<<<<< HEAD
 	ADRENO_IRQ_CALLBACK(adreno_cp_callback), /* 20 - CP_CACHE_FLUSH_TS */
+=======
+	ADRENO_IRQ_CALLBACK(NULL), /* 20 - CP_CACHE_FLUSH_TS */
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* 21 - CP_AHB_ERROR_FAULT */
 	ADRENO_IRQ_CALLBACK(a4xx_err_callback),
 	ADRENO_IRQ_CALLBACK(a4xx_err_callback), /* 22 - RBBM_ATB_BUS_OVERFLOW */

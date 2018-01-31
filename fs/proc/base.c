@@ -2718,9 +2718,12 @@ static const struct pid_entry tgid_base_stuff[] = {
 	REG("mounts",     S_IRUGO, proc_mounts_operations),
 	REG("mountinfo",  S_IRUGO, proc_mountinfo_operations),
 	REG("mountstats", S_IRUSR, proc_mountstats_operations),
+<<<<<<< HEAD
 #ifdef CONFIG_PROCESS_RECLAIM
 	REG("reclaim", S_IWUSR, proc_reclaim_operations),
 #endif
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #ifdef CONFIG_PROC_PAGE_MONITOR
 	REG("clear_refs", S_IWUSR, proc_clear_refs_operations),
 	REG("smaps",      S_IRUGO, proc_pid_smaps_operations),
@@ -2748,8 +2751,13 @@ static const struct pid_entry tgid_base_stuff[] = {
 	REG("cgroup",  S_IRUGO, proc_cgroup_operations),
 #endif
 	INF("oom_score",  S_IRUGO, proc_oom_score),
+<<<<<<< HEAD
 	ANDROID("oom_adj", S_IRUSR, oom_adj),
 	REG("oom_score_adj", S_IRUSR, proc_oom_score_adj_operations),
+=======
+	ANDROID("oom_adj", S_IRUGO|S_IWUSR, oom_adj),
+	REG("oom_score_adj", S_IRUGO|S_IWUSR, proc_oom_score_adj_operations),
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #ifdef CONFIG_AUDITSYSCALL
 	REG("loginuid",   S_IWUSR|S_IRUGO, proc_loginuid_operations),
 	REG("sessionid",  S_IRUGO, proc_sessionid_operations),

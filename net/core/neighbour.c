@@ -700,7 +700,11 @@ void neigh_destroy(struct neighbour *neigh)
 	NEIGH_CACHE_STAT_INC(neigh->tbl, destroys);
 
 	if (!neigh->dead) {
+<<<<<<< HEAD
 		pr_warn("Destroying alive neighbour %pK\n", neigh);
+=======
+		pr_warn("Destroying alive neighbour %p\n", neigh);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		dump_stack();
 		return;
 	}
@@ -928,7 +932,10 @@ static void neigh_timer_handler(unsigned long arg)
 			neigh->nud_state = NUD_PROBE;
 			neigh->updated = jiffies;
 			atomic_set(&neigh->probes, 0);
+<<<<<<< HEAD
 			notify = 1;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			next = now + neigh->parms->retrans_time;
 		}
 	} else {
@@ -1156,8 +1163,11 @@ int neigh_update(struct neighbour *neigh, const u8 *lladdr, u8 new,
 
 	if (new != old) {
 		neigh_del_timer(neigh);
+<<<<<<< HEAD
 		if (new & NUD_PROBE)
 			atomic_set(&neigh->probes, 0);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (new & NUD_IN_TIMER)
 			neigh_add_timer(neigh, (jiffies +
 						((new & NUD_REACHABLE) ?
@@ -1317,7 +1327,11 @@ int neigh_resolve_output(struct neighbour *neigh, struct sk_buff *skb)
 out:
 	return rc;
 discard:
+<<<<<<< HEAD
 	neigh_dbg(1, "%s: dst=%pK neigh=%pK\n", __func__, dst, neigh);
+=======
+	neigh_dbg(1, "%s: dst=%p neigh=%p\n", __func__, dst, neigh);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 out_kfree_skb:
 	rc = -EINVAL;
 	kfree_skb(skb);

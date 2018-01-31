@@ -58,7 +58,11 @@
 #include "mdss_mdp_trace.h"
 
 #define AXI_HALT_TIMEOUT_US	0x4000
+<<<<<<< HEAD
 #define AUTOSUSPEND_TIMEOUT_MS	50
+=======
+#define AUTOSUSPEND_TIMEOUT_MS	200
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 struct mdss_data_type *mdss_res;
 
@@ -670,7 +674,11 @@ int mdss_iommu_ctrl(int enable)
 
 	if (enable) {
 		if (mdata->iommu_ref_cnt == 0) {
+<<<<<<< HEAD
 			mdss_bus_scale_set_quota(MDSS_IOMMU_RT, SZ_1M, SZ_1M);
+=======
+			mdss_bus_scale_set_quota(MDSS_HW_IOMMU, SZ_1M, SZ_1M);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			rc = mdss_iommu_attach(mdata);
 		}
 		mdata->iommu_ref_cnt++;
@@ -679,7 +687,11 @@ int mdss_iommu_ctrl(int enable)
 			mdata->iommu_ref_cnt--;
 			if (mdata->iommu_ref_cnt == 0) {
 				rc = mdss_iommu_dettach(mdata);
+<<<<<<< HEAD
 				mdss_bus_scale_set_quota(MDSS_IOMMU_RT, 0, 0);
+=======
+				mdss_bus_scale_set_quota(MDSS_HW_IOMMU, 0, 0);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			}
 		} else {
 			pr_err("unbalanced iommu ref\n");
@@ -1130,10 +1142,13 @@ int mdss_hw_init(struct mdss_data_type *mdata)
 
 	mdss_hw_rev_init(mdata);
 
+<<<<<<< HEAD
 	/* Restoring Secure configuration during boot-up */
 	if (mdss_mdp_req_init_restore_cfg(mdata))
 		__mdss_restore_sec_cfg(mdata);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* disable hw underrun recovery */
 	writel_relaxed(0x0, mdata->mdp_base +
 			MDSS_MDP_REG_VIDEO_INTF_UNDERFLOW_CTL);
@@ -1166,10 +1181,13 @@ int mdss_hw_init(struct mdss_data_type *mdata)
 		writel_relaxed(1, offset + 16);
 	}
 
+<<<<<<< HEAD
 	/* initialize csc matrix default value */
 	for (i = 0; i < mdata->nvig_pipes; i++)
 		vig[i].csc_coeff_set = MDSS_MDP_CSC_YUV2RGB_709L;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mdata->nmax_concurrent_ad_hw =
 		(mdata->mdp_rev < MDSS_MDP_HW_REV_103) ? 1 : 2;
 

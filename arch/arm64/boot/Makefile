@@ -14,7 +14,11 @@
 # Based on the ia64 boot/Makefile.
 #
 
+<<<<<<< HEAD
 include $(srctree)/arch/arm64/boot/dts/qcom/Makefile
+=======
+include $(srctree)/arch/arm64/boot/dts/Makefile
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 targets := Image Image.gz
 

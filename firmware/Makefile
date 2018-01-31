@@ -136,9 +136,12 @@ fw-shipped-$(CONFIG_USB_VICAM) += vicam/firmware.fw
 fw-shipped-$(CONFIG_VIDEO_CPIA2) += cpia2/stv0672_vp4.bin
 fw-shipped-$(CONFIG_YAM) += yam/1200.bin yam/9600.bin
 
+<<<<<<< HEAD
 fw-shipped-$(CONFIG_TEST_ONLY) += melfas/test_melfas_mip4.bin
 fw-shipped-$(CONFIG_TESTPLUS_ONLY) += melfas/testplus_melfas_mip4.bin
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 fw-shipped-all := $(fw-shipped-y) $(fw-shipped-m) $(fw-shipped-)
 
 # Directories which we _might_ need to create, so we have a rule for them.

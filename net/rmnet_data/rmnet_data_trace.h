@@ -39,8 +39,13 @@ DECLARE_EVENT_CLASS(rmnet_handler_template,
 		__assign_str(name, skb->dev->name);
 	),
 
+<<<<<<< HEAD
 	TP_printk("dev=%s skbaddr=%pK len=%u",
 		  __get_str(name), __entry->skbaddr, __entry->len)
+=======
+	TP_printk("dev=%s skbaddr=%p len=%u",
+		__get_str(name), __entry->skbaddr, __entry->len)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 )
 
 DEFINE_EVENT(rmnet_handler_template, rmnet_egress_handler,
@@ -128,9 +133,14 @@ DECLARE_EVENT_CLASS(rmnet_aggregation_template,
 		__entry->num = num_agg_pakcets;
 	),
 
+<<<<<<< HEAD
 	TP_printk("dev=%s skbaddr=%pK len=%u agg_count: %d",
 		  __get_str(name), __entry->skbaddr, __entry->len,
 		  __entry->num)
+=======
+	TP_printk("dev=%s skbaddr=%p len=%u agg_count: %d",
+		__get_str(name), __entry->skbaddr, __entry->len, __entry->num)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 )
 
 DEFINE_EVENT(rmnet_aggregation_template, rmnet_map_aggregate,

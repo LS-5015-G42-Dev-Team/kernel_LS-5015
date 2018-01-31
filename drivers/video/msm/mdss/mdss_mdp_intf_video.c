@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -64,10 +68,13 @@ struct mdss_mdp_video_ctx {
 	struct completion vsync_comp;
 	int wait_pending;
 
+<<<<<<< HEAD
 	u32 default_fps;
 	u32 saved_vtotal;
 	u32 saved_vfporch;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	atomic_t vsync_ref;
 	spinlock_t vsync_lock;
 	spinlock_t dfps_lock;
@@ -213,7 +220,11 @@ static void mdss_mdp_video_intf_recovery(void *data, int event)
 			mutex_unlock(&ctl->offlock);
 			return;
 		} else {
+<<<<<<< HEAD
 			pr_warn_once("line count is less. line_cnt = %d\n",
+=======
+			pr_warn("line count is less. line_cnt = %d\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 								line_cnt);
 			/* Add delay so that line count is in active region */
 			udelay(delay);
@@ -661,6 +672,7 @@ static void mdss_mdp_video_underrun_intr_done(void *arg)
 static int mdss_mdp_video_vfp_fps_update(struct mdss_mdp_video_ctx *ctx,
 				 struct mdss_panel_data *pdata, int new_fps)
 {
+<<<<<<< HEAD
 	u32 add_v_lines = 0;
 	u32 current_vsync_period_f0, new_vsync_period_f0;
 	u32 vsync_period, hsync_period;
@@ -680,6 +692,27 @@ static int mdss_mdp_video_vfp_fps_update(struct mdss_mdp_video_ctx *ctx,
 	pdata->panel_info.lcdc.v_front_porch = ctx->saved_vfporch +
 			add_v_lines;
 
+=======
+	int curr_fps;
+	u32 add_v_lines = 0;
+	u32 current_vsync_period_f0, new_vsync_period_f0;
+	u32 vsync_period, hsync_period;
+
+	vsync_period = mdss_panel_get_vtotal(&pdata->panel_info);
+	hsync_period = mdss_panel_get_htotal(&pdata->panel_info, true);
+	curr_fps = mdss_panel_get_framerate(&pdata->panel_info);
+
+	if (curr_fps > new_fps) {
+		add_v_lines = mult_frac(vsync_period,
+				(curr_fps - new_fps), new_fps);
+		pdata->panel_info.lcdc.v_front_porch += add_v_lines;
+	} else {
+		add_v_lines = mult_frac(vsync_period,
+				(new_fps - curr_fps), new_fps);
+		pdata->panel_info.lcdc.v_front_porch -= add_v_lines;
+	}
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	vsync_period = mdss_panel_get_vtotal(&pdata->panel_info);
 	current_vsync_period_f0 = mdp_video_read(ctx,
 		MDSS_MDP_REG_INTF_VSYNC_PERIOD_F0);
@@ -989,7 +1022,10 @@ static int mdss_mdp_video_display(struct mdss_mdp_ctl *ctl, void *arg)
 		ctx->timegen_en = true;
 		rc = mdss_mdp_ctl_intf_event(ctl, MDSS_EVENT_PANEL_ON, NULL);
 		WARN(rc, "intf %d panel on error (%d)\n", ctl->intf_num, rc);
+<<<<<<< HEAD
 		mdss_mdp_ctl_intf_event(ctl, MDSS_EVENT_POST_PANEL_ON, NULL);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	return 0;

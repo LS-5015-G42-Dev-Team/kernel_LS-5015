@@ -4,7 +4,10 @@
 
 config REGMAP
 	default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_MMIO || REGMAP_IRQ)
+<<<<<<< HEAD
 	default y if (REGMAP_SWR)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	select LZO_COMPRESS
 	select LZO_DECOMPRESS
 	select IRQ_DOMAIN if REGMAP_IRQ
@@ -21,6 +24,7 @@ config REGMAP_MMIO
 
 config REGMAP_IRQ
 	bool
+<<<<<<< HEAD
 
 config REGMAP_SWR
 	tristate
@@ -34,3 +38,5 @@ config REGMAP_ALLOW_WRITE_DEBUGFS
 	 debugfs. Client driver can enable this config
 	 option to write registers using debugfs from
 	 regmap registers file.
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

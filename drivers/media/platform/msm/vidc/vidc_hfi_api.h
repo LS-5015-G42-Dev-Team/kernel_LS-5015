@@ -1007,6 +1007,7 @@ struct vidc_seq_hdr {
 	u32 seq_hdr_len;
 };
 
+<<<<<<< HEAD
 struct hal_fw_info {
 	char version[128];
 	int base_addr;
@@ -1015,6 +1016,8 @@ struct hal_fw_info {
 	int irq;
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum hal_flush {
 	HAL_FLUSH_INPUT,
 	HAL_FLUSH_OUTPUT,
@@ -1289,6 +1292,17 @@ enum msm_vidc_hfi_type {
 	VIDC_HFI_Q6,
 };
 
+<<<<<<< HEAD
+=======
+enum fw_info {
+	FW_BASE_ADDRESS,
+	FW_REGISTER_BASE,
+	FW_REGISTER_SIZE,
+	FW_IRQ,
+	FW_INFO_MAX,
+};
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum msm_vidc_thermal_level {
 	VIDC_THERMAL_NORMAL = 0,
 	VIDC_THERMAL_LOW,
@@ -1370,7 +1384,11 @@ struct hfi_device {
 	int (*load_fw)(void *dev);
 	void (*unload_fw)(void *dev);
 	int (*resurrect_fw)(void *dev);
+<<<<<<< HEAD
 	int (*get_fw_info)(void *dev, struct hal_fw_info *fw_info);
+=======
+	int (*get_fw_info)(void *dev, enum fw_info info);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int (*get_stride_scanline)(int color_fmt, int width,
 		int height,	int *stride, int *scanlines);
 	int (*session_clean)(void *sess);

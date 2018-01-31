@@ -52,8 +52,11 @@ source "drivers/i2c/Kconfig"
 
 source "drivers/slimbus/Kconfig"
 
+<<<<<<< HEAD
 source "drivers/soundwire/Kconfig"
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 source "drivers/spi/Kconfig"
 
 source "drivers/spmi/Kconfig"

@@ -1641,8 +1641,11 @@ static void __init remap_pages(void)
 		bool fixup = false;
 		unsigned long saved_start = addr;
 
+<<<<<<< HEAD
 		if (phys_start > arm_lowmem_limit)
 			break;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (phys_end > arm_lowmem_limit)
 			end = (unsigned long)__va(arm_lowmem_limit);
 		if (phys_start >= phys_end)

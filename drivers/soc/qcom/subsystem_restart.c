@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -49,10 +53,13 @@ module_param(disable_restart_work, uint, S_IRUGO | S_IWUSR);
 static int enable_debug;
 module_param(enable_debug, int, S_IRUGO | S_IWUSR);
 
+<<<<<<< HEAD
 /* The maximum shutdown timeout is the product of MAX_LOOPS and DELAY_MS. */
 #define SHUTDOWN_ACK_MAX_LOOPS	50
 #define SHUTDOWN_ACK_DELAY_MS	100
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /**
  * enum p_subsys_state - state of a subsystem (private)
  * @SUBSYS_NORMAL: subsystem is operating normally
@@ -230,6 +237,7 @@ static ssize_t restart_level_store(struct device *dev,
 	return -EPERM;
 }
 
+<<<<<<< HEAD
 static ssize_t system_debug_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
@@ -262,6 +270,8 @@ static ssize_t system_debug_store(struct device *dev,
 	return count;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int subsys_get_restart_level(struct subsys_device *dev)
 {
 	return dev->restart_level;
@@ -302,7 +312,10 @@ static struct device_attribute subsys_attrs[] = {
 	__ATTR_RO(state),
 	__ATTR_RO(crash_count),
 	__ATTR(restart_level, 0644, restart_level_show, restart_level_store),
+<<<<<<< HEAD
 	__ATTR(system_debug, 0644, system_debug_show, system_debug_store),
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	__ATTR_NULL,
 };
 
@@ -514,6 +527,7 @@ static void disable_all_irqs(struct subsys_device *dev)
 		disable_irq(dev->desc->stop_ack_irq);
 }
 
+<<<<<<< HEAD
 int wait_for_shutdown_ack(struct subsys_desc *desc)
 {
 	int count;
@@ -533,6 +547,8 @@ int wait_for_shutdown_ack(struct subsys_desc *desc)
 }
 EXPORT_SYMBOL(wait_for_shutdown_ack);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int wait_for_err_ready(struct subsys_device *subsys)
 {
 	int ret;
@@ -573,12 +589,15 @@ static void subsystem_ramdump(struct subsys_device *dev, void *data)
 	dev->do_ramdump_on_put = false;
 }
 
+<<<<<<< HEAD
 static void subsystem_free_memory(struct subsys_device *dev, void *data)
 {
 	if (dev->desc->free_memory)
 		dev->desc->free_memory(dev->desc);
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static void subsystem_powerup(struct subsys_device *dev, void *data)
 {
 	const char *name = dev->desc->name;
@@ -772,8 +791,11 @@ void subsystem_put(void *subsystem)
 	}
 	mutex_unlock(&track->lock);
 
+<<<<<<< HEAD
 	subsystem_free_memory(subsys, NULL);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	subsys_d = find_subsys(subsys->desc->depends_on);
 	if (subsys_d) {
 		subsystem_put(subsys_d);
@@ -813,6 +835,7 @@ static void subsystem_restart_wq_func(struct work_struct *work)
 		track = &dev->track;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * If a system reboot/shutdown is under way, ignore subsystem errors.
 	 * However, print a message so that we know that a subsystem behaved
@@ -834,6 +857,11 @@ static void subsystem_restart_wq_func(struct work_struct *work)
 		return;
 	}
 
+=======
+	mutex_lock(&track->lock);
+	do_epoch_check(dev);
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/*
 	 * It's necessary to take the registration lock because the subsystem
 	 * list in the SoC restart order will be traversed and it shouldn't be
@@ -857,8 +885,11 @@ static void subsystem_restart_wq_func(struct work_struct *work)
 	/* Collect ram dumps for all subsystems in order here */
 	for_each_subsys_device(list, count, NULL, subsystem_ramdump);
 
+<<<<<<< HEAD
 	for_each_subsys_device(list, count, NULL, subsystem_free_memory);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	notify_each_subsys_device(list, count, SUBSYS_BEFORE_POWERUP, NULL);
 	for_each_subsys_device(list, count, NULL, subsystem_powerup);
 	notify_each_subsys_device(list, count, SUBSYS_AFTER_POWERUP, NULL);
@@ -1356,6 +1387,7 @@ static int __get_gpio(struct subsys_desc *desc, const char *prop,
 }
 
 static int __get_irq(struct subsys_desc *desc, const char *prop,
+<<<<<<< HEAD
 		unsigned int *irq, int *gpio)
 {
 	int ret, gpiol, irql;
@@ -1365,6 +1397,17 @@ static int __get_irq(struct subsys_desc *desc, const char *prop,
 		return ret;
 
 	irql = gpio_to_irq(gpiol);
+=======
+		unsigned int *irq)
+{
+	int ret, gpio, irql;
+
+	ret = __get_gpio(desc, prop, &gpio);
+	if (ret)
+		return ret;
+
+	irql = gpio_to_irq(gpio);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (irql == -ENOENT)
 		irql = -ENXIO;
@@ -1374,8 +1417,11 @@ static int __get_irq(struct subsys_desc *desc, const char *prop,
 				prop);
 		return irql;
 	} else {
+<<<<<<< HEAD
 		if (gpio)
 			*gpio = gpiol;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		*irq = irql;
 	}
 
@@ -1390,6 +1436,7 @@ static int subsys_parse_devicetree(struct subsys_desc *desc)
 	struct platform_device *pdev = container_of(desc->dev,
 					struct platform_device, dev);
 
+<<<<<<< HEAD
 	ret = __get_irq(desc, "qcom,gpio-err-fatal", &desc->err_fatal_irq,
 							&desc->err_fatal_gpio);
 	if (ret && ret != -ENOENT)
@@ -1401,6 +1448,17 @@ static int subsys_parse_devicetree(struct subsys_desc *desc)
 		return ret;
 
 	ret = __get_irq(desc, "qcom,gpio-stop-ack", &desc->stop_ack_irq, NULL);
+=======
+	ret = __get_irq(desc, "qcom,gpio-err-fatal", &desc->err_fatal_irq);
+	if (ret && ret != -ENOENT)
+		return ret;
+
+	ret = __get_irq(desc, "qcom,gpio-err-ready", &desc->err_ready_irq);
+	if (ret && ret != -ENOENT)
+		return ret;
+
+	ret = __get_irq(desc, "qcom,gpio-stop-ack", &desc->stop_ack_irq);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (ret && ret != -ENOENT)
 		return ret;
 
@@ -1413,11 +1471,14 @@ static int subsys_parse_devicetree(struct subsys_desc *desc)
 	if (ret && ret != -ENOENT)
 		return ret;
 
+<<<<<<< HEAD
 	ret = __get_gpio(desc, "qcom,gpio-shutdown-ack",
 			&desc->shutdown_ack_gpio);
 	if (ret && ret != -ENOENT)
 		return ret;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ret = platform_get_irq(pdev, 0);
 	if (ret > 0)
 		desc->wdog_bite_irq = ret;

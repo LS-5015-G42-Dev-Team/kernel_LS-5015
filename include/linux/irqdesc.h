@@ -31,8 +31,12 @@ struct irq_desc;
  * @threads_handled_last: comparator field for deferred spurious detection of theraded handlers
  * @lock:		locking for SMP
  * @affinity_hint:	hint to user space for preferred irq affinity
+<<<<<<< HEAD
  * @affinity_notify:	list of notification clients for affinity changes
  * @affinity_work:	Work queue for handling affinity change notifications
+=======
+ * @affinity_notify:	context for notification of affinity changes
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * @pending_mask:	pending rebalanced interrupts
  * @threads_oneshot:	bitfield to handle shared oneshot threads
  * @threads_active:	number of irqaction threads currently running
@@ -61,8 +65,12 @@ struct irq_desc {
 	struct cpumask		*percpu_enabled;
 #ifdef CONFIG_SMP
 	const struct cpumask	*affinity_hint;
+<<<<<<< HEAD
 	struct list_head	affinity_notify;
 	struct work_struct	affinity_work;
+=======
+	struct irq_affinity_notify *affinity_notify;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #ifdef CONFIG_GENERIC_PENDING_IRQ
 	cpumask_var_t		pending_mask;
 #endif

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1121,6 +1125,7 @@ int slim_user_msg(struct slim_device *sb, u8 la, u8 mt, u8 mc,
 EXPORT_SYMBOL(slim_user_msg);
 
 /*
+<<<<<<< HEAD
  * Queue bulk of message writes:
  * slim_bulk_msg_write: Write bulk of messages (e.g. downloading FW)
  * @sb: Client handle sending these messages
@@ -1165,6 +1170,8 @@ int slim_bulk_msg_write(struct slim_device *sb, u8 mt, u8 mc,
 EXPORT_SYMBOL(slim_bulk_msg_write);
 
 /*
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * slim_alloc_mgrports: Allocate port on manager side.
  * @sb: device/client handle.
  * @req: Port request type.

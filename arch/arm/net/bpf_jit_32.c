@@ -929,7 +929,11 @@ out:
 
 static void bpf_jit_free_worker(struct work_struct *work)
 {
+<<<<<<< HEAD
 	module_memfree(work);
+=======
+	module_free(NULL, work);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 void bpf_jit_free(struct sk_filter *fp)

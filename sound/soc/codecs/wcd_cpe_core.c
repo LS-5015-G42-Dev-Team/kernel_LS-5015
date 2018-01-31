@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -28,6 +32,10 @@
 #include <soc/qcom/pm.h>
 #include <linux/mfd/wcd9xxx/core.h>
 #include <linux/mfd/wcd9xxx/core-resource.h>
+<<<<<<< HEAD
+=======
+#include <linux/mfd/wcd9xxx/wcd9330_registers.h>
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <sound/audio_cal_utils.h>
 #include "wcd_cpe_core.h"
 #include "wcd_cpe_services.h"
@@ -35,8 +43,14 @@
 
 #define CMI_CMD_TIMEOUT (10 * HZ)
 #define WCD_CPE_LSM_MAX_SESSIONS 1
+<<<<<<< HEAD
 #define WCD_CPE_AFE_MAX_PORTS 2
 #define AFE_SVC_EXPLICIT_PORT_START 1
+=======
+#define WCD_CPE_AFE_MAX_PORTS 1
+#define WCD_CPE_DRAM_SIZE 0x30000
+#define WCD_CPE_DRAM_OFFSET 0x50000
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define ELF_FLAG_EXECUTE (1 << 0)
 #define ELF_FLAG_WRITE (1 << 1)
@@ -61,6 +75,7 @@
 #define WCD_CPE_STATE_MAX_LEN 11
 #define CPE_OFFLINE_WAIT_TIMEOUT (2 * HZ)
 #define CPE_READY_WAIT_TIMEOUT (3 * HZ)
+<<<<<<< HEAD
 
 
 #define CPE_ERR_IRQ_CB(core) \
@@ -74,6 +89,15 @@
  */
 #define AFE_OUT_BUF_SIZE(bit_width) \
 	(AFE_OUT_BUF_SAMPLES * (bit_width / BITS_PER_BYTE))
+=======
+#define SVASS_INT_STATUS_RCO_WDOG 0x20
+#define SVASS_INT_STATUS_WDOG_BITE 0x02
+
+/* Add any SVA IRQs that are to be treated as FATAL */
+#define SVASS_FATAL_IRQS \
+	(SVASS_INT_STATUS_RCO_WDOG | \
+	 SVASS_INT_STATUS_WDOG_BITE)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 enum afe_port_state {
 	AFE_PORT_STATE_DEINIT = 0,
@@ -102,9 +126,12 @@ static int wcd_cpe_setup_irqs(struct wcd_cpe_core *core);
 static void wcd_cpe_cleanup_irqs(struct wcd_cpe_core *core);
 static u32 ramdump_enable;
 
+<<<<<<< HEAD
 static int wcd_cpe_afe_svc_cmd_mode(void *core_handle,
 				    u8 mode);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /* wcd_cpe_lsm_session_active: check if any session is active
  * return true if any session is active.
  */
@@ -125,6 +152,7 @@ static bool wcd_cpe_lsm_session_active(void)
 	return lsm_active;
 }
 
+<<<<<<< HEAD
 static int wcd_cpe_get_sfr_dump(struct wcd_cpe_core *core)
 {
 	struct cpe_svc_mem_segment dump_seg;
@@ -165,11 +193,14 @@ done:
 	return 0;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int wcd_cpe_collect_ramdump(struct wcd_cpe_core *core)
 {
 	struct cpe_svc_mem_segment dump_seg;
 	int rc;
 
+<<<<<<< HEAD
 	if (!core->cpe_ramdump_dev || !core->cpe_dump_v_addr ||
 	    core->hw_info.dram_size == 0) {
 		dev_err(core->dev,
@@ -181,6 +212,11 @@ static int wcd_cpe_collect_ramdump(struct wcd_cpe_core *core)
 	dump_seg.type = CPE_SVC_DATA_MEM;
 	dump_seg.cpe_addr = core->hw_info.dram_offset;
 	dump_seg.size = core->hw_info.dram_size;
+=======
+	dump_seg.type = CPE_SVC_DATA_MEM;
+	dump_seg.cpe_addr = WCD_CPE_DRAM_OFFSET;
+	dump_seg.size = WCD_CPE_DRAM_SIZE;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	dump_seg.data = core->cpe_dump_v_addr;
 
 	dev_dbg(core->dev,
@@ -200,7 +236,11 @@ static int wcd_cpe_collect_ramdump(struct wcd_cpe_core *core)
 		__func__);
 
 	core->cpe_ramdump_seg.address = (unsigned long) core->cpe_dump_addr;
+<<<<<<< HEAD
 	core->cpe_ramdump_seg.size = core->hw_info.dram_size;
+=======
+	core->cpe_ramdump_seg.size = WCD_CPE_DRAM_SIZE;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	core->cpe_ramdump_seg.v_address = core->cpe_dump_v_addr;
 
 	rc = do_ramdump(core->cpe_ramdump_dev,
@@ -337,7 +377,11 @@ fw_req_fail:
  */
 static int wcd_cpe_enable_cpe_clks(struct wcd_cpe_core *core, bool enable)
 {
+<<<<<<< HEAD
 	int ret, ret1;
+=======
+	int ret = 0;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!core || !core->cpe_cdc_cb ||
 	    !core->cpe_cdc_cb->cpe_clk_en) {
@@ -358,11 +402,16 @@ static int wcd_cpe_enable_cpe_clks(struct wcd_cpe_core *core, bool enable)
 		dev_err(core->dev,
 			"%s: cpe_clk_en() failed, err = %d\n",
 			__func__, ret);
+<<<<<<< HEAD
 		goto cpe_clk_fail;
+=======
+		return ret;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	return 0;
 
+<<<<<<< HEAD
 cpe_clk_fail:
 	/* Release the codec clk if CPE clk enable failed */
 	if (enable) {
@@ -402,6 +451,8 @@ static int wcd_cpe_bus_vote_max_bw(struct wcd_cpe_core *core,
 	}
 
 	return 0;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /*
@@ -434,7 +485,11 @@ static int wcd_cpe_load_fw(struct wcd_cpe_core *core,
 		return -EINVAL;
 	}
 	codec = core->codec;
+<<<<<<< HEAD
 	wcd9xxx = dev_get_drvdata(codec->dev->parent);
+=======
+	wcd9xxx = codec->control_data;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	snprintf(mdt_name, sizeof(mdt_name), "%s.mdt", core->fname);
 	ret = request_firmware(&fw, mdt_name, core->dev);
 	if (IS_ERR_VALUE(ret)) {
@@ -466,8 +521,11 @@ static int wcd_cpe_load_fw(struct wcd_cpe_core *core,
 	dev_dbg(core->dev, "%s: start image dload, name = %s, load_type = 0x%x\n",
 		__func__, core->fname, load_type);
 
+<<<<<<< HEAD
 	wcd_cpe_bus_vote_max_bw(core, true);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* parse every program header and request corresponding firmware */
 	for (phdr_idx = 0; phdr_idx < ehdr->e_phnum; phdr_idx++) {
 		phdr = (struct elf32_phdr *)elf_ptr;
@@ -493,7 +551,11 @@ static int wcd_cpe_load_fw(struct wcd_cpe_core *core,
 			pr_err("%s: Invalid load_type 0x%x\n",
 				__func__, load_type);
 			ret = -EINVAL;
+<<<<<<< HEAD
 			goto rel_bus_vote;
+=======
+			goto done;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 
 		if (load_segment) {
@@ -504,7 +566,11 @@ static int wcd_cpe_load_fw(struct wcd_cpe_core *core,
 					"Failed to load segment %d, aborting img dload\n",
 					phdr_idx);
 				img_dload_fail = true;
+<<<<<<< HEAD
 				goto rel_bus_vote;
+=======
+				goto done;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			}
 		} else {
 			dev_dbg(core->dev,
@@ -517,9 +583,12 @@ static int wcd_cpe_load_fw(struct wcd_cpe_core *core,
 	if (load_type == ELF_FLAG_EXECUTE)
 		core->ssr_type = WCD_CPE_IMEM_DOWNLOADED;
 
+<<<<<<< HEAD
 rel_bus_vote:
 	wcd_cpe_bus_vote_max_bw(core, false);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 done:
 	release_firmware(fw);
 	return ret;
@@ -753,6 +822,7 @@ static int wcd_cpe_enable(struct wcd_cpe_core *core,
 			goto fail_boot;
 		}
 
+<<<<<<< HEAD
 		ret = wcd_cpe_enable_cpe_clks(core, true);
 		if (IS_ERR_VALUE(ret)) {
 			dev_err(core->dev,
@@ -761,6 +831,9 @@ static int wcd_cpe_enable(struct wcd_cpe_core *core,
 			goto fail_boot;
 		}
 
+=======
+		wcd_cpe_enable_cpe_clks(core, true);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		ret = cpe_svc_boot(core->cpe_handle,
 				   core->cpe_debug_mode);
 		if (IS_ERR_VALUE(ret)) {
@@ -900,7 +973,10 @@ void wcd_cpe_ssr_work(struct work_struct *work)
 	int rc = 0;
 	u32 irq = 0;
 	struct wcd_cpe_core *core = NULL;
+<<<<<<< HEAD
 	u8 status = 0;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	core = container_of(work, struct wcd_cpe_core, ssr_work);
 	if (!core) {
@@ -920,12 +996,24 @@ void wcd_cpe_ssr_work(struct work_struct *work)
 		__func__, core->ssr_type);
 
 	if (core->ssr_type == WCD_CPE_SSR_EVENT) {
+<<<<<<< HEAD
 		if (CPE_ERR_IRQ_CB(core))
 			core->cpe_cdc_cb->cpe_err_irq_control(
 					core->codec,
 					CPE_ERR_IRQ_STATUS,
 					&status);
 		if (status & core->irq_info.cpe_fatal_irqs)
+=======
+		rc = snd_soc_read(core->codec,
+				  TOMTOM_A_SVASS_INT_STATUS);
+		if (rc & SVASS_INT_STATUS_RCO_WDOG)
+			irq = CPE_IRQ_RCO_WDOG_INT;
+		else
+			/*
+			 * For all other IRQ's treat
+			 * as WDOG_BITE internally
+			 */
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			irq = CPE_IRQ_WDOG_BITE;
 	} else {
 		/* If bus is down, cdc reg cannot be read */
@@ -951,16 +1039,25 @@ void wcd_cpe_ssr_work(struct work_struct *work)
 				__func__);
 			goto err_ret;
 		}
+<<<<<<< HEAD
 		if (core->ssr_type != WCD_CPE_BUS_DOWN_EVENT) {
 			wcd_cpe_get_sfr_dump(core);
 
+=======
+		if (core->ssr_type != WCD_CPE_BUS_DOWN_EVENT &&
+		    ramdump_enable) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			/*
 			 * Ramdump has to be explicitly enabled
 			 * through debugfs and cannot be collected
 			 * when bus is down.
 			 */
+<<<<<<< HEAD
 			if (ramdump_enable)
 				wcd_cpe_collect_ramdump(core);
+=======
+			wcd_cpe_collect_ramdump(core);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 	} else {
 		pr_err("%s: no cpe users, mark as offline\n", __func__);
@@ -983,9 +1080,15 @@ void wcd_cpe_ssr_work(struct work_struct *work)
 	/* Once image are downloaded make sure all
 	 * error interrupts are cleared
 	 */
+<<<<<<< HEAD
 	if (CPE_ERR_IRQ_CB(core))
 		core->cpe_cdc_cb->cpe_err_irq_control(core->codec,
 					CPE_ERR_IRQ_CLEAR, NULL);
+=======
+	snd_soc_update_bits(core->codec,
+				TOMTOM_A_SVASS_INT_CLR,
+			    0x3F, 0x3F);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 err_ret:
 	/* remove after default pm qos */
@@ -1075,6 +1178,7 @@ static irqreturn_t svass_exception_irq(int irq, void *data)
 	struct wcd_cpe_core *core = data;
 	u8 status = 0;
 
+<<<<<<< HEAD
 	if (!core || !CPE_ERR_IRQ_CB(core)) {
 		pr_err("%s: Invalid %s\n",
 		       __func__,
@@ -1115,6 +1219,22 @@ static irqreturn_t svass_exception_irq(int irq, void *data)
 		/* Read status for pending interrupts */
 		core->cpe_cdc_cb->cpe_err_irq_control(core->codec,
 					CPE_ERR_IRQ_STATUS, &status);
+=======
+	status = snd_soc_read(core->codec,
+			      TOMTOM_A_SVASS_INT_STATUS);
+
+	dev_err(core->dev,
+		"%s: err_interrupt status = 0x%x\n",
+		__func__, status);
+
+	if (status & SVASS_FATAL_IRQS) {
+		wcd_cpe_ssr_event(core, WCD_CPE_SSR_EVENT);
+	} else {
+		/* Make sure all error interrupts are cleared */
+		snd_soc_update_bits(core->codec,
+				    TOMTOM_A_SVASS_INT_CLR,
+				    0x3F, 0x3F);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	return IRQ_HANDLED;
@@ -1198,9 +1318,15 @@ void wcd_cpe_cmi_afe_cb(const struct cmi_api_notification *param)
 static void wcd_cpe_initialize_afe_port_data(void)
 {
 	struct wcd_cmi_afe_port_data *afe_port_d;
+<<<<<<< HEAD
 	int i;
 
 	for (i = 0; i <= WCD_CPE_AFE_MAX_PORTS; i++) {
+=======
+	int i = 0;
+
+	for (i = 1; i <= WCD_CPE_AFE_MAX_PORTS; i++) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		afe_port_d = &afe_ports[i];
 		afe_port_d->port_id = i;
 		init_completion(&afe_port_d->afe_cmd_complete);
@@ -1218,9 +1344,15 @@ static void wcd_cpe_initialize_afe_port_data(void)
 static void wcd_cpe_deinitialize_afe_port_data(void)
 {
 	struct wcd_cmi_afe_port_data *afe_port_d;
+<<<<<<< HEAD
 	int i;
 
 	for (i = 0; i <= WCD_CPE_AFE_MAX_PORTS; i++) {
+=======
+	int i = 0;
+
+	for (i = 1; i <= WCD_CPE_AFE_MAX_PORTS; i++) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		afe_port_d = &afe_ports[i];
 		afe_port_d->port_state = AFE_PORT_STATE_DEINIT;
 		mutex_destroy(&afe_port_d->afe_lock);
@@ -1236,7 +1368,10 @@ static void wcd_cpe_svc_event_cb(const struct cpe_svc_notification *param)
 {
 	struct snd_soc_codec *codec;
 	struct wcd_cpe_core *core;
+<<<<<<< HEAD
 	struct cpe_svc_boot_event *boot_data;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	bool active_sessions;
 
 	if (!param) {
@@ -1263,6 +1398,7 @@ static void wcd_cpe_svc_event_cb(const struct cpe_svc_notification *param)
 		__func__, param->event, core->ssr_type);
 
 	switch (param->event) {
+<<<<<<< HEAD
 	case CPE_SVC_BOOT:
 		boot_data = (struct cpe_svc_boot_event *)
 				param->payload;
@@ -1273,6 +1409,8 @@ static void wcd_cpe_svc_event_cb(const struct cpe_svc_notification *param)
 			__func__, core->sfr_buf_addr,
 			core->sfr_buf_size);
 		break;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	case CPE_SVC_ONLINE:
 		core->ssr_type = WCD_CPE_ACTIVE;
 		dev_dbg(core->dev, "%s CPE is now online\n",
@@ -1321,6 +1459,7 @@ static void wcd_cpe_cleanup_irqs(struct wcd_cpe_core *core)
 {
 
 	struct snd_soc_codec *codec = core->codec;
+<<<<<<< HEAD
 	struct wcd9xxx *wcd9xxx = dev_get_drvdata(codec->dev->parent);
 	struct wcd9xxx_core_resource *core_res = &wcd9xxx->core_res;
 
@@ -1329,6 +1468,16 @@ static void wcd_cpe_cleanup_irqs(struct wcd_cpe_core *core)
 			 core);
 	wcd9xxx_free_irq(core_res,
 			 core->irq_info.cpe_err_irq,
+=======
+	struct wcd9xxx *wcd9xxx = codec->control_data;
+	struct wcd9xxx_core_resource *core_res = &wcd9xxx->core_res;
+
+	wcd9xxx_free_irq(core_res,
+			 WCD9330_IRQ_SVASS_ENGINE,
+			 core);
+	wcd9xxx_free_irq(core_res,
+			 WCD9330_IRQ_SVASS_ERR_EXCEPTION,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			 core);
 
 }
@@ -1343,11 +1492,18 @@ static int wcd_cpe_setup_irqs(struct wcd_cpe_core *core)
 {
 	int ret;
 	struct snd_soc_codec *codec = core->codec;
+<<<<<<< HEAD
 	struct wcd9xxx *wcd9xxx = dev_get_drvdata(codec->dev->parent);
 	struct wcd9xxx_core_resource *core_res = &wcd9xxx->core_res;
 
 	ret = wcd9xxx_request_irq(core_res,
 				  core->irq_info.cpe_engine_irq,
+=======
+	struct wcd9xxx *wcd9xxx = codec->control_data;
+	struct wcd9xxx_core_resource *core_res = &wcd9xxx->core_res;
+
+	ret = wcd9xxx_request_irq(core_res, WCD9330_IRQ_SVASS_ENGINE,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				  svass_engine_irq, "SVASS_Engine", core);
 	if (ret) {
 		dev_err(core->dev,
@@ -1357,6 +1513,7 @@ static int wcd_cpe_setup_irqs(struct wcd_cpe_core *core)
 	}
 
 	/* Make sure all error interrupts are cleared */
+<<<<<<< HEAD
 	if (CPE_ERR_IRQ_CB(core))
 		core->cpe_cdc_cb->cpe_err_irq_control(
 					core->codec,
@@ -1372,6 +1529,16 @@ static int wcd_cpe_setup_irqs(struct wcd_cpe_core *core)
 
 	ret = wcd9xxx_request_irq(core_res,
 				  core->irq_info.cpe_err_irq,
+=======
+	snd_soc_update_bits(codec, TOMTOM_A_SVASS_INT_CLR,
+			    0x3F, 0x3F);
+
+	/* Enable required error interrupts */
+	snd_soc_update_bits(codec, TOMTOM_A_SVASS_INT_MASK,
+			    0x3F, 0x0C);
+
+	ret = wcd9xxx_request_irq(core_res, WCD9330_IRQ_SVASS_ERR_EXCEPTION,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				  svass_exception_irq, "SVASS_Exception", core);
 	if (ret) {
 		dev_err(core->dev,
@@ -1383,8 +1550,12 @@ static int wcd_cpe_setup_irqs(struct wcd_cpe_core *core)
 	return 0;
 
 fail_exception_irq:
+<<<<<<< HEAD
 	wcd9xxx_free_irq(core_res,
 			 core->irq_info.cpe_engine_irq, core);
+=======
+	wcd9xxx_free_irq(core_res, WCD9330_IRQ_SVASS_ENGINE, core);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 fail_engine_irq:
 	return ret;
@@ -1581,6 +1752,7 @@ err_create_dir:
 	return rc;
 }
 
+<<<<<<< HEAD
 static int wcd_cpe_validate_params(
 	struct snd_soc_codec *codec,
 	struct wcd_cpe_params *params)
@@ -1609,6 +1781,8 @@ static int wcd_cpe_validate_params(
 	return 0;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * wcd_cpe_init: Initialize CPE related structures
  * @img_fname: filename for firmware image
@@ -1629,11 +1803,35 @@ struct wcd_cpe_core *wcd_cpe_init(const char *img_fname,
 	char proc_name[WCD_CPE_STATE_MAX_LEN];
 	const char *cpe_name = "cpe";
 	const char *state_name = "_state";
+<<<<<<< HEAD
 	const struct cpe_svc_hw_cfg *hw_info;
 	int id = 0;
 
 	if (wcd_cpe_validate_params(codec, params))
 		return NULL;
+=======
+	int id = 0;
+
+	if (!codec) {
+		pr_err("%s: Invalid codec\n", __func__);
+		return NULL;
+	}
+
+	if (!params) {
+		dev_err(codec->dev,
+			"%s: No params supplied for codec %s\n",
+			__func__, codec->name);
+		return NULL;
+	}
+
+	if (!params->codec || !params->get_cpe_core ||
+	    !params->cdc_cb) {
+		dev_err(codec->dev,
+			"%s: Invalid params for codec %s\n",
+			__func__, codec->name);
+		return NULL;
+	}
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	core = kzalloc(sizeof(struct wcd_cpe_core), GFP_KERNEL);
 	if (!core) {
@@ -1657,9 +1855,12 @@ struct wcd_cpe_core *wcd_cpe_init(const char *img_fname,
 
 	core->cpe_cdc_cb = params->cdc_cb;
 
+<<<<<<< HEAD
 	memcpy(&core->irq_info, &params->cdc_irq_info,
 	       sizeof(core->irq_info));
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	INIT_WORK(&core->load_fw_work, wcd_cpe_load_fw_image);
 	INIT_WORK(&core->ssr_work, wcd_cpe_ssr_work);
 	init_completion(&core->offline_compl);
@@ -1676,8 +1877,13 @@ struct wcd_cpe_core *wcd_cpe_init(const char *img_fname,
 	 */
 	core->ready_status = WCD_CPE_READY_TO_DLOAD;
 
+<<<<<<< HEAD
 	core->cpe_handle = cpe_svc_initialize(NULL, &core->cdc_info,
 					      params->cpe_svc_params);
+=======
+
+	core->cpe_handle = cpe_svc_initialize(NULL, &core->cdc_info, codec);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (!core->cpe_handle) {
 		dev_err(core->dev,
 			"%s: failed to initialize cpe services\n",
@@ -1688,7 +1894,10 @@ struct wcd_cpe_core *wcd_cpe_init(const char *img_fname,
 	core->cpe_reg_handle = cpe_svc_register(core->cpe_handle,
 					wcd_cpe_svc_event_cb,
 					CPE_SVC_ONLINE | CPE_SVC_OFFLINE |
+<<<<<<< HEAD
 					CPE_SVC_BOOT |
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 					CPE_SVC_CMI_CLIENTS_DEREG,
 					"codec cpe handler");
 	if (!core->cpe_reg_handle) {
@@ -1739,6 +1948,7 @@ struct wcd_cpe_core *wcd_cpe_init(const char *img_fname,
 
 	wcd_cpe_debugfs_init(core);
 
+<<<<<<< HEAD
 	hw_info = cpe_svc_get_hw_cfg(core->cpe_handle);
 	if (!hw_info) {
 		dev_err(core->dev,
@@ -1752,6 +1962,8 @@ struct wcd_cpe_core *wcd_cpe_init(const char *img_fname,
 		core->hw_info.iram_size = hw_info->IRAM_size;
 	}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* Setup the ramdump device and buffer */
 	core->cpe_ramdump_dev = create_ramdump_device("cpe",
 						      core->dev);
@@ -1763,16 +1975,28 @@ struct wcd_cpe_core *wcd_cpe_init(const char *img_fname,
 	}
 
 	core->cpe_dump_v_addr = dma_alloc_coherent(core->dev,
+<<<<<<< HEAD
 						   core->hw_info.dram_size,
+=======
+						   WCD_CPE_DRAM_SIZE,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 						   &core->cpe_dump_addr,
 						   GFP_KERNEL);
 	if (!core->cpe_dump_v_addr) {
 		dev_err(core->dev,
+<<<<<<< HEAD
 			"%s: Failed to alloc memory for cpe dump, size = %zd\n",
 			__func__, core->hw_info.dram_size);
 		goto schedule_dload_work;
 	} else {
 		memset(core->cpe_dump_v_addr, 0, core->hw_info.dram_size);
+=======
+			"%s: Failed to alloc memory for cpe dump, size = %d\n",
+			__func__, WCD_CPE_DRAM_SIZE);
+		goto schedule_dload_work;
+	} else {
+		memset(core->cpe_dump_v_addr, 0, WCD_CPE_DRAM_SIZE);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 schedule_dload_work:
@@ -1905,17 +2129,26 @@ static int wcd_cpe_cmi_send_lsm_msg(
 		dev_err(core->dev,
 			"%s: MSG not sent, CPE offline\n",
 			 __func__);
+<<<<<<< HEAD
 		goto done;
 	}
 
 	if (CMI_HDR_GET_OBM_FLAG(hdr))
 		wcd_cpe_bus_vote_max_bw(core, true);
 
+=======
+		return 0;
+	}
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ret = cmi_send_msg(message);
 	if (ret) {
 		pr_err("%s: msg opcode (0x%x) send failed (%d)\n",
 			__func__, hdr->opcode, ret);
+<<<<<<< HEAD
 		goto rel_bus_vote;
+=======
+		return ret;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	ret = wait_for_completion_timeout(&session->cmd_comp,
@@ -1923,6 +2156,7 @@ static int wcd_cpe_cmi_send_lsm_msg(
 	if (ret > 0) {
 		pr_debug("%s: command 0x%x, received response 0x%x\n",
 			__func__, hdr->opcode, session->cmd_err_code);
+<<<<<<< HEAD
 		ret = session->cmd_err_code;
 		goto rel_bus_vote;
 	} else {
@@ -1942,6 +2176,19 @@ rel_bus_vote:
 
 done:
 	return ret;
+=======
+		if (session->cmd_err_code)
+			return session->cmd_err_code;
+	} else {
+		pr_err("%s: command (0x%x) send timed out\n",
+			__func__, hdr->opcode);
+		return -ETIMEDOUT;
+	}
+
+	INIT_COMPLETION(session->cmd_comp);
+
+	return 0;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 
@@ -2238,6 +2485,7 @@ static int wcd_cpe_send_lsm_cal(
 		goto unlock_cal_mutex;
 	}
 
+<<<<<<< HEAD
 	if (lsm_cal->cal_data.size == 0) {
 		dev_dbg(core->dev, "%s: No LSM cal to send\n",
 			__func__);
@@ -2245,6 +2493,8 @@ static int wcd_cpe_send_lsm_cal(
 		goto unlock_cal_mutex;
 	}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	inb_msg = kzalloc(sizeof(struct cmi_hdr) + lsm_cal->cal_data.size,
 			  GFP_KERNEL);
 	if (!inb_msg) {
@@ -2284,19 +2534,28 @@ unlock_cal_mutex:
 }
 
 /*
+<<<<<<< HEAD
  * wcd_cpe_lsm_set_opmode: set operation mode for listen
+=======
+ * wcd_cpe_lsm_set_params: set the parameters for lsm service
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * @core: handle to cpe core
  * @session: session for which the parameters are to be set
  * @detect_mode: mode for detection
  * @detect_failure: flag indicating failure detection enabled/disabled
  *
  */
+<<<<<<< HEAD
 static int wcd_cpe_lsm_set_opmode(
+=======
+static int wcd_cpe_lsm_set_params(
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				 struct wcd_cpe_core *core,
 				 struct cpe_lsm_session *session,
 				 enum lsm_detection_mode detect_mode,
 				 bool detect_failure)
 {
+<<<<<<< HEAD
 	struct cpe_lsm_operation_mode op_mode;
 	struct cmi_hdr *hdr = &op_mode.hdr;
 	struct cpe_param_data *param_d = &op_mode.param;
@@ -2306,16 +2565,34 @@ static int wcd_cpe_lsm_set_opmode(
 	ret = wcd_cpe_send_lsm_cal(core, session);
 	if (ret) {
 		pr_err("%s: fail to sent acdb cal, err = %d\n",
+=======
+	struct cpe_lsm_params lsm_params;
+	struct cpe_lsm_operation_mode *op_mode = &lsm_params.op_mode;
+	struct cpe_lsm_connect_to_port *connect_port =
+					&lsm_params.connect_port;
+	int ret = 0;
+	u8 pld_size = CPE_PARAM_PAYLOAD_SIZE;
+
+	ret = wcd_cpe_send_lsm_cal(core, session);
+	if (ret) {
+		pr_err("%s: fail to sent acdb cal, err = %d",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			__func__, ret);
 		return ret;
 	}
 
+<<<<<<< HEAD
 	memset(&op_mode, 0, sizeof(struct cpe_lsm_operation_mode));
 
 	pld_size = (sizeof(struct cpe_lsm_operation_mode) -
 				sizeof(struct cmi_hdr));
 
 	if (fill_lsm_cmd_header_v0_inband(hdr,
+=======
+	memset(&lsm_params, 0, sizeof(lsm_params));
+
+	if (fill_lsm_cmd_header_v0_inband(&lsm_params.hdr,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				session->id,
 				pld_size,
 				CPE_LSM_SESSION_CMD_SET_PARAMS)) {
@@ -2323,6 +2600,7 @@ static int wcd_cpe_lsm_set_opmode(
 		goto err_ret;
 	}
 
+<<<<<<< HEAD
 	param_d->module_id = CPE_LSM_MODULE_ID_VOICE_WAKEUP;
 	param_d->param_id = CPE_LSM_PARAM_ID_OPERATION_MODE;
 	param_d->param_size = PARAM_SIZE_LSM_OP_MODE;
@@ -2401,6 +2679,39 @@ err_ret:
 }
 
 
+=======
+	op_mode->param.module_id = CPE_LSM_MODULE_ID_VOICE_WAKEUP;
+	op_mode->param.param_id = CPE_LSM_PARAM_ID_OPERATION_MODE;
+	op_mode->param.param_size = PARAM_SIZE_LSM_OP_MODE;
+	op_mode->param.reserved = 0;
+	op_mode->minor_version = 1;
+	if (detect_mode == LSM_MODE_KEYWORD_ONLY_DETECTION)
+		op_mode->mode = 1;
+	else
+		op_mode->mode = 3;
+
+	if (detect_failure)
+		op_mode->mode |= 0x04;
+
+	op_mode->reserved = 0;
+
+	connect_port->param.module_id = CPE_LSM_MODULE_ID_VOICE_WAKEUP;
+	connect_port->param.param_id = CPE_LSM_PARAM_ID_CONNECT_TO_PORT;
+	connect_port->param.param_size = PARAM_SIZE_LSM_CONNECT_PORT;
+	connect_port->param.reserved = 0;
+	connect_port->minor_version = 1;
+	connect_port->afe_port_id = CPE_AFE_PORT_1_TX;
+	connect_port->reserved = 0;
+
+	ret = wcd_cpe_cmi_send_lsm_msg(core, session, &lsm_params);
+	if (ret)
+		pr_err("%s: lsm_set_params failed, rc %dn",
+			__func__, ret);
+err_ret:
+	return ret;
+}
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * wcd_cpe_lsm_set_conf_levels: send the confidence levels for listen
  * @core: handle to cpe core
@@ -2470,7 +2781,11 @@ int wcd_cpe_lsm_set_data(void *core_handle,
 
 	WCD_CPE_GRAB_LOCK(&session->lsm_lock, "lsm");
 	if (session->num_confidence_levels > 0) {
+<<<<<<< HEAD
 		ret = wcd_cpe_lsm_set_opmode(core, session, detect_mode,
+=======
+		ret = wcd_cpe_lsm_set_params(core, session, detect_mode,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				       detect_failure);
 		if (ret) {
 			dev_err(core->dev,
@@ -2673,7 +2988,11 @@ end_ret:
  * @lsm_priv_d: lsm private data
  */
 static struct cpe_lsm_session *wcd_cpe_alloc_lsm_session(
+<<<<<<< HEAD
 	void *core_handle, void *client_data,
+=======
+	void *core_handle, void *lsm_priv_d,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	void (*event_cb) (void *, u8, u8, u8 *))
 {
 	struct cpe_lsm_session *session;
@@ -2731,7 +3050,11 @@ static struct cpe_lsm_session *wcd_cpe_alloc_lsm_session(
 			__func__);
 		goto err_ret;
 	}
+<<<<<<< HEAD
 	session->priv_d = client_data;
+=======
+	session->priv_d = lsm_priv_d;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mutex_init(&session->lsm_lock);
 	if (afe_register_service) {
 		/* Register for AFE Service */
@@ -2744,12 +3067,15 @@ static struct cpe_lsm_session *wcd_cpe_alloc_lsm_session(
 				__func__);
 			goto err_afe_svc_reg;
 		}
+<<<<<<< HEAD
 
 		/* Once AFE service is registered, send the mode command */
 		ret = wcd_cpe_afe_svc_cmd_mode(core,
 				AFE_SVC_EXPLICIT_PORT_START);
 		if (ret)
 			goto err_afe_mode_cmd;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	session->lsm_mem_handle = 0;
@@ -2758,9 +3084,12 @@ static struct cpe_lsm_session *wcd_cpe_alloc_lsm_session(
 	lsm_sessions[session_id] = session;
 	return session;
 
+<<<<<<< HEAD
 err_afe_mode_cmd:
 	cmi_deregister(core->cmi_afe_handle);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 err_afe_svc_reg:
 	cmi_deregister(session->cmi_reg_handle);
 	mutex_destroy(&session->lsm_lock);
@@ -2821,6 +3150,7 @@ static int wcd_cpe_lsm_config_lab_latency(
 }
 
 /*
+<<<<<<< HEAD
  * wcd_cpe_lsm_lab_control: enable/disable lab
  * @core: handle to wcd_cpe_core
  * @session: lsm session
@@ -2832,6 +3162,159 @@ static int wcd_cpe_lsm_lab_control(
 		bool enable)
 {
 	struct wcd_cpe_core *core = core_handle;
+=======
+ * wcd_cpe_buf_alloc: allocate lab DMA buffer.
+ * @core: handle to wcd_cpe_core
+ * @session: lsm session to be deallocated
+ */
+static int wcd_cpe_buf_alloc(void *core_handle,
+			     struct cpe_lsm_session *session,
+			     u32 bufsz, u32 bufcnt)
+{
+	int rc = 0;
+	int dma_alloc = 0;
+	u32 count = 0;
+	struct wcd_cpe_data_pcm_buf *pcm_buf = NULL;
+	struct wcd_cpe_core *core = (struct wcd_cpe_core *)core_handle;
+	struct wcd_cpe_lsm_lab *lab = NULL;
+	struct snd_soc_codec *codec;
+	struct wcd9xxx *wcd9xxx;
+
+
+	pr_debug("%s:Buf Size %d Buf count %d\n", __func__,
+		 bufsz, bufcnt);
+
+	if (bufcnt <= 0 || bufsz <= 0) {
+		pr_err("%s:HW Params Error for LAB\n", __func__);
+		rc = -EINVAL;
+		goto exit;
+	}
+	if (core == NULL || session == NULL) {
+		pr_err("%s:Err core handle/Session ptr NULL\n", __func__);
+		rc = -EINVAL;
+		goto exit;
+	}
+	codec = core->codec;
+	wcd9xxx = codec->control_data;
+	if (session)
+		lab = &session->lab;
+	else {
+		pr_err("%s: Session ptr NULL\n", __func__);
+		rc = -EINVAL;
+		goto exit;
+
+	}
+	pcm_buf = kzalloc(((sizeof(struct wcd_cpe_data_pcm_buf)) * bufcnt),
+			  GFP_KERNEL);
+	if (!pcm_buf) {
+		pr_err("%s: No memory for pcm_buf\n", __func__);
+		rc = -ENOMEM;
+		goto exit;
+	}
+	lab->pcm_buf = pcm_buf;
+	dma_alloc = bufsz * bufcnt;
+	pcm_buf->mem = NULL;
+	pcm_buf->mem = dma_alloc_coherent(wcd9xxx->slim->dev.parent,
+					  dma_alloc,
+					  &(pcm_buf->phys),
+					  GFP_KERNEL);
+
+	if (pcm_buf->mem == NULL) {
+		pr_err("%s:DMA alloc failed size = %x\n",
+		       __func__, dma_alloc);
+		rc = -ENOMEM;
+		goto fail;
+	}
+	count = 0;
+	while (count < bufcnt) {
+		pcm_buf[count].mem =  pcm_buf[0].mem + (count * bufsz);
+		pcm_buf[count].phys =  pcm_buf[0].phys + (count * bufsz);
+		if (!pcm_buf[count].mem) {
+			pr_err("%s: pcm buf mem Null\n", __func__);
+				rc = -EINVAL;
+				goto fail;
+		}
+		pr_debug("%s: pcm_buf[%d].mem %p pcm_buf[%d].phys %pa\n",
+			 __func__, count,
+			 (void *)pcm_buf[count].mem,
+			 count, &(pcm_buf[count].phys));
+		count++;
+	}
+
+	return 0;
+fail:
+	if (pcm_buf) {
+		if (pcm_buf->mem)
+			dma_free_coherent(wcd9xxx->slim->dev.parent, dma_alloc,
+					  pcm_buf->mem, pcm_buf->phys);
+		kfree(pcm_buf);
+	}
+exit:
+	return rc;
+}
+
+/*
+ * wcd_cpe_buf_dealloc: deallocate DMA buffers
+ * @core: handle to wcd_cpe_core
+ * @session: lsm session
+ * @bufz: buffer size
+ * @bufCnt: no of period or buffers
+ */
+static int wcd_cpe_buf_dealloc(void *core_handle,
+			       struct cpe_lsm_session *session,
+			       u32 bufsz, u32 bufcnt)
+{
+	int rc = 0;
+	int dma_alloc = 0;
+	struct wcd_cpe_data_pcm_buf *pcm_buf = NULL;
+	struct wcd_cpe_core *core = (struct wcd_cpe_core *)core_handle;
+	struct wcd_cpe_lsm_lab *lab = NULL;
+	struct snd_soc_codec *codec;
+	struct wcd9xxx *wcd9xxx;
+
+	pr_debug("%s:Buf Size %d Buf count %d\n", __func__,
+		 bufsz, bufcnt);
+
+	if (bufcnt <= 0 || bufsz <= 0) {
+		pr_err("%s:HW Params Error for LAB\n", __func__);
+		return -EINVAL;
+	}
+
+	if (core == NULL || session == NULL) {
+		pr_err("%s:Err core handle/Session ptr NULL\n", __func__);
+		rc = -ENOMEM;
+		return rc;
+	}
+	codec = core->codec;
+	wcd9xxx = codec->control_data;
+	if (session)
+		lab = &session->lab;
+	else {
+		pr_err("%s: Session ptr NULL\n", __func__);
+		rc = -EINVAL;
+		return rc;
+	}
+	pcm_buf = lab->pcm_buf;
+	dma_alloc = bufsz * bufcnt;
+	if (pcm_buf)
+		dma_free_coherent(wcd9xxx->slim->dev.parent, dma_alloc,
+				  pcm_buf->mem, pcm_buf->phys);
+	kfree(pcm_buf);
+	lab->pcm_buf = NULL;
+	return rc;
+}
+
+/*
+ * wcd_cpe_lsm_lab_enable_disable: enable/disable lab
+ * @core: handle to wcd_cpe_core
+ * @session: lsm session
+ */
+static int wcd_cpe_lsm_lab_enable_disable(
+				struct wcd_cpe_core *core,
+				struct cpe_lsm_session *session,
+				bool enable)
+{
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int ret = 0, pld_size = CPE_PARAM_SIZE_LSM_LAB_CONTROL;
 	struct cpe_lsm_control_lab cpe_lab_enable;
 	struct cpe_lsm_lab_enable *lab_enable = &cpe_lab_enable.lab_enable;
@@ -2867,6 +3350,52 @@ static int wcd_cpe_lsm_lab_control(
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int wcd_cpe_lsm_control_lab(void *core_handle,
+				   struct cpe_lsm_session *session,
+				   u32 bufsz, u32 bufcnt, bool enable)
+{
+	int rc = 0;
+	struct wcd_cpe_core *core = (struct wcd_cpe_core *)core_handle;
+
+	if (enable) {
+		rc = wcd_cpe_buf_alloc(core_handle, session, bufsz, bufcnt);
+		if (rc) {
+			pr_err("%s: DMA buffer allocation failed rc %d\n",
+			       __func__, rc);
+			return rc;
+		}
+		rc = wcd_cpe_lsm_lab_enable_disable(core, session, enable);
+		if (rc) {
+			pr_err("%s: LAB disable/ Enable failed rc %d\n",
+			       __func__, rc);
+			return rc;
+		}
+		session->lab.core_handle = core_handle;
+		session->lab.lsm_s = session;
+	} else {
+		rc = wcd_cpe_buf_dealloc(core_handle, session, bufsz, bufcnt);
+		/* do not return error for DMA dealloc put
+		 * session in detection mode
+		 */
+		if (rc) {
+			pr_err("%s: DMA buffer De-allocation failed, rc %d\n",
+			       __func__, rc);
+		}
+
+		rc = wcd_cpe_lsm_lab_enable_disable(core, session, enable);
+		if (rc) {
+			pr_err("%s: LAB disable/ Enable failed rc %d\n",
+			       __func__, rc);
+			return rc;
+		}
+		session->lab.lab_enable = false;
+	}
+	return rc;
+}
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * wcd_cpe_lsm_eob: stop lab
  * @core: handle to wcd_cpe_core
@@ -2938,6 +3467,7 @@ static int wcd_cpe_dealloc_lsm_session(void *core_handle,
 	return ret;
 }
 
+<<<<<<< HEAD
 static int wcd_cpe_lab_ch_setup(void *core_handle,
 		struct cpe_lsm_session *session,
 		enum wcd_cpe_event event)
@@ -3095,6 +3625,159 @@ err_ret:
 	WCD_CPE_REL_LOCK(&session->lsm_lock, "lsm");
 done:
 	return ret;
+=======
+static int slim_master_read_enable(void *core_handle,
+				   struct cpe_lsm_session *session)
+{
+	int rc = 0;
+	struct wcd_cpe_lsm_lab *lab_s = NULL;
+	struct wcd_cpe_core *core = (struct wcd_cpe_core *)core_handle;
+	struct snd_soc_codec *codec;
+	struct wcd9xxx *wcd9xxx;
+	struct wcd_cpe_lab_hw_params *lsm_params;
+
+	codec = core->codec;
+	wcd9xxx = codec->control_data;
+	lab_s = &session->lab;
+	lsm_params = &lab_s->hw_params;
+	/* The sequence should be maintained strictly */
+	WCD_CPE_GRAB_LOCK(&session->lsm_lock, "lsm");
+	if (core->cpe_cdc_cb->cdc_ext_clk)
+		core->cpe_cdc_cb->cdc_ext_clk(codec, true, false);
+	else {
+		pr_err("%s: Invalid callback for codec ext clk\n",
+			__func__);
+		rc = -EINVAL;
+		goto exit;
+	}
+
+	if (core->cpe_cdc_cb->lab_cdc_ch_ctl)
+		core->cpe_cdc_cb->lab_cdc_ch_ctl(codec, 1);
+	else {
+		pr_err("%s: Failed to enable codec slave port\n",
+			__func__);
+		rc = -EINVAL;
+		goto fail_mclk;
+	}
+	lab_s->slim_handle = NULL;
+	rc = wcd9xxx_slim_ch_master_open(wcd9xxx, lsm_params->sample_rate,
+					 lsm_params->sample_size,
+					 &lab_s->slim_handle,
+					 WCD_CPE_MAD_SLIM_CHANNEL);
+	if (rc || lab_s->slim_handle == NULL) {
+		pr_err("%s: Slim Open rc %d\n",
+			__func__, rc);
+		rc = -EINVAL;
+		goto fail_slim_open;
+	}
+	rc = wcd9xxx_slim_ch_master_enable_read(wcd9xxx, lab_s->slim_handle);
+	if (rc) {
+		pr_err("%s: Slim enable read rc %d\n",
+			__func__, rc);
+		rc = -EINVAL;
+		goto fail_slim_open;
+	}
+	rc = cpe_svc_toggle_lab(core->cpe_handle, true);
+	if (rc) {
+		pr_err("%s: SVC toggle codec LAB Enable error\n", __func__);
+		rc = -EINVAL;
+		goto fail_slim_open;
+	}
+	init_waitqueue_head(&lab_s->period_wait);
+	WCD_CPE_REL_LOCK(&session->lsm_lock, "lsm");
+	return 0;
+
+fail_slim_open:
+	core->cpe_cdc_cb->lab_cdc_ch_ctl(codec, 0);
+fail_mclk:
+	core->cpe_cdc_cb->cdc_ext_clk(codec, false, false);
+exit:
+	WCD_CPE_REL_LOCK(&session->lsm_lock, "lsm");
+	return rc;
+}
+
+int slim_master_read_status(void *core_handle,
+			    struct cpe_lsm_session *session,
+			    phys_addr_t phys, u32 *len)
+{
+	struct wcd_cpe_core *core = (struct wcd_cpe_core *)core_handle;
+	struct snd_soc_codec *codec;
+	struct wcd9xxx *wcd9xxx;
+	struct wcd_cpe_lsm_lab *lab = &session->lab;
+	int rc = 0;
+
+	codec = core->codec;
+	wcd9xxx = codec->control_data;
+	rc = wcd9xxx_slim_ch_master_status(wcd9xxx, lab->slim_handle,
+					   phys, len);
+	return rc;
+}
+int slim_master_read(void *core_handle,
+		     struct cpe_lsm_session *session,
+		     phys_addr_t phys, u8 *mem,
+		     u32 read_len)
+{
+	struct wcd_cpe_core *core = (struct wcd_cpe_core *)core_handle;
+	struct snd_soc_codec *codec;
+	struct wcd9xxx *wcd9xxx;
+	struct wcd_cpe_lsm_lab *lab = &session->lab;
+	int rc = 0;
+
+	codec = core->codec;
+	wcd9xxx = codec->control_data;
+	rc = wcd9xxx_slim_ch_master_read(wcd9xxx, lab->slim_handle,
+					 phys, mem, read_len);
+	return rc;
+}
+static int wcd_cpe_lsm_stop_lab(void *core_handle,
+				struct cpe_lsm_session *session)
+{
+	struct wcd_cpe_lsm_lab *lab_s = NULL;
+	struct wcd_cpe_core *core = (struct wcd_cpe_core *)core_handle;
+	struct snd_soc_codec *codec;
+	struct wcd9xxx *wcd9xxx;
+	int rc = 0;
+
+	codec = core->codec;
+	wcd9xxx = codec->control_data;
+	lab_s = &session->lab;
+	WCD_CPE_GRAB_LOCK(&session->lsm_lock, "lsm");
+	/* This seqeunce should be followed strictly for closing sequence */
+	if (core->cpe_cdc_cb->lab_cdc_ch_ctl)
+		core->cpe_cdc_cb->lab_cdc_ch_ctl(codec, 0);
+	else
+		pr_err("%s: Failed to disable codec slave port\n",
+			__func__);
+
+	rc = wcd9xxx_slim_ch_master_close(wcd9xxx, &lab_s->slim_handle);
+	if (rc != 0)
+		pr_err("%s: wcd9xxx_slim_pcm_close rc %d\n",
+			__func__, rc);
+
+	rc = wcd_cpe_lsm_eob(core, session);
+	if (rc != 0)
+		dev_err(core->dev,
+			"%s: wcd_cpe_lsm_eob failed, rc %d\n",
+		       __func__, rc);
+
+	rc = cpe_svc_toggle_lab(core->cpe_handle, false);
+	if (rc)
+		dev_err(core->dev,
+			"%s: LAB Voice Tx codec error, rc %d\n",
+			__func__, rc);
+
+	lab_s->buf_idx = 0;
+	lab_s->thread_status = MSM_LSM_LAB_THREAD_STOP;
+	atomic_set(&lab_s->in_count, 0);
+	lab_s->dma_write = 0;
+	if (core->cpe_cdc_cb->cdc_ext_clk)
+		core->cpe_cdc_cb->cdc_ext_clk(codec, false, false);
+	else
+		pr_err("%s: Failed to disable cdc ext clk\n",
+			__func__);
+	WCD_CPE_REL_LOCK(&session->lsm_lock, "lsm");
+	return rc;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /*
@@ -3114,15 +3797,28 @@ int wcd_cpe_get_lsm_ops(struct wcd_cpe_lsm_ops *lsm_ops)
 	lsm_ops->lsm_deregister_snd_model = wcd_cpe_lsm_dereg_snd_model;
 	lsm_ops->lsm_start = wcd_cpe_cmd_lsm_start;
 	lsm_ops->lsm_stop = wcd_cpe_cmd_lsm_stop;
+<<<<<<< HEAD
 	lsm_ops->lsm_lab_control = wcd_cpe_lsm_lab_control;
 	lsm_ops->lab_ch_setup = wcd_cpe_lab_ch_setup;
 	lsm_ops->lsm_set_data = wcd_cpe_lsm_set_data;
 	lsm_ops->lsm_set_fmt_cfg = wcd_cpe_lsm_set_fmt_cfg;
 	lsm_ops->lsm_set_port = wcd_cpe_lsm_set_port;
+=======
+	lsm_ops->lsm_lab_control = wcd_cpe_lsm_control_lab;
+	lsm_ops->lsm_lab_stop = wcd_cpe_lsm_stop_lab;
+	lsm_ops->lsm_lab_data_channel_read = slim_master_read;
+	lsm_ops->lsm_lab_data_channel_read_status = slim_master_read_status;
+	lsm_ops->lsm_lab_data_channel_open = slim_master_read_enable;
+	lsm_ops->lsm_set_data = wcd_cpe_lsm_set_data;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 EXPORT_SYMBOL(wcd_cpe_get_lsm_ops);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int fill_afe_cmd_header(struct cmi_hdr *hdr, u8 port_id,
 				u16 opcode, u8 pld_size,
 				bool obm_flag)
@@ -3167,15 +3863,22 @@ static int wcd_cpe_cmi_send_afe_msg(
 		dev_err(core->dev, "%s: CPE offline\n", __func__);
 		return 0;
 	}
+<<<<<<< HEAD
 
 	if (CMI_HDR_GET_OBM_FLAG(hdr))
 		wcd_cpe_bus_vote_max_bw(core, true);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ret = cmi_send_msg(message);
 	if (ret) {
 		pr_err("%s: cmd 0x%x send failed, err = %d\n",
 			__func__, hdr->opcode, ret);
+<<<<<<< HEAD
 		goto rel_bus_vote;
+=======
+		return ret;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	ret = wait_for_completion_timeout(&port_d->afe_cmd_complete,
@@ -3183,6 +3886,7 @@ static int wcd_cpe_cmi_send_afe_msg(
 	if (ret > 0) {
 		pr_debug("%s: command 0x%x, received response 0x%x\n",
 			 __func__, hdr->opcode, port_d->cmd_result);
+<<<<<<< HEAD
 		ret = port_d->cmd_result;
 		goto rel_bus_vote;
 	} else {
@@ -3198,6 +3902,16 @@ rel_bus_vote:
 	if (CMI_HDR_GET_OBM_FLAG(hdr))
 		wcd_cpe_bus_vote_max_bw(core, false);
 
+=======
+		return port_d->cmd_result;
+	} else {
+		pr_err("%s: command 0x%x send timed out\n",
+			__func__, hdr->opcode);
+		return -ETIMEDOUT;
+	}
+
+	INIT_COMPLETION(port_d->afe_cmd_complete);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return ret;
 }
 
@@ -3320,6 +4034,7 @@ static int wcd_cpe_send_afe_cal(void *core_handle,
 		goto rel_cal_mutex;
 	}
 
+<<<<<<< HEAD
 	if (afe_cal->cal_data.size == 0) {
 		dev_dbg(core->dev, "%s: No AFE cal to send\n",
 			__func__);
@@ -3327,6 +4042,8 @@ static int wcd_cpe_send_afe_cal(void *core_handle,
 		goto rel_cal_mutex;
 	}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	is_obm_msg = (afe_cal->cal_data.size >
 		      CMI_INBAND_MESSAGE_SIZE) ? true : false;
 
@@ -3445,6 +4162,7 @@ static int wcd_cpe_is_valid_port(struct wcd_cpe_core *core,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int wcd_cpe_afe_svc_cmd_mode(void *core_handle,
 				    u8 mode)
 {
@@ -3527,6 +4245,8 @@ done:
 	return ret;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * wcd_cpe_afe_set_params: set the parameters for afe port
  * @afe_cfg: configuration data for the port for which the
@@ -3756,7 +4476,10 @@ int wcd_cpe_get_afe_ops(struct wcd_cpe_afe_ops *afe_ops)
 	afe_ops->afe_port_stop = wcd_cpe_afe_port_stop;
 	afe_ops->afe_port_suspend = wcd_cpe_afe_port_suspend;
 	afe_ops->afe_port_resume = wcd_cpe_afe_port_resume;
+<<<<<<< HEAD
 	afe_ops->afe_port_cmd_cfg = wcd_cpe_afe_cmd_port_cfg;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return 0;
 }

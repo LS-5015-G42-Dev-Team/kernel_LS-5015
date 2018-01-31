@@ -10,7 +10,11 @@ Construction Parameters
     <version> <dev> <hash_dev>
     <data_block_size> <hash_block_size>
     <num_data_blocks> <hash_start_block>
+<<<<<<< HEAD
     <algorithm> <digest> <salt> <mode>
+=======
+    <algorithm> <digest> <salt>
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 <version>
     This is the type of the on-disk hash format.
@@ -62,6 +66,7 @@ Construction Parameters
 <salt>
     The hexadecimal encoding of the salt value.
 
+<<<<<<< HEAD
 <mode>
     Optional. The mode of operation.
 
@@ -72,6 +77,8 @@ Construction Parameters
       notify user space.
 
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 Theory of operation
 ===================
 

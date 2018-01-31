@@ -18,25 +18,35 @@
 
 #include <linux/module.h>
 #include <linux/device-mapper.h>
+<<<<<<< HEAD
 #include <linux/reboot.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <crypto/hash.h>
 
 #define DM_MSG_PREFIX			"verity"
 
+<<<<<<< HEAD
 #define DM_VERITY_ENV_LENGTH		42
 #define DM_VERITY_ENV_VAR_NAME		"VERITY_ERR_BLOCK_NR"
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define DM_VERITY_IO_VEC_INLINE		16
 #define DM_VERITY_MEMPOOL_SIZE		4
 #define DM_VERITY_DEFAULT_PREFETCH_SIZE	262144
 
 #define DM_VERITY_MAX_LEVELS		63
+<<<<<<< HEAD
 #define DM_VERITY_MAX_CORRUPTED_ERRS	100
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 static unsigned dm_verity_prefetch_cluster = DM_VERITY_DEFAULT_PREFETCH_SIZE;
 
 module_param_named(prefetch_cluster, dm_verity_prefetch_cluster, uint, S_IRUGO | S_IWUSR);
 
+<<<<<<< HEAD
 enum verity_mode {
 	DM_VERITY_MODE_EIO = 0,
 	DM_VERITY_MODE_LOGGING = 1,
@@ -48,6 +58,8 @@ enum verity_block_type {
 	DM_VERITY_BLOCK_TYPE_METADATA
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct dm_verity {
 	struct dm_dev *data_dev;
 	struct dm_dev *hash_dev;
@@ -70,8 +82,11 @@ struct dm_verity {
 	unsigned digest_size;	/* digest size for the current hash algorithm */
 	unsigned shash_descsize;/* the size of temporary space for crypto */
 	int hash_failed;	/* set to 1 if hash of any block failed */
+<<<<<<< HEAD
 	enum verity_mode mode;	/* mode for handling verification errors */
 	unsigned corrupted_errs;/* Number of errors for corrupted blocks */
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	mempool_t *vec_mempool;	/* mempool of bio vector */
 
@@ -198,6 +213,7 @@ static void verity_hash_at_level(struct dm_verity *v, sector_t block, int level,
 }
 
 /*
+<<<<<<< HEAD
  * Handle verification errors.
  */
 static int verity_handle_err(struct dm_verity *v, enum verity_block_type type,
@@ -246,6 +262,8 @@ out:
 }
 
 /*
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * Verify hash of a metadata block pertaining to the specified data block
  * ("block" argument) at a specified level ("level" argument).
  *
@@ -322,6 +340,7 @@ static int verity_verify_level(struct dm_verity_io *io, sector_t block,
 			goto release_ret_r;
 		}
 		if (unlikely(memcmp(result, io_want_digest(v, io), v->digest_size))) {
+<<<<<<< HEAD
 			v->hash_failed = 1;
 
 			if (verity_handle_err(v, DM_VERITY_BLOCK_TYPE_METADATA,
@@ -329,6 +348,13 @@ static int verity_verify_level(struct dm_verity_io *io, sector_t block,
 				r = -EIO;
 				goto release_ret_r;
 			}
+=======
+			DMERR_LIMIT("metadata block %llu is corrupted",
+				(unsigned long long)hash_block);
+			v->hash_failed = 1;
+			r = -EIO;
+			goto release_ret_r;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		} else
 			aux->hash_verified = 1;
 	}
@@ -445,11 +471,18 @@ test_block_hash:
 			return r;
 		}
 		if (unlikely(memcmp(result, io_want_digest(v, io), v->digest_size))) {
+<<<<<<< HEAD
 			v->hash_failed = 1;
 
 			if (verity_handle_err(v, DM_VERITY_BLOCK_TYPE_DATA,
 					      io->block + b))
 				return -EIO;
+=======
+			DMERR_LIMIT("data block %llu is corrupted",
+				(unsigned long long)(io->block + b));
+			v->hash_failed = 1;
+			return -EIO;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 	}
 	BUG_ON(vector != io->io_vec_size);
@@ -758,8 +791,13 @@ static int verity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 		goto bad;
 	}
 
+<<<<<<< HEAD
 	if (argc < 10 || argc > 11) {
 		ti->error = "Invalid argument count: 10-11 arguments required";
+=======
+	if (argc != 10) {
+		ti->error = "Invalid argument count: exactly 10 arguments required";
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		r = -EINVAL;
 		goto bad;
 	}
@@ -880,6 +918,7 @@ static int verity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 		}
 	}
 
+<<<<<<< HEAD
 	if (argc > 10) {
 		if (sscanf(argv[10], "%d%c", &num, &dummy) != 1 ||
 			num < DM_VERITY_MODE_EIO ||
@@ -891,6 +930,8 @@ static int verity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 		v->mode = num;
 	}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	v->hash_per_block_bits =
 		fls((1 << v->hash_dev_block_bits) / v->digest_size) - 1;
 

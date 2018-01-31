@@ -6036,11 +6036,19 @@ static int dev_cpu_callback(struct notifier_block *nfb,
 
 	/* Process offline CPU's input_pkt_queue */
 	while ((skb = __skb_dequeue(&oldsd->process_queue))) {
+<<<<<<< HEAD
 		kfree_skb(skb);
 		input_queue_head_incr(oldsd);
 	}
 	while ((skb = skb_dequeue(&oldsd->input_pkt_queue))) {
 		kfree_skb(skb);
+=======
+		netif_rx(skb);
+		input_queue_head_incr(oldsd);
+	}
+	while ((skb = skb_dequeue(&oldsd->input_pkt_queue))) {
+		netif_rx(skb);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		input_queue_head_incr(oldsd);
 	}
 

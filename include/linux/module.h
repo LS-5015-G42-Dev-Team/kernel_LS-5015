@@ -220,6 +220,7 @@ struct module_ref {
 	unsigned long decs;
 } __attribute((aligned(2 * sizeof(unsigned long))));
 
+<<<<<<< HEAD
 struct mod_kallsyms {
 	Elf_Sym *symtab;
 	unsigned int num_symtab;
@@ -227,6 +228,10 @@ struct mod_kallsyms {
 };
 
 struct module {
+=======
+struct module
+{
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	enum module_state state;
 
 	/* Member of list of modules */
@@ -313,9 +318,20 @@ struct module {
 #endif
 
 #ifdef CONFIG_KALLSYMS
+<<<<<<< HEAD
 	/* Protected by RCU and/or module_mutex: use rcu_dereference() */
 	struct mod_kallsyms *kallsyms;
 	struct mod_kallsyms core_kallsyms;
+=======
+	/*
+	 * We keep the symbol and string tables for kallsyms.
+	 * The core_* fields below are temporary, loader-only (they
+	 * could really be discarded after module init).
+	 */
+	Elf_Sym *symtab, *core_symtab;
+	unsigned int num_symtab, core_num_syms;
+	char *strtab, *core_strtab;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Section attributes */
 	struct module_sect_attrs *sect_attrs;

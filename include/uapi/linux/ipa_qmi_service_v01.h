@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -44,8 +48,11 @@
 #define QMI_IPA_IPFLTR_NUM_IHL_MEQ_32_EQNS_V01 2
 #define QMI_IPA_IPFLTR_NUM_MEQ_128_EQNS_V01 2
 #define QMI_IPA_MAX_FILTERS_V01 64
+<<<<<<< HEAD
 #define QMI_IPA_MAX_PIPES_V01 20
 #define QMI_IPA_MAX_APN_V01 8
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define IPA_INT_MAX	((int)(~0U>>1))
 #define IPA_INT_MIN	(-IPA_INT_MAX - 1)
@@ -138,6 +145,7 @@ struct ipa_modem_mem_info_type_v01 {
 	/*	Size of the block allocated for the modem driver */
 };  /* Type */
 
+<<<<<<< HEAD
 struct ipa_hdr_proc_ctx_tbl_info_type_v01 {
 
 	uint32_t modem_offset_start;
@@ -168,6 +176,8 @@ struct ipa_zip_tbl_info_type_v01 {
 	 */
 };  /* Type */
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /** Request Message; Requests the modem IPA driver to perform initializtion */
 struct ipa_init_modem_driver_req_msg_v01 {
 
@@ -250,6 +260,7 @@ struct ipa_init_modem_driver_req_msg_v01 {
 	 *	initialization.
 	 */
 
+<<<<<<< HEAD
 	/* Optional */
 	/*  Header Processing Context Table Information */
 	uint8_t hdr_proc_ctx_tbl_info_valid;
@@ -265,6 +276,8 @@ struct ipa_init_modem_driver_req_msg_v01 {
 	struct ipa_zip_tbl_info_type_v01 zip_tbl_info;
 	/* Provides information about the header processing context table.
 	*/
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };  /* Message */
 
 /* Response Message; Requests the modem IPA driver about initializtion */
@@ -316,6 +329,7 @@ struct ipa_indication_reg_req_msg_v01 {
 	 *	only when the QMI_IPA_INDICATION_REGISTER_REQ is being
 	 *	originated from the modem driver
 	 */
+<<<<<<< HEAD
 
 	/* Optional */
 	/*  Data Usage Quota Reached */
@@ -329,6 +343,8 @@ struct ipa_indication_reg_req_msg_v01 {
 	 *  QMI_IPA_INDICATION_REGISTER_REQ is being originated from the Master
 	 *  driver
 	 */
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };  /* Message */
 
 
@@ -634,6 +650,7 @@ struct ipa_install_fltr_rule_req_msg_v01 {
 	 *	this rule on all the pipes that it controls through
 	 *	which data may be fed into IPA.
 	 */
+<<<<<<< HEAD
 
 	/* Optional */
 	/*  Total number of IPv4 filters in the filter spec list */
@@ -662,6 +679,8 @@ struct ipa_install_fltr_rule_req_msg_v01 {
 	 * will need to be modified by the receiver if the PDN is XLAT
 	 * before installing them on the associated IPA consumer pipe.
 	 */
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };  /* Message */
 
 struct ipa_filter_rule_identifier_to_handle_map_v01 {
@@ -782,6 +801,7 @@ struct ipa_fltr_installed_notif_req_msg_v01 {
 	/**< Must be set to true if embedded_call_mux_id is being passed */
 	uint32_t embedded_call_mux_id;
 	/*	This identifies one of the many calls that have been originated
+<<<<<<< HEAD
 	 *	on the embedded pipe. This is how we identify the PDN gateway
 	 *	to which traffic from the source pipe has to flow.
 	 */
@@ -813,6 +833,12 @@ struct ipa_fltr_installed_notif_req_msg_v01 {
 	/* Must be set to true if start_ipv6_filter_idx is being passed */
 	uint32_t start_ipv6_filter_idx;
 	/* Start index of IPv6 rules in filter index list */
+=======
+	 *	on the embedded pipe. This is how we identify the PDN gateway to
+	 *	which traffic from the source pipe has to flow.
+	 */
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };  /* Message */
 
 /* Response Message; This is the message that is exchanged between the control
@@ -823,6 +849,7 @@ struct ipa_fltr_installed_notif_resp_msg_v01 {
 	/* Mandatory */
 	/*  Result Code */
 	struct ipa_qmi_response_type_v01 resp;
+<<<<<<< HEAD
 	/*	Standard response type */
 };  /* Message */
 
@@ -892,6 +919,9 @@ struct ipa_disable_force_clear_datapath_resp_msg_v01 {
 	/*  Result Code */
 	struct ipa_qmi_response_type_v01 resp;
 	/* Standard response type */
+=======
+	/*	Standard response type.*/
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };  /* Message */
 
 enum ipa_peripheral_speed_enum_v01 {
@@ -903,8 +933,11 @@ enum ipa_peripheral_speed_enum_v01 {
 	/*  High-speed USB connection */
 	QMI_IPA_PER_USB_SS_V01 = 3,
 	/*  Super-speed USB connection */
+<<<<<<< HEAD
 	QMI_IPA_PER_WLAN_V01 = 4,
 	/*  WLAN connection */
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	IPA_PERIPHERAL_SPEED_ENUM_MAX_ENUM_VAL_V01 = 2147483647
 	/* To force a 32 bit signed enum.  Do not change or use*/
 };
@@ -990,7 +1023,10 @@ struct ipa_config_req_msg_v01 {
 	 *	- QMI_IPA_PER_USB_FS (1) --  Full-speed USB connection
 	 *	- QMI_IPA_PER_USB_HS (2) --  High-speed USB connection
 	 *	- QMI_IPA_PER_USB_SS (3) --  Super-speed USB connection
+<<<<<<< HEAD
 	 *  - QMI_IPA_PER_WLAN   (4) --  WLAN connection
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	 */
 
 	/* Optional */
@@ -1098,6 +1134,7 @@ struct ipa_config_resp_msg_v01 {
 	/**<   Standard response type.*/
 }; /* Message */
 
+<<<<<<< HEAD
 enum ipa_stats_type_enum_v01 {
 	IPA_STATS_TYPE_ENUM_MIN_ENUM_VAL_V01 = -2147483647,
 	/* To force a 32 bit signed enum.  Do not change or use */
@@ -1336,6 +1373,8 @@ struct ipa_stop_data_usage_quota_resp_msg_v01 {
 	/**<   Standard response type.*/
 };  /* Message */
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*Service Message Definition*/
 #define QMI_IPA_INDICATION_REGISTER_REQ_V01 0x0020
 #define QMI_IPA_INDICATION_REGISTER_RESP_V01 0x0020
@@ -1346,6 +1385,7 @@ struct ipa_stop_data_usage_quota_resp_msg_v01 {
 #define QMI_IPA_INSTALL_FILTER_RULE_RESP_V01 0x0023
 #define QMI_IPA_FILTER_INSTALLED_NOTIF_REQ_V01 0x0024
 #define QMI_IPA_FILTER_INSTALLED_NOTIF_RESP_V01 0x0024
+<<<<<<< HEAD
 #define QMI_IPA_ENABLE_FORCE_CLEAR_DATAPATH_REQ_V01 0x0025
 #define QMI_IPA_ENABLE_FORCE_CLEAR_DATAPATH_RESP_V01 0x0025
 #define QMI_IPA_DISABLE_FORCE_CLEAR_DATAPATH_REQ_V01 0x0026
@@ -1399,6 +1439,24 @@ struct ipa_stop_data_usage_quota_resp_msg_v01 {
 #define QMI_IPA_STOP_DATA_USAGE_QUOTA_REQ_MAX_MSG_LEN_V01 0
 #define QMI_IPA_STOP_DATA_USAGE_QUOTA_RESP_MAX_MSG_LEN_V01 7
 
+=======
+#define QMI_IPA_CONFIG_REQ_V01 0x0027
+#define QMI_IPA_CONFIG_RESP_V01 0x0027
+
+/* add for max length*/
+#define QMI_IPA_INIT_MODEM_DRIVER_REQ_MAX_MSG_LEN_V01 76
+#define QMI_IPA_INIT_MODEM_DRIVER_RESP_MAX_MSG_LEN_V01 21
+#define QMI_IPA_INDICATION_REGISTER_REQ_MAX_MSG_LEN_V01 4
+#define QMI_IPA_INDICATION_REGISTER_RESP_MAX_MSG_LEN_V01 7
+#define QMI_IPA_INSTALL_FILTER_RULE_REQ_MAX_MSG_LEN_V01 11019
+#define QMI_IPA_INSTALL_FILTER_RULE_RESP_MAX_MSG_LEN_V01 523
+#define QMI_IPA_FILTER_INSTALLED_NOTIF_REQ_MAX_MSG_LEN_V01 546
+#define QMI_IPA_FILTER_INSTALLED_NOTIF_RESP_MAX_MSG_LEN_V01 7
+#define QMI_IPA_MASTER_DRIVER_INIT_COMPLETE_IND_MAX_MSG_LEN_V01 7
+
+#define QMI_IPA_CONFIG_REQ_MAX_MSG_LEN_V01 81
+#define QMI_IPA_CONFIG_RESP_MAX_MSG_LEN_V01 7
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /* Service Object Accessor */
 
 #endif/* IPA_QMI_SERVICE_V01_H */

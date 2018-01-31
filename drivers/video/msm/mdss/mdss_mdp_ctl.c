@@ -153,6 +153,10 @@ static inline u32 mdss_mdp_align_latency_buf_bytes(
  * @ mdss_mdp_calc_latency_buf_bytes() -
  *                             Get the number of bytes for the
  *                             latency lines.
+<<<<<<< HEAD
+=======
+ * @is_yuv - true if format is yuv
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * @is_bwc - true if BWC is enabled
  * @is_tile - true if it is Tile format
  * @src_w - source rectangle width
@@ -174,13 +178,18 @@ static inline u32 mdss_mdp_align_latency_buf_bytes(
  *		for the latency lines without any
  *		extra bytes.
  */
+<<<<<<< HEAD
 u32 mdss_mdp_calc_latency_buf_bytes(bool is_bwc,
+=======
+u32 mdss_mdp_calc_latency_buf_bytes(bool is_yuv, bool is_bwc,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	bool is_tile, u32 src_w, u32 bpp, bool use_latency_buf_percentage,
 	u32 smp_bytes)
 {
 	u32 latency_lines, latency_buf_bytes;
 	struct mdss_data_type *mdata = mdss_mdp_get_mdata();
 
+<<<<<<< HEAD
 
 	if (is_bwc) {
 		latency_lines = 4;
@@ -196,6 +205,37 @@ u32 mdss_mdp_calc_latency_buf_bytes(bool is_bwc,
 			src_w * bpp * latency_lines,
 			use_latency_buf_percentage ?
 			mdata->latency_buff_per : 0, smp_bytes);
+=======
+	if (is_yuv) {
+		if (is_bwc) {
+			latency_lines = 4;
+			latency_buf_bytes = src_w * bpp *
+				latency_lines;
+		} else {
+			latency_lines = 2;
+			/* multiply * 2 for the two YUV planes */
+			latency_buf_bytes = mdss_mdp_align_latency_buf_bytes(
+				src_w * bpp * latency_lines,
+				use_latency_buf_percentage ?
+				mdata->latency_buff_per : 0, smp_bytes) * 2;
+		}
+	} else {
+		if (is_tile) {
+			latency_lines = 8;
+			latency_buf_bytes = src_w * bpp *
+				latency_lines;
+		} else if (is_bwc) {
+			latency_lines = 4;
+			latency_buf_bytes = src_w * bpp *
+				latency_lines;
+		} else {
+			latency_lines = 2;
+			latency_buf_bytes = mdss_mdp_align_latency_buf_bytes(
+				src_w * bpp * latency_lines,
+				use_latency_buf_percentage ?
+				mdata->latency_buff_per : 0, smp_bytes);
+		}
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	return latency_buf_bytes;
@@ -227,8 +267,13 @@ static u32 mdss_mdp_perf_calc_pipe_prefill_video(struct mdss_mdp_prefill_params
 
 	prefill_bytes = prefill->ot_bytes;
 
+<<<<<<< HEAD
 	latency_buf_bytes = mdss_mdp_calc_latency_buf_bytes(params->is_bwc,
 		params->is_tile, params->src_w, params->bpp,
+=======
+	latency_buf_bytes = mdss_mdp_calc_latency_buf_bytes(params->is_yuv,
+		params->is_bwc, params->is_tile, params->src_w, params->bpp,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		true, params->smp_bytes);
 	prefill_bytes += latency_buf_bytes;
 	pr_debug("latency_buf_bytes bw_calc=%d actual=%d\n", latency_buf_bytes,
@@ -313,8 +358,13 @@ static u32 mdss_mdp_perf_calc_pipe_prefill_cmd(struct mdss_mdp_prefill_params
 		prefill_bytes += ot_bytes;
 
 		latency_buf_bytes = mdss_mdp_calc_latency_buf_bytes(
+<<<<<<< HEAD
 			params->is_bwc, params->is_tile, params->src_w,
 			params->bpp, true, params->smp_bytes);
+=======
+			params->is_yuv, params->is_bwc, params->is_tile,
+			params->src_w, params->bpp, true, params->smp_bytes);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		prefill_bytes += latency_buf_bytes;
 
 		if (params->is_yuv)
@@ -384,7 +434,11 @@ u32 mdss_mdp_perf_calc_smp_size(struct mdss_mdp_pipe *pipe,
 		return 0;
 
 	/* Get allocated or fixed smp bytes */
+<<<<<<< HEAD
 	smp_bytes = mdss_mdp_smp_get_size(pipe, MAX_PLANES);
+=======
+	smp_bytes = mdss_mdp_smp_get_size(pipe);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/*
 	 * We need to calculate the SMP size for scenarios where
@@ -515,7 +569,11 @@ int mdss_mdp_perf_calc_pipe(struct mdss_mdp_pipe *pipe,
 	 * no need to account for these lines in MDP clock or request bus
 	 * bandwidth to fetch them.
 	 */
+<<<<<<< HEAD
 	src_h = DECIMATED_DIMENSION(src.h, pipe->vert_deci);
+=======
+	src_h = src.h >> pipe->vert_deci;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	quota = fps * src.w * src_h;
 
@@ -669,6 +727,7 @@ static void mdss_mdp_perf_calc_mixer(struct mdss_mdp_mixer *mixer,
 		perf->mdp_clk_rate =
 			mdss_mdp_clk_fudge_factor(mixer, perf->mdp_clk_rate);
 
+<<<<<<< HEAD
 		if (!pinfo) {	/* perf for bus writeback */
 			perf->bw_overlap =
 				fps * mixer->width * mixer->height * 3;
@@ -682,6 +741,15 @@ static void mdss_mdp_perf_calc_mixer(struct mdss_mdp_mixer *mixer,
 			if (dsi_transfer_rate > perf->mdp_clk_rate)
 				perf->mdp_clk_rate = dsi_transfer_rate;
 		}
+=======
+		if (!pinfo)	/* perf for bus writeback */
+			perf->bw_overlap =
+				fps * mixer->width * mixer->height * 3;
+		/* for command mode, run as fast as the link allows us */
+		else if ((pinfo->type == MIPI_CMD_PANEL) &&
+			 (pinfo->mipi.dsi_pclk_rate > perf->mdp_clk_rate))
+			perf->mdp_clk_rate = pinfo->mipi.dsi_pclk_rate;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	/*
@@ -2461,12 +2529,19 @@ int mdss_mdp_ctl_stop(struct mdss_mdp_ctl *ctl, int power_state)
 		mdss_mdp_ctl_write(ctl, off, 0);
 	}
 
+<<<<<<< HEAD
+=======
+	ctl->power_state = power_state;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ctl->play_cnt = 0;
 	mdss_mdp_ctl_perf_update(ctl, 0);
 
 end:
+<<<<<<< HEAD
 	if (!ret)
 		ctl->power_state = power_state;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF);
 
 	mutex_unlock(&ctl->lock);

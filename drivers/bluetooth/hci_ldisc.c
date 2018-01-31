@@ -200,7 +200,11 @@ int hci_uart_init_ready(struct hci_uart *hu)
 /* Initialize device */
 static int hci_uart_open(struct hci_dev *hdev)
 {
+<<<<<<< HEAD
 	BT_DBG("%s %pK", hdev->name, hdev);
+=======
+	BT_DBG("%s %p", hdev->name, hdev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Nothing to do for UART driver */
 
@@ -215,7 +219,11 @@ static int hci_uart_flush(struct hci_dev *hdev)
 	struct hci_uart *hu  = hci_get_drvdata(hdev);
 	struct tty_struct *tty = hu->tty;
 
+<<<<<<< HEAD
 	BT_DBG("hdev %pK tty %pK", hdev, tty);
+=======
+	BT_DBG("hdev %p tty %p", hdev, tty);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (hu->tx_skb) {
 		kfree_skb(hu->tx_skb); hu->tx_skb = NULL;
@@ -234,7 +242,11 @@ static int hci_uart_flush(struct hci_dev *hdev)
 /* Close device */
 static int hci_uart_close(struct hci_dev *hdev)
 {
+<<<<<<< HEAD
 	BT_DBG("hdev %pK", hdev);
+=======
+	BT_DBG("hdev %p", hdev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!test_and_clear_bit(HCI_RUNNING, &hdev->flags))
 		return 0;
@@ -283,7 +295,11 @@ static int hci_uart_tty_open(struct tty_struct *tty)
 {
 	struct hci_uart *hu;
 
+<<<<<<< HEAD
 	BT_DBG("tty %pK", tty);
+=======
+	BT_DBG("tty %p", tty);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Error if the tty has no write op instead of leaving an exploitable
 	   hole */
@@ -326,7 +342,11 @@ static void hci_uart_tty_close(struct tty_struct *tty)
 	struct hci_uart *hu = (void *)tty->disc_data;
 	struct hci_dev *hdev;
 
+<<<<<<< HEAD
 	BT_DBG("tty %pK", tty);
+=======
+	BT_DBG("tty %p", tty);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Detach from the tty */
 	tty->disc_data = NULL;
@@ -338,11 +358,19 @@ static void hci_uart_tty_close(struct tty_struct *tty)
 	if (hdev)
 		hci_uart_close(hdev);
 
+<<<<<<< HEAD
+=======
+	cancel_work_sync(&hu->write_work);
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (test_and_clear_bit(HCI_UART_PROTO_SET, &hu->flags)) {
 		if (hdev) {
 			if (test_bit(HCI_UART_REGISTERED, &hu->flags))
 				hci_unregister_dev(hdev);
+<<<<<<< HEAD
 			cancel_work_sync(&hu->write_work);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			hci_free_dev(hdev);
 		}
 		hu->proto->close(hu);

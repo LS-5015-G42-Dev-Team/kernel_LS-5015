@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2014, 2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -20,17 +24,26 @@
 #include "wcdcal-hwdep.h"
 
 const int cal_size_info[WCD9XXX_MAX_CAL] = {
+<<<<<<< HEAD
 	[WCD9XXX_ANC_CAL] = 16384,
 	[WCD9XXX_MBHC_CAL] = 4096,
 	[WCD9XXX_MAD_CAL] = 4096,
 	[WCD9XXX_VBAT_CAL] = 72,
+=======
+	[WCD9XXX_ANC_CAL] = 8192,
+	[WCD9XXX_MBHC_CAL] = 4096,
+	[WCD9XXX_MAD_CAL] = 4096,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 const char *cal_name_info[WCD9XXX_MAX_CAL] = {
 	[WCD9XXX_ANC_CAL] = "anc",
 	[WCD9XXX_MBHC_CAL] = "mbhc",
 	[WCD9XXX_MAD_CAL] = "mad",
+<<<<<<< HEAD
 	[WCD9XXX_VBAT_CAL] = "vbat",
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct firmware_cal *wcdcal_get_fw_cal(struct fw_info *fw_data,
@@ -84,8 +97,12 @@ static int wcdcal_hwdep_ioctl_shared(struct snd_hwdep *hw,
 		return -EFAULT;
 	}
 	data = fw[fw_user.cal_type]->data;
+<<<<<<< HEAD
 	if (copy_from_user(data, fw_user.buffer, fw_user.size))
 		return -EFAULT;
+=======
+	memcpy(data, fw_user.buffer, fw_user.size);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	fw[fw_user.cal_type]->size = fw_user.size;
 	mutex_lock(&fw_data->lock);
 	set_bit(WCDCAL_RECIEVED, &fw_data->wcdcal_state[fw_user.cal_type]);

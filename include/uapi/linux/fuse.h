@@ -93,11 +93,14 @@
  *
  * 7.22
  *  - add FUSE_ASYNC_DIO
+<<<<<<< HEAD
  *
  * 7.23
  *  - add FUSE_WRITEBACK_CACHE
  *  - add time_gran to fuse_init_out
  *  - add reserved space to fuse_init_out
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  */
 
 #ifndef _LINUX_FUSE_H
@@ -133,7 +136,11 @@
 #define FUSE_KERNEL_VERSION 7
 
 /** Minor version number of this interface */
+<<<<<<< HEAD
 #define FUSE_KERNEL_MINOR_VERSION 23
+=======
+#define FUSE_KERNEL_MINOR_VERSION 22
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /** The node ID of the root inode */
 #define FUSE_ROOT_ID 1
@@ -224,7 +231,10 @@ struct fuse_file_lock {
  * FUSE_DO_READDIRPLUS: do READDIRPLUS (READDIR+LOOKUP in one)
  * FUSE_READDIRPLUS_AUTO: adaptive readdirplus
  * FUSE_ASYNC_DIO: asynchronous direct I/O submission
+<<<<<<< HEAD
  * FUSE_WRITEBACK_CACHE: use writeback cache for buffered writes
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  */
 #define FUSE_ASYNC_READ		(1 << 0)
 #define FUSE_POSIX_LOCKS	(1 << 1)
@@ -242,7 +252,10 @@ struct fuse_file_lock {
 #define FUSE_DO_READDIRPLUS	(1 << 13)
 #define FUSE_READDIRPLUS_AUTO	(1 << 14)
 #define FUSE_ASYNC_DIO		(1 << 15)
+<<<<<<< HEAD
 #define FUSE_WRITEBACK_CACHE	(1 << 16)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /**
  * CUSE INIT request/reply flags
@@ -561,9 +574,12 @@ struct fuse_init_in {
 	uint32_t	flags;
 };
 
+<<<<<<< HEAD
 #define FUSE_COMPAT_INIT_OUT_SIZE 8
 #define FUSE_COMPAT_22_INIT_OUT_SIZE 24
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct fuse_init_out {
 	uint32_t	major;
 	uint32_t	minor;
@@ -572,8 +588,11 @@ struct fuse_init_out {
 	uint16_t	max_background;
 	uint16_t	congestion_threshold;
 	uint32_t	max_write;
+<<<<<<< HEAD
 	uint32_t	time_gran;
 	uint32_t	unused[9];
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 #define CUSE_INIT_INFO_MAX 4096

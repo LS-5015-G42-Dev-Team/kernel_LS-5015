@@ -18,6 +18,7 @@ config SECURITY_DMESG_RESTRICT
 
 	  If you are unsure how to answer this question, answer N.
 
+<<<<<<< HEAD
 config SECURITY_PERF_EVENTS_RESTRICT
 	bool "Restrict unprivileged use of performance events"
 	depends on PERF_EVENTS
@@ -27,6 +28,8 @@ config SECURITY_PERF_EVENTS_RESTRICT
 	  perf_event_open syscall will be permitted unless it is
 	  changed.
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 config SECURITY
 	bool "Enable different security models"
 	depends on SYSFS

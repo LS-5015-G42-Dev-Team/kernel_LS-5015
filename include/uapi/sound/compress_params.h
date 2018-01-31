@@ -92,9 +92,13 @@
 #define SND_AUDIOCODEC_WMA_PRO               ((__u32) 0x00000016)
 #define SND_AUDIOCODEC_DTS             	     ((__u32) 0x00000017)
 #define SND_AUDIOCODEC_EAC3                  ((__u32) 0x00000018)
+<<<<<<< HEAD
 #define SND_AUDIOCODEC_ALAC                  ((__u32) 0x00000019)
 #define SND_AUDIOCODEC_APE                   ((__u32) 0x00000020)
 #define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_APE
+=======
+#define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_EAC3
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * Profile and modes are listed with bit masks. This allows for a
  * more compact representation of fields that will not evolve
@@ -264,7 +268,10 @@ struct snd_enc_wma {
 	__u32 encodeopt;
 	__u32 encodeopt1;
 	__u32 encodeopt2;
+<<<<<<< HEAD
 	__u32 avg_bit_rate;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 
@@ -352,6 +359,7 @@ struct snd_dec_flac {
 	__u16 min_frame_size;
 	__u16 max_frame_size;
 };
+<<<<<<< HEAD
 
 struct snd_dec_vorbis {
 	__u32 bit_stream_fmt;
@@ -385,6 +393,8 @@ struct snd_dec_ape {
 	__u32 seek_table_present;
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 union snd_codec_options {
 	struct snd_enc_wma wma;
 	struct snd_enc_vorbis vorbis;
@@ -393,9 +403,12 @@ union snd_codec_options {
 	struct snd_enc_generic generic;
 	struct snd_dec_ddp ddp;
 	struct snd_dec_flac flac_dec;
+<<<<<<< HEAD
 	struct snd_dec_vorbis vorbis_dec;
 	struct snd_dec_alac alac;
 	struct snd_dec_ape ape;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 /** struct snd_codec_desc - description of codec capabilities

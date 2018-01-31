@@ -583,6 +583,7 @@ void pm_qos_remove_request(struct pm_qos_request *req)
 
 	cancel_delayed_work_sync(&req->work);
 
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
 	if (req->type == PM_QOS_REQ_AFFINE_IRQ) {
 		int ret = 0;
@@ -593,6 +594,8 @@ void pm_qos_remove_request(struct pm_qos_request *req)
 	}
 #endif
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pm_qos_update_target(pm_qos_array[req->pm_qos_class]->constraints,
 			     req, PM_QOS_REMOVE_REQ,
 			     PM_QOS_DEFAULT_VALUE);

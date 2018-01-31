@@ -726,6 +726,7 @@ int32_t ov5645_sensor_config(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
+<<<<<<< HEAD
 		if (!conf_array.size ||
 			conf_array.size > I2C_REG_DATA_MAX) {
 
@@ -734,6 +735,8 @@ int32_t ov5645_sensor_config(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		reg_setting = kzalloc(conf_array.size *
 			(sizeof(struct msm_camera_i2c_reg_array)), GFP_KERNEL);
 		if (!reg_setting) {
@@ -1015,6 +1018,7 @@ int32_t ov5645_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 		conf_array.reg_setting = compat_ptr(conf_array32.reg_setting);
 		conf_array.qup_i2c_batch = conf_array32.qup_i2c_batch;
 
+<<<<<<< HEAD
 		if (!conf_array.size ||
 			conf_array.size > I2C_REG_DATA_MAX) {
 
@@ -1023,6 +1027,8 @@ int32_t ov5645_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		reg_setting = kzalloc(conf_array.size *
 			(sizeof(struct msm_camera_i2c_reg_array)), GFP_KERNEL);
 		if (!reg_setting) {

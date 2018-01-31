@@ -897,7 +897,11 @@ static int unix_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
 	atomic_set(&addr->refcnt, 1);
 
 	if (sun_path[0]) {
+<<<<<<< HEAD
 		struct path path = {0};
+=======
+		struct path path;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		umode_t mode = S_IFSOCK |
 		       (SOCK_INODE(sock)->i_mode & ~current_umask());
 		err = unix_mknod(sun_path, mode, &path);

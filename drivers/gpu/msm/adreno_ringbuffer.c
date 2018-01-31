@@ -235,16 +235,26 @@ static int _load_firmware(struct kgsl_device *device, const char *fwfile,
 	return (*data != NULL) ? 0 : -ENOMEM;
 }
 
+<<<<<<< HEAD
 int adreno_ringbuffer_read_pm4_ucode(struct kgsl_device *device)
 {
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 	int ret;
+=======
+void adreno_ringbuffer_read_pm4_ucode(struct kgsl_device *device)
+{
+	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (adreno_dev->pm4_fw == NULL) {
 		int len;
 		void *ptr;
 
+<<<<<<< HEAD
 		ret = _load_firmware(device,
+=======
+		int ret = _load_firmware(device,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			adreno_dev->gpucore->pm4fw_name, &ptr, &len);
 
 		if (ret)
@@ -255,7 +265,10 @@ int adreno_ringbuffer_read_pm4_ucode(struct kgsl_device *device)
 			KGSL_DRV_ERR(device, "Bad pm4 microcode size: %d\n",
 				len);
 			kfree(ptr);
+<<<<<<< HEAD
 			ret = -ENOMEM;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			goto err;
 		}
 
@@ -264,12 +277,20 @@ int adreno_ringbuffer_read_pm4_ucode(struct kgsl_device *device)
 		adreno_dev->pm4_fw_version = adreno_dev->pm4_fw[1];
 	}
 
+<<<<<<< HEAD
 	return 0;
 
 err:
 	KGSL_DRV_CRIT(device, "Failed to read pm4 microcode %s\n",
 		adreno_dev->gpucore->pm4fw_name);
 	return ret;
+=======
+	return;
+
+err:
+	KGSL_DRV_FATAL(device, "Failed to read pm4 microcode %s\n",
+		adreno_dev->gpucore->pm4fw_name);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /**
@@ -295,16 +316,26 @@ static inline int adreno_ringbuffer_load_pm4_ucode(struct kgsl_device *device,
 	return 0;
 }
 
+<<<<<<< HEAD
 int adreno_ringbuffer_read_pfp_ucode(struct kgsl_device *device)
 {
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 	int ret;
+=======
+void adreno_ringbuffer_read_pfp_ucode(struct kgsl_device *device)
+{
+	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (adreno_dev->pfp_fw == NULL) {
 		int len;
 		void *ptr;
 
+<<<<<<< HEAD
 		ret = _load_firmware(device,
+=======
+		int ret = _load_firmware(device,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			adreno_dev->gpucore->pfpfw_name, &ptr, &len);
 		if (ret)
 			goto err;
@@ -314,7 +345,10 @@ int adreno_ringbuffer_read_pfp_ucode(struct kgsl_device *device)
 			KGSL_DRV_ERR(device, "Bad PFP microcode size: %d\n",
 				len);
 			kfree(ptr);
+<<<<<<< HEAD
 			ret = -ENOMEM;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			goto err;
 		}
 
@@ -323,12 +357,20 @@ int adreno_ringbuffer_read_pfp_ucode(struct kgsl_device *device)
 		adreno_dev->pfp_fw_version = adreno_dev->pfp_fw[5];
 	}
 
+<<<<<<< HEAD
 	return 0;
 
 err:
 	KGSL_DRV_CRIT(device, "Failed to read pfp microcode %s\n",
 		adreno_dev->gpucore->pfpfw_name);
 	return ret;
+=======
+	return;
+
+err:
+	KGSL_DRV_FATAL(device, "Failed to read pfp microcode %s\n",
+		adreno_dev->gpucore->pfpfw_name);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /**
@@ -770,7 +812,11 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 
 	if (drawctxt != NULL && kgsl_context_detached(&drawctxt->base) &&
 		!(flags & KGSL_CMD_FLAGS_INTERNAL_ISSUE))
+<<<<<<< HEAD
 		return -ENOENT;
+=======
+		return -EINVAL;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rb->timestamp++;
 
@@ -815,6 +861,13 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 
 	total_sizedwords += (secured_ctxt) ? 26 : 0;
 
+<<<<<<< HEAD
+=======
+	/* Add two dwords for the CP_INTERRUPT */
+	total_sizedwords +=
+		(drawctxt || (flags & KGSL_CMD_FLAGS_INTERNAL_ISSUE)) ?  2 : 0;
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* context rollover */
 	if (adreno_is_a3xx(adreno_dev))
 		total_sizedwords += 3;
@@ -844,6 +897,11 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 	ringcmds = adreno_ringbuffer_allocspace(rb, total_sizedwords);
 	if (IS_ERR(ringcmds))
 		return PTR_ERR(ringcmds);
+<<<<<<< HEAD
+=======
+	if (ringcmds == NULL)
+		return -ENOSPC;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	*ringcmds++ = cp_nop_packet(1);
 	*ringcmds++ = KGSL_CMD_IDENTIFIER;
@@ -947,10 +1005,14 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 	 * set and hence the rb timestamp will be used in else statement below.
 	 */
 	*ringcmds++ = cp_type3_packet(CP_EVENT_WRITE, 3);
+<<<<<<< HEAD
 	if (drawctxt || (flags & KGSL_CMD_FLAGS_INTERNAL_ISSUE))
 		*ringcmds++ = CACHE_FLUSH_TS | (1 << 31);
 	else
 		*ringcmds++ = CACHE_FLUSH_TS;
+=======
+	*ringcmds++ = CACHE_FLUSH_TS;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (drawctxt && !(flags & KGSL_CMD_FLAGS_INTERNAL_ISSUE)) {
 		*ringcmds++ = gpuaddr + KGSL_MEMSTORE_OFFSET(context_id,
@@ -966,6 +1028,14 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 		*ringcmds++ = timestamp;
 	}
 
+<<<<<<< HEAD
+=======
+	if (drawctxt || (flags & KGSL_CMD_FLAGS_INTERNAL_ISSUE)) {
+		*ringcmds++ = cp_type3_packet(CP_INTERRUPT, 1);
+		*ringcmds++ = CP_INTERRUPT_RB;
+	}
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (adreno_is_a3xx(adreno_dev)) {
 		/* Dummy set-constant to trigger context rollover */
 		*ringcmds++ = cp_type3_packet(CP_SET_CONSTANT, 2);
@@ -1315,6 +1385,7 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 					&link[0], (cmds - link),
 					cmdbatch->timestamp, time);
 
+<<<<<<< HEAD
 	if (!ret) {
 		/* Put the timevalues in the profiling buffer */
 		if (cmdbatch_user_profiling) {
@@ -1328,10 +1399,26 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 		adreno_getreg(adreno_dev, ADRENO_REG_RBBM_STATUS) << 2,
 		0x00000000, 0x80000000);
 done:
+=======
+	/* Put the timevalues in the profiling buffer */
+	if (cmdbatch_user_profiling) {
+		profile_buffer->wall_clock_s = time->utime.tv_sec;
+		profile_buffer->wall_clock_ns = time->utime.tv_nsec;
+		profile_buffer->gpu_ticks_queued = time->ticks;
+	}
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* Corresponding unmap to the memdesc map of profile_buffer */
 	if (entry)
 		kgsl_memdesc_unmap(&entry->memdesc);
 
+<<<<<<< HEAD
+=======
+	kgsl_cffdump_regpoll(device,
+		adreno_getreg(adreno_dev, ADRENO_REG_RBBM_STATUS) << 2,
+		0x00000000, 0x80000000);
+done:
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	trace_kgsl_issueibcmds(device, context->id, cmdbatch,
 			numibs, cmdbatch->timestamp,
 			cmdbatch->flags, ret, drawctxt->type);

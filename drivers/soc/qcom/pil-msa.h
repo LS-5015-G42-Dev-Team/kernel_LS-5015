@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -32,7 +36,10 @@ struct modem_data {
 	struct pil_desc desc;
 	struct device mba_mem_dev;
 	struct dma_attrs attrs_dma;
+<<<<<<< HEAD
 	struct device *mba_mem_dev_fixed;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 extern struct pil_reset_ops pil_msa_mss_ops;
@@ -44,5 +51,8 @@ int pil_mss_make_proxy_votes(struct pil_desc *pil);
 void pil_mss_remove_proxy_votes(struct pil_desc *pil);
 int pil_mss_shutdown(struct pil_desc *pil);
 int pil_mss_deinit_image(struct pil_desc *pil);
+<<<<<<< HEAD
 int __pil_mss_deinit_image(struct pil_desc *pil, bool err_path);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif

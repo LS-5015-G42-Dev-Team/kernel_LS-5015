@@ -66,7 +66,10 @@ void snd_soc_jack_report(struct snd_soc_jack *jack, int status, int mask)
 	struct snd_soc_dapm_context *dapm;
 	struct snd_soc_jack_pin *pin;
 	int enable;
+<<<<<<< HEAD
 	unsigned sync = 0;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	trace_snd_soc_jack_report(jack, mask, status);
 
@@ -93,14 +96,21 @@ void snd_soc_jack_report(struct snd_soc_jack *jack, int status, int mask)
 			snd_soc_dapm_enable_pin(dapm, pin->pin);
 		else
 			snd_soc_dapm_disable_pin(dapm, pin->pin);
+<<<<<<< HEAD
 		sync = 1;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	/* Report before the DAPM sync to help users updating micbias status */
 	blocking_notifier_call_chain(&jack->notifier, jack->status, jack);
 
+<<<<<<< HEAD
     if(sync)
 	  snd_soc_dapm_sync(dapm);
+=======
+	snd_soc_dapm_sync(dapm);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	snd_jack_report(jack->jack, jack->status);
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -223,6 +227,17 @@ static int msm_iommu_parse_dt(struct platform_device *pdev,
 	drvdata->halt_enabled = of_property_read_bool(pdev->dev.of_node,
 						      "qcom,iommu-enable-halt");
 
+<<<<<<< HEAD
+=======
+	ret = of_platform_populate(pdev->dev.of_node,
+				   msm_iommu_ctx_match_table,
+				   NULL, &pdev->dev);
+	if (ret) {
+		pr_err("Failed to create iommu context device\n");
+		goto fail;
+	}
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	msm_iommu_add_drv(drvdata);
 	return 0;
 
@@ -313,6 +328,7 @@ static int msm_iommu_probe(struct platform_device *pdev)
 
 	drvdata->phys_base = r->start;
 
+<<<<<<< HEAD
 	if (IS_ENABLED(CONFIG_MSM_IOMMU_VBIF_CHECK)) {
 		drvdata->vbif_base =
 			ioremap(drvdata->phys_base - (phys_addr_t) 0x4000,
@@ -320,6 +336,8 @@ static int msm_iommu_probe(struct platform_device *pdev)
 		WARN_ON_ONCE(!drvdata->vbif_base);
 	}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	r = platform_get_resource_byname(pdev, IORESOURCE_MEM,
 					"smmu_local_base");
 	if (r) {
@@ -349,6 +367,7 @@ static int msm_iommu_probe(struct platform_device *pdev)
 	}
 
 	drvdata->pclk = devm_clk_get(&pdev->dev, "iface_clk");
+<<<<<<< HEAD
 	if (IS_ERR(drvdata->pclk)) {
 		ret = PTR_ERR(drvdata->pclk);
 		drvdata->pclk = NULL;
@@ -369,11 +388,20 @@ static int msm_iommu_probe(struct platform_device *pdev)
 	ret = clk_prepare(drvdata->clk);
 	if (ret)
 		goto fail;
+=======
+	if (IS_ERR(drvdata->pclk))
+		return PTR_ERR(drvdata->pclk);
+
+	drvdata->clk = devm_clk_get(&pdev->dev, "core_clk");
+	if (IS_ERR(drvdata->clk))
+		return PTR_ERR(drvdata->clk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	needs_alt_core_clk = of_property_read_bool(pdev->dev.of_node,
 						   "qcom,needs-alt-core-clk");
 	if (needs_alt_core_clk) {
 		drvdata->aclk = devm_clk_get(&pdev->dev, "alt_core_clk");
+<<<<<<< HEAD
 		if (IS_ERR(drvdata->aclk)) {
 			ret =  PTR_ERR(drvdata->aclk);
 			drvdata->aclk = NULL;
@@ -383,12 +411,17 @@ static int msm_iommu_probe(struct platform_device *pdev)
 		ret =  clk_prepare(drvdata->aclk);
 		if (ret)
 			goto fail;
+=======
+		if (IS_ERR(drvdata->aclk))
+			return PTR_ERR(drvdata->aclk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	needs_alt_iface_clk = of_property_read_bool(pdev->dev.of_node,
 						   "qcom,needs-alt-iface-clk");
 	if (needs_alt_iface_clk) {
 		drvdata->aiclk = devm_clk_get(&pdev->dev, "alt_iface_clk");
+<<<<<<< HEAD
 		if (IS_ERR(drvdata->aiclk)) {
 			ret = PTR_ERR(drvdata->aiclk);
 			drvdata->aiclk = NULL;
@@ -398,6 +431,10 @@ static int msm_iommu_probe(struct platform_device *pdev)
 		ret =  clk_prepare(drvdata->aiclk);
 		if (ret)
 			goto fail;
+=======
+		if (IS_ERR(drvdata->aiclk))
+			return PTR_ERR(drvdata->aiclk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	if (!of_property_read_u32(pdev->dev.of_node,
@@ -483,6 +520,7 @@ static int msm_iommu_probe(struct platform_device *pdev)
 					global_client_irq, ret);
 	}
 
+<<<<<<< HEAD
 	ret = of_platform_populate(pdev->dev.of_node, msm_iommu_ctx_match_table,
 				   NULL, &pdev->dev);
 fail:
@@ -495,6 +533,9 @@ fail:
 	}
 
 	return ret;
+=======
+	return 0;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static int msm_iommu_remove(struct platform_device *pdev)
@@ -507,10 +548,13 @@ static int msm_iommu_remove(struct platform_device *pdev)
 	drv = platform_get_drvdata(pdev);
 	if (drv) {
 		__put_bus_vote_client(drv);
+<<<<<<< HEAD
 		clk_unprepare(drv->clk);
 		clk_unprepare(drv->pclk);
 		clk_unprepare(drv->aclk);
 		clk_unprepare(drv->aiclk);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		msm_iommu_remove_drv(drv);
 		platform_set_drvdata(pdev, NULL);
 	}
@@ -531,6 +575,7 @@ static int msm_iommu_ctx_parse_dt(struct platform_device *pdev,
 
 	get_secure_ctx(pdev->dev.of_node, drvdata, ctx_drvdata);
 
+<<<<<<< HEAD
 	if (drvdata->sec_id != -1) {
 		irq = platform_get_irq(pdev, 1);
 
@@ -542,6 +587,10 @@ static int msm_iommu_ctx_parse_dt(struct platform_device *pdev,
 		if (irq < 0)
 			irq = platform_get_irq(pdev, 0);
 
+=======
+	if (ctx_drvdata->secure_context) {
+		irq = platform_get_irq(pdev, 1);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (irq > 0) {
 			ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
 					msm_iommu_secure_fault_handler_v2,
@@ -591,10 +640,13 @@ static int msm_iommu_ctx_parse_dt(struct platform_device *pdev,
 					&ctx_drvdata->name))
 		ctx_drvdata->name = dev_name(&pdev->dev);
 
+<<<<<<< HEAD
 	ctx_drvdata->report_error_on_fault =
 		of_property_read_bool(pdev->dev.of_node,
 				"qcom,report-error-on-fault");
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (!of_get_property(pdev->dev.of_node, "qcom,iommu-ctx-sids", &nsid)) {
 		ret = -EINVAL;
 		goto out;

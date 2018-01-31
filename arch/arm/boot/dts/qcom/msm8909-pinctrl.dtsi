@@ -108,8 +108,13 @@
 
 		cam_sensor_front {
 			/* RESET, STANDBY */
+<<<<<<< HEAD
 			qcom,pins = <&gp 28>, <&gp 33>, <&gp 95>, <&gp 99>, <&gp 17>;
 			qcom,num-grp-pins = <5>;
+=======
+			qcom,pins = <&gp 28>, <&gp 33>;
+			qcom,num-grp-pins = <2>;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			qcom,pin-func = <0>;
 			label = "cam_sensor_front";
 			/* active state */
@@ -121,11 +126,19 @@
 
 		cam_sensor_front_sleep {
 			/* RESET, STANDBY */
+<<<<<<< HEAD
 			qcom,pins = <&gp 28>, <&gp 33>, <&gp 95>, <&gp 99>, <&gp 17>;
 			qcom,num-grp-pins = <5>;
 			qcom,pin-func = <0>;
 			label = "cam-sensor-front-sleep";
 			/* suspended state */
+=======
+			qcom,pins = <&gp 28>, <&gp 33>;
+			qcom,num-grp-pins = <2>;
+			qcom,pin-func = <0>;
+			label = "cam-sensor-front-sleep";
+			/*suspended state */\
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			cam_sensor_front_sleep: sleep {
 				drive-strength = <2>; /* 2 MA */
 				bias-pull-down = <0>; /* PULL DOWN */
@@ -1255,6 +1268,7 @@
 			};
 		};
 
+<<<<<<< HEAD
 		/* Pinctrl dt nodes for reset gpio for ITE tech controller */
 		pmx_ts_ite_reset_active {
 			qcom,pins = <&gp 12>;
@@ -1280,6 +1294,8 @@
 			};
 		};
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		pmx_ts_release {
 			qcom,pins = <&gp 13>, <&gp 12>;
 			qcom,num-grp-pins = <2>;
@@ -1301,6 +1317,7 @@
 				bias-pull-up;		/* PULL UP*/
 			};
 		};
+<<<<<<< HEAD
 
 		pmx_i2s_mclk {
 			qcom,pins = <&gp 59>;
@@ -1381,5 +1398,7 @@
 					 bias-disable;
 			};
 		};
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 };

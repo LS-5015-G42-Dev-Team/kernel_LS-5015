@@ -26,7 +26,10 @@
 #include <linux/smp.h>
 #include <linux/ptrace.h>
 #include <linux/user.h>
+<<<<<<< HEAD
 #include <linux/seccomp.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/security.h>
 #include <linux/init.h>
 #include <linux/signal.h>
@@ -548,6 +551,7 @@ static int tls_set(struct task_struct *target, const struct user_regset *regset,
 	return ret;
 }
 
+<<<<<<< HEAD
 static int system_call_get(struct task_struct *target,
 			   const struct user_regset *regset,
 			   unsigned int pos, unsigned int count,
@@ -574,6 +578,8 @@ static int system_call_set(struct task_struct *target,
 	return ret;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum aarch64_regset {
 	REGSET_GPR,
 	REGSET_FPR,
@@ -582,7 +588,10 @@ enum aarch64_regset {
 	REGSET_HW_BREAK,
 	REGSET_HW_WATCH,
 #endif
+<<<<<<< HEAD
 	REGSET_SYSTEM_CALL,
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 static const struct user_regset aarch64_regsets[] = {
@@ -632,6 +641,7 @@ static const struct user_regset aarch64_regsets[] = {
 		.set = hw_break_set,
 	},
 #endif
+<<<<<<< HEAD
 	[REGSET_SYSTEM_CALL] = {
 		.core_note_type = NT_ARM_SYSTEM_CALL,
 		.n = 1,
@@ -640,6 +650,8 @@ static const struct user_regset aarch64_regsets[] = {
 		.get = system_call_get,
 		.set = system_call_set,
 	},
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 static const struct user_regset_view user_aarch64_view = {
@@ -1141,18 +1153,22 @@ static void tracehook_report_syscall(struct pt_regs *regs,
 
 asmlinkage int syscall_trace_enter(struct pt_regs *regs)
 {
+<<<<<<< HEAD
 	unsigned int saved_syscallno = regs->syscallno;
 
 	/* Do the secure computing check first; failures should be fast. */
 	if (secure_computing(regs->syscallno) == -1)
 		return RET_SKIP_SYSCALL_TRACE;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (test_thread_flag(TIF_SYSCALL_TRACE))
 		tracehook_report_syscall(regs, PTRACE_SYSCALL_ENTER);
 
 	if (test_thread_flag(TIF_SYSCALL_TRACEPOINT))
 		trace_sys_enter(regs, regs->syscallno);
 
+<<<<<<< HEAD
 	if (IS_SKIP_SYSCALL(regs->syscallno)) {
 		/*
 		 * RESTRICTION: we can't modify a return value of user
@@ -1171,6 +1187,8 @@ asmlinkage int syscall_trace_enter(struct pt_regs *regs)
 			regs->regs[0] = -ENOSYS;
 	}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return regs->syscallno;
 }
 

@@ -383,6 +383,7 @@ config SMB135X_CHARGER
 	  The driver reports the charger status via the power supply framework.
 	  A charger status change triggers an IRQ via the device STAT pin.
 
+<<<<<<< HEAD
 config SMB1360_CHARGER_FG_TEST
 	tristate "TEST SMB1360 Charger and Fuel Guage"
 	depends on I2C
@@ -416,6 +417,8 @@ config SMB1360_CHARGER_FG_MIRAGE
 	  The driver reports the status via the power supply framework
 	  A status change triggers an IRQ via the device STAT pin.
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 config SMB1360_CHARGER_FG
 	tristate "SMB1360 Charger and Fuel Guage"
 	depends on I2C
@@ -576,6 +579,7 @@ config MSM_BCL_PERIPHERAL_CTL
 	  provides routines to configure and monitor the BCL
 	  PMIC peripheral.
 
+<<<<<<< HEAD
 
 config TEST_ONLY
         bool "test driver different flag"
@@ -587,6 +591,8 @@ config TESTPLUS_ONLY
 		help
 		    make macro CONFIG_TESTPLUS_ONLY WORKED
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 source "drivers/power/reset/Kconfig"
 
 endif # POWER_SUPPLY

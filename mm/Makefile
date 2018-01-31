@@ -63,4 +63,7 @@ obj-$(CONFIG_MEMORY_ISOLATION) += page_isolation.o
 obj-$(CONFIG_PAGE_OWNER) += pageowner.o
 obj-$(CONFIG_ZBUD)	+= zbud.o
 obj-$(CONFIG_GENERIC_EARLY_IOREMAP) += early_ioremap.o
+<<<<<<< HEAD
 obj-$(CONFIG_PROCESS_RECLAIM)	+= process_reclaim.o
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

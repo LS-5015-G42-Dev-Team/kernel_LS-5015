@@ -16,7 +16,10 @@
 #include <linux/kobject.h>
 #include <linux/notifier.h>
 #include <linux/sysfs.h>
+<<<<<<< HEAD
 #include <asm/cputime.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /*********************************************************************
  *                        CPUFREQ INTERFACE                          *
@@ -484,6 +487,7 @@ static inline int cpufreq_generic_exit(struct cpufreq_policy *policy)
 	return 0;
 }
 
+<<<<<<< HEAD
 /*********************************************************************
  *                         CPUFREQ STATS                             *
  *********************************************************************/
@@ -494,4 +498,6 @@ void acct_update_power(struct task_struct *p, cputime_t cputime);
 static inline void acct_update_power(struct task_struct *p, cputime_t cputime) {}
 #endif
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif /* _LINUX_CPUFREQ_H */

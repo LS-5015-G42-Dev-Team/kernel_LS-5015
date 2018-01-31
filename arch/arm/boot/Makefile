@@ -14,8 +14,14 @@
 ifneq ($(MACHINE),)
 include $(srctree)/$(MACHINE)/Makefile.boot
 endif
+<<<<<<< HEAD
 
 include $(srctree)/arch/arm/boot/dts/qcom/Makefile
+=======
+include $(srctree)/arch/arm/boot/dts/Makefile
+
+include $(srctree)/arch/arm/boot/dts/Makefile
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 ifneq ($(DTSSUBDIR),)
 DTSSUBDIR_INCS=$(foreach DIR, $(DTSSUBDIR), $(addsuffix /Makefile, $(addprefix $(srctree)/arch/arm/boot/dts/, $(DIR))))
 include $(DTSSUBDIR_INCS)

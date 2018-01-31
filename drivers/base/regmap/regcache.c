@@ -605,6 +605,7 @@ static int regcache_sync_block_raw_flush(struct regmap *map, const void **data,
 	return ret;
 }
 
+<<<<<<< HEAD
 static int regcache_sync_block_raw_multi_reg(struct regmap *map, void *block,
 					unsigned int block_base,
 					unsigned int start,
@@ -650,6 +651,8 @@ static int regcache_sync_block_raw_multi_reg(struct regmap *map, void *block,
 	return ret;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int regcache_sync_block_raw(struct regmap *map, void *block,
 			    unsigned int block_base, unsigned int start,
 			    unsigned int end)
@@ -697,6 +700,7 @@ int regcache_sync_block(struct regmap *map, void *block,
 			unsigned int block_base, unsigned int start,
 			unsigned int end)
 {
+<<<<<<< HEAD
 	if (regmap_can_raw_write(map) && map->can_multi_write)
 		return regcache_sync_block_raw_multi_reg(map, block,
 							 block_base, start,
@@ -704,6 +708,11 @@ int regcache_sync_block(struct regmap *map, void *block,
 	else if (regmap_can_raw_write(map) && !map->use_single_rw)
 		return regcache_sync_block_raw(map, block,
 					       block_base, start, end);
+=======
+	if (regmap_can_raw_write(map))
+		return regcache_sync_block_raw(map, block, block_base,
+					       start, end);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	else
 		return regcache_sync_block_single(map, block, block_base,
 						  start, end);

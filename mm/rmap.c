@@ -1451,16 +1451,25 @@ bool is_vma_temporary_stack(struct vm_area_struct *vma)
 
 /**
  * try_to_unmap_anon - unmap or unlock anonymous page using the object-based
+<<<<<<< HEAD
  * rmap method if @vma is NULL
  * @page: the page to unmap/unlock
  * @flags: action and flags
  * @target_vma: vma for unmapping a @page
+=======
+ * rmap method
+ * @page: the page to unmap/unlock
+ * @flags: action and flags
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * Find all the mappings of a page using the mapping pointer and the vma chains
  * contained in the anon_vma struct it points to.
  *
+<<<<<<< HEAD
  * If @target_vma isn't NULL, this function unmap a page from the vma
  *
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * This function is only called from try_to_unmap/try_to_munlock for
  * anonymous pages.
  * When called from try_to_munlock(), the mmap_sem of the mm containing the vma
@@ -1468,6 +1477,7 @@ bool is_vma_temporary_stack(struct vm_area_struct *vma)
  * vm_flags for that VMA.  That should be OK, because that vma shouldn't be
  * 'LOCKED.
  */
+<<<<<<< HEAD
 static int try_to_unmap_anon(struct page *page, enum ttu_flags flags,
 					struct vm_area_struct *target_vma)
 {
@@ -1481,6 +1491,14 @@ static int try_to_unmap_anon(struct page *page, enum ttu_flags flags,
 		address = vma_address(page, target_vma);
 		return try_to_unmap_one(page, target_vma, address, flags);
 	}
+=======
+static int try_to_unmap_anon(struct page *page, enum ttu_flags flags)
+{
+	struct anon_vma *anon_vma;
+	pgoff_t pgoff;
+	struct anon_vma_chain *avc;
+	int ret = SWAP_AGAIN;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	anon_vma = page_lock_anon_vma_read(page);
 	if (!anon_vma)
@@ -1489,6 +1507,10 @@ static int try_to_unmap_anon(struct page *page, enum ttu_flags flags,
 	pgoff = page->index << (PAGE_CACHE_SHIFT - PAGE_SHIFT);
 	anon_vma_interval_tree_foreach(avc, &anon_vma->rb_root, pgoff, pgoff) {
 		struct vm_area_struct *vma = avc->vma;
+<<<<<<< HEAD
+=======
+		unsigned long address;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		/*
 		 * During exec, a temporary VMA is setup and later moved.
@@ -1516,7 +1538,10 @@ static int try_to_unmap_anon(struct page *page, enum ttu_flags flags,
  * try_to_unmap_file - unmap/unlock file page using the object-based rmap method
  * @page: the page to unmap/unlock
  * @flags: action and flags
+<<<<<<< HEAD
  * @target_vma: vma for unmapping @page
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * Find all the mappings of a page using the mapping pointer and the vma chains
  * contained in the address_space struct it points to.
@@ -1528,8 +1553,12 @@ static int try_to_unmap_anon(struct page *page, enum ttu_flags flags,
  * vm_flags for that VMA.  That should be OK, because that vma shouldn't be
  * 'LOCKED.
  */
+<<<<<<< HEAD
 static int try_to_unmap_file(struct page *page, enum ttu_flags flags,
 				struct vm_area_struct *target_vma)
+=======
+static int try_to_unmap_file(struct page *page, enum ttu_flags flags)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct address_space *mapping = page->mapping;
 	pgoff_t pgoff = page->index << (PAGE_CACHE_SHIFT - PAGE_SHIFT);
@@ -1539,12 +1568,16 @@ static int try_to_unmap_file(struct page *page, enum ttu_flags flags,
 	unsigned long max_nl_cursor = 0;
 	unsigned long max_nl_size = 0;
 	unsigned int mapcount;
+<<<<<<< HEAD
 	unsigned long address;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (PageHuge(page))
 		pgoff = page->index << compound_order(page);
 
 	mutex_lock(&mapping->i_mmap_mutex);
+<<<<<<< HEAD
 	if (target_vma) {
 		/* We don't handle non-linear vma on ramfs */
 		if (unlikely(!list_empty(&mapping->i_mmap_nonlinear)))
@@ -1559,6 +1592,13 @@ static int try_to_unmap_file(struct page *page, enum ttu_flags flags,
 			if (ret != SWAP_AGAIN || !page_mapped(page))
 				goto out;
 		}
+=======
+	vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
+		unsigned long address = vma_address(page, vma);
+		ret = try_to_unmap_one(page, vma, address, flags);
+		if (ret != SWAP_AGAIN || !page_mapped(page))
+			goto out;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	if (list_empty(&mapping->i_mmap_nonlinear))
@@ -1639,12 +1679,18 @@ out:
  * try_to_unmap - try to remove all page table mappings to a page
  * @page: the page to get unmapped
  * @flags: action and flags
+<<<<<<< HEAD
  * @vma : target vma for reclaim
  *
  * Tries to remove all the page table entries which are mapping this
  * page, used in the pageout path.  Caller must hold the page lock.
  * If @vma is not NULL, this function try to remove @page from only @vma
  * without peeking all mapped vma for @page.
+=======
+ *
+ * Tries to remove all the page table entries which are mapping this
+ * page, used in the pageout path.  Caller must hold the page lock.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * Return values are:
  *
  * SWAP_SUCCESS	- we succeeded in removing all mappings
@@ -1652,8 +1698,12 @@ out:
  * SWAP_FAIL	- the page is unswappable
  * SWAP_MLOCK	- page is mlocked.
  */
+<<<<<<< HEAD
 int try_to_unmap(struct page *page, enum ttu_flags flags,
 				struct vm_area_struct *vma)
+=======
+int try_to_unmap(struct page *page, enum ttu_flags flags)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	int ret;
 
@@ -1661,11 +1711,19 @@ int try_to_unmap(struct page *page, enum ttu_flags flags,
 	VM_BUG_ON(!PageHuge(page) && PageTransHuge(page));
 
 	if (unlikely(PageKsm(page)))
+<<<<<<< HEAD
 		ret = try_to_unmap_ksm(page, flags, vma);
 	else if (PageAnon(page))
 		ret = try_to_unmap_anon(page, flags, vma);
 	else
 		ret = try_to_unmap_file(page, flags, vma);
+=======
+		ret = try_to_unmap_ksm(page, flags);
+	else if (PageAnon(page))
+		ret = try_to_unmap_anon(page, flags);
+	else
+		ret = try_to_unmap_file(page, flags);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (ret != SWAP_MLOCK && !page_mapped(page))
 		ret = SWAP_SUCCESS;
 	return ret;
@@ -1691,11 +1749,19 @@ int try_to_munlock(struct page *page)
 	VM_BUG_ON(!PageLocked(page) || PageLRU(page));
 
 	if (unlikely(PageKsm(page)))
+<<<<<<< HEAD
 		return try_to_unmap_ksm(page, TTU_MUNLOCK, NULL);
 	else if (PageAnon(page))
 		return try_to_unmap_anon(page, TTU_MUNLOCK, NULL);
 	else
 		return try_to_unmap_file(page, TTU_MUNLOCK, NULL);
+=======
+		return try_to_unmap_ksm(page, TTU_MUNLOCK);
+	else if (PageAnon(page))
+		return try_to_unmap_anon(page, TTU_MUNLOCK);
+	else
+		return try_to_unmap_file(page, TTU_MUNLOCK);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 void __put_anon_vma(struct anon_vma *anon_vma)

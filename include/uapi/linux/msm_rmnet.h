@@ -85,7 +85,10 @@ enum rmnet_ioctl_extended_cmds_e {
 #define RMNET_IOCTL_INGRESS_FORMAT_DEAGGREGATION       (1<<2)
 #define RMNET_IOCTL_INGRESS_FORMAT_DEMUXING            (1<<3)
 #define RMNET_IOCTL_INGRESS_FORMAT_CHECKSUM            (1<<4)
+<<<<<<< HEAD
 #define RMNET_IOCTL_INGRESS_FORMAT_AGG_DATA            (1<<5)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* User space may not have this defined. */
 #ifndef IFNAMSIZ
@@ -119,12 +122,15 @@ struct rmnet_ioctl_extended_s {
 			uint32_t   consumer_pipe_num;
 			uint32_t   producer_pipe_num;
 		} ipa_ep_pair;
+<<<<<<< HEAD
 
 		struct {
 			uint32_t __data; /* Placeholder for legacy data*/
 			uint32_t agg_size;
 			uint32_t agg_count;
 		} ingress_format;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	} u;
 };
 

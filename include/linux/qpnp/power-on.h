@@ -48,6 +48,7 @@ enum pon_power_off_type {
 };
 
 enum pon_restart_reason {
+<<<<<<< HEAD
 	PON_RESTART_REASON_UNKNOWN	        = 0x00,
 	PON_RESTART_REASON_RECOVERY	        = 0x01,
 	PON_RESTART_REASON_BOOTLOADER	        = 0x02,
@@ -55,6 +56,12 @@ enum pon_restart_reason {
         PON_RESTART_REASON_DMVERITY_CORRUPTED   = 0x04,
         PON_RESTART_REASON_DMVERITY_ENFORCE     = 0x05,
         PON_RESTART_REASON_KEYS_CLEAR           = 0x06,
+=======
+	PON_RESTART_REASON_UNKNOWN	= 0x00,
+	PON_RESTART_REASON_RECOVERY	= 0x01,
+	PON_RESTART_REASON_BOOTLOADER	= 0x02,
+	PON_RESTART_REASON_RTC		= 0x03,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 #ifdef CONFIG_QPNP_POWER_ON

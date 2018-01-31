@@ -209,6 +209,9 @@ cond_syscall(compat_sys_open_by_handle_at);
 
 /* compare kernel pointers */
 cond_syscall(sys_kcmp);
+<<<<<<< HEAD
 
 /* operate on Secure Computing state */
 cond_syscall(sys_seccomp);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

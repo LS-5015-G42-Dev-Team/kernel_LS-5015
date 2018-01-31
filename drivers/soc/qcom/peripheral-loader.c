@@ -774,6 +774,7 @@ void pil_shutdown(struct pil_desc *desc)
 		pil_proxy_unvote(desc, 1);
 	else
 		flush_delayed_work(&priv->proxy);
+<<<<<<< HEAD
 }
 EXPORT_SYMBOL(pil_shutdown);
 
@@ -784,6 +785,8 @@ EXPORT_SYMBOL(pil_shutdown);
 void pil_free_memory(struct pil_desc *desc)
 {
 	struct pil_priv *priv = desc->priv;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (priv->region) {
 		dma_free_attrs(desc->dev, priv->region_size,
@@ -791,7 +794,11 @@ void pil_free_memory(struct pil_desc *desc)
 		priv->region = NULL;
 	}
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(pil_free_memory);
+=======
+EXPORT_SYMBOL(pil_shutdown);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 static DEFINE_IDA(pil_ida);
 

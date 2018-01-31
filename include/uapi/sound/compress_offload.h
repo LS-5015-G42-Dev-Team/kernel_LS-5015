@@ -141,8 +141,11 @@ struct snd_compr_audio_info {
 enum {
 	SNDRV_COMPRESS_ENCODER_PADDING = 1,
 	SNDRV_COMPRESS_ENCODER_DELAY = 2,
+<<<<<<< HEAD
 	SNDRV_COMPRESS_MIN_BLK_SIZE = 3,
 	SNDRV_COMPRESS_MAX_BLK_SIZE = 4,
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 /**
@@ -192,8 +195,11 @@ struct snd_compr_metadata {
 #define SNDRV_COMPRESS_DRAIN		_IO('C', 0x34)
 #define SNDRV_COMPRESS_NEXT_TRACK	_IO('C', 0x35)
 #define SNDRV_COMPRESS_PARTIAL_DRAIN	_IO('C', 0x36)
+<<<<<<< HEAD
 #define SNDRV_COMPRESS_SET_NEXT_TRACK_PARAM\
 					_IOW('C', 0x37, union snd_codec_options)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * TODO
  * 1. add mmap support

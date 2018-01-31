@@ -629,7 +629,11 @@ int aa_change_hat(const char *hats[], int count, u64 token, bool permtest)
 	 * There is no exception for unconfined as change_hat is not
 	 * available.
 	 */
+<<<<<<< HEAD
 	if (task_no_new_privs(current))
+=======
+	if (current->no_new_privs)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return -EPERM;
 
 	/* released below */
@@ -780,7 +784,11 @@ int aa_change_profile(const char *ns_name, const char *hname, bool onexec,
 	 * no_new_privs is set because this aways results in a reduction
 	 * of permissions.
 	 */
+<<<<<<< HEAD
 	if (task_no_new_privs(current) && !unconfined(profile)) {
+=======
+	if (current->no_new_privs && !unconfined(profile)) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		put_cred(cred);
 		return -EPERM;
 	}

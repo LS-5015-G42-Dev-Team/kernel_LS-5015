@@ -19,8 +19,12 @@ Optional properties:
   - qcom,support-bus-scaling : indicates if driver support scaling the bus for crypto operation.
   - qcom,support-fde : indicates if driver support key managing for full disk encryption feature.
   - qcom,support-pfe : indicates if driver support key managing for per file encryption feature.
+<<<<<<< HEAD
   - qcom,no-clock-support : indicates clocks are not handled by qseecom (could be handled by RPM)
   - qcom,appsbl-qseecom-support : indicates if there is qseecom support in appsbootloader
+=======
+  - qcom,no-clock-support; indicates clocks are not handled by qseecom (could be handled by RPM)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 Example:
 	qcom,qseecom@fe806000 {
@@ -40,7 +44,10 @@ Example:
 		qcom,msm_bus,active_only = <0>;
 		qcom,msm_bus,num_paths = <1>;
 		qcom,no-clock-support;
+<<<<<<< HEAD
 		qcom,appsbl-qseecom-support;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,msm_bus,vectors =
 			<55 512 0 0>,
 			<55 512 3936000000 393600000>,

@@ -451,7 +451,11 @@ int adreno_perfcounter_query_group(struct adreno_device *adreno_dev,
 		return 0;
 	}
 
+<<<<<<< HEAD
 	t = min_t(unsigned int, group->reg_count, count);
+=======
+	t = min_t(int, group->reg_count, count);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	buf = kmalloc(t * sizeof(unsigned int), GFP_KERNEL);
 	if (buf == NULL) {

@@ -52,7 +52,11 @@
 #define KGSL_STATE_NAP		0x00000004
 #define KGSL_STATE_SLEEP	0x00000008
 #define KGSL_STATE_SUSPEND	0x00000010
+<<<<<<< HEAD
 #define KGSL_STATE_AWARE	0x00000020
+=======
+#define KGSL_STATE_HUNG		0x00000020
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define KGSL_STATE_SLUMBER	0x00000080
 
 #define KGSL_GRAPHICS_MEMORY_LOW_WATERMARK  0x1000000
@@ -163,7 +167,11 @@ struct kgsl_functable {
 	   calling the hook */
 	struct kgsl_context *(*drawctxt_create) (struct kgsl_device_private *,
 						uint32_t *flags);
+<<<<<<< HEAD
 	void (*drawctxt_detach)(struct kgsl_context *context);
+=======
+	int (*drawctxt_detach) (struct kgsl_context *context);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	void (*drawctxt_destroy) (struct kgsl_context *context);
 	void (*drawctxt_dump) (struct kgsl_device *device,
 		struct kgsl_context *context);
@@ -241,8 +249,11 @@ struct kgsl_memobj_node {
  * @profile_index: Index to store the start/stop ticks in the kernel profiling
  * buffer
  * @submit_ticks: Variable to hold ticks at the time of cmdbatch submit.
+<<<<<<< HEAD
  * @timeout_jiffies: For a syncpoint cmdbatch the jiffies at which the
  * timer will expire
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * This structure defines an atomic batch of command buffers issued from
  * userspace.
  */
@@ -266,7 +277,10 @@ struct kgsl_cmdbatch {
 	unsigned long profiling_buffer_gpuaddr;
 	unsigned int profile_index;
 	uint64_t submit_ticks;
+<<<<<<< HEAD
 	unsigned long timeout_jiffies;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 /**
@@ -664,6 +678,7 @@ static inline int kgsl_create_device_workqueue(struct kgsl_device *device)
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int kgsl_state_is_awake(struct kgsl_device *device)
 {
 	if (device->state == KGSL_STATE_ACTIVE ||
@@ -673,6 +688,8 @@ static inline int kgsl_state_is_awake(struct kgsl_device *device)
 		return false;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int kgsl_readtimestamp(struct kgsl_device *device, void *priv,
 		enum kgsl_timestamp_type type, unsigned int *timestamp);
 
@@ -722,6 +739,10 @@ void kgsl_context_destroy(struct kref *kref);
 
 int kgsl_context_init(struct kgsl_device_private *, struct kgsl_context
 		*context);
+<<<<<<< HEAD
+=======
+int kgsl_context_detach(struct kgsl_context *context);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 void kgsl_context_dump(struct kgsl_context *context);
 

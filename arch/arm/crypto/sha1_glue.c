@@ -23,27 +23,53 @@
 #include <linux/types.h>
 #include <crypto/sha.h>
 #include <asm/byteorder.h>
+<<<<<<< HEAD
 #include <asm/crypto/sha1.h>
 
 
 asmlinkage void sha1_block_data_order(u32 *digest,
+=======
+
+struct SHA1_CTX {
+	uint32_t h0,h1,h2,h3,h4;
+	u64 count;
+	u8 data[SHA1_BLOCK_SIZE];
+};
+
+asmlinkage void sha1_block_data_order(struct SHA1_CTX *digest,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		const unsigned char *data, unsigned int rounds);
 
 
 static int sha1_init(struct shash_desc *desc)
 {
+<<<<<<< HEAD
 	struct sha1_state *sctx = shash_desc_ctx(desc);
 
 	*sctx = (struct sha1_state){
 		.state = { SHA1_H0, SHA1_H1, SHA1_H2, SHA1_H3, SHA1_H4 },
 	};
 
+=======
+	struct SHA1_CTX *sctx = shash_desc_ctx(desc);
+	memset(sctx, 0, sizeof(*sctx));
+	sctx->h0 = SHA1_H0;
+	sctx->h1 = SHA1_H1;
+	sctx->h2 = SHA1_H2;
+	sctx->h3 = SHA1_H3;
+	sctx->h4 = SHA1_H4;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 
 
+<<<<<<< HEAD
 static int __sha1_update(struct sha1_state *sctx, const u8 *data,
 			 unsigned int len, unsigned int partial)
+=======
+static int __sha1_update(struct SHA1_CTX *sctx, const u8 *data,
+			       unsigned int len, unsigned int partial)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	unsigned int done = 0;
 
@@ -51,44 +77,75 @@ static int __sha1_update(struct sha1_state *sctx, const u8 *data,
 
 	if (partial) {
 		done = SHA1_BLOCK_SIZE - partial;
+<<<<<<< HEAD
 		memcpy(sctx->buffer + partial, data, done);
 		sha1_block_data_order(sctx->state, sctx->buffer, 1);
+=======
+		memcpy(sctx->data + partial, data, done);
+		sha1_block_data_order(sctx, sctx->data, 1);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	if (len - done >= SHA1_BLOCK_SIZE) {
 		const unsigned int rounds = (len - done) / SHA1_BLOCK_SIZE;
+<<<<<<< HEAD
 		sha1_block_data_order(sctx->state, data + done, rounds);
 		done += rounds * SHA1_BLOCK_SIZE;
 	}
 
 	memcpy(sctx->buffer, data + done, len - done);
+=======
+		sha1_block_data_order(sctx, data + done, rounds);
+		done += rounds * SHA1_BLOCK_SIZE;
+	}
+
+	memcpy(sctx->data, data + done, len - done);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 
 
+<<<<<<< HEAD
 int sha1_update_arm(struct shash_desc *desc, const u8 *data,
 		    unsigned int len)
 {
 	struct sha1_state *sctx = shash_desc_ctx(desc);
+=======
+static int sha1_update(struct shash_desc *desc, const u8 *data,
+			     unsigned int len)
+{
+	struct SHA1_CTX *sctx = shash_desc_ctx(desc);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	unsigned int partial = sctx->count % SHA1_BLOCK_SIZE;
 	int res;
 
 	/* Handle the fast case right here */
 	if (partial + len < SHA1_BLOCK_SIZE) {
 		sctx->count += len;
+<<<<<<< HEAD
 		memcpy(sctx->buffer + partial, data, len);
+=======
+		memcpy(sctx->data + partial, data, len);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return 0;
 	}
 	res = __sha1_update(sctx, data, len, partial);
 	return res;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(sha1_update_arm);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 
 /* Add padding and return the message digest. */
 static int sha1_final(struct shash_desc *desc, u8 *out)
 {
+<<<<<<< HEAD
 	struct sha1_state *sctx = shash_desc_ctx(desc);
+=======
+	struct SHA1_CTX *sctx = shash_desc_ctx(desc);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	unsigned int i, index, padlen;
 	__be32 *dst = (__be32 *)out;
 	__be64 bits;
@@ -102,7 +159,11 @@ static int sha1_final(struct shash_desc *desc, u8 *out)
 	/* We need to fill a whole block for __sha1_update() */
 	if (padlen <= 56) {
 		sctx->count += padlen;
+<<<<<<< HEAD
 		memcpy(sctx->buffer + index, padding, padlen);
+=======
+		memcpy(sctx->data + index, padding, padlen);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	} else {
 		__sha1_update(sctx, padding, padlen, index);
 	}
@@ -110,7 +171,11 @@ static int sha1_final(struct shash_desc *desc, u8 *out)
 
 	/* Store state in digest */
 	for (i = 0; i < 5; i++)
+<<<<<<< HEAD
 		dst[i] = cpu_to_be32(sctx->state[i]);
+=======
+		dst[i] = cpu_to_be32(((u32 *)sctx)[i]);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Wipe context */
 	memset(sctx, 0, sizeof(*sctx));
@@ -120,7 +185,11 @@ static int sha1_final(struct shash_desc *desc, u8 *out)
 
 static int sha1_export(struct shash_desc *desc, void *out)
 {
+<<<<<<< HEAD
 	struct sha1_state *sctx = shash_desc_ctx(desc);
+=======
+	struct SHA1_CTX *sctx = shash_desc_ctx(desc);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	memcpy(out, sctx, sizeof(*sctx));
 	return 0;
 }
@@ -128,7 +197,11 @@ static int sha1_export(struct shash_desc *desc, void *out)
 
 static int sha1_import(struct shash_desc *desc, const void *in)
 {
+<<<<<<< HEAD
 	struct sha1_state *sctx = shash_desc_ctx(desc);
+=======
+	struct SHA1_CTX *sctx = shash_desc_ctx(desc);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	memcpy(sctx, in, sizeof(*sctx));
 	return 0;
 }
@@ -137,12 +210,21 @@ static int sha1_import(struct shash_desc *desc, const void *in)
 static struct shash_alg alg = {
 	.digestsize	=	SHA1_DIGEST_SIZE,
 	.init		=	sha1_init,
+<<<<<<< HEAD
 	.update		=	sha1_update_arm,
 	.final		=	sha1_final,
 	.export		=	sha1_export,
 	.import		=	sha1_import,
 	.descsize	=	sizeof(struct sha1_state),
 	.statesize	=	sizeof(struct sha1_state),
+=======
+	.update		=	sha1_update,
+	.final		=	sha1_final,
+	.export		=	sha1_export,
+	.import		=	sha1_import,
+	.descsize	=	sizeof(struct SHA1_CTX),
+	.statesize	=	sizeof(struct SHA1_CTX),
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	.base		=	{
 		.cra_name	=	"sha1",
 		.cra_driver_name=	"sha1-asm",

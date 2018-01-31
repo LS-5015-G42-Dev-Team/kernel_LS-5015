@@ -51,6 +51,10 @@ struct kgsl_context;
  *                       to retire
  * @ticks_index: The index into submit_retire_ticks[] where the new delta will
  *		 be written.
+<<<<<<< HEAD
+=======
+ * @flags: Flags used for knowing certain states of the drawctxt
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  */
 struct adreno_context {
 	struct kgsl_context base;
@@ -76,6 +80,10 @@ struct adreno_context {
 	unsigned int submitted_timestamp;
 	uint64_t submit_retire_ticks[SUBMIT_RETIRE_TICKS_SIZE];
 	int ticks_index;
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 /* Flag definitions for flag field in adreno_context */
@@ -107,7 +115,11 @@ enum adreno_context_priv {
 struct kgsl_context *adreno_drawctxt_create(struct kgsl_device_private *,
 			uint32_t *flags);
 
+<<<<<<< HEAD
 void adreno_drawctxt_detach(struct kgsl_context *context);
+=======
+int adreno_drawctxt_detach(struct kgsl_context *context);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 void adreno_drawctxt_destroy(struct kgsl_context *context);
 

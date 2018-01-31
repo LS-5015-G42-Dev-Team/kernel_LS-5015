@@ -1358,6 +1358,7 @@ static long gser_ioctl(struct file *fp, unsigned cmd, unsigned long arg)
 		smd_port_num =
 			gserial_ports[gser->port_num].client_port_num;
 
+<<<<<<< HEAD
 		if (smd_write_arg.size > GSERIAL_BUF_LEN) {
 			pr_err("%s: Invalid size:%u, max: %u", __func__,
 				smd_write_arg.size, GSERIAL_BUF_LEN);
@@ -1365,6 +1366,8 @@ static long gser_ioctl(struct file *fp, unsigned cmd, unsigned long arg)
 			break;
 		}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		pr_debug("%s: Copying %d bytes from user buffer to local\n",
 			__func__, smd_write_arg.size);
 

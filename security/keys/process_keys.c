@@ -792,7 +792,10 @@ long join_session_keyring(const char *name)
 		ret = PTR_ERR(keyring);
 		goto error2;
 	} else if (keyring == new->session_keyring) {
+<<<<<<< HEAD
 		key_put(keyring);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		ret = 0;
 		goto error2;
 	}

@@ -24,7 +24,10 @@
 #include "policydb.h"
 
 static struct kmem_cache *avtab_node_cachep;
+<<<<<<< HEAD
 static struct kmem_cache *avtab_operation_cachep;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 static inline int avtab_hash(struct avtab_key *keyp, u16 mask)
 {
@@ -38,11 +41,15 @@ avtab_insert_node(struct avtab *h, int hvalue,
 		  struct avtab_key *key, struct avtab_datum *datum)
 {
 	struct avtab_node *newnode;
+<<<<<<< HEAD
 	struct avtab_operation *ops;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	newnode = kmem_cache_zalloc(avtab_node_cachep, GFP_KERNEL);
 	if (newnode == NULL)
 		return NULL;
 	newnode->key = *key;
+<<<<<<< HEAD
 
 	if (key->specified & AVTAB_OP) {
 		ops = kmem_cache_zalloc(avtab_operation_cachep, GFP_KERNEL);
@@ -56,6 +63,9 @@ avtab_insert_node(struct avtab *h, int hvalue,
 		newnode->datum.u.data = datum->u.data;
 	}
 
+=======
+	newnode->datum = *datum;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (prev) {
 		newnode->next = prev->next;
 		prev->next = newnode;
@@ -84,11 +94,16 @@ static int avtab_insert(struct avtab *h, struct avtab_key *key, struct avtab_dat
 		if (key->source_type == cur->key.source_type &&
 		    key->target_type == cur->key.target_type &&
 		    key->target_class == cur->key.target_class &&
+<<<<<<< HEAD
 		    (specified & cur->key.specified)) {
 			if (specified & AVTAB_OPNUM)
 				break;
 			return -EEXIST;
 		}
+=======
+		    (specified & cur->key.specified))
+			return -EEXIST;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (key->source_type < cur->key.source_type)
 			break;
 		if (key->source_type == cur->key.source_type &&
@@ -249,9 +264,12 @@ void avtab_destroy(struct avtab *h)
 		while (cur) {
 			temp = cur;
 			cur = cur->next;
+<<<<<<< HEAD
 			if (temp->key.specified & AVTAB_OP)
 				kmem_cache_free(avtab_operation_cachep,
 							temp->datum.u.ops);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			kmem_cache_free(avtab_node_cachep, temp);
 		}
 		h->htable[i] = NULL;
@@ -340,6 +358,7 @@ static uint16_t spec_order[] = {
 	AVTAB_AUDITALLOW,
 	AVTAB_TRANSITION,
 	AVTAB_CHANGE,
+<<<<<<< HEAD
 	AVTAB_MEMBER,
 	AVTAB_OPNUM_ALLOWED,
 	AVTAB_OPNUM_AUDITALLOW,
@@ -347,6 +366,9 @@ static uint16_t spec_order[] = {
 	AVTAB_OPTYPE_ALLOWED,
 	AVTAB_OPTYPE_AUDITALLOW,
 	AVTAB_OPTYPE_DONTAUDIT
+=======
+	AVTAB_MEMBER
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 int avtab_read_item(struct avtab *a, void *fp, struct policydb *pol,
@@ -356,11 +378,18 @@ int avtab_read_item(struct avtab *a, void *fp, struct policydb *pol,
 {
 	__le16 buf16[4];
 	u16 enabled;
+<<<<<<< HEAD
 	u32 items, items2, val, vers = pol->policyvers;
 	struct avtab_key key;
 	struct avtab_datum datum;
 	struct avtab_operation ops;
 	__le32 buf32[ARRAY_SIZE(ops.op.perms)];
+=======
+	__le32 buf32[7];
+	u32 items, items2, val, vers = pol->policyvers;
+	struct avtab_key key;
+	struct avtab_datum datum;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int i, rc;
 	unsigned set;
 
@@ -417,15 +446,22 @@ int avtab_read_item(struct avtab *a, void *fp, struct policydb *pol,
 			printk(KERN_ERR "SELinux: avtab: entry has both access vectors and types\n");
 			return -EINVAL;
 		}
+<<<<<<< HEAD
 		if (val & AVTAB_OP) {
 			printk(KERN_ERR "SELinux: avtab: entry has operations\n");
 			return -EINVAL;
 		}
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		for (i = 0; i < ARRAY_SIZE(spec_order); i++) {
 			if (val & spec_order[i]) {
 				key.specified = spec_order[i] | enabled;
+<<<<<<< HEAD
 				datum.u.data = le32_to_cpu(buf32[items++]);
+=======
+				datum.data = le32_to_cpu(buf32[items++]);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				rc = insertf(a, &key, &datum, p);
 				if (rc)
 					return rc;
@@ -444,6 +480,10 @@ int avtab_read_item(struct avtab *a, void *fp, struct policydb *pol,
 		printk(KERN_ERR "SELinux: avtab: truncated entry\n");
 		return rc;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	items = 0;
 	key.source_type = le16_to_cpu(buf16[items++]);
 	key.target_type = le16_to_cpu(buf16[items++]);
@@ -467,6 +507,7 @@ int avtab_read_item(struct avtab *a, void *fp, struct policydb *pol,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if ((vers < POLICYDB_VERSION_IOCTL_OPERATIONS)
 			|| !(key.specified & AVTAB_OP)) {
 		rc = next_entry(buf32, fp, sizeof(u32));
@@ -493,6 +534,16 @@ int avtab_read_item(struct avtab *a, void *fp, struct policydb *pol,
 	}
 	if ((key.specified & AVTAB_TYPE) &&
 	    !policydb_type_isvalid(pol, datum.u.data)) {
+=======
+	rc = next_entry(buf32, fp, sizeof(u32));
+	if (rc) {
+		printk(KERN_ERR "SELinux: avtab: truncated entry\n");
+		return rc;
+	}
+	datum.data = le32_to_cpu(*buf32);
+	if ((key.specified & AVTAB_TYPE) &&
+	    !policydb_type_isvalid(pol, datum.data)) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		printk(KERN_ERR "SELinux: avtab: invalid type\n");
 		return -EINVAL;
 	}
@@ -552,9 +603,14 @@ bad:
 int avtab_write_item(struct policydb *p, struct avtab_node *cur, void *fp)
 {
 	__le16 buf16[4];
+<<<<<<< HEAD
 	__le32 buf32[ARRAY_SIZE(cur->datum.u.ops->op.perms)];
 	int rc;
 	unsigned int i;
+=======
+	__le32 buf32[1];
+	int rc;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	buf16[0] = cpu_to_le16(cur->key.source_type);
 	buf16[1] = cpu_to_le16(cur->key.target_type);
@@ -563,6 +619,7 @@ int avtab_write_item(struct policydb *p, struct avtab_node *cur, void *fp)
 	rc = put_entry(buf16, sizeof(u16), 4, fp);
 	if (rc)
 		return rc;
+<<<<<<< HEAD
 
 	if (cur->key.specified & AVTAB_OP) {
 		rc = put_entry(&cur->datum.u.ops->type, sizeof(u8), 1, fp);
@@ -576,6 +633,10 @@ int avtab_write_item(struct policydb *p, struct avtab_node *cur, void *fp)
 		buf32[0] = cpu_to_le32(cur->datum.u.data);
 		rc = put_entry(buf32, sizeof(u32), 1, fp);
 	}
+=======
+	buf32[0] = cpu_to_le32(cur->datum.data);
+	rc = put_entry(buf32, sizeof(u32), 1, fp);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (rc)
 		return rc;
 	return 0;
@@ -608,13 +669,19 @@ void avtab_cache_init(void)
 	avtab_node_cachep = kmem_cache_create("avtab_node",
 					      sizeof(struct avtab_node),
 					      0, SLAB_PANIC, NULL);
+<<<<<<< HEAD
 	avtab_operation_cachep = kmem_cache_create("avtab_operation",
 					      sizeof(struct avtab_operation),
 					      0, SLAB_PANIC, NULL);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 void avtab_cache_destroy(void)
 {
 	kmem_cache_destroy(avtab_node_cachep);
+<<<<<<< HEAD
 	kmem_cache_destroy(avtab_operation_cachep);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }

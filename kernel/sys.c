@@ -2187,7 +2187,11 @@ static int prctl_set_vma_anon_name(unsigned long start, unsigned long end,
 			tmp = end;
 
 		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
+<<<<<<< HEAD
 		error = prctl_update_vma_anon_name(vma, &prev, start, tmp,
+=======
+		error = prctl_update_vma_anon_name(vma, &prev, start, end,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				(const char __user *)arg);
 		if (error)
 			return error;
@@ -2427,12 +2431,20 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 		if (arg2 != 1 || arg3 || arg4 || arg5)
 			return -EINVAL;
 
+<<<<<<< HEAD
 		task_set_no_new_privs(current);
+=======
+		current->no_new_privs = 1;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 	case PR_GET_NO_NEW_PRIVS:
 		if (arg2 || arg3 || arg4 || arg5)
 			return -EINVAL;
+<<<<<<< HEAD
 		return task_no_new_privs(current) ? 1 : 0;
+=======
+		return current->no_new_privs ? 1 : 0;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	case PR_SET_VMA:
 		error = prctl_set_vma(arg2, arg3, arg4, arg5);
 		break;

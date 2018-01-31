@@ -58,8 +58,11 @@
 #define IS_CAL_DATA_PRESENT     0
 #define WAIT_FOR_CBC_IND	2
 
+<<<<<<< HEAD
 const char *chip_name = NULL;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /* module params */
 #define WCNSS_CONFIG_UNSPECIFIED (-1)
 #define UINT32_MAX (0xFFFFFFFFU)
@@ -542,6 +545,7 @@ static ssize_t wcnss_version_show(struct device *dev,
 static DEVICE_ATTR(wcnss_version, S_IRUSR,
 		wcnss_version_show, NULL);
 
+<<<<<<< HEAD
 static ssize_t wcnss_name_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
@@ -553,6 +557,8 @@ static ssize_t wcnss_name_show(struct device *dev,
 static DEVICE_ATTR(wcnss_name, S_IRUSR,
 		wcnss_name_show, NULL);
         
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 void wcnss_riva_dump_pmic_regs(void)
 {
 	int i, rc;
@@ -1135,6 +1141,7 @@ void wcnss_reset_intr(void)
 }
 EXPORT_SYMBOL(wcnss_reset_intr);
 
+<<<<<<< HEAD
 void wcnss_reset_fiq(bool clk_chk_en)
 {
 	if (wcnss_hardware_type() == WCNSS_PRONTO_HW) {
@@ -1154,6 +1161,8 @@ void wcnss_reset_fiq(bool clk_chk_en)
 }
 EXPORT_SYMBOL(wcnss_reset_fiq);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int wcnss_create_sysfs(struct device *dev)
 {
 	int ret;
@@ -1173,10 +1182,13 @@ static int wcnss_create_sysfs(struct device *dev)
 	if (ret)
 		goto remove_thermal;
 
+<<<<<<< HEAD
 	ret = device_create_file(dev, &dev_attr_wcnss_name);
 	if (ret)
 		goto remove_thermal;
     
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ret = device_create_file(dev, &dev_attr_wcnss_mac_addr);
 	if (ret)
 		goto remove_version;
@@ -2684,7 +2696,10 @@ wcnss_trigger_config(struct platform_device *pdev)
 {
 	int ret;
 	int rc;
+<<<<<<< HEAD
 	struct clk *snoc_qosgen;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct qcom_wcnss_opts *pdata;
 	struct resource *res;
 	int is_pronto_vt;
@@ -3017,6 +3032,7 @@ wcnss_trigger_config(struct platform_device *pdev)
 		penv->fw_vbatt_state = WCNSS_CONFIG_UNSPECIFIED;
 	}
 
+<<<<<<< HEAD
 	snoc_qosgen = clk_get(&pdev->dev, "snoc_qosgen");
 
 	if (IS_ERR(snoc_qosgen)) {
@@ -3029,6 +3045,8 @@ wcnss_trigger_config(struct platform_device *pdev)
 		}
 	}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (penv->wlan_config.is_pronto_v3) {
 		penv->vadc_dev = qpnp_get_vadc(&penv->pdev->dev, "wcnss");
 
@@ -3068,6 +3086,7 @@ wcnss_trigger_config(struct platform_device *pdev)
 	/* Remove pm_qos request */
 	wcnss_disable_pc_remove_req();
 
+<<<<<<< HEAD
 	if (of_property_read_bool(pdev->dev.of_node,
 		"qcom,wlan-indication-enabled"))
 		wcnss_en_wlan_led_trigger();
@@ -3080,6 +3099,8 @@ wcnss_trigger_config(struct platform_device *pdev)
      printk("Error reading qcom,chip_name rc=%d\n", rc);
      chip_name = NULL;
    }
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 
 fail_ioremap2:
@@ -3100,6 +3121,7 @@ fail_gpio_res:
 	return ret;
 }
 
+<<<<<<< HEAD
 /* wlan prop driver cannot invoke cancel_work_sync
  * function directly, so to invoke this function it
  * call wcnss_flush_work function
@@ -3134,6 +3156,8 @@ void wcnss_flush_delayed_work(struct delayed_work *dwork)
 }
 EXPORT_SYMBOL(wcnss_flush_delayed_work);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int wcnss_node_open(struct inode *inode, struct file *file)
 {
 	struct platform_device *pdev;
@@ -3286,7 +3310,10 @@ static int wcnss_notif_cb(struct notifier_block *this, unsigned long code,
 		wcnss_disable_pc_add_req();
 		schedule_delayed_work(&penv->wcnss_pm_qos_del_req,
 				msecs_to_jiffies(WCNSS_PM_QOS_TIMEOUT));
+<<<<<<< HEAD
 		penv->is_shutdown = 1;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		wcnss_log_debug_regs_on_bite();
 	} else if (code == SUBSYS_POWERUP_FAILURE) {
 		if (pdev && pwlanconfig)

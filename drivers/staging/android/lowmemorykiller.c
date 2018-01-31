@@ -162,6 +162,7 @@ static int lmk_vmpressure_notifier(struct notifier_block *nb,
 				trace_almk_vmpressure(pressure, other_free,
 					other_file);
 		}
+<<<<<<< HEAD
 	} else if (atomic_read(&shift_adj)) {
 		/*
 		 * shift_adj would have been set by a previous invocation
@@ -171,6 +172,8 @@ static int lmk_vmpressure_notifier(struct notifier_block *nb,
 		 */
 		trace_almk_vmpressure(pressure, other_free, other_file);
 		atomic_set(&shift_adj, 0);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	return 0;
@@ -182,16 +185,26 @@ static struct notifier_block lmk_vmpr_nb = {
 
 static int test_task_flag(struct task_struct *p, int flag)
 {
+<<<<<<< HEAD
 	struct task_struct *t;
 
 	for_each_thread(p, t) {
+=======
+	struct task_struct *t = p;
+
+	do {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		task_lock(t);
 		if (test_tsk_thread_flag(t, flag)) {
 			task_unlock(t);
 			return 1;
 		}
 		task_unlock(t);
+<<<<<<< HEAD
 	}
+=======
+	} while_each_thread(p, t);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return 0;
 }

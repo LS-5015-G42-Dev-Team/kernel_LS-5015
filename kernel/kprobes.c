@@ -225,7 +225,11 @@ static int __kprobes collect_one_slot(struct kprobe_insn_page *kip, int idx)
 		 */
 		if (!list_is_singular(&kip->list)) {
 			list_del(&kip->list);
+<<<<<<< HEAD
 			module_memfree(kip->insns);
+=======
+			module_free(NULL, kip->insns);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			kfree(kip);
 		}
 		return 1;

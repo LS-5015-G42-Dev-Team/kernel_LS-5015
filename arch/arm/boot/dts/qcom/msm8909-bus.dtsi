@@ -1018,6 +1018,7 @@
 			qcom,slv-rpm-id = <ICBID_SLAVE_CATS_1>;
 		};
 	};
+<<<<<<< HEAD
 
 	devfreq_spdm_cpu {
 		compatible = "qcom,devfreq_spdm";
@@ -1061,4 +1062,6 @@
 		interrupt-names = "spdm-irq";
 		interrupts = <0 192 0>;
 	};
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };

@@ -24,7 +24,11 @@
 			qcom,thresh = <2764800>;
 			qcom,mode = <THROTTLE_ON>;
 			qcom,dest-node = <&mas_apss>;
+<<<<<<< HEAD
 			qcom,dest-bw = <1100000>;
+=======
+			qcom,dest-bw = <1000000>;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		};
 
 		rule1 {
@@ -34,7 +38,11 @@
 			qcom,thresh = <5606400>;
 			qcom,mode = <THROTTLE_ON>;
 			qcom,dest-node = <&mas_apss>;
+<<<<<<< HEAD
 			qcom,dest-bw = <1600000>;
+=======
+			qcom,dest-bw = <1400000>;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		};
 
 		rule2 {

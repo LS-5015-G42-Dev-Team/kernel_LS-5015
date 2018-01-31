@@ -17,7 +17,10 @@
 #include <linux/clk.h>
 #include <linux/mutex.h>
 #include <linux/platform_device.h>
+<<<<<<< HEAD
 #include <linux/pm_qos.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/spinlock.h>
 #include <linux/msm_iommu_domains.h>
 #include <soc/qcom/ocmem.h>
@@ -206,7 +209,10 @@ struct venus_hfi_device {
 	enum venus_hfi_state state;
 	struct hfi_packetization_ops *pkt_ops;
 	enum hfi_packetization_type packetization_type;
+<<<<<<< HEAD
 	struct pm_qos_request qos;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 void venus_hfi_delete_device(void *device);

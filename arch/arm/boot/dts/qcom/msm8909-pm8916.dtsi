@@ -16,10 +16,13 @@
 #include "msm8916-regulator.dtsi"
 #include "msm8909-pm8916-camera.dtsi"
 
+<<<<<<< HEAD
 / {
 	qcom,pmic-id = <0x1000B 0x0 0x0 0x0>;
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 &soc {
 	/* remove msm8916 acc/cpr regulator node */
 	/delete-node/ regulator@1946000;
@@ -94,7 +97,11 @@
 					<6 1094400000>,
 					<7 1190400000>,
 					<8 1248000000>,
+<<<<<<< HEAD
 					<9 1267200000>;
+=======
+					<9 1305600000>;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,speed-bin-fuse-sel = <1 34 3 0>;
 		qcom,cpr-speed-bin-max-corners =
 					<0 0 2 4 9>,
@@ -121,7 +128,11 @@
 			< 1094400000 6>,
 			< 1190400000 7>,
 			< 1248000000 8>,
+<<<<<<< HEAD
 			< 1267200000 9>;
+=======
+			< 1305600000 9>;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		qcom,speed2-bin-v0 =
 			<          0 0>,
@@ -194,12 +205,15 @@
 
 	qcom,msm-thermal {
 		vdd-dig-supply = <&pm8916_s1_floor_corner>;
+<<<<<<< HEAD
 
 		qcom,vdd-apps-rstr {
 			qcom,vdd-rstr-reg = "vdd-apps";
 			qcom,levels = <800000>;
 			qcom,freq-req;
 		};
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 };
 

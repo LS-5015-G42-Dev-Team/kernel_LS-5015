@@ -6,9 +6,15 @@ obj-y     = fork.o exec_domain.o panic.o printk.o \
 	    cpu.o exit.o itimer.o time.o softirq.o resource.o \
 	    sysctl.o sysctl_binary.o capability.o ptrace.o timer.o user.o \
 	    signal.o sys.o kmod.o workqueue.o pid.o task_work.o \
+<<<<<<< HEAD
 	    extable.o params.o posix-timers.o \
 	    kthread.o wait.o sys_ni.o posix-cpu-timers.o mutex.o \
 	    hrtimer.o rwsem.o nsproxy.o semaphore.o \
+=======
+	    rcupdate.o extable.o params.o posix-timers.o \
+	    kthread.o wait.o sys_ni.o posix-cpu-timers.o mutex.o \
+	    hrtimer.o rwsem.o nsproxy.o srcu.o semaphore.o \
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	    notifier.o ksysfs.o cred.o \
 	    async.o range.o groups.o lglock.o smpboot.o
 
@@ -26,7 +32,10 @@ obj-y += sched/
 obj-y += power/
 obj-y += cpu/
 obj-y += irq/
+<<<<<<< HEAD
 obj-y += rcu/
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
 obj-$(CONFIG_FREEZER) += freezer.o
@@ -81,6 +90,15 @@ obj-$(CONFIG_KGDB) += debug/
 obj-$(CONFIG_DETECT_HUNG_TASK) += hung_task.o
 obj-$(CONFIG_LOCKUP_DETECTOR) += watchdog.o
 obj-$(CONFIG_SECCOMP) += seccomp.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_RCU_TORTURE_TEST) += rcutorture.o
+obj-$(CONFIG_TREE_RCU) += rcutree.o
+obj-$(CONFIG_TREE_PREEMPT_RCU) += rcutree.o
+obj-$(CONFIG_TREE_RCU_TRACE) += rcutree_trace.o
+obj-$(CONFIG_TINY_RCU) += rcutiny.o
+obj-$(CONFIG_TINY_PREEMPT_RCU) += rcutiny.o
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 obj-$(CONFIG_RELAY) += relay.o
 obj-$(CONFIG_SYSCTL) += utsname_sysctl.o
 obj-$(CONFIG_TASK_DELAY_ACCT) += delayacct.o

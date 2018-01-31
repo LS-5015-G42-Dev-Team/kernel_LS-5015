@@ -508,6 +508,10 @@ int setup_signal_stack_si(unsigned long stack_top, int sig,
 {
 	struct rt_sigframe __user *frame;
 	int err = 0;
+<<<<<<< HEAD
+=======
+	struct task_struct *me = current;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	frame = (struct rt_sigframe __user *)
 		round_down(stack_top - sizeof(struct rt_sigframe), 16);

@@ -2771,7 +2771,11 @@ void tcp_get_info(const struct sock *sk, struct tcp_info *info)
 	if (sk->sk_socket) {
 		struct file *filep = sk->sk_socket->file;
 		if (filep)
+<<<<<<< HEAD
 			info->tcpi_count = file_count(filep);
+=======
+			info->tcpi_count = atomic_read(&filep->f_count);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 }
 EXPORT_SYMBOL_GPL(tcp_get_info);
@@ -3583,6 +3587,7 @@ restart:
 			sock_hold(sk);
 			spin_unlock_bh(lock);
 
+<<<<<<< HEAD
 			lock_sock(sk);
 			local_bh_disable();
 			bh_lock_sock(sk);
@@ -3597,6 +3602,16 @@ restart:
 			bh_unlock_sock(sk);
 			local_bh_enable();
 			release_sock(sk);
+=======
+			local_bh_disable();
+			bh_lock_sock(sk);
+			sk->sk_err = ETIMEDOUT;
+			sk->sk_error_report(sk);
+
+			tcp_done(sk);
+			bh_unlock_sock(sk);
+			local_bh_enable();
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			sock_put(sk);
 
 			goto restart;

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2014-2015, Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014, Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -17,7 +21,10 @@
 #include <linux/types.h>
 
 #define CPE_AFE_PORT_1_TX 1
+<<<<<<< HEAD
 #define CPE_AFE_PORT_ID_2_OUT 0x02
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define CMI_INBAND_MESSAGE_SIZE 127
 
 /*
@@ -35,15 +42,21 @@
 #define CPE_CORE_SVC_CMD_SHARED_MEM_DEALLOC	(0x3003)
 #define CPE_CORE_SVC_CMD_DRAM_ACCESS_REQ	(0x3004)
 #define CPE_CORE_SVC_EVENT_SYSTEM_BOOT		(0x3005)
+<<<<<<< HEAD
 /* core service command opcodes for WCD9335 */
 #define CPE_CORE_SVC_CMD_CFG_CLK_PLAN		(0x3006)
 #define CPE_CORE_SVC_CMD_CLK_FREQ_REQUEST	(0x3007)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define CPE_BOOT_SUCCESS 0x00
 #define CPE_BOOT_FAILED 0x01
 
+<<<<<<< HEAD
 #define CPE_CORE_VERSION_SYSTEM_BOOT_EVENT 0x01
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /* LSM Service command opcodes */
 #define CPE_LSM_SESSION_CMD_OPEN_TX		(0x2000)
 #define CPE_LSM_SESSION_CMD_SET_PARAMS		(0x2001)
@@ -56,7 +69,10 @@
 #define CPE_LSM_SESSION_CMD_SHARED_MEM_ALLOC	(0x2008)
 #define CPE_LSM_SESSION_CMDRSP_SHARED_MEM_ALLOC (0x2009)
 #define CPE_LSM_SESSION_CMD_SHARED_MEM_DEALLOC	(0x200A)
+<<<<<<< HEAD
 #define CPE_LSM_SESSION_CMD_TX_BUFF_OUTPUT_CONFIG (0x200f)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* LSM Service module and param IDs */
 #define CPE_LSM_MODULE_ID_VOICE_WAKEUP		(0x00012C00)
@@ -82,8 +98,11 @@
 #define CPE_AFE_PORT_CMD_SHARED_MEM_ALLOC	(0x1005)
 #define CPE_AFE_PORT_CMDRSP_SHARED_MEM_ALLOC	(0x1006)
 #define CPE_AFE_PORT_CMD_SHARED_MEM_DEALLOC	(0x1007)
+<<<<<<< HEAD
 #define CPE_AFE_PORT_CMD_GENERIC_CONFIG		(0x1008)
 #define CPE_AFE_SVC_CMD_LAB_MODE		(0x1009)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* AFE Service module and param IDs */
 #define CPE_AFE_CMD_SET_PARAM			(0x1000)
@@ -230,9 +249,12 @@ struct cmi_obm_msg {
 
 struct cmi_core_svc_event_system_boot {
 	u8 status;
+<<<<<<< HEAD
 	u8 version;
 	u16 sfr_buff_size;
 	u32 sfr_buff_address;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 } __packed;
 
 struct cmi_core_svc_cmd_shared_mem_alloc {
@@ -243,19 +265,25 @@ struct cmi_core_svc_cmdrsp_shared_mem_alloc {
 	u32 addr;
 } __packed;
 
+<<<<<<< HEAD
 struct cmi_core_svc_cmd_clk_freq_request {
 	u32 clk_freq;
 } __packed;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct cmi_msg_transport {
 	u32 size;
 	u32 addr;
 } __packed;
 
+<<<<<<< HEAD
 struct cmi_basic_rsp_result {
 	u8 status;
 } __packed;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct cpe_lsm_cmd_open_tx {
 	struct cmi_hdr	hdr;
 	u16 app_id;
@@ -307,6 +335,7 @@ struct cpe_afe_port_cfg {
 	u32 sample_rate;
 } __packed;
 
+<<<<<<< HEAD
 struct cpe_afe_cmd_port_cfg {
 	struct cmi_hdr hdr;
 	u8 bit_width;
@@ -315,12 +344,15 @@ struct cpe_afe_cmd_port_cfg {
 	u32 sample_rate;
 } __packed;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct cpe_afe_params {
 	struct cmi_hdr hdr;
 	struct cpe_afe_hw_mad_ctrl hw_mad_ctrl;
 	struct cpe_afe_port_cfg port_cfg;
 };
 
+<<<<<<< HEAD
 struct cpe_afe_svc_cmd_mode {
 	struct cmi_hdr hdr;
 	u8 mode;
@@ -328,6 +360,9 @@ struct cpe_afe_svc_cmd_mode {
 
 struct cpe_lsm_operation_mode {
 	struct cmi_hdr hdr;
+=======
+struct cpe_lsm_operation_mode {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct cpe_param_data param;
 	u32 minor_version;
 	u16 mode;
@@ -335,7 +370,10 @@ struct cpe_lsm_operation_mode {
 } __packed;
 
 struct cpe_lsm_connect_to_port {
+<<<<<<< HEAD
 	struct cmi_hdr hdr;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct cpe_param_data param;
 	u32 minor_version;
 	u16 afe_port_id;
@@ -352,11 +390,18 @@ struct cpe_lsm_conf_level {
 	u8 num_active_models;
 } __packed;
 
+<<<<<<< HEAD
 struct cpe_lsm_output_format_cfg {
 	struct cmi_hdr hdr;
 	u8 format;
 	u8 packing;
 	u8 data_path_events;
+=======
+struct cpe_lsm_params {
+	struct cmi_hdr hdr;
+	struct cpe_lsm_operation_mode op_mode;
+	struct cpe_lsm_connect_to_port connect_port;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 } __packed;
 
 struct cpe_lsm_lab_enable {
@@ -394,11 +439,19 @@ struct cpe_lsm_lab_latency_config {
 #define PARAM_SIZE_LSM_CONTROL_SIZE (sizeof(struct cpe_lsm_lab_enable) - \
 					sizeof(struct cpe_param_data))
 #define PARAM_SIZE_LSM_OP_MODE (sizeof(struct cpe_lsm_operation_mode) - \
+<<<<<<< HEAD
 				sizeof(struct cmi_hdr) - \
 				sizeof(struct cpe_param_data))
 #define PARAM_SIZE_LSM_CONNECT_PORT (sizeof(struct cpe_lsm_connect_to_port) - \
 				sizeof(struct cmi_hdr) - \
 				sizeof(struct cpe_param_data))
+=======
+				sizeof(struct cpe_param_data))
+#define PARAM_SIZE_LSM_CONNECT_PORT (sizeof(struct cpe_lsm_connect_to_port) - \
+				sizeof(struct cpe_param_data))
+#define CPE_PARAM_PAYLOAD_SIZE (sizeof(struct cpe_lsm_params) - \
+				sizeof(struct cmi_hdr))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define PARAM_SIZE_AFE_HW_MAD_CTRL (sizeof(struct cpe_afe_hw_mad_ctrl) - \
 				sizeof(struct cpe_param_data))
 #define PARAM_SIZE_AFE_PORT_CFG (sizeof(struct cpe_afe_port_cfg) - \
@@ -414,6 +467,7 @@ struct cpe_lsm_lab_latency_config {
 
 #define SHMEM_DEALLOC_CMD_PLD_SIZE (sizeof(struct cpe_cmd_shmem_dealloc) - \
 				      sizeof(struct cmi_hdr))
+<<<<<<< HEAD
 #define OUT_FMT_CFG_CMD_PAYLOAD_SIZE ( \
 		sizeof(struct cpe_lsm_output_format_cfg) - \
 		sizeof(struct cmi_hdr))
@@ -425,4 +479,6 @@ struct cpe_lsm_lab_latency_config {
 #define CPE_AFE_CMD_MODE_PAYLOAD_SIZE \
 		(sizeof(struct cpe_afe_svc_cmd_mode) - \
 		 sizeof(struct cmi_hdr))
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif /* __CPE_CMI_H__ */

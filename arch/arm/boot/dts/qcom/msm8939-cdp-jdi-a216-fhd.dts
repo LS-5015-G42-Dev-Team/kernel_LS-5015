@@ -14,6 +14,10 @@
 
 #include "msm8939.dtsi"
 #include "msm8939-cdp.dtsi"
+<<<<<<< HEAD
+=======
+#include "msm8939-regulator.dtsi"
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 / {
 	model = "Qualcomm Technologies, Inc. MSM 8939 CDP JDI 5.5-inch A216 FHD";
@@ -31,6 +35,7 @@
 	status = "disabled";
 };
 
+<<<<<<< HEAD
 &ts_reset_active {
 	output-high;
 };
@@ -39,6 +44,8 @@
 	output-low;
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 &spi_5 {
 	status = "okay";
 	bu21150-ts-spi@0 {
@@ -61,7 +68,10 @@
 		jdi,panel-model = "ql1500";
 		jdi,pitch-type = "np";
 		jdi,afe-vendor = "rohm";
+<<<<<<< HEAD
 		jdi,timeout-enable;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 };
 

@@ -9,7 +9,10 @@
 #include <linux/list.h>
 #include <linux/sysctl.h>
 
+<<<<<<< HEAD
 #include <net/flow.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <net/netns/core.h>
 #include <net/netns/mib.h>
 #include <net/netns/unix.h>
@@ -121,6 +124,17 @@ struct net {
 	atomic_t		rt_genid;
 };
 
+<<<<<<< HEAD
+=======
+/*
+ * ifindex generation is per-net namespace, and loopback is
+ * always the 1st device in ns (see net_dev_init), thus any
+ * loopback device should get ifindex 1
+ */
+
+#define LOOPBACK_IFINDEX	1
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/seq_file_net.h>
 
 /* Init's network namespace */

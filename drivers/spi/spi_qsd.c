@@ -1857,7 +1857,10 @@ static int msm_spi_transfer_one_message(struct spi_master *master,
 	if (dd->pdata->is_shared) {
 		if (get_local_resources(dd)) {
 			mutex_unlock(&dd->core_lock);
+<<<<<<< HEAD
 			spi_finalize_current_message(master);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			return -EINVAL;
 		}
 
@@ -1916,8 +1919,12 @@ static int msm_spi_prepare_transfer_hardware(struct spi_master *master)
 
 	resume_state = pm_runtime_get_sync(dd->dev);
 	if (resume_state < 0)
+<<<<<<< HEAD
 		goto spi_finalize;
 
+=======
+		return resume_state;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/*
 	 * Counter-part of system-suspend when runtime-pm is not enabled.
 	 * This way, resume can be left empty and device will be put in
@@ -1926,6 +1933,7 @@ static int msm_spi_prepare_transfer_hardware(struct spi_master *master)
 	if (!pm_runtime_enabled(dd->dev))
 		resume_state = msm_spi_pm_resume_runtime(dd->dev);
 	if (resume_state < 0)
+<<<<<<< HEAD
 		goto spi_finalize;
 	if (dd->suspended) {
 		resume_state = -EBUSY;
@@ -1936,6 +1944,13 @@ static int msm_spi_prepare_transfer_hardware(struct spi_master *master)
 spi_finalize:
 	spi_finalize_current_message(master);
 	return resume_state;
+=======
+		return resume_state;
+	if (dd->suspended)
+		return -EBUSY;
+
+	return 0;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static int msm_spi_unprepare_transfer_hardware(struct spi_master *master)

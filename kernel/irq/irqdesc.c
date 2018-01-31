@@ -91,9 +91,12 @@ static void desc_set_defaults(unsigned int irq, struct irq_desc *desc, int node,
 	for_each_possible_cpu(cpu)
 		*per_cpu_ptr(desc->kstat_irqs, cpu) = 0;
 	desc_smp_init(desc, node);
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
 	INIT_LIST_HEAD(&desc->affinity_notify);
 #endif
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 int nr_irqs = NR_IRQS;

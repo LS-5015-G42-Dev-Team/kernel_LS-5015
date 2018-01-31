@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014, 2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -16,7 +20,10 @@
 #include <linux/miscdevice.h>
 #include <linux/uaccess.h>
 #include <linux/mutex.h>
+<<<<<<< HEAD
 #include <linux/ratelimit.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <sound/audio_cal_utils.h>
 
 
@@ -94,12 +101,15 @@ size_t get_cal_info_size(int32_t cal_type)
 	case AFE_SIDETONE_CAL_TYPE:
 		size = sizeof(struct audio_cal_info_sidetone);
 		break;
+<<<<<<< HEAD
 	case LSM_CUST_TOPOLOGY_CAL_TYPE:
 		size = 0;
 		break;
 	case LSM_TOPOLOGY_CAL_TYPE:
 		size = sizeof(struct audio_cal_info_lsm_top);
 		break;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	case LSM_CAL_TYPE:
 		size = sizeof(struct audio_cal_info_lsm);
 		break;
@@ -212,12 +222,15 @@ size_t get_user_cal_type_size(int32_t cal_type)
 	case AFE_SIDETONE_CAL_TYPE:
 		size = sizeof(struct audio_cal_type_sidetone);
 		break;
+<<<<<<< HEAD
 	case LSM_CUST_TOPOLOGY_CAL_TYPE:
 		size = sizeof(struct audio_cal_type_basic);
 		break;
 	case LSM_TOPOLOGY_CAL_TYPE:
 		size = sizeof(struct audio_cal_type_lsm_top);
 		break;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	case LSM_CAL_TYPE:
 		size = sizeof(struct audio_cal_type_lsm);
 		break;
@@ -540,13 +553,21 @@ static struct cal_block_data *create_cal_block(struct cal_type_data *cal_type,
 		goto done;
 	}
 
+<<<<<<< HEAD
 	cal_block = kzalloc(sizeof(*cal_block),
+=======
+	cal_block = kmalloc(sizeof(*cal_type),
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		GFP_KERNEL);
 	if (cal_block == NULL) {
 		pr_err("%s: could not allocate cal_block!\n", __func__);
 		goto done;
 	}
 
+<<<<<<< HEAD
+=======
+	memset(cal_block, 0, sizeof(*cal_block));
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	INIT_LIST_HEAD(&cal_block->list);
 	list_add_tail(&cal_block->list, &cal_type->cal_blocks);
 
@@ -571,7 +592,11 @@ static struct cal_block_data *create_cal_block(struct cal_type_data *cal_type,
 				client_info_size);
 	}
 
+<<<<<<< HEAD
 	cal_block->cal_info = kzalloc(
+=======
+	cal_block->cal_info = kmalloc(
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		get_cal_info_size(cal_type->info.reg.cal_type),
 		GFP_KERNEL);
 	if (cal_block->cal_info == NULL) {
@@ -580,7 +605,11 @@ static struct cal_block_data *create_cal_block(struct cal_type_data *cal_type,
 		goto err;
 	}
 	cal_block->buffer_number = basic_cal->cal_hdr.buffer_number;
+<<<<<<< HEAD
 	pr_debug("%s: created block for cal type %d, buf num %d, map handle %d, map size %zd paddr 0x%pK!\n",
+=======
+	pr_debug("%s: created block for cal type %d, buf num %d, map handle %d, map size %zd paddr 0x%pa!\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		__func__, cal_type->info.reg.cal_type,
 		cal_block->buffer_number,
 		cal_block->map_data.ion_map_handle,
@@ -653,7 +682,10 @@ static int map_memory(struct cal_type_data *cal_type,
 			struct cal_block_data *cal_block)
 {
 	int ret = 0;
+<<<<<<< HEAD
 	static DEFINE_RATELIMIT_STATE(rl, HZ/2, 1);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 
 	if (cal_type->info.cal_util_callbacks.map_cal != NULL) {
@@ -668,8 +700,12 @@ static int map_memory(struct cal_type_data *cal_type,
 		ret = cal_type->info.cal_util_callbacks.
 			map_cal(cal_type->info.reg.cal_type, cal_block);
 		if (ret < 0) {
+<<<<<<< HEAD
 			if (__ratelimit(&rl))
 				pr_err("%s: map_cal failed, cal type %d, ret = %d!\n",
+=======
+			pr_err("%s: map_cal failed, cal type %d, ret = %d!\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				__func__, cal_type->info.reg.cal_type,
 				ret);
 			goto done;

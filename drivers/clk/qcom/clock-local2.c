@@ -414,6 +414,7 @@ static void branch_clk_halt_check(struct clk *c, u32 halt_check,
 	}
 }
 
+<<<<<<< HEAD
 static int cbcr_set_flags(void * __iomem regaddr, unsigned flags)
 {
 	u32 cbcr_val;
@@ -450,6 +451,8 @@ static int cbcr_set_flags(void * __iomem regaddr, unsigned flags)
 	return ret;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int branch_clk_enable(struct clk *c)
 {
 	unsigned long flags;
@@ -636,7 +639,43 @@ static int branch_clk_reset(struct clk *c, enum clk_reset_action action)
 
 static int branch_clk_set_flags(struct clk *c, unsigned flags)
 {
+<<<<<<< HEAD
 	return cbcr_set_flags(CBCR_REG(to_branch_clk(c)), flags);
+=======
+	u32 cbcr_val;
+	unsigned long irq_flags;
+	struct branch_clk *branch = to_branch_clk(c);
+	int delay_us = 0, ret = 0;
+
+	spin_lock_irqsave(&local_clock_reg_lock, irq_flags);
+	cbcr_val = readl_relaxed(CBCR_REG(branch));
+	switch (flags) {
+	case CLKFLAG_RETAIN_PERIPH:
+		cbcr_val |= BIT(13);
+		delay_us = 1;
+		break;
+	case CLKFLAG_NORETAIN_PERIPH:
+		cbcr_val &= ~BIT(13);
+		break;
+	case CLKFLAG_RETAIN_MEM:
+		cbcr_val |= BIT(14);
+		delay_us = 1;
+		break;
+	case CLKFLAG_NORETAIN_MEM:
+		cbcr_val &= ~BIT(14);
+		break;
+	default:
+		ret = -EINVAL;
+	}
+	writel_relaxed(cbcr_val, CBCR_REG(branch));
+	/* Make sure power is enabled before returning. */
+	mb();
+	udelay(delay_us);
+
+	spin_unlock_irqrestore(&local_clock_reg_lock, irq_flags);
+
+	return ret;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void __iomem *branch_clk_list_registers(struct clk *c, int n,
@@ -1194,11 +1233,14 @@ static enum handoff gate_clk_handoff(struct clk *c)
 	return HANDOFF_DISABLED_CLK;
 }
 
+<<<<<<< HEAD
 static int gate_clk_set_flags(struct clk *c, unsigned flags)
 {
 	return cbcr_set_flags(GATE_EN_REG(to_gate_clk(c)), flags);
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int reset_clk_rst(struct clk *c, enum clk_reset_action action)
 {
 	struct reset_clk *rst = to_reset_clk(c);
@@ -1532,7 +1574,10 @@ struct clk_ops clk_ops_gate = {
 	.set_rate = parent_set_rate,
 	.get_rate = parent_get_rate,
 	.round_rate = parent_round_rate,
+<<<<<<< HEAD
 	.set_flags = gate_clk_set_flags,
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	.handoff = gate_clk_handoff,
 	.list_registers = gate_clk_list_registers,
 };

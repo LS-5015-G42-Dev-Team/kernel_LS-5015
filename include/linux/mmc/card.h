@@ -84,7 +84,11 @@ struct mmc_ext_csd {
 	bool			hpi;			/* HPI support bit */
 	unsigned int		hpi_cmd;		/* cmd used as HPI */
 	bool			bkops;		/* background support bit */
+<<<<<<< HEAD
 	u8			bkops_en;	/* background enable bits */
+=======
+	bool			bkops_en;	/* background enable bit */
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	unsigned int            data_sector_size;       /* 512 bytes or 4KB */
 	unsigned int            data_tag_unit_size;     /* DATA TAG UNIT size */
 	unsigned int		boot_ro_lock;		/* ro lock support */
@@ -402,6 +406,7 @@ struct mmc_card {
 };
 
 /*
+<<<<<<< HEAD
  * mmc_csd registers get/set/clr helpers
  */
 #define mmc_card_get_bkops_en_manual(card) ((card->ext_csd.bkops_en) &\
@@ -419,6 +424,8 @@ struct mmc_card {
 					~EXT_CSD_BKOPS_EN_AUTO_EN)
 
 /*
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * This function fill contents in mmc_part.
  */
 static inline void mmc_part_add(struct mmc_card *card, unsigned int size,

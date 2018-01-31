@@ -302,15 +302,23 @@
 	clock_cpu: qcom,clock-a7@0b011050 {
 		compatible = "qcom,clock-a53-8916";
 		reg = <0x0b011050 0x8>,
+<<<<<<< HEAD
 		      <0x0005c004 0x8>,
 		      <0x0005c00c 0x8>;
 		reg-names = "rcg-base", "efuse1", "efuse";
+=======
+		      <0x0005c004 0x8>;
+		reg-names = "rcg-base", "efuse1";
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,safe-freq = < 400000000 >;
 		cpu-vdd-supply = <&apc_vreg_corner>;
 		clocks = <&clock_gcc clk_gpll0_ao_clk_src>,
 			 <&clock_gcc clk_a53sspll>;
 		clock-names = "clk-4", "clk-5";
+<<<<<<< HEAD
 		#clock-cells = <1>;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,speed0-bin-v0 =
 			<          0 0>,
 			<  200000000 1>,
@@ -331,6 +339,7 @@
 			<  998400000 5>,
 			< 1094400000 6>,
 			< 1152000000 7>;
+<<<<<<< HEAD
 
 		qcom,speed3-bin-v0 =
 			<          0 0>,
@@ -370,11 +379,18 @@
 			<  533333000 3>,
 			<  800000000 4>,
 			<  998400000 5>;
+=======
+		#clock-cells = <1>;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 
 	cpubw: qcom,cpubw {
 		compatible = "qcom,devbw";
+<<<<<<< HEAD
 		governor = "performance";
+=======
+		governor = "cpufreq";
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,src-dst-ports = <1 512>;
 		qcom,active-only;
 		qcom,bw-tbl =
@@ -419,8 +435,12 @@
 			 <  998400 >,
 			 < 1094400 >,
 			 < 1152000 >,
+<<<<<<< HEAD
 			 < 1209600 >,
 			 < 1363200 >;
+=======
+			 < 1209600 >;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 
 	qcom,sps {
@@ -644,7 +664,11 @@
 
 		qcom,bus-width = <8>;
 
+<<<<<<< HEAD
 		qcom,cpu-dma-latency-us = <2 401 701>;
+=======
+		qcom,cpu-dma-latency-us = <701>;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,msm-bus,name = "sdhc1";
 		qcom,msm-bus,num-cases = <8>;
 		qcom,msm-bus,num-paths = <1>;
@@ -827,7 +851,10 @@
 			qcom,smd-irq-bitmask = <0x1000>;
 			interrupts = <0 25 1>;
 			label = "modem";
+<<<<<<< HEAD
 			qcom,not-loadable;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		};
 
 		qcom,smsm-modem {
@@ -1048,11 +1075,14 @@
 			qcom,msm-dai-q6-dev-id = <12289>;
 		};
 
+<<<<<<< HEAD
 		bt_a2dp_rx: qcom,msm-dai-q6-bt-a2dp-rx {
 			compatible = "qcom,msm-dai-q6-dev";
 			qcom,msm-dai-q6-dev-id = <12290>;
 		};
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		int_fm_rx: qcom,msm-dai-q6-int-fm-rx {
 			compatible = "qcom,msm-dai-q6-dev";
 			qcom,msm-dai-q6-dev-id = <12292>;
@@ -1365,7 +1395,11 @@
 		interrupts = <0 145 0 0 146 0>;
 		interrupt-names = "wcnss_wlantx_irq", "wcnss_wlanrx_irq";
 
+<<<<<<< HEAD
 		qcom,pronto-vddmx-supply = <&pm8916_l3_corner_ao>;
+=======
+		qcom,pronto-vddmx-supply = <&pm8916_l3>;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,pronto-vddcx-supply = <&pm8916_s1_corner>;
 		qcom,pronto-vddpx-supply = <&pm8916_l7>;
 		qcom,iris-vddxo-supply   = <&pm8916_l7>;
@@ -1385,10 +1419,15 @@
 		clocks = <&clock_rpm clk_xo_wlan_clk>,
 			 <&clock_rpm clk_rf_clk2>,
 			 <&clock_debug clk_gcc_debug_mux>,
+<<<<<<< HEAD
 			 <&clock_gcc clk_wcnss_m_clk>,
 			 <&clock_gcc clk_gcc_snoc_qosgen_clk>;
 		clock-names = "xo", "rf_clk", "measure", "wcnss_debug",
 				"snoc_qosgen";
+=======
+			 <&clock_gcc clk_wcnss_m_clk>;
+		clock-names = "xo", "rf_clk", "measure", "wcnss_debug";
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		qcom,has-autodetect-xo;
 		qcom,wlan-rx-buff-count = <512>;
@@ -1714,11 +1753,14 @@
 		/* GPIO output to mss */
 		qcom,gpio-force-stop = <&smp2pgpio_ssr_smp2p_1_out 0 0>;
 		linux,contiguous-region = <&modem_adsp_mem>;
+<<<<<<< HEAD
 
 		mba_mss: qcom,mba-mem@0 {
 			compatible = "qcom,pil-mba-mem";
 			linux,contiguous-region = <&mba_mem>;
 		};
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 
 	qcom,vidc@1d00000 {

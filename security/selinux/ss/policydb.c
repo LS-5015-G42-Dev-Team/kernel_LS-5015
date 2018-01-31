@@ -143,6 +143,7 @@ static struct policydb_compat_info policydb_compat[] = {
 		.sym_num	= SYM_NUM,
 		.ocon_num	= OCON_NUM,
 	},
+<<<<<<< HEAD
 	{
 		.version	= POLICYDB_VERSION_CONSTRAINT_NAMES,
 		.sym_num	= SYM_NUM,
@@ -153,6 +154,8 @@ static struct policydb_compat_info policydb_compat[] = {
 		.sym_num	= SYM_NUM,
 		.ocon_num	= OCON_NUM,
 	},
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 static struct policydb_compat_info *policydb_lookup_compat(int version)
@@ -623,6 +626,7 @@ static int common_destroy(void *key, void *datum, void *p)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void constraint_expr_destroy(struct constraint_expr *expr)
 {
 	if (expr) {
@@ -636,6 +640,8 @@ static void constraint_expr_destroy(struct constraint_expr *expr)
 	}
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int cls_destroy(void *key, void *datum, void *p)
 {
 	struct class_datum *cladatum;
@@ -651,9 +657,16 @@ static int cls_destroy(void *key, void *datum, void *p)
 		while (constraint) {
 			e = constraint->expr;
 			while (e) {
+<<<<<<< HEAD
 				etmp = e;
 				e = e->next;
 				constraint_expr_destroy(etmp);
+=======
+				ebitmap_destroy(&e->names);
+				etmp = e;
+				e = e->next;
+				kfree(etmp);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			}
 			ctemp = constraint;
 			constraint = constraint->next;
@@ -664,14 +677,25 @@ static int cls_destroy(void *key, void *datum, void *p)
 		while (constraint) {
 			e = constraint->expr;
 			while (e) {
+<<<<<<< HEAD
 				etmp = e;
 				e = e->next;
 				constraint_expr_destroy(etmp);
+=======
+				ebitmap_destroy(&e->names);
+				etmp = e;
+				e = e->next;
+				kfree(etmp);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			}
 			ctemp = constraint;
 			constraint = constraint->next;
 			kfree(ctemp);
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		kfree(cladatum->comkey);
 	}
 	kfree(datum);
@@ -1176,6 +1200,7 @@ bad:
 	return rc;
 }
 
+<<<<<<< HEAD
 static void type_set_init(struct type_set *t)
 {
 	ebitmap_init(&t->types);
@@ -1204,6 +1229,10 @@ static int type_set_read(struct type_set *t, void *fp)
 static int read_cons_helper(struct policydb *p,
 				struct constraint_node **nodep,
 				int ncons, int allowxtarget, void *fp)
+=======
+static int read_cons_helper(struct constraint_node **nodep, int ncons,
+			    int allowxtarget, void *fp)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct constraint_node *c, *lc;
 	struct constraint_expr *e, *le;
@@ -1271,6 +1300,7 @@ static int read_cons_helper(struct policydb *p,
 				rc = ebitmap_read(&e->names, fp);
 				if (rc)
 					return rc;
+<<<<<<< HEAD
 				if (p->policyvers >=
 					POLICYDB_VERSION_CONSTRAINT_NAMES) {
 						e->type_names = kzalloc(sizeof
@@ -1283,6 +1313,8 @@ static int read_cons_helper(struct policydb *p,
 					if (rc)
 						return rc;
 				}
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				break;
 			default:
 				return -EINVAL;
@@ -1359,7 +1391,11 @@ static int class_read(struct policydb *p, struct hashtab *h, void *fp)
 			goto bad;
 	}
 
+<<<<<<< HEAD
 	rc = read_cons_helper(p, &cladatum->constraints, ncons, 0, fp);
+=======
+	rc = read_cons_helper(&cladatum->constraints, ncons, 0, fp);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (rc)
 		goto bad;
 
@@ -1369,8 +1405,12 @@ static int class_read(struct policydb *p, struct hashtab *h, void *fp)
 		if (rc)
 			goto bad;
 		ncons = le32_to_cpu(buf[0]);
+<<<<<<< HEAD
 		rc = read_cons_helper(p, &cladatum->validatetrans,
 				ncons, 1, fp);
+=======
+		rc = read_cons_helper(&cladatum->validatetrans, ncons, 1, fp);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (rc)
 			goto bad;
 	}
@@ -2821,6 +2861,7 @@ static int common_write(void *vkey, void *datum, void *ptr)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int type_set_write(struct type_set *t, void *fp)
 {
 	int rc;
@@ -2839,6 +2880,8 @@ static int type_set_write(struct type_set *t, void *fp)
 	return 0;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int write_cons_helper(struct policydb *p, struct constraint_node *node,
 			     void *fp)
 {
@@ -2870,12 +2913,15 @@ static int write_cons_helper(struct policydb *p, struct constraint_node *node,
 				rc = ebitmap_write(&e->names, fp);
 				if (rc)
 					return rc;
+<<<<<<< HEAD
 				if (p->policyvers >=
 					POLICYDB_VERSION_CONSTRAINT_NAMES) {
 					rc = type_set_write(e->type_names, fp);
 					if (rc)
 						return rc;
 				}
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				break;
 			default:
 				break;

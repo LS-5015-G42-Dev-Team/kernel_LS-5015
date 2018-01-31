@@ -24,7 +24,10 @@
 #include <linux/list.h>
 #include <linux/slab.h>
 #include <linux/clk.h>
+<<<<<<< HEAD
 #include <linux/leds.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 
 static void __iomem *msm_wcnss_base;
@@ -33,7 +36,10 @@ static DEFINE_MUTEX(list_lock);
 static DEFINE_SEMAPHORE(wcnss_power_on_lock);
 static int auto_detect;
 static int is_power_on;
+<<<<<<< HEAD
 DEFINE_LED_TRIGGER(wlan_indication_led);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define RIVA_PMU_OFFSET         0x28
 
@@ -50,7 +56,10 @@ DEFINE_LED_TRIGGER(wlan_indication_led);
 #define WCN3620       0x5111
 #define WCN3620A      0x5112
 #define WCN3610       0x9101
+<<<<<<< HEAD
 #define WCN3610V1     0x9110
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define WCNSS_PMU_CFG_IRIS_XO_CFG          BIT(3)
 #define WCNSS_PMU_CFG_IRIS_XO_EN           BIT(4)
@@ -136,9 +145,14 @@ static struct vregs_info iris_vregs_pronto_v2[] = {
 
 /* WCNSS regulators for Pronto v2 hardware */
 static struct vregs_info pronto_vregs_pronto_v2[] = {
+<<<<<<< HEAD
 	{"qcom,pronto-vddmx",  VREG_NULL_CONFIG,
 		RPM_REGULATOR_CORNER_SUPER_TURBO,  0,
 		RPM_REGULATOR_CORNER_SUPER_TURBO, 0,    NULL},
+=======
+	{"qcom,pronto-vddmx",  VREG_NULL_CONFIG, 1287500,  0,
+		1287500, 0,    NULL},
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	{"qcom,pronto-vddcx",  VREG_NULL_CONFIG, RPM_REGULATOR_CORNER_NORMAL,
 		RPM_REGULATOR_CORNER_NONE, RPM_REGULATOR_CORNER_SUPER_TURBO,
 		0,             NULL},
@@ -190,6 +204,7 @@ int xo_auto_detect(u32 reg)
 	}
 }
 
+<<<<<<< HEAD
 int wcnss_get_iris_name(char *iris_name)
 {
 	struct wcnss_wlan_config *cfg = NULL;
@@ -234,6 +249,8 @@ int wcnss_get_iris_name(char *iris_name)
 }
 EXPORT_SYMBOL(wcnss_get_iris_name);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int validate_iris_chip_id(u32 reg)
 {
 	int iris_id;
@@ -246,7 +263,10 @@ int validate_iris_chip_id(u32 reg)
 	case WCN3620:
 	case WCN3620A:
 	case WCN3610:
+<<<<<<< HEAD
 	case WCN3610V1:
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return 0;
 	default:
 		return 1;
@@ -394,8 +414,11 @@ configure_iris_xo(struct device *dev,
 		else
 			auto_detect = WCNSS_XO_INVALID;
 
+<<<<<<< HEAD
 		cfg->iris_id = iris_reg;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		/* Clear XO_MODE[b2:b1] bits. Clear implies 19.2 MHz TCXO */
 		reg &= ~(WCNSS_PMU_CFG_IRIS_XO_MODE);
 
@@ -785,9 +808,12 @@ int wcnss_req_power_on_lock(char *driver_name)
 	list_add(&node->list, &power_on_lock_list);
 	mutex_unlock(&list_lock);
 
+<<<<<<< HEAD
 	if (wlan_indication_led)
 		led_trigger_event(wlan_indication_led, LED_FULL);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 
 err:
@@ -814,6 +840,7 @@ int wcnss_free_power_on_lock(char *driver_name)
 		up(&wcnss_power_on_lock);
 	mutex_unlock(&list_lock);
 
+<<<<<<< HEAD
 	if (wlan_indication_led)
 		led_trigger_event(wlan_indication_led, LED_OFF);
 
@@ -826,3 +853,8 @@ void wcnss_en_wlan_led_trigger(void)
 	led_trigger_register_simple("wlan-indication-led",
 		&wlan_indication_led);
 }
+=======
+	return ret;
+}
+EXPORT_SYMBOL(wcnss_free_power_on_lock);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

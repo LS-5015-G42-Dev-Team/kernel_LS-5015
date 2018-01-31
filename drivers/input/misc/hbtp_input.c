@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -57,17 +61,28 @@ static int fb_notifier_callback(struct notifier_block *self,
 	struct fb_event *evdata = data;
 	struct hbtp_data *hbtp_data =
 		container_of(self, struct hbtp_data, fb_notif);
+<<<<<<< HEAD
 	char *envp[] = {HBTP_EVENT_TYPE_DISPLAY, NULL};
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (evdata && evdata->data && event == FB_EVENT_BLANK &&
 		hbtp_data && hbtp_data->input_dev) {
 		blank = *(int *)(evdata->data);
 		if (blank == FB_BLANK_UNBLANK)
+<<<<<<< HEAD
 			kobject_uevent_env(&hbtp_data->input_dev->dev.kobj,
 					KOBJ_ONLINE, envp);
 		else if (blank == FB_BLANK_POWERDOWN)
 			kobject_uevent_env(&hbtp_data->input_dev->dev.kobj,
 					KOBJ_OFFLINE, envp);
+=======
+			kobject_uevent(&hbtp_data->input_dev->dev.kobj,
+					KOBJ_ONLINE);
+		else if (blank == FB_BLANK_POWERDOWN)
+			kobject_uevent(&hbtp_data->input_dev->dev.kobj,
+					KOBJ_OFFLINE);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	return 0;

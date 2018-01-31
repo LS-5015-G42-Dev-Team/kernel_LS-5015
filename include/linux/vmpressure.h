@@ -11,7 +11,10 @@
 struct vmpressure {
 	unsigned long scanned;
 	unsigned long reclaimed;
+<<<<<<< HEAD
 	unsigned long stall;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* The lock is used to keep the scanned/reclaimed above in sync. */
 	struct mutex sr_lock;
 

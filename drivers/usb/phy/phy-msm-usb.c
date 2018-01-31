@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2009-2015, Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2009-2014, Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -11,8 +15,11 @@
  *
  */
 
+<<<<<<< HEAD
 //#define DEBUG 1
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/module.h>
 #include <linux/device.h>
 #include <linux/platform_device.h>
@@ -54,12 +61,15 @@
 
 #include <linux/msm-bus.h>
 
+<<<<<<< HEAD
 extern void setAcInstat(void);//wuboadd
 extern void acquire_AC_charger_wakelock(void);
 extern void set_android_charging_enable(void);
 extern void smb1360_set_usb_current_call(int current_limit_enable);
 extern int first_mic;
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define MSM_USB_BASE	(motg->regs)
 #define MSM_USB_PHY_CSR_BASE (motg->phy_csr_regs)
 
@@ -1887,6 +1897,7 @@ static int msm_otg_notify_chg_type(struct msm_otg *motg)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	//wuboadd start
     if(charger_type == POWER_SUPPLY_TYPE_USB_DCP){
 		set_android_charging_enable();
@@ -1901,6 +1912,8 @@ static int msm_otg_notify_chg_type(struct msm_otg *motg)
 	}
 	//wuboadd end
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pr_debug("setting usb power supply type %d\n", charger_type);
 	msm_otg_dbg_log_event(&motg->phy, "SET USB PWR SUPPLY TYPE",
 			motg->chg_type, charger_type);
@@ -4238,8 +4251,11 @@ static void msm_id_status_w(struct work_struct *w)
 		id_state = msm_otg_read_phy_id_state(motg);
 
 	if (id_state) {
+<<<<<<< HEAD
 		if (gpio_is_valid(motg->pdata->switch_sel_gpio))
 			gpio_direction_input(motg->pdata->switch_sel_gpio);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (!test_and_set_bit(ID, &motg->inputs)) {
 			pr_debug("ID set\n");
 			msm_otg_dbg_log_event(&motg->phy, "ID SET",
@@ -4247,8 +4263,11 @@ static void msm_id_status_w(struct work_struct *w)
 			work = 1;
 		}
 	} else {
+<<<<<<< HEAD
 		if (gpio_is_valid(motg->pdata->switch_sel_gpio))
 			gpio_direction_output(motg->pdata->switch_sel_gpio, 1);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (test_and_clear_bit(ID, &motg->inputs)) {
 			pr_debug("ID clear\n");
 			msm_otg_dbg_log_event(&motg->phy, "ID CLEAR",
@@ -5263,6 +5282,7 @@ struct msm_otg_platform_data *msm_otg_dt_to_pdata(struct platform_device *pdev)
 	if (pdata->pmic_id_irq < 0)
 		pdata->pmic_id_irq = 0;
 
+<<<<<<< HEAD
 	pdata->hub_reset_gpio = of_get_named_gpio(
 			node, "qcom,hub-reset-gpio", 0);
 	if (pdata->hub_reset_gpio < 0)
@@ -5275,6 +5295,9 @@ struct msm_otg_platform_data *msm_otg_dt_to_pdata(struct platform_device *pdev)
 
 	pdata->usb_id_gpio =
 			of_get_named_gpio(node, "qcom,usbid-gpio", 0);
+=======
+	pdata->usb_id_gpio = of_get_named_gpio(node, "qcom,usbid-gpio", 0);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (pdata->usb_id_gpio < 0)
 		pr_debug("usb_id_gpio is not available\n");
 
@@ -5795,6 +5818,7 @@ static int msm_otg_probe(struct platform_device *pdev)
 				motg->pdata->usb_id_gpio = 0;
 				goto remove_phy;
 			}
+<<<<<<< HEAD
 
 			/* The following code implements switch between the HOST
 			 * mode to device mode when used diferent HW components
@@ -5831,6 +5855,8 @@ static int msm_otg_probe(struct platform_device *pdev)
 					    1);
 			}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			/* usb_id_gpio to irq */
 			id_irq = gpio_to_irq(motg->pdata->usb_id_gpio);
 			motg->ext_id_irq = id_irq;

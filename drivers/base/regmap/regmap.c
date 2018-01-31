@@ -114,7 +114,11 @@ bool regmap_readable(struct regmap *map, unsigned int reg)
 
 bool regmap_volatile(struct regmap *map, unsigned int reg)
 {
+<<<<<<< HEAD
 	if (!map->format.format_write && !regmap_readable(map, reg))
+=======
+	if (!regmap_readable(map, reg))
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return false;
 
 	if (map->volatile_reg)
@@ -440,7 +444,10 @@ struct regmap *regmap_init(struct device *dev,
 	else
 		map->reg_stride = 1;
 	map->use_single_rw = config->use_single_rw;
+<<<<<<< HEAD
 	map->can_multi_write = config->can_multi_write;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	map->dev = dev;
 	map->bus = bus;
 	map->bus_context = bus_context;
@@ -1178,7 +1185,11 @@ int _regmap_write(struct regmap *map, unsigned int reg,
 	}
 
 #ifdef LOG_DEVICE
+<<<<<<< HEAD
 	if (map->dev && strcmp(dev_name(map->dev), LOG_DEVICE) == 0)
+=======
+	if (strcmp(dev_name(map->dev), LOG_DEVICE) == 0)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		dev_info(map->dev, "%x <= %x\n", reg, val);
 #endif
 
@@ -1320,6 +1331,7 @@ out:
 }
 EXPORT_SYMBOL_GPL(regmap_bulk_write);
 
+<<<<<<< HEAD
 /*
  * _regmap_raw_multi_reg_write()
  *
@@ -1572,6 +1584,8 @@ int regmap_multi_reg_write_bypassed(struct regmap *map,
 }
 EXPORT_SYMBOL(regmap_multi_reg_write_bypassed);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /**
  * regmap_raw_write_async(): Write raw values to one or more registers
  *                           asynchronously
@@ -1690,7 +1704,11 @@ static int _regmap_read(struct regmap *map, unsigned int reg,
 	ret = map->reg_read(context, reg, val);
 	if (ret == 0) {
 #ifdef LOG_DEVICE
+<<<<<<< HEAD
 		if (map->dev && strcmp(dev_name(map->dev), LOG_DEVICE) == 0)
+=======
+		if (strcmp(dev_name(map->dev), LOG_DEVICE) == 0)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			dev_info(map->dev, "%x => %x\n", reg, *val);
 #endif
 

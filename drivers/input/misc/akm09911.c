@@ -112,6 +112,12 @@ struct akm_compass_data {
 	int	last_y;
 	int	last_z;
 
+<<<<<<< HEAD
+=======
+	/* dummy value to avoid sensor event get eaten */
+	int	rep_cnt;
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct regulator	*vdd;
 	struct regulator	*vio;
 	struct akm_sensor_state state;
@@ -1788,7 +1794,10 @@ static int akm_report_data(struct akm_compass_data *akm)
 	int ret;
 	int mag_x, mag_y, mag_z;
 	int tmp;
+<<<<<<< HEAD
 	ktime_t timestamp;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	ret = AKECS_GetData_Poll(akm, dat_buf, AKM_SENSOR_DATA_SIZE);
 	if (ret) {
@@ -1802,8 +1811,11 @@ static int akm_report_data(struct akm_compass_data *akm)
 		return -EIO;
 	}
 
+<<<<<<< HEAD
 	timestamp = ktime_get_boottime();
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	tmp = (int)((int16_t)(dat_buf[2]<<8)+((int16_t)dat_buf[1]));
 	tmp = tmp * akm->sense_conf[0] / 128 + tmp;
 	mag_x = tmp;
@@ -1868,12 +1880,20 @@ static int akm_report_data(struct akm_compass_data *akm)
 	input_report_abs(akm->input, ABS_X, mag_x);
 	input_report_abs(akm->input, ABS_Y, mag_y);
 	input_report_abs(akm->input, ABS_Z, mag_z);
+<<<<<<< HEAD
 	input_event(akm->input,
 		EV_SYN, SYN_TIME_SEC,
 		ktime_to_timespec(timestamp).tv_sec);
 	input_event(akm->input,
 		EV_SYN, SYN_TIME_NSEC,
 		ktime_to_timespec(timestamp).tv_nsec);
+=======
+
+	/* avoid eaten by input subsystem framework */
+	if ((mag_x == akm->last_x) && (mag_y == akm->last_y) &&
+			(mag_z == akm->last_z))
+		input_report_abs(akm->input, ABS_MISC, akm->rep_cnt++);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	akm->last_x = mag_x;
 	akm->last_y = mag_y;
@@ -2274,7 +2294,11 @@ int akm_compass_probe(struct i2c_client *client, const struct i2c_device_id *id)
 
 	s_akm->delay[MAG_DATA_FLAG] = sensors_cdev.delay_msec * 1000000;
 
+<<<<<<< HEAD
 	err = sensors_classdev_register(&s_akm->input->dev, &s_akm->cdev);
+=======
+	err = sensors_classdev_register(&client->dev, &s_akm->cdev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (err) {
 		dev_err(&client->dev, "class device create failed: %d\n", err);

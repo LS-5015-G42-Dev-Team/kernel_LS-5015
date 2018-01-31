@@ -367,6 +367,7 @@ config SND_SOC_WCD9306
 config SND_SOC_WCD9330
         tristate
 
+<<<<<<< HEAD
 config SND_SOC_WSA881X
         tristate
 
@@ -381,6 +382,11 @@ config SND_SOC_WCD9XXX
 	tristate
 	default y if SND_SOC_WCD9320=y || SND_SOC_WCD9306=y || SND_SOC_WCD9330=y
 	default y if SND_SOC_WCD9335=y
+=======
+config SND_SOC_WCD9XXX
+	tristate
+	default y if SND_SOC_WCD9320=y || SND_SOC_WCD9306=y || SND_SOC_WCD9330=y
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 config SND_SOC_MSM8X10_WCD
 	tristate
@@ -390,12 +396,17 @@ config SND_SOC_MSM8X16_WCD
 
 config SND_SOC_WCD_CPE
 	tristate
+<<<<<<< HEAD
 	default y if SND_SOC_WCD9330=y || SND_SOC_WCD9335=y
 	default y if SND_SOC_MSM8909_WCD=y
+=======
+	default y if SND_SOC_WCD9330=y
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 config SND_SOC_MSM8909_WCD
 	tristate
 
+<<<<<<< HEAD
 config AUDIO_EXT_CLK
 	tristate
 	default y if SND_SOC_WCD9335=y || SND_SOC_WCD9330=y || SND_SOC_MSM8X16_WCD=y
@@ -405,6 +416,8 @@ config SND_SOC_WCD_MBHC
 	tristate
 	default y if SND_SOC_MSM8909_WCD=y || SND_SOC_MSM8X16_WCD=y
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 config SND_SOC_WL1273
 	tristate
 

@@ -95,6 +95,7 @@ struct scan_control {
 	 * are scanned.
 	 */
 	nodemask_t	*nodemask;
+<<<<<<< HEAD
 
 	/*
 	 * Reclaim pages from a vma. If the page is shared by other tasks
@@ -102,6 +103,8 @@ struct scan_control {
 	 * on memory until last task zap it.
 	 */
 	struct vm_area_struct *target_vma;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 #define lru_to_page(_head) (list_entry((_head)->prev, struct page, lru))
@@ -818,7 +821,11 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 		struct address_space *mapping;
 		struct page *page;
 		int may_enter_fs;
+<<<<<<< HEAD
 		enum page_references references = PAGEREF_RECLAIM;
+=======
+		enum page_references references = PAGEREF_RECLAIM_CLEAN;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		bool dirty, writeback;
 
 		cond_resched();
@@ -830,8 +837,12 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 			goto keep;
 
 		VM_BUG_ON(PageActive(page));
+<<<<<<< HEAD
 		if (zone)
 			VM_BUG_ON(page_zone(page) != zone);
+=======
+		VM_BUG_ON(page_zone(page) != zone);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		sc->nr_scanned++;
 
@@ -975,8 +986,12 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 		 * processes. Try to unmap it here.
 		 */
 		if (page_mapped(page) && mapping) {
+<<<<<<< HEAD
 			switch (try_to_unmap(page,
 					ttu_flags, sc->target_vma)) {
+=======
+			switch (try_to_unmap(page, ttu_flags)) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			case SWAP_FAIL:
 				goto activate_locked;
 			case SWAP_AGAIN:
@@ -996,7 +1011,11 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 			 */
 			if (page_is_file_cache(page) &&
 					(!current_is_kswapd() ||
+<<<<<<< HEAD
 				(zone && !zone_is_reclaim_dirty(zone)))) {
+=======
+					 !zone_is_reclaim_dirty(zone))) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				/*
 				 * Immediately reclaim when written back.
 				 * Similar in principal to deactivate_page()
@@ -1103,6 +1122,7 @@ free_it:
 		 * appear not as the counts should be low
 		 */
 		list_add(&page->lru, &free_pages);
+<<<<<<< HEAD
 		/*
 		 * If pagelist are from multiple zones, we should decrease
 		 * NR_ISOLATED_ANON + x on freed pages in here.
@@ -1110,13 +1130,19 @@ free_it:
 		if (!zone)
 			dec_zone_page_state(page, NR_ISOLATED_ANON +
 					page_is_file_cache(page));
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		continue;
 
 cull_mlocked:
 		if (PageSwapCache(page))
 			try_to_free_swap(page);
 		unlock_page(page);
+<<<<<<< HEAD
 		list_add(&page->lru, &ret_pages);
+=======
+		putback_lru_page(page);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		continue;
 
 activate_locked:
@@ -1153,8 +1179,11 @@ unsigned long reclaim_clean_pages_from_list(struct zone *zone,
 		.gfp_mask = GFP_KERNEL,
 		.priority = DEF_PRIORITY,
 		.may_unmap = 1,
+<<<<<<< HEAD
 		/* Doesn't allow to write out dirty page */
 		.may_writepage = 0,
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 	unsigned long ret, dummy1, dummy2, dummy3, dummy4, dummy5;
 	struct page *page, *next;
@@ -1176,6 +1205,7 @@ unsigned long reclaim_clean_pages_from_list(struct zone *zone,
 	return ret;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_PROCESS_RECLAIM
 unsigned long reclaim_pages_from_list(struct list_head *page_list,
 					struct vm_area_struct *vma)
@@ -1212,6 +1242,8 @@ unsigned long reclaim_pages_from_list(struct list_head *page_list,
 }
 #endif
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * Attempt to remove the specified page from its LRU.  Only take this page
  * if it is of the appropriate PageActive status.  Pages which are being

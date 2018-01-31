@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /*  Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/*  Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -38,8 +42,12 @@ enum {
 	VOIP_MEM_MAP_TOKEN,
 	VOC_CAL_MEM_MAP_TOKEN,
 	VOC_VOICE_HOST_PCM_MAP_TOKEN,
+<<<<<<< HEAD
 	VOC_RTAC_MEM_MAP_TOKEN,
 	VOC_SOURCE_TRACKING_MEM_MAP_TOKEN
+=======
+	VOC_RTAC_MEM_MAP_TOKEN
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 static struct common_data common;
@@ -99,6 +107,7 @@ static int remap_cal_data(struct cal_block_data *cal_block,
 static int voice_unmap_cal_memory(int32_t cal_type,
 				  struct cal_block_data *cal_block);
 
+<<<<<<< HEAD
 static int is_source_tracking_shared_memomry_allocated(void);
 static int voice_alloc_source_tracking_shared_memory(void);
 static int voice_alloc_and_map_source_tracking_shared_memory(
@@ -112,6 +121,8 @@ static int voice_send_get_sound_focus_cmd(struct voice_data *v,
 static int voice_send_get_source_tracking_cmd(struct voice_data *v,
 			struct source_tracking_param *sourceTrackingData);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static void voice_itr_init(struct voice_session_itr *itr,
 			   u32 session_id)
 {
@@ -132,7 +143,11 @@ static bool voice_itr_get_next_session(struct voice_session_itr *itr,
 
 	if (itr == NULL)
 		return false;
+<<<<<<< HEAD
 	pr_debug("%s : cur idx = %d session idx = %d\n",
+=======
+	pr_debug("%s : cur idx = %d session idx = %d",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			 __func__, itr->cur_idx, itr->session_idx);
 
 	if (itr->cur_idx <= itr->session_idx) {
@@ -326,7 +341,11 @@ static struct voice_data *voice_get_session(u32 session_id)
 		break;
 	}
 
+<<<<<<< HEAD
 	pr_debug("%s:session_id 0x%x session handle %pK\n",
+=======
+	pr_debug("%s:session_id 0x%x session handle %p\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		__func__, session_id, v);
 
 	return v;
@@ -1041,9 +1060,12 @@ static int voice_destroy_mvm_cvs_session(struct voice_data *v)
 		}
 	}
 
+<<<<<<< HEAD
 	/* Unmap Source Tracking shared memory if mapped earlier */
 	voice_unmap_and_free_source_tracking_shared_memory(v);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (is_voip_session(v->session_id) ||
 	    is_qchat_session(v->session_id) ||
 	    is_volte_session(v->session_id) ||
@@ -2978,7 +3000,11 @@ static int voice_map_cal_memory(struct cal_block_data *cal_block,
 		cal_block->map_data.map_size,
 		VOC_CAL_MEM_MAP_TOKEN);
 	if (result < 0) {
+<<<<<<< HEAD
 		pr_err("%s: Mmap did not work! addr = 0x%pK, size = %zd\n",
+=======
+		pr_err("%s: Mmap did not work! addr = 0x%pa, size = %zd\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			__func__,
 			&cal_block->cal_data.paddr,
 			cal_block->map_data.map_size);
@@ -3011,7 +3037,11 @@ static int remap_cal_data(struct cal_block_data *cal_block,
 			goto done;
 		}
 	} else {
+<<<<<<< HEAD
 		pr_debug("%s:  Cal block 0x%pK, size %zd already mapped. Q6 map handle = %d\n",
+=======
+		pr_debug("%s:  Cal block 0x%pa, size %zd already mapped. Q6 map handle = %d\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			__func__, &cal_block->cal_data.paddr,
 			cal_block->map_data.map_size,
 			cal_block->map_data.q6map_handle);
@@ -3209,7 +3239,11 @@ int voc_map_rtac_block(struct rtac_cal_block_data *cal_block)
 	if (!is_rtac_memory_allocated()) {
 		result = voice_alloc_rtac_mem_map_table();
 		if (result < 0) {
+<<<<<<< HEAD
 			pr_err("%s: RTAC alloc mem map table did not work! addr = 0x%pK, size = %d\n",
+=======
+			pr_err("%s: RTAC alloc mem map table did not work! addr = 0x%pa, size = %d\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				__func__,
 				&cal_block->cal_data.paddr,
 				cal_block->map_data.map_size);
@@ -3224,7 +3258,11 @@ int voc_map_rtac_block(struct rtac_cal_block_data *cal_block)
 		cal_block->map_data.map_size,
 		VOC_RTAC_MEM_MAP_TOKEN);
 	if (result < 0) {
+<<<<<<< HEAD
 		pr_err("%s: RTAC mmap did not work! addr = 0x%pK, size = %d\n",
+=======
+		pr_err("%s: RTAC mmap did not work! addr = 0x%pa, size = %d\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			__func__,
 			&cal_block->cal_data.paddr,
 			cal_block->map_data.map_size);
@@ -3848,7 +3886,11 @@ static int voice_send_mvm_unmap_memory_physical_cmd(struct voice_data *v,
 	mem_unmap.hdr.opcode = VSS_IMEMORY_CMD_UNMAP;
 	mem_unmap.mem_handle = mem_handle;
 
+<<<<<<< HEAD
 	pr_debug("%s: mem_handle: 0x%x\n", __func__, mem_unmap.mem_handle);
+=======
+	pr_debug("%s: mem_handle: ox%x\n", __func__, mem_unmap.mem_handle);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	v->mvm_state = CMD_STATUS_FAIL;
 	ret = apr_send_pkt(apr_mvm, (uint32_t *) &mem_unmap);
@@ -3915,7 +3957,11 @@ static int voice_send_cvs_packet_exchange_config_cmd(struct voice_data *v)
 	packet_exchange_config_pkt.enc_buf_addr = (uint32_t)enc_buf;
 	packet_exchange_config_pkt.enc_buf_size = 4096;
 
+<<<<<<< HEAD
 	pr_debug("%s: dec buf: add %pK, size %d, enc buf: add %pK, size %d\n",
+=======
+	pr_debug("%s: dec buf: add %pa, size %d, enc buf: add %pa, size %d\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		__func__,
 		&dec_buf,
 		packet_exchange_config_pkt.dec_buf_size,
@@ -4328,7 +4374,11 @@ int voc_start_record(uint32_t port_id, uint32_t set, uint32_t session_id)
 
 			break;
 		}
+<<<<<<< HEAD
 		pr_debug("%s: port_id: %d, set: %d, v: %pK\n",
+=======
+		pr_debug("%s: port_id: %d, set: %d, v: %p\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			 __func__, port_id, set, v);
 
 		mutex_lock(&v->lock);
@@ -5652,6 +5702,7 @@ static int32_t qdsp_mvm_callback(struct apr_client_data *data, void *priv)
 				c->voice[i].mvm_handle = 0;
 				c->voice[i].shmem_info.mem_handle = 0;
 			}
+<<<<<<< HEAD
 
 		/* Free the ION memory and clear handles for Source Tracking */
 			if (is_source_tracking_shared_memomry_allocated()) {
@@ -5664,6 +5715,8 @@ static int32_t qdsp_mvm_callback(struct apr_client_data *data, void *priv)
 			common.source_tracking_sh_mem.sh_mem_block.handle =
 									NULL;
 			}
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 		/* clean up srvcc rec flag */
 		c->srvcc_rec_flag = false;
@@ -5790,6 +5843,7 @@ static int32_t qdsp_mvm_callback(struct apr_client_data *data, void *priv)
 				v->mvm_state = CMD_STATUS_SUCCESS;
 				wake_up(&v->mvm_wait);
 			}
+<<<<<<< HEAD
 		} else if (data->payload_size &&
 			   data->token == VOC_SOURCE_TRACKING_MEM_MAP_TOKEN) {
 			ptr = data->payload;
@@ -5804,6 +5858,8 @@ static int32_t qdsp_mvm_callback(struct apr_client_data *data, void *priv)
 				v->mvm_state = CMD_STATUS_SUCCESS;
 				wake_up(&v->mvm_wait);
 			}
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		} else {
 			pr_err("%s: Unknown mem map token %d\n",
 			       __func__, data->token);
@@ -5861,6 +5917,7 @@ static int32_t qdsp_cvs_callback(struct apr_client_data *data, void *priv)
 
 			cal_utils_clear_cal_block_q6maps(MAX_VOICE_CAL_TYPES,
 				common.cal_data);
+<<<<<<< HEAD
 
 		/* Free the ION memory and clear handles for Source Tracking */
 			if (is_source_tracking_shared_memomry_allocated()) {
@@ -5873,6 +5930,8 @@ static int32_t qdsp_cvs_callback(struct apr_client_data *data, void *priv)
 			common.source_tracking_sh_mem.sh_mem_block.handle =
 									NULL;
 			}
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 
 		voc_set_error_state(data->reset_proc);
@@ -6138,6 +6197,7 @@ static int32_t qdsp_cvp_callback(struct apr_client_data *data, void *priv)
 			/* Sub-system restart is applicable to all sessions. */
 			for (i = 0; i < MAX_VOC_SESSIONS; i++)
 				c->voice[i].cvp_handle = 0;
+<<<<<<< HEAD
 
 			/*
 			 * Free the ION memory and clear handles for
@@ -6153,6 +6213,8 @@ static int32_t qdsp_cvp_callback(struct apr_client_data *data, void *priv)
 			common.source_tracking_sh_mem.sh_mem_block.handle =
 									NULL;
 			}
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 
 		voc_set_error_state(data->reset_proc);
@@ -6233,6 +6295,7 @@ static int32_t qdsp_cvp_callback(struct apr_client_data *data, void *priv)
 						data->payload_size);
 				}
 				break;
+<<<<<<< HEAD
 			case VSS_ISOUNDFOCUS_CMD_SET_SECTORS:
 				if (ptr[1] == 0)
 					common.is_sound_focus_resp_success =
@@ -6279,6 +6342,11 @@ static int32_t qdsp_cvp_callback(struct apr_client_data *data, void *priv)
 			default:
 				pr_debug("%s: not match cmd = 0x%x\n",
 					  __func__, ptr[0]);
+=======
+			default:
+				pr_debug("%s: not match cmd = 0x%x\n",
+					__func__, ptr[0]);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				break;
 			}
 		}
@@ -6299,6 +6367,7 @@ static int32_t qdsp_cvp_callback(struct apr_client_data *data, void *priv)
 					voc_get_session_name(v->session_id),
 					common.hostpcm_info.private_data);
 		}
+<<<<<<< HEAD
 	} else if (data->opcode == VSS_ISOUNDFOCUS_RSP_GET_SECTORS) {
 		if ((data->payload != NULL) &&
 		    (data->payload_size ==
@@ -6316,6 +6385,8 @@ static int32_t qdsp_cvp_callback(struct apr_client_data *data, void *priv)
 		}
 		v->cvp_state = CMD_STATUS_SUCCESS;
 		wake_up(&v->cvp_wait);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	return 0;
 }
@@ -6400,12 +6471,20 @@ static int voice_alloc_oob_shared_mem(void)
 		cnt++;
 	}
 
+<<<<<<< HEAD
 	pr_debug("%s buf[0].data:[%pK], buf[0].phys:[%pK], &buf[0].phys:[%pK],\n",
+=======
+	pr_debug("%s buf[0].data:[%p], buf[0].phys:[%pa], &buf[0].phys:[%p],\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		 __func__,
 		(void *)v->shmem_info.sh_buf.buf[0].data,
 		&v->shmem_info.sh_buf.buf[0].phys,
 		(void *)&v->shmem_info.sh_buf.buf[0].phys);
+<<<<<<< HEAD
 	pr_debug("%s: buf[1].data:[%pK], buf[1].phys[%pK], &buf[1].phys[%pK]\n",
+=======
+	pr_debug("%s: buf[1].data:[%p], buf[1].phys[%pa], &buf[1].phys[%p]\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		__func__,
 		(void *)v->shmem_info.sh_buf.buf[1].data,
 		&v->shmem_info.sh_buf.buf[1].phys,
@@ -6447,7 +6526,11 @@ static int voice_alloc_oob_mem_table(void)
 	}
 
 	v->shmem_info.memtbl.size = sizeof(struct vss_imemory_table_t);
+<<<<<<< HEAD
 	pr_debug("%s data[%pK]phys[%pK][%pK]\n", __func__,
+=======
+	pr_debug("%s data[%p]phys[%pa][%p]\n", __func__,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		 (void *)v->shmem_info.memtbl.data,
 		 &v->shmem_info.memtbl.phys,
 		 (void *)&v->shmem_info.memtbl.phys);
@@ -6799,7 +6882,11 @@ static int voice_alloc_cal_mem_map_table(void)
 	}
 
 	common.cal_mem_map_table.size = sizeof(struct vss_imemory_table_t);
+<<<<<<< HEAD
 	pr_debug("%s: data %pK phys %pK\n", __func__,
+=======
+	pr_debug("%s: data %p phys %pa\n", __func__,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		 common.cal_mem_map_table.data,
 		 &common.cal_mem_map_table.phys);
 
@@ -6826,7 +6913,11 @@ static int voice_alloc_rtac_mem_map_table(void)
 	}
 
 	common.rtac_mem_map_table.size = sizeof(struct vss_imemory_table_t);
+<<<<<<< HEAD
 	pr_debug("%s: data %pK phys %pK\n", __func__,
+=======
+	pr_debug("%s: data %p phys %pa\n", __func__,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		 common.rtac_mem_map_table.data,
 		 &common.rtac_mem_map_table.phys);
 
@@ -7146,6 +7237,7 @@ err:
 	return ret;
 }
 
+<<<<<<< HEAD
 static int voice_send_set_sound_focus_cmd(struct voice_data *v,
 				 struct sound_focus_param soundFocusData)
 {
@@ -7692,6 +7784,8 @@ int voc_get_source_tracking(struct source_tracking_param *sourceTrackingData)
 	return ret;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int is_voc_initialized(void)
 {
 	return module_initialized;

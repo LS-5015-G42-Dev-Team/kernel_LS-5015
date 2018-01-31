@@ -253,7 +253,10 @@ config SND_SOC_MSM8X16
 	select SND_SOC_MSM_STUB
 	select SND_SOC_MSM_HOSTLESS_PCM
 	select SND_SOC_MSM8X16_WCD
+<<<<<<< HEAD
 	select SND_SOC_WSA881X
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	select SLIMBUS
 	select MFD_CORE
 	select SND_DYNAMIC_MINORS
@@ -279,7 +282,10 @@ config SND_SOC_MSM8909
 	select SND_SOC_MSM_STUB
 	select SND_SOC_MSM_HOSTLESS_PCM
 	select SND_SOC_MSM8909_WCD
+<<<<<<< HEAD
 	select SND_SOC_WSA881X
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	select SLIMBUS
 	select MFD_CORE
 	select SND_DYNAMIC_MINORS
@@ -288,7 +294,10 @@ config SND_SOC_MSM8909
 	select DOLBY_DAP
 	select MSM_QDSP6_APRV3
 	select MSM_QDSP6V2_CODECS
+<<<<<<< HEAD
 	select SND_SOC_CPE
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	select SND_HWDEP
 	select DOLBY_DS2
 	help

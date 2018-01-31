@@ -179,9 +179,12 @@ struct load_info {
 	struct _ddebug *debug;
 	unsigned int num_debug;
 	bool sig_ok;
+<<<<<<< HEAD
 #ifdef CONFIG_KALLSYMS
 	unsigned long mod_kallsyms_init_off;
 #endif
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct {
 		unsigned int sym, str, mod, vers, info, pcpu;
 	} index;
@@ -1851,7 +1854,11 @@ static void unset_module_core_ro_nx(struct module *mod) { }
 static void unset_module_init_ro_nx(struct module *mod) { }
 #endif
 
+<<<<<<< HEAD
 void __weak module_memfree(void *module_region)
+=======
+void __weak module_free(struct module *mod, void *module_region)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	vfree(module_region);
 }
@@ -1890,7 +1897,11 @@ static void free_module(struct module *mod)
 
 	/* This may be NULL, but that's OK */
 	unset_module_init_ro_nx(mod);
+<<<<<<< HEAD
 	module_memfree(mod->module_init);
+=======
+	module_free(mod, mod->module_init);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	kfree(mod->args);
 	percpu_modfree(mod);
 
@@ -1899,7 +1910,11 @@ static void free_module(struct module *mod)
 
 	/* Finally, free the core (containing the module structure) */
 	unset_module_core_ro_nx(mod);
+<<<<<<< HEAD
 	module_memfree(mod->module_core);
+=======
+	module_free(mod, mod->module_core);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #ifdef CONFIG_MPU
 	update_protections(current->mm);
@@ -2343,6 +2358,7 @@ static void layout_symtab(struct module *mod, struct load_info *info)
 	strsect->sh_entsize = get_offset(mod, &mod->init_size, strsect,
 					 info->index.str) | INIT_OFFSET_MASK;
 	pr_debug("\t%s\n", info->secstrings + strsect->sh_name);
+<<<<<<< HEAD
 
 	/* We'll tack temporary mod_kallsyms on the end. */
 	mod->init_size = ALIGN(mod->init_size,
@@ -2357,6 +2373,10 @@ static void layout_symtab(struct module *mod, struct load_info *info)
  * be appended to the init section.  Later we switch to the cut-down
  * core-only ones.
  */
+=======
+}
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static void add_kallsyms(struct module *mod, const struct load_info *info)
 {
 	unsigned int i, ndst;
@@ -2365,6 +2385,7 @@ static void add_kallsyms(struct module *mod, const struct load_info *info)
 	char *s;
 	Elf_Shdr *symsec = &info->sechdrs[info->index.sym];
 
+<<<<<<< HEAD
 	/* Set up to point into init section. */
 	mod->kallsyms = mod->module_init + info->mod_kallsyms_init_off;
 
@@ -2392,6 +2413,30 @@ static void add_kallsyms(struct module *mod, const struct load_info *info)
 		}
 	}
 	mod->core_kallsyms.num_symtab = ndst;
+=======
+	mod->symtab = (void *)symsec->sh_addr;
+	mod->num_symtab = symsec->sh_size / sizeof(Elf_Sym);
+	/* Make sure we get permanent strtab: don't use info->strtab. */
+	mod->strtab = (void *)info->sechdrs[info->index.str].sh_addr;
+
+	/* Set types up while we still have access to sections. */
+	for (i = 0; i < mod->num_symtab; i++)
+		mod->symtab[i].st_info = elf_type(&mod->symtab[i], info);
+
+	mod->core_symtab = dst = mod->module_core + info->symoffs;
+	mod->core_strtab = s = mod->module_core + info->stroffs;
+	src = mod->symtab;
+	for (ndst = i = 0; i < mod->num_symtab; i++) {
+		if (i == 0 ||
+		    is_core_symbol(src+i, info->sechdrs, info->hdr->e_shnum)) {
+			dst[ndst] = src[i];
+			dst[ndst++].st_name = s - mod->core_strtab;
+			s += strlcpy(s, &mod->strtab[src[i].st_name],
+				     KSYM_NAME_LEN) + 1;
+		}
+	}
+	mod->core_num_syms = ndst;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 #else
 static inline void layout_symtab(struct module *mod, struct load_info *info)
@@ -2848,7 +2893,11 @@ static int move_module(struct module *mod, struct load_info *info)
 		 */
 		kmemleak_ignore(ptr);
 		if (!ptr) {
+<<<<<<< HEAD
 			module_memfree(mod->module_core);
+=======
+			module_free(mod, mod->module_core);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			return -ENOMEM;
 		}
 		memset(ptr, 0, mod->init_size);
@@ -3003,8 +3052,13 @@ static int alloc_module_percpu(struct module *mod, struct load_info *info)
 static void module_deallocate(struct module *mod, struct load_info *info)
 {
 	percpu_modfree(mod);
+<<<<<<< HEAD
 	module_memfree(mod->module_init);
 	module_memfree(mod->module_core);
+=======
+	module_free(mod, mod->module_init);
+	module_free(mod, mod->module_core);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 int __weak module_finalize(const Elf_Ehdr *hdr,
@@ -3056,6 +3110,7 @@ static void do_mod_ctors(struct module *mod)
 #endif
 }
 
+<<<<<<< HEAD
 /* For freeing module_init on success, in case kallsyms traversing */
 struct mod_initfree {
 	struct rcu_head rcu;
@@ -3069,10 +3124,13 @@ static void do_free_init(struct rcu_head *head)
 	kfree(m);
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /* This is where the real work happens */
 static int do_init_module(struct module *mod)
 {
 	int ret = 0;
+<<<<<<< HEAD
 	struct mod_initfree *freeinit;
 
 	freeinit = kmalloc(sizeof(*freeinit), GFP_KERNEL);
@@ -3081,6 +3139,8 @@ static int do_init_module(struct module *mod)
 		goto fail;
 	}
 	freeinit->module_init = mod->module_init;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/*
 	 * We want to find out whether @mod uses async during init.  Clear
@@ -3108,7 +3168,20 @@ static int do_init_module(struct module *mod)
 	if (mod->init != NULL)
 		ret = do_one_initcall(mod->init);
 	if (ret < 0) {
+<<<<<<< HEAD
 		goto fail_free_freeinit;
+=======
+		/* Init routine failed: abort.  Try to protect us from
+                   buggy refcounters. */
+		mod->state = MODULE_STATE_GOING;
+		synchronize_sched();
+		module_put(mod);
+		blocking_notifier_call_chain(&module_notify_list,
+					     MODULE_STATE_GOING, mod);
+		free_module(mod);
+		wake_up_all(&module_wq);
+		return ret;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	if (ret > 0) {
 		printk(KERN_WARNING
@@ -3149,14 +3222,24 @@ static int do_init_module(struct module *mod)
 	module_put(mod);
 	trim_init_extable(mod);
 #ifdef CONFIG_KALLSYMS
+<<<<<<< HEAD
 	/* Switch to core kallsyms now init is done: kallsyms may be walking! */
 	rcu_assign_pointer(mod->kallsyms, &mod->core_kallsyms);
 #endif
 	unset_module_init_ro_nx(mod);
+=======
+	mod->num_symtab = mod->core_num_syms;
+	mod->symtab = mod->core_symtab;
+	mod->strtab = mod->core_strtab;
+#endif
+	unset_module_init_ro_nx(mod);
+	module_free(mod, mod->module_init);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mod->module_init = NULL;
 	mod->init_size = 0;
 	mod->init_ro_size = 0;
 	mod->init_text_size = 0;
+<<<<<<< HEAD
 	/*
 	 * We want to free module_init, but be aware that kallsyms may be
 	 * walking this with preempt disabled.  In all the failure paths,
@@ -3164,10 +3247,13 @@ static int do_init_module(struct module *mod)
 	 * to slow down the success path, so use actual RCU here.
 	 */
 	call_rcu(&freeinit->rcu, do_free_init);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mutex_unlock(&module_mutex);
 	wake_up_all(&module_wq);
 
 	return 0;
+<<<<<<< HEAD
 fail_free_freeinit:
 	kfree(freeinit);
 fail:
@@ -3180,6 +3266,8 @@ fail:
 	free_module(mod);
 	wake_up_all(&module_wq);
 	return ret;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static int may_init_module(void)
@@ -3447,11 +3535,14 @@ static inline int is_arm_mapping_symbol(const char *str)
 	       && (str[2] == '\0' || str[2] == '.');
 }
 
+<<<<<<< HEAD
 static const char *symname(struct mod_kallsyms *kallsyms, unsigned int symnum)
 {
 	return kallsyms->strtab + kallsyms->symtab[symnum].st_name;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static const char *get_ksymbol(struct module *mod,
 			       unsigned long addr,
 			       unsigned long *size,
@@ -3459,7 +3550,10 @@ static const char *get_ksymbol(struct module *mod,
 {
 	unsigned int i, best = 0;
 	unsigned long nextval;
+<<<<<<< HEAD
 	struct mod_kallsyms *kallsyms = rcu_dereference_sched(mod->kallsyms);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* At worse, next value is at end of module */
 	if (within_module_init(addr, mod))
@@ -3469,12 +3563,18 @@ static const char *get_ksymbol(struct module *mod,
 
 	/* Scan for closest preceding symbol, and next symbol. (ELF
 	   starts real symbols at 1). */
+<<<<<<< HEAD
 	for (i = 1; i < kallsyms->num_symtab; i++) {
 		if (kallsyms->symtab[i].st_shndx == SHN_UNDEF)
+=======
+	for (i = 1; i < mod->num_symtab; i++) {
+		if (mod->symtab[i].st_shndx == SHN_UNDEF)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			continue;
 
 		/* We ignore unnamed symbols: they're uninformative
 		 * and inserted at a whim. */
+<<<<<<< HEAD
 		if (*symname(kallsyms, i) == '\0'
 		    || is_arm_mapping_symbol(symname(kallsyms, i)))
 			continue;
@@ -3485,16 +3585,35 @@ static const char *get_ksymbol(struct module *mod,
 		if (kallsyms->symtab[i].st_value > addr
 		    && kallsyms->symtab[i].st_value < nextval)
 			nextval = kallsyms->symtab[i].st_value;
+=======
+		if (mod->symtab[i].st_value <= addr
+		    && mod->symtab[i].st_value > mod->symtab[best].st_value
+		    && *(mod->strtab + mod->symtab[i].st_name) != '\0'
+		    && !is_arm_mapping_symbol(mod->strtab + mod->symtab[i].st_name))
+			best = i;
+		if (mod->symtab[i].st_value > addr
+		    && mod->symtab[i].st_value < nextval
+		    && *(mod->strtab + mod->symtab[i].st_name) != '\0'
+		    && !is_arm_mapping_symbol(mod->strtab + mod->symtab[i].st_name))
+			nextval = mod->symtab[i].st_value;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	if (!best)
 		return NULL;
 
 	if (size)
+<<<<<<< HEAD
 		*size = nextval - kallsyms->symtab[best].st_value;
 	if (offset)
 		*offset = addr - kallsyms->symtab[best].st_value;
 	return symname(kallsyms, best);
+=======
+		*size = nextval - mod->symtab[best].st_value;
+	if (offset)
+		*offset = addr - mod->symtab[best].st_value;
+	return mod->strtab + mod->symtab[best].st_name;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /* For kallsyms to ask for address resolution.  NULL means not found.  Careful
@@ -3590,6 +3709,7 @@ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
 
 	preempt_disable();
 	list_for_each_entry_rcu(mod, &modules, list) {
+<<<<<<< HEAD
 		struct mod_kallsyms *kallsyms;
 
 		if (mod->state == MODULE_STATE_UNFORMED)
@@ -3599,12 +3719,25 @@ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
 			*value = kallsyms->symtab[symnum].st_value;
 			*type = kallsyms->symtab[symnum].st_info;
 			strlcpy(name, symname(kallsyms, symnum), KSYM_NAME_LEN);
+=======
+		if (mod->state == MODULE_STATE_UNFORMED)
+			continue;
+		if (symnum < mod->num_symtab) {
+			*value = mod->symtab[symnum].st_value;
+			*type = mod->symtab[symnum].st_info;
+			strlcpy(name, mod->strtab + mod->symtab[symnum].st_name,
+				KSYM_NAME_LEN);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			strlcpy(module_name, mod->name, MODULE_NAME_LEN);
 			*exported = is_exported(name, *value, mod);
 			preempt_enable();
 			return 0;
 		}
+<<<<<<< HEAD
 		symnum -= kallsyms->num_symtab;
+=======
+		symnum -= mod->num_symtab;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	preempt_enable();
 	return -ERANGE;
@@ -3613,12 +3746,20 @@ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
 static unsigned long mod_find_symname(struct module *mod, const char *name)
 {
 	unsigned int i;
+<<<<<<< HEAD
 	struct mod_kallsyms *kallsyms = rcu_dereference_sched(mod->kallsyms);
 
 	for (i = 0; i < kallsyms->num_symtab; i++)
 		if (strcmp(name, symname(kallsyms, i)) == 0 &&
 		    kallsyms->symtab[i].st_info != 'U')
 			return kallsyms->symtab[i].st_value;
+=======
+
+	for (i = 0; i < mod->num_symtab; i++)
+		if (strcmp(name, mod->strtab+mod->symtab[i].st_name) == 0 &&
+		    mod->symtab[i].st_info != 'U')
+			return mod->symtab[i].st_value;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 
@@ -3657,6 +3798,7 @@ int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
 	int ret;
 
 	list_for_each_entry(mod, &modules, list) {
+<<<<<<< HEAD
 		/* We hold module_mutex: no need for rcu_dereference_sched */
 		struct mod_kallsyms *kallsyms = mod->kallsyms;
 
@@ -3665,6 +3807,13 @@ int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
 		for (i = 0; i < kallsyms->num_symtab; i++) {
 			ret = fn(data, symname(kallsyms, i),
 				 mod, kallsyms->symtab[i].st_value);
+=======
+		if (mod->state == MODULE_STATE_UNFORMED)
+			continue;
+		for (i = 0; i < mod->num_symtab; i++) {
+			ret = fn(data, mod->strtab + mod->symtab[i].st_name,
+				 mod, mod->symtab[i].st_value);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			if (ret != 0)
 				return ret;
 		}

@@ -1306,7 +1306,11 @@ skip_routeinfo:
 		}
 	}
 
+<<<<<<< HEAD
 	if (ndopts.nd_opts_mtu && in6_dev->cnf.accept_ra_mtu) {
+=======
+	if (ndopts.nd_opts_mtu) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		__be32 n;
 		u32 mtu;
 

@@ -19,7 +19,10 @@
 
 #include <linux/mmc/card.h>
 #include <linux/mmc/host.h>
+<<<<<<< HEAD
 #include <linux/mmc/mmc.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #include "core.h"
 #include "mmc_ops.h"
@@ -726,7 +729,11 @@ void mmc_add_card_debugfs(struct mmc_card *card)
 			goto err;
 
 	if (mmc_card_mmc(card) && (card->ext_csd.rev >= 5) &&
+<<<<<<< HEAD
 	    (mmc_card_get_bkops_en_manual(card)))
+=======
+	    card->ext_csd.bkops_en)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (!debugfs_create_file("bkops_stats", S_IRUSR, root, card,
 					 &mmc_dbg_bkops_stats_fops))
 			goto err;

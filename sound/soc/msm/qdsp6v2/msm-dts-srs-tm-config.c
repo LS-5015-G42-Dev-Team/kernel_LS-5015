@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2014, 2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -289,8 +293,13 @@ static int reg_ion_mem(void)
 				 &po.kvaddr);
 	if (rc != 0)
 		pr_err("%s: failed to allocate memory.\n", __func__);
+<<<<<<< HEAD
 		pr_debug("%s: exited ion_client = %pK, ion_handle = %pK, phys_addr = %lu,\
 		length = %d, vaddr = %pK, rc = 0x%x\n",
+=======
+		pr_debug("%s: exited ion_client = %p, ion_handle = %p, phys_addr = %lu,\
+		length = %d, vaddr = %p, rc = 0x%x\n",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		__func__, ion_client, ion_handle, (long)po.paddr,
 		(unsigned int)po.size, po.kvaddr, rc);
 	return rc;

@@ -55,7 +55,11 @@
 
 &mdss_dsi0 {
 	qcom,regulator-ldo-mode;
+<<<<<<< HEAD
 	qcom,platform-regulator-settings = [00 01 01 00 20 07 00];
+=======
+	qcom,platform-regulator-settings = [02 09 03 00 20 00 01];
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 &soc {

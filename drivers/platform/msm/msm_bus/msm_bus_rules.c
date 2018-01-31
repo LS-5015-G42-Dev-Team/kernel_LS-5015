@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -38,7 +42,11 @@ struct rule_node_info {
 	int id;
 	void *data;
 	struct raw_notifier_head rule_notify_list;
+<<<<<<< HEAD
 	struct rules_def *cur_rule;
+=======
+	int cur_rule;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int num_rules;
 	struct list_head node_rules;
 	struct list_head link;
@@ -48,8 +56,11 @@ struct rule_node_info {
 DEFINE_MUTEX(msm_bus_rules_lock);
 static LIST_HEAD(node_list);
 static struct rule_node_info *get_node(u32 id, void *data);
+<<<<<<< HEAD
 static int node_rules_compare(void *priv, struct list_head *a,
 					struct list_head *b);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define LE(op1, op2)	(op1 <= op2)
 #define LT(op1, op2)	(op1 < op2)
@@ -98,7 +109,11 @@ static struct rule_node_info *gen_node(u32 id, void *data)
 		}
 
 		node_match->id = id;
+<<<<<<< HEAD
 		node_match->cur_rule = NULL;
+=======
+		node_match->cur_rule = -1;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		node_match->num_rules = 0;
 		node_match->data = data;
 		list_add_tail(&node_match->link, &node_list);
@@ -212,11 +227,17 @@ static void match_rule(struct rule_update_path_info *inp_node,
 		for (i = 0; i < rule->num_src; i++) {
 			if (rule->src_info[i].id == inp_node->id) {
 				if (check_rule(rule, inp_node)) {
+<<<<<<< HEAD
 					trace_bus_rules_matches(
 					(node->cur_rule ?
 						node->cur_rule->rule_id : -1),
 					inp_node->id, inp_node->ab,
 					inp_node->ib, inp_node->clk);
+=======
+					trace_bus_rules_matches(node->cur_rule,
+						inp_node->id, inp_node->ab,
+						inp_node->ib, inp_node->clk);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 					if (rule->state ==
 						RULE_STATE_NOT_APPLIED)
 						rule->state_change = true;
@@ -236,6 +257,7 @@ static void apply_rule(struct rule_node_info *node,
 			struct list_head *output_list)
 {
 	struct rules_def *rule;
+<<<<<<< HEAD
 	struct rules_def *last_rule;
 
 	last_rule = node->cur_rule;
@@ -244,6 +266,14 @@ static void apply_rule(struct rule_node_info *node,
 		if ((rule->state == RULE_STATE_APPLIED) &&
 						!node->cur_rule)
 			node->cur_rule = rule;
+=======
+
+	node->cur_rule = -1;
+	list_for_each_entry(rule, &node->node_rules, link) {
+		if ((rule->state == RULE_STATE_APPLIED) &&
+						(node->cur_rule == -1))
+			node->cur_rule = rule->rule_id;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		if (node->id == NB_ID) {
 			if (rule->state_change) {
@@ -253,6 +283,7 @@ static void apply_rule(struct rule_node_info *node,
 			}
 		} else {
 			if ((rule->state == RULE_STATE_APPLIED) &&
+<<<<<<< HEAD
 			     (node->cur_rule &&
 				(node->cur_rule->rule_id == rule->rule_id))) {
 				node->apply.id = rule->rule_ops.dst_node[0];
@@ -269,6 +300,13 @@ static void apply_rule(struct rule_node_info *node,
 						node->apply.after_clk_commit =
 									true;
 				}
+=======
+				(node->cur_rule == rule->rule_id)) {
+				node->apply.id = rule->rule_ops.dst_node[0];
+				node->apply.throttle = rule->rule_ops.mode;
+				node->apply.lim_bw = rule->rule_ops.dst_bw;
+				list_add_tail(&node->apply.link, output_list);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			}
 			rule->state_change = false;
 		}
@@ -385,8 +423,12 @@ static void print_rules(struct rule_node_info *node_it)
 	}
 
 	pr_info("\n Now printing rules for Node %d  cur rule %d\n",
+<<<<<<< HEAD
 			node_it->id,
 			(node_it->cur_rule ? node_it->cur_rule->rule_id : -1));
+=======
+						node_it->id, node_it->cur_rule);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	list_for_each_entry(node_rule, &node_it->node_rules, link) {
 		pr_info("\n num Rules %d  rule Id %d\n",
 				node_it->num_rules, node_rule->rule_id);
@@ -423,9 +465,14 @@ void print_rules_buf(char *buf, int max_buf)
 
 	list_for_each_entry(node_it, &node_list, link) {
 		cnt += scnprintf(buf + cnt, max_buf - cnt,
+<<<<<<< HEAD
 			"\n Now printing rules for Node %d cur_rule %d\n",
 			node_it->id,
 			(node_it->cur_rule ? node_it->cur_rule->rule_id : -1));
+=======
+					"\n Now printing rules for Node %d cur_rule %d\n",
+					node_it->id, node_it->cur_rule);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		list_for_each_entry(node_rule, &node_it->node_rules, link) {
 			cnt += scnprintf(buf + cnt, max_buf - cnt,
 				"\nNum Rules:%d ruleId %d STATE:%d change:%d\n",

@@ -69,7 +69,10 @@ obj-$(CONFIG_MTD)		+= mtd/
 obj-$(CONFIG_SPI)		+= spi/
 obj-$(CONFIG_SPMI)		+= spmi/
 obj-$(CONFIG_SLIMBUS)		+= slimbus/
+<<<<<<< HEAD
 obj-$(CONFIG_SOUNDWIRE)     += soundwire/
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 obj-y				+= hsi/
 obj-y				+= net/
 obj-$(CONFIG_ATM)		+= atm/

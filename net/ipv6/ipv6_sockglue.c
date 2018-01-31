@@ -110,12 +110,19 @@ struct ipv6_txoptions *ipv6_update_options(struct sock *sk,
 			icsk->icsk_ext_hdr_len = opt->opt_flen + opt->opt_nflen;
 			icsk->icsk_sync_mss(sk, icsk->icsk_pmtu_cookie);
 		}
+<<<<<<< HEAD
 		opt = xchg((__force struct ipv6_txoptions **)&inet6_sk(sk)->opt,
 			   opt);
 	} else {
 		spin_lock(&sk->sk_dst_lock);
 		opt = xchg((__force struct ipv6_txoptions **)&inet6_sk(sk)->opt,
 			   opt);
+=======
+		opt = xchg(&inet6_sk(sk)->opt, opt);
+	} else {
+		spin_lock(&sk->sk_dst_lock);
+		opt = xchg(&inet6_sk(sk)->opt, opt);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		spin_unlock(&sk->sk_dst_lock);
 	}
 	sk_dst_reset(sk);
@@ -215,12 +222,18 @@ static int do_ipv6_setsockopt(struct sock *sk, int level, int optname,
 				sk->sk_socket->ops = &inet_dgram_ops;
 				sk->sk_family = PF_INET;
 			}
+<<<<<<< HEAD
 			opt = xchg((__force struct ipv6_txoptions **)&np->opt,
 				   NULL);
 			if (opt) {
 				atomic_sub(opt->tot_len, &sk->sk_omem_alloc);
 				txopt_put(opt);
 			}
+=======
+			opt = xchg(&np->opt, NULL);
+			if (opt)
+				sock_kfree_s(sk, opt, opt->tot_len);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			pktopt = xchg(&np->pktoptions, NULL);
 			kfree_skb(pktopt);
 
@@ -390,8 +403,12 @@ static int do_ipv6_setsockopt(struct sock *sk, int level, int optname,
 		if (optname != IPV6_RTHDR && !ns_capable(net->user_ns, CAP_NET_RAW))
 			break;
 
+<<<<<<< HEAD
 		opt = rcu_dereference_protected(np->opt, sock_owned_by_user(sk));
 		opt = ipv6_renew_options(sk, opt, optname,
+=======
+		opt = ipv6_renew_options(sk, np->opt, optname,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 					 (struct ipv6_opt_hdr __user *)optval,
 					 optlen);
 		if (IS_ERR(opt)) {
@@ -420,10 +437,15 @@ static int do_ipv6_setsockopt(struct sock *sk, int level, int optname,
 		retv = 0;
 		opt = ipv6_update_options(sk, opt);
 sticky_done:
+<<<<<<< HEAD
 		if (opt) {
 			atomic_sub(opt->tot_len, &sk->sk_omem_alloc);
 			txopt_put(opt);
 		}
+=======
+		if (opt)
+			sock_kfree_s(sk, opt, opt->tot_len);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 	}
 
@@ -476,7 +498,10 @@ sticky_done:
 			break;
 
 		memset(opt, 0, sizeof(*opt));
+<<<<<<< HEAD
 		atomic_set(&opt->refcnt, 1);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		opt->tot_len = sizeof(*opt) + optlen;
 		retv = -EFAULT;
 		if (copy_from_user(opt+1, optval, optlen))
@@ -493,10 +518,15 @@ update:
 		retv = 0;
 		opt = ipv6_update_options(sk, opt);
 done:
+<<<<<<< HEAD
 		if (opt) {
 			atomic_sub(opt->tot_len, &sk->sk_omem_alloc);
 			txopt_put(opt);
 		}
+=======
+		if (opt)
+			sock_kfree_s(sk, opt, opt->tot_len);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 	}
 	case IPV6_UNICAST_HOPS:
@@ -1096,11 +1126,18 @@ static int do_ipv6_getsockopt(struct sock *sk, int level, int optname,
 	case IPV6_RTHDR:
 	case IPV6_DSTOPTS:
 	{
+<<<<<<< HEAD
 		struct ipv6_txoptions *opt;
 
 		lock_sock(sk);
 		opt = rcu_dereference_protected(np->opt, sock_owned_by_user(sk));
 		len = ipv6_getsockopt_sticky(sk, opt, optname, optval, len);
+=======
+
+		lock_sock(sk);
+		len = ipv6_getsockopt_sticky(sk, np->opt,
+					     optname, optval, len);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		release_sock(sk);
 		/* check if ipv6_getsockopt_sticky() returns err code */
 		if (len < 0)

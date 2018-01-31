@@ -92,7 +92,10 @@ struct pil_reset_ops {
 extern int pil_desc_init(struct pil_desc *desc);
 extern int pil_boot(struct pil_desc *desc);
 extern void pil_shutdown(struct pil_desc *desc);
+<<<<<<< HEAD
 extern void pil_free_memory(struct pil_desc *desc);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 extern void pil_desc_release(struct pil_desc *desc);
 extern phys_addr_t pil_get_entry_addr(struct pil_desc *desc);
 extern int pil_do_ramdump(struct pil_desc *desc, void *ramdump_dev);
@@ -100,7 +103,10 @@ extern int pil_do_ramdump(struct pil_desc *desc, void *ramdump_dev);
 static inline int pil_desc_init(struct pil_desc *desc) { return 0; }
 static inline int pil_boot(struct pil_desc *desc) { return 0; }
 static inline void pil_shutdown(struct pil_desc *desc) { }
+<<<<<<< HEAD
 static inline void pil_free_memory(struct pil_desc *desc) { }
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static inline void pil_desc_release(struct pil_desc *desc) { }
 static inline phys_addr_t pil_get_entry_addr(struct pil_desc *desc)
 {

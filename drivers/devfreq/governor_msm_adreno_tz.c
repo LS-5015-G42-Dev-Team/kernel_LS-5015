@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2010-2014,2016 The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2010-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -151,7 +155,11 @@ static int tz_init(struct devfreq_msm_adreno_tz_data *priv,
 		memcpy(tz_buf, tz_pwrlevels, size_pwrlevels);
 		/* Ensure memcpy completes execution */
 		mb();
+<<<<<<< HEAD
 		dmac_flush_range(tz_buf, (void *)tz_buf + PAGE_ALIGN(size_pwrlevels));
+=======
+		dmac_flush_range(tz_buf, tz_buf + PAGE_ALIGN(size_pwrlevels));
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		desc.args[0] = virt_to_phys(tz_buf);
 		desc.args[1] = size_pwrlevels;

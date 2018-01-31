@@ -690,6 +690,7 @@ DECLARE_EVENT_CLASS(wiphy_netdev_mac_evt,
 		  WIPHY_PR_ARG, NETDEV_PR_ARG, MAC_PR_ARG(sta_mac))
 );
 
+<<<<<<< HEAD
 DECLARE_EVENT_CLASS(station_del,
 	TP_PROTO(struct wiphy *wiphy, struct net_device *netdev,
 		 struct station_del_parameters *params),
@@ -718,6 +719,11 @@ DEFINE_EVENT(station_del, rdev_del_station,
 	TP_PROTO(struct wiphy *wiphy, struct net_device *netdev,
 		 struct station_del_parameters *params),
 	TP_ARGS(wiphy, netdev, params)
+=======
+DEFINE_EVENT(wiphy_netdev_mac_evt, rdev_del_station,
+	TP_PROTO(struct wiphy *wiphy, struct net_device *netdev, const u8 *mac),
+	TP_ARGS(wiphy, netdev, mac)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 );
 
 DEFINE_EVENT(wiphy_netdev_mac_evt, rdev_get_station,

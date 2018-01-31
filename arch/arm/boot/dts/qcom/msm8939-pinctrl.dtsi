@@ -644,7 +644,11 @@
 			label = "mpu6050-irq";
 			mpu6050_default: mpu6050_default {
 				drive-strength = <6>;
+<<<<<<< HEAD
 				bias-pull-up;
+=======
+				bias-pull-down;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			};
 			mpu6050_sleep: mpu6050_sleep {
 				drive-strength = <2>;
@@ -748,10 +752,18 @@
 			mdss_dsi_active: active {
 				drive-strength = <8>; /* 8 mA */
 				bias-disable = <0>; /* no pull */
+<<<<<<< HEAD
+=======
+				output-high;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			};
 			mdss_dsi_suspend: suspend {
 				drive-strength = <2>; /* 2 mA */
 				bias-pull-down; /* pull down */
+<<<<<<< HEAD
+=======
+				output-low;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			};
 		};
 

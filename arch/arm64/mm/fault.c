@@ -177,8 +177,12 @@ static int __do_page_fault(struct mm_struct *mm, unsigned long addr,
 good_area:
 	/*
 	 * Check that the permissions on the VMA allow for the fault which
+<<<<<<< HEAD
 	 * occurred. If we encountered a write or exec fault, we must have
 	 * appropriate permissions, otherwise we allow any permission.
+=======
+	 * occurred.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	 */
 	if (!(vma->vm_flags & vm_flags)) {
 		fault = VM_FAULT_BADACCESS;
@@ -200,7 +204,11 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
 	struct task_struct *tsk;
 	struct mm_struct *mm;
 	int fault, sig, code;
+<<<<<<< HEAD
 	unsigned long vm_flags = VM_READ | VM_WRITE | VM_EXEC;
+=======
+	unsigned long vm_flags = VM_READ | VM_WRITE;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	unsigned int mm_flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
 
 	tsk = current;

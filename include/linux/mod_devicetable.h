@@ -449,6 +449,7 @@ struct spmi_device_id {
 			__attribute__((aligned(sizeof(kernel_ulong_t))));
 };
 
+<<<<<<< HEAD
 /* soundwire */
 
 #define SOUNDWIRE_NAME_SIZE	32
@@ -459,6 +460,8 @@ struct swr_device_id {
 	kernel_ulong_t driver_data;	/* Data private to the driver */
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /* dmi */
 enum dmi_field {
 	DMI_NONE,

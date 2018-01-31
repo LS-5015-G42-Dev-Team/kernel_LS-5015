@@ -103,7 +103,10 @@ struct msm_session {
 	 * session struct msm_stream */
 	struct msm_queue_head stream_q;
 	struct mutex lock;
+<<<<<<< HEAD
 	struct mutex lock_q;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 void msm_pm_qos_update_request(int val);

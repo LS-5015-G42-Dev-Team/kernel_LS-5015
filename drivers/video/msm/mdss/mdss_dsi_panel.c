@@ -32,6 +32,7 @@
 #define NT35596_BUF_5_STATUS 0x80
 #define NT35596_MAX_ERR_CNT 2
 
+<<<<<<< HEAD
 #define MIN_REFRESH_RATE 48
 #define DEFAULT_MDP_TRANSFER_TIME 14000
 
@@ -39,6 +40,12 @@ DEFINE_LED_TRIGGER(bl_led_trigger);
 
 static int flag = 0;
 
+=======
+#define MIN_REFRESH_RATE 30
+
+DEFINE_LED_TRIGGER(bl_led_trigger);
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 void mdss_dsi_panel_pwm_cfg(struct mdss_dsi_ctrl_pdata *ctrl)
 {
 	if (ctrl->pwm_pmi)
@@ -169,8 +176,11 @@ static void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 	/*Panel ON/Off commands should be sent in DSI Low Power Mode*/
 	if (pcmds->link_state == DSI_LP_MODE)
 		cmdreq.flags  |= CMD_REQ_LP_MODE;
+<<<<<<< HEAD
 	else if (pcmds->link_state == DSI_HS_MODE)
 		cmdreq.flags |= CMD_REQ_HS_MODE;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	cmdreq.rlen = 0;
 	cmdreq.cb = NULL;
@@ -189,7 +199,10 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	struct dcs_cmd_req cmdreq;
 	struct mdss_panel_info *pinfo;
 
+<<<<<<< HEAD
 	if (flag != 0) {
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pinfo = &(ctrl->panel_data.panel_info);
 	if (pinfo->dcs_cmd_by_left) {
 		if (ctrl->ndx != DSI_CTRL_LEFT)
@@ -208,11 +221,14 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	cmdreq.cb = NULL;
 
 	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
+<<<<<<< HEAD
 	}
 	else {
 
 		flag = 1;
 	}
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static int mdss_dsi_request_gpios(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
@@ -635,6 +651,7 @@ end:
 	return 0;
 }
 
+<<<<<<< HEAD
 static int mdss_dsi_post_panel_on(struct mdss_panel_data *pdata)
 {
 	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
@@ -671,6 +688,8 @@ end:
 	return 0;
 }
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 {
 	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
@@ -1340,6 +1359,7 @@ static void mdss_dsi_parse_dfps_config(struct device_node *pan_node,
 	return;
 }
 
+<<<<<<< HEAD
 void mdss_dsi_unregister_bl_settings(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	if (ctrl_pdata->bklt_ctrl == BL_WLED)
@@ -1467,6 +1487,8 @@ static void mdss_dsi_set_lane_clamp_mask(struct mipi_panel_info *mipi)
 }
 
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int mdss_panel_parse_dt(struct device_node *np,
 			struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
@@ -1745,8 +1767,11 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	pinfo->mipi.frame_rate = (!rc ? tmp : 60);
 	rc = of_property_read_u32(np, "qcom,mdss-dsi-panel-clockrate", &tmp);
 	pinfo->clk_rate = (!rc ? tmp : 0);
+<<<<<<< HEAD
 	rc = of_property_read_u32(np, "qcom,mdss-mdp-transfer-time-us", &tmp);
 	pinfo->mdp_transfer_time_us = (!rc ? tmp : DEFAULT_MDP_TRANSFER_TIME);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	data = of_get_property(np, "qcom,mdss-dsi-panel-timings", &len);
 	if ((!data) || (len != 12)) {
 		pr_err("%s:%d, Unable to read Phy timing settings",
@@ -1784,9 +1809,12 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->on_cmds,
 		"qcom,mdss-dsi-on-command", "qcom,mdss-dsi-on-command-state");
 
+<<<<<<< HEAD
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->post_panel_on_cmds,
 		"qcom,mdss-dsi-post-panel-on-command", NULL);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->off_cmds,
 		"qcom,mdss-dsi-off-command", "qcom,mdss-dsi-off-command-state");
 
@@ -1822,12 +1850,15 @@ static int mdss_panel_parse_dt(struct device_node *np,
 		}
 	}
 
+<<<<<<< HEAD
 	pinfo->mipi.force_clk_lane_hs = of_property_read_bool(np,
 		"qcom,mdss-dsi-force-clock-lane-hs");
 
 	pinfo->mipi.always_on = of_property_read_bool(np,
 		"qcom,mdss-dsi-always-on");
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	rc = mdss_dsi_parse_panel_features(np, ctrl_pdata);
 	if (rc) {
 		pr_err("%s: failed to parse panel features\n", __func__);
@@ -1875,7 +1906,10 @@ int mdss_dsi_panel_init(struct device_node *node,
 		return rc;
 	}
 
+<<<<<<< HEAD
 	mdss_dsi_set_lane_clamp_mask(&pinfo->mipi);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (!cmd_cfg_cont_splash)
 		pinfo->cont_splash_enabled = false;
 	pr_info("%s: Continuous splash %s\n", __func__,
@@ -1886,7 +1920,10 @@ int mdss_dsi_panel_init(struct device_node *node,
 	pinfo->esd_rdy = false;
 
 	ctrl_pdata->on = mdss_dsi_panel_on;
+<<<<<<< HEAD
 	ctrl_pdata->post_panel_on = mdss_dsi_post_panel_on;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ctrl_pdata->off = mdss_dsi_panel_off;
 	ctrl_pdata->low_power_config = mdss_dsi_panel_low_power_config;
 	ctrl_pdata->panel_data.set_backlight = mdss_dsi_panel_bl_ctrl;

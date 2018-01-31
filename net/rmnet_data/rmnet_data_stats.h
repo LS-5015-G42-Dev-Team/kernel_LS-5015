@@ -56,5 +56,8 @@ void rmnet_stats_queue_xmit(int rc, unsigned int reason);
 void rmnet_stats_deagg_pkts(int aggcount);
 void rmnet_stats_agg_pkts(int aggcount);
 void rmnet_stats_dl_checksum(unsigned int rc);
+<<<<<<< HEAD
 void rmnet_stats_ul_checksum(unsigned int rc);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif /* _RMNET_DATA_STATS_H_ */

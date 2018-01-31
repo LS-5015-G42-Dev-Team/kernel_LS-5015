@@ -958,7 +958,11 @@ static int mma8x5x_probe(struct i2c_client *client,
 	pdata->cdev.delay_msec = pdata->poll_delay;
 	pdata->cdev.sensors_enable = mma8x5x_enable_set;
 	pdata->cdev.sensors_poll_delay = mma8x5x_poll_delay_set;
+<<<<<<< HEAD
 	result = sensors_classdev_register(&idev->dev, &pdata->cdev);
+=======
+	result = sensors_classdev_register(&client->dev, &pdata->cdev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (result) {
 		dev_err(&client->dev, "create class device file failed!\n");
 		result = -EINVAL;

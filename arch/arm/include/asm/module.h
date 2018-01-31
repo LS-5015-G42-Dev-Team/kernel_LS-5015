@@ -12,9 +12,12 @@ enum {
 	ARM_SEC_CORE,
 	ARM_SEC_EXIT,
 	ARM_SEC_DEVEXIT,
+<<<<<<< HEAD
 	ARM_SEC_HOT,
 	ARM_SEC_UNLIKELY,
 	ARM_SEC_REF,
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ARM_SEC_MAX,
 };
 

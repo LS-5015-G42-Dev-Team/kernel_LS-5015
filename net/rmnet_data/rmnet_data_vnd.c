@@ -591,11 +591,14 @@ int rmnet_vnd_create_dev(int id, struct net_device **new_device,
 		return RMNET_CONFIG_NOMEM;
 	}
 
+<<<<<<< HEAD
 	if (!prefix) {
 		/* Configuring UL checksum offload on rmnet_data interfaces */
 		dev->hw_features = NETIF_F_IP_CSUM | NETIF_F_IPV6_CSUM;
 	}
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	rc = register_netdevice(dev);
 	if (rc != 0) {
 		LOGE("Failed to to register netdev [%s]", dev->name);
@@ -816,7 +819,11 @@ static int _rmnet_vnd_update_flow_map(uint8_t action,
 				itm->tc_flow_valid[i] = 1;
 				itm->tc_flow_id[i] = tc_flow;
 				rc = RMNET_VND_UPDATE_FLOW_OK;
+<<<<<<< HEAD
 				LOGD("{%pK}->tc_flow_id[%d]=%08X",
+=======
+				LOGD("{%p}->tc_flow_id[%d]=%08X",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				     itm, i, tc_flow);
 				break;
 			}
@@ -832,7 +839,11 @@ static int _rmnet_vnd_update_flow_map(uint8_t action,
 					itm->tc_flow_valid[i] = 0;
 					itm->tc_flow_id[i] = 0;
 					j++;
+<<<<<<< HEAD
 					LOGD("{%pK}->tc_flow_id[%d]=0", itm, i);
+=======
+					LOGD("{%p}->tc_flow_id[%d]=0", itm, i);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				}
 			} else {
 				j++;
@@ -977,7 +988,11 @@ int rmnet_vnd_del_tc_flow(uint32_t id, uint32_t map_flow, uint32_t tc_flow)
 
 	if (r ==  RMNET_VND_UPDATE_FLOW_NO_VALID_LEFT) {
 		if (itm)
+<<<<<<< HEAD
 			LOGD("Removed flow mapping [%s][0x%08X]@%pK",
+=======
+			LOGD("Removed flow mapping [%s][0x%08X]@%p",
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			     dev->name, itm->map_flow_id, itm);
 		kfree(itm);
 	}

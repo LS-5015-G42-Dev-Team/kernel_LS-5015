@@ -286,6 +286,7 @@ static void msm_vfe44_process_halt_irq(struct vfe_device *vfe_dev,
 	}
 }
 
+<<<<<<< HEAD
 static void msm_vfe44_process_epoch_irq(struct vfe_device *vfe_dev,
 	uint32_t irq_status0, uint32_t irq_status1,
 	struct msm_isp_timestamp *ts)
@@ -295,6 +296,8 @@ static void msm_vfe44_process_epoch_irq(struct vfe_device *vfe_dev,
 	if (irq_status0 & (1 << 2))
 		msm_isp_notify(vfe_dev, ISP_EVENT_SOF, VFE_PIX_0, ts);
 }
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static void msm_vfe44_process_input_irq(struct vfe_device *vfe_dev,
 	uint32_t irq_status0, uint32_t irq_status1,
 	struct msm_isp_timestamp *ts)
@@ -313,7 +316,11 @@ static void msm_vfe44_process_input_irq(struct vfe_device *vfe_dev,
 		if (vfe_dev->axi_data.src_info[VFE_PIX_0].raw_stream_count > 0
 			&& vfe_dev->axi_data.src_info[VFE_PIX_0].
 			pix_stream_count == 0) {
+<<<<<<< HEAD
 			msm_isp_notify(vfe_dev, ISP_EVENT_SOF, VFE_PIX_0, ts);
+=======
+			msm_isp_sof_notify(vfe_dev, VFE_PIX_0, ts);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			if (vfe_dev->axi_data.stream_update)
 				msm_isp_axi_stream_update(vfe_dev,
 					(1 << VFE_PIX_0));
@@ -517,6 +524,7 @@ static void msm_vfe44_process_reg_update(struct vfe_device *vfe_dev,
 		return;
 
 	if (irq_status0 & BIT(4)) {
+<<<<<<< HEAD
 		msm_isp_notify(vfe_dev, ISP_EVENT_REG_UPDATE, VFE_PIX_0, ts);
 		input_src |= (1 << VFE_PIX_0);
 	}
@@ -530,6 +538,21 @@ static void msm_vfe44_process_reg_update(struct vfe_device *vfe_dev,
 	}
 	if (irq_status0 & BIT(7)) {
 		msm_isp_notify(vfe_dev, ISP_EVENT_SOF, VFE_RAW_2, ts);
+=======
+		msm_isp_sof_notify(vfe_dev, VFE_PIX_0, ts);
+		input_src |= (1 << VFE_PIX_0);
+	}
+	if (irq_status0 & BIT(5)) {
+		msm_isp_sof_notify(vfe_dev, VFE_RAW_0, ts);
+		input_src |= (1 << VFE_RAW_0);
+	}
+	if (irq_status0 & BIT(6)) {
+		msm_isp_sof_notify(vfe_dev, VFE_RAW_1, ts);
+		input_src |= (1 << VFE_RAW_1);
+	}
+	if (irq_status0 & BIT(7)) {
+		msm_isp_sof_notify(vfe_dev, VFE_RAW_2, ts);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		input_src |= (1 << VFE_RAW_2);
 	}
 
@@ -539,6 +562,7 @@ static void msm_vfe44_process_reg_update(struct vfe_device *vfe_dev,
 		msm_isp_stats_stream_update(vfe_dev);
 	if (atomic_read(&vfe_dev->axi_data.axi_cfg_update))
 		msm_isp_axi_cfg_update(vfe_dev);
+<<<<<<< HEAD
 	if (vfe_dev->axi_data.stream_update ||
 		atomic_read(&vfe_dev->stats_data.stats_update) ||
 		atomic_read(&vfe_dev->axi_data.axi_cfg_update)) {
@@ -562,6 +586,19 @@ static void msm_vfe44_process_reg_update(struct vfe_device *vfe_dev,
 static void msm_vfe44_reg_update(struct vfe_device *vfe_dev, uint32_t input_src)
 {
 	msm_camera_io_w_mb(input_src, vfe_dev->vfe_base + 0x378);
+=======
+
+	msm_isp_update_framedrop_reg(vfe_dev, input_src);
+	msm_isp_update_stats_framedrop_reg(vfe_dev);
+	msm_isp_update_error_frame_count(vfe_dev);
+
+	vfe_dev->hw_info->vfe_ops.core_ops.reg_update(vfe_dev);
+}
+
+static void msm_vfe44_reg_update(struct vfe_device *vfe_dev)
+{
+	msm_camera_io_w_mb(0xF, vfe_dev->vfe_base + 0x378);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static long msm_vfe44_reset_hardware(struct vfe_device *vfe_dev,
@@ -943,7 +980,11 @@ static void msm_vfe44_cfg_fetch_engine(struct vfe_device *vfe_dev,
 		temp |= 2 << 16 | pix_cfg->pixel_pattern;
 		msm_camera_io_w(temp, vfe_dev->vfe_base + 0x1C);
 
+<<<<<<< HEAD
 		vfe_dev->hw_info->vfe_ops.core_ops.reg_update(vfe_dev, 0xF);
+=======
+		vfe_dev->hw_info->vfe_ops.core_ops.reg_update(vfe_dev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	} else {
 		pr_err("%s: Invalid mux configuration - mux: %d", __func__,
 			pix_cfg->input_mux);
@@ -1030,9 +1071,15 @@ static void msm_vfe44_update_camif_state(struct vfe_device *vfe_dev,
 
 	if (update_state == ENABLE_CAMIF) {
 		val = msm_camera_io_r(vfe_dev->vfe_base + 0x28);
+<<<<<<< HEAD
 		val |= 0xF5;
 		msm_camera_io_w_mb(val, vfe_dev->vfe_base + 0x28);
 		msm_camera_io_w_mb(0x200, vfe_dev->vfe_base + 0x318);
+=======
+		val |= 0xF1;
+		msm_camera_io_w_mb(val, vfe_dev->vfe_base + 0x28);
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		bus_en =
 			((vfe_dev->axi_data.
 			src_info[VFE_PIX_0].raw_stream_count > 0) ? 1 : 0);
@@ -1344,11 +1391,19 @@ static int msm_vfe44_axi_restart(struct vfe_device *vfe_dev,
 	msm_camera_io_w(0x7FFFFFFF, vfe_dev->vfe_base + 0x30);
 	msm_camera_io_w(0xFEFFFEFF, vfe_dev->vfe_base + 0x34);
 	msm_camera_io_w(0x1, vfe_dev->vfe_base + 0x24);
+<<<<<<< HEAD
 	msm_camera_io_w_mb(0x200, vfe_dev->vfe_base + 0x318);
 	/* Start AXI */
 	msm_camera_io_w(0x0, vfe_dev->vfe_base + 0x2C0);
 
 	vfe_dev->hw_info->vfe_ops.core_ops.reg_update(vfe_dev, 0xF);
+=======
+
+	/* Start AXI */
+	msm_camera_io_w(0x0, vfe_dev->vfe_base + 0x2C0);
+
+	vfe_dev->hw_info->vfe_ops.core_ops.reg_update(vfe_dev);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	memset(&vfe_dev->error_info, 0, sizeof(vfe_dev->error_info));
 	atomic_set(&vfe_dev->error_info.overflow_state, NO_OVERFLOW);
 
@@ -1862,7 +1917,10 @@ struct msm_vfe_hardware_info vfe44_hw_info = {
 			.process_halt_irq = msm_vfe44_process_halt_irq,
 			.process_reset_irq = msm_vfe44_process_reset_irq,
 			.process_reg_update = msm_vfe44_process_reg_update,
+<<<<<<< HEAD
 			.process_epoch_irq = msm_vfe44_process_epoch_irq,
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			.process_axi_irq = msm_isp_process_axi_irq,
 			.process_stats_irq = msm_isp_process_stats_irq,
 		},

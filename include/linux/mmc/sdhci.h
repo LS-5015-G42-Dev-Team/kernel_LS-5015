@@ -30,6 +30,7 @@ enum sdhci_power_policy {
 	SDHCI_POWER_SAVE_MODE,
 };
 
+<<<<<<< HEAD
 struct sdhci_host_qos {
 	unsigned int *cpu_dma_latency_us;
 	unsigned int cpu_dma_latency_tbl_sz;
@@ -43,6 +44,8 @@ enum sdhci_host_qos_policy {
 	SDHCI_QOS_MAX_POLICY,
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct sdhci_host {
 	/* Data set by hardware interface driver */
 	const char *hw_name;	/* Hardware bus name */
@@ -176,6 +179,10 @@ struct sdhci_host {
  * calculated based on the base clock.
  */
 #define SDHCI_QUIRK2_DIVIDE_TOUT_BY_4 (1 << 11)
+<<<<<<< HEAD
+=======
+
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /*
  * Some SDHC controllers are unable to handle data-end bit error in
  * 1-bit mode of SDIO.
@@ -189,8 +196,11 @@ struct sdhci_host {
 #define SDHCI_QUIRK2_ADMA_SKIP_DATA_ALIGNMENT             (1<<13)
 /* Some controllers doesn't have have any LED control */
 #define SDHCI_QUIRK2_BROKEN_LED_CONTROL	(1 << 14)
+<<<<<<< HEAD
 /* Use reset workaround in case sdhci reset timeouts */
 #define SDHCI_QUIRK2_USE_RESET_WORKAROUND (1 << 15)
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	int irq;		/* Device IRQ */
 	void __iomem *ioaddr;	/* Mapped address */
@@ -280,6 +290,7 @@ struct sdhci_host {
 #define SDHCI_TUNING_MODE_1	0
 	struct timer_list	tuning_timer;	/* Timer for tuning */
 
+<<<<<<< HEAD
 	struct sdhci_host_qos host_qos[SDHCI_QOS_MAX_POLICY];
 	enum sdhci_host_qos_policy last_qos_policy;
 
@@ -287,6 +298,13 @@ struct sdhci_host {
 	unsigned int pm_qos_timeout_us;         /* timeout for PM QoS request */
 	struct device_attribute pm_qos_tout;
 	struct delayed_work pm_qos_work;
+=======
+	unsigned int *cpu_dma_latency_us;
+	unsigned int cpu_dma_latency_tbl_sz;
+	struct pm_qos_request pm_qos_req_dma;
+	unsigned int pm_qos_timeout_us;         /* timeout for PM QoS request */
+	struct device_attribute pm_qos_tout;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	struct sdhci_next next_data;
 	ktime_t data_start_time;
@@ -298,10 +316,13 @@ struct sdhci_host {
 	bool disable_sdio_irq_deferred; /* status of disabling sdio irq */
 	u32 auto_cmd_err_sts;
 	struct ratelimit_state dbg_dump_rs;
+<<<<<<< HEAD
 	int reset_wa_applied; /* reset workaround status */
 	ktime_t reset_wa_t; /* time when the reset workaround is applied */
 	int reset_wa_cnt; /* total number of times workaround is used */
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	unsigned long private[0] ____cacheline_aligned;
 };
 #endif /* LINUX_MMC_SDHCI_H */

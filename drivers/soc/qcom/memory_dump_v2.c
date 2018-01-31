@@ -17,7 +17,10 @@
 #include <linux/err.h>
 #include <linux/of.h>
 #include <linux/of_address.h>
+<<<<<<< HEAD
 #include <linux/kmemleak.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <soc/qcom/memory_dump.h>
 #include <soc/qcom/scm.h>
 
@@ -153,7 +156,10 @@ static int __init init_memory_dump(void)
 		ret = -ENOMEM;
 		goto err1;
 	}
+<<<<<<< HEAD
 	kmemleak_not_leak(table);
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	table->version = MSM_DUMP_TABLE_VERSION;
 
 	entry.id = MSM_DUMP_TABLE_APPS;

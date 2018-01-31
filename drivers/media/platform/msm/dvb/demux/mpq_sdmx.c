@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -46,6 +50,7 @@ enum sdmx_cmd_id {
 
 #pragma pack(push, sdmx, 1)
 
+<<<<<<< HEAD
 struct __sdmx_buff_descr {
 	/* 32bit Physical address where buffer starts */
 	u32 base_addr;
@@ -62,11 +67,17 @@ struct __sdmx_data_buff_descr {
 	u32 length;
 };
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct sdmx_proc_req {
 	enum sdmx_cmd_id cmd_id;
 	u32 session_handle;
 	u8 flags;
+<<<<<<< HEAD
 	struct __sdmx_buff_descr in_buf_descr;
+=======
+	struct sdmx_buff_descr in_buf_descr;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	u32 inp_fill_cnt;
 	u32 in_rd_offset;
 	u32 num_filters;
@@ -129,12 +140,20 @@ struct sdmx_add_filt_req {
 	u32 session_handle;
 	u32 pid;
 	enum sdmx_filter filter_type;
+<<<<<<< HEAD
 	struct __sdmx_buff_descr meta_data_buf;
+=======
+	struct sdmx_buff_descr meta_data_buf;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	enum sdmx_buf_mode buffer_mode;
 	enum sdmx_raw_out_format ts_out_format;
 	u32 flags;
 	u32 num_data_bufs;
+<<<<<<< HEAD
 	struct __sdmx_data_buff_descr data_bufs[];
+=======
+	struct sdmx_data_buff_descr data_bufs[];
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct sdmx_add_filt_rsp {
@@ -517,7 +536,11 @@ int sdmx_add_filter(int session_handle,
 	enum sdmx_raw_out_format ts_out_format,
 	u32 flags)
 {
+<<<<<<< HEAD
 	int res, cmd_len, rsp_len, i, j;
+=======
+	int res, cmd_len, rsp_len;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct sdmx_add_filt_req *cmd;
 	struct sdmx_add_filt_rsp *rsp;
 	enum sdmx_status ret;
@@ -527,7 +550,11 @@ int sdmx_add_filter(int session_handle,
 		return SDMX_STATUS_INVALID_INPUT_PARAMS;
 
 	cmd_len = sizeof(struct sdmx_add_filt_req)
+<<<<<<< HEAD
 		+ num_data_bufs * sizeof(struct __sdmx_data_buff_descr);
+=======
+		+ num_data_bufs * sizeof(struct sdmx_data_buff_descr);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	rsp_len = sizeof(struct sdmx_add_filt_rsp);
 
 	/* Will be later overridden by SDMX response */
@@ -549,6 +576,7 @@ int sdmx_add_filter(int session_handle,
 	cmd->filter_type = filterype;
 	cmd->ts_out_format = ts_out_format;
 	cmd->flags = flags;
+<<<<<<< HEAD
 	if (meta_data_buf != NULL) {
 		cmd->meta_data_buf.base_addr = (u32)meta_data_buf->base_addr;
 		cmd->meta_data_buf.size = meta_data_buf->size;
@@ -567,6 +595,19 @@ int sdmx_add_filter(int session_handle,
 		}
 		cmd->data_bufs[i].length = data_bufs[i].length;
 	}
+=======
+	if (meta_data_buf != NULL)
+		memcpy(&(cmd->meta_data_buf), meta_data_buf,
+			sizeof(struct sdmx_buff_descr));
+	else
+		memset(&(cmd->meta_data_buf), 0,
+			sizeof(struct sdmx_buff_descr));
+
+	cmd->buffer_mode = d_buf_mode;
+	cmd->num_data_bufs = num_data_bufs;
+	memcpy(cmd->data_bufs, data_bufs,
+		num_data_bufs * sizeof(struct sdmx_data_buff_descr));
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Issue QSEECom command */
 	res = qseecom_send_command(sdmx_qseecom_handles[session_handle],
@@ -857,7 +898,11 @@ int sdmx_process(int session_handle, u8 flags,
 	cmd->cmd_id = SDMX_PROCESS_CMD;
 	cmd->session_handle = session_handle;
 	cmd->flags = flags;
+<<<<<<< HEAD
 	cmd->in_buf_descr.base_addr = (u32)input_buf_desc->base_addr;
+=======
+	cmd->in_buf_descr.base_addr = input_buf_desc->base_addr;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	cmd->in_buf_descr.size = input_buf_desc->size;
 	cmd->inp_fill_cnt = *input_fill_count;
 	cmd->in_rd_offset = *input_read_offset;

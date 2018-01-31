@@ -57,6 +57,10 @@
 	*(.uml.initcall.init)
 	__uml_initcall_end = .;
   }
+<<<<<<< HEAD
+=======
+  __init_end = .;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
   SECURITY_INIT
 

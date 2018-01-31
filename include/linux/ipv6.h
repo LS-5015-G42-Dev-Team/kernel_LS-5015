@@ -50,7 +50,10 @@ struct ipv6_devconf {
 	__s32		force_tllao;
 	__s32           ndisc_notify;
 	__s32		accept_ra_prefix_route;
+<<<<<<< HEAD
 	__s32		accept_ra_mtu;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	void		*sysctl;
 };
 
@@ -220,7 +223,11 @@ struct ipv6_pinfo {
 	struct ipv6_ac_socklist	*ipv6_ac_list;
 	struct ipv6_fl_socklist __rcu *ipv6_fl_list;
 
+<<<<<<< HEAD
 	struct ipv6_txoptions __rcu	*opt;
+=======
+	struct ipv6_txoptions	*opt;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct sk_buff		*pktoptions;
 	struct sk_buff		*rxpmtu;
 	struct {

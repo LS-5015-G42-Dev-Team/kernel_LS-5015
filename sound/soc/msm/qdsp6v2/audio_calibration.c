@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -18,7 +22,10 @@
 #include <linux/mutex.h>
 #include <linux/msm_ion.h>
 #include <linux/msm_audio_ion.h>
+<<<<<<< HEAD
 #include <linux/ratelimit.h>
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <sound/audio_calibration.h>
 #include <sound/audio_cal_utils.h>
 
@@ -296,8 +303,11 @@ static int call_set_cals(int32_t cal_type,
 	int				ret2 = 0;
 	struct list_head		*ptr, *next;
 	struct audio_cal_client_info	*client_info_node = NULL;
+<<<<<<< HEAD
 	static DEFINE_RATELIMIT_STATE(rl, HZ/2, 1);
 
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pr_debug("%s cal type %d\n", __func__, cal_type);
 
 	list_for_each_safe(ptr, next,
@@ -312,8 +322,12 @@ static int call_set_cals(int32_t cal_type,
 		ret2 = client_info_node->callbacks->
 			set_cal(cal_type, cal_type_size, data);
 		if (ret2 < 0) {
+<<<<<<< HEAD
 			if (__ratelimit(&rl))
 				pr_err("%s: set_cal failed!\n", __func__);
+=======
+			pr_err("%s: set_cal failed!\n", __func__);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			ret = ret2;
 		}
 	}

@@ -2570,6 +2570,7 @@ static int tiocsetd(struct tty_struct *tty, int __user *p)
 }
 
 /**
+<<<<<<< HEAD
  *	tiocgetd	-	get line discipline
  *	@tty: tty device
  *	@p: pointer to user data
@@ -2592,6 +2593,8 @@ static int tiocgetd(struct tty_struct *tty, int __user *p)
 }
 
 /**
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *	send_break	-	performed time break
  *	@tty: device to break on
  *	@duration: timeout in mS
@@ -2808,7 +2811,11 @@ long tty_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	case TIOCGSID:
 		return tiocgsid(tty, real_tty, p);
 	case TIOCGETD:
+<<<<<<< HEAD
 		return tiocgetd(tty, p);
+=======
+		return put_user(tty->ldisc->ops->num, (int __user *)p);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	case TIOCSETD:
 		return tiocsetd(tty, p);
 	case TIOCVHANGUP:

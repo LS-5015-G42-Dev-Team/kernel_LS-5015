@@ -90,8 +90,12 @@ enum {
 enum {
 	MDSS_PANEL_POWER_OFF = 0,
 	MDSS_PANEL_POWER_ON,
+<<<<<<< HEAD
 	MDSS_PANEL_POWER_LP1,
 	MDSS_PANEL_POWER_LP2,
+=======
+	MDSS_PANEL_POWER_DOZE,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 enum {
@@ -105,6 +109,7 @@ enum {
 	MODE_GPIO_HIGH,
 	MODE_GPIO_LOW,
 };
+<<<<<<< HEAD
 enum dsi_lane_ids {
 	DSI_LANE_0,
 	DSI_LANE_1,
@@ -112,6 +117,8 @@ enum dsi_lane_ids {
 	DSI_LANE_3,
 	DSI_LANE_MAX,
 };
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 struct mdss_rect {
 	u16 x;
@@ -150,7 +157,10 @@ struct mdss_intf_recovery {
  * @MDSS_EVENT_UNBLANK:		Sent before first frame update from MDP is
  *				sent to panel.
  * @MDSS_EVENT_PANEL_ON:	After first frame update from MDP.
+<<<<<<< HEAD
  * @MDSS_EVENT_POST_PANEL_ON	send 2nd phase panel on commands to panel
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * @MDSS_EVENT_BLANK:		MDP has no contents to display only blank screen
  *				is shown in panel. Sent before panel off.
  * @MDSS_EVENT_PANEL_OFF:	MDP has suspended frame updates, panel should be
@@ -188,6 +198,11 @@ struct mdss_intf_recovery {
  *				- 1: update to command mode
  * @MDSS_EVENT_REGISTER_RECOVERY_HANDLER: Event to recover the interface in
  *					case there was any errors detected.
+<<<<<<< HEAD
+=======
+ * @MDSS_EVENT_INTF_RESTORE: Event to restore the interface in case there
+ *				was any errors detected during normal operation.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * @ MDSS_EVENT_DSI_PANEL_STATUS:Event to check the panel status
  *				<= 0: panel check fail
  *				>  0: panel check success
@@ -197,7 +212,10 @@ enum mdss_intf_events {
 	MDSS_EVENT_LINK_READY,
 	MDSS_EVENT_UNBLANK,
 	MDSS_EVENT_PANEL_ON,
+<<<<<<< HEAD
 	MDSS_EVENT_POST_PANEL_ON,
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	MDSS_EVENT_BLANK,
 	MDSS_EVENT_PANEL_OFF,
 	MDSS_EVENT_CLOSE,
@@ -214,6 +232,10 @@ enum mdss_intf_events {
 	MDSS_EVENT_DSI_STREAM_SIZE,
 	MDSS_EVENT_DSI_DYNAMIC_SWITCH,
 	MDSS_EVENT_REGISTER_RECOVERY_HANDLER,
+<<<<<<< HEAD
+=======
+	MDSS_EVENT_INTF_RESTORE,
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	MDSS_EVENT_DSI_PANEL_STATUS,
 };
 
@@ -293,9 +315,13 @@ struct mipi_panel_info {
 	/* The packet-size should not bet changed */
 	char no_max_pkt_size;
 	/* Clock required during LP commands */
+<<<<<<< HEAD
 	bool force_clk_lane_hs;
 
 	bool always_on;
+=======
+	char force_clk_lane_hs;
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	char vsync_enable;
 	char hw_vsync_mode;
@@ -303,7 +329,10 @@ struct mipi_panel_info {
 	char lp11_init;
 	u32  init_delay;
 	u32  post_init_delay;
+<<<<<<< HEAD
 	u32  phy_lane_clamp_mask;	/*DSI physical lane clamp mask*/
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct edp_panel_info {
@@ -379,7 +408,10 @@ struct mdss_panel_info {
 	u32 clk_rate;
 	u32 clk_min;
 	u32 clk_max;
+<<<<<<< HEAD
 	u32 mdp_transfer_time_us;
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	u32 frame_count;
 	u32 is_3d_panel;
 	u32 out_format;
@@ -607,8 +639,13 @@ static inline bool mdss_panel_is_power_on(int panel_power_state)
  * @panel_power_state: enum identifying the power state to be checked
  *
  * This function returns true if the panel is in an intermediate low power
+<<<<<<< HEAD
  * state where it is still on but not fully interactive. It may or may not
  * accept any commands and display updates.
+=======
+ * state where it is still on but not fully interactive. It may still accept
+ * commands and display updates but would be operating in a low power mode.
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  */
 static inline bool mdss_panel_is_power_on_lp(int panel_power_state)
 {
@@ -617,6 +654,7 @@ static inline bool mdss_panel_is_power_on_lp(int panel_power_state)
 }
 
 /**
+<<<<<<< HEAD
  * mdss_panel_is_panel_power_on_ulp: - checks if panel is in ultra low power mode
  * @pdata: pointer to the panel struct associated to the panel
  * @panel_power_state: enum identifying the power state to be checked
@@ -630,6 +668,8 @@ static inline bool mdss_panel_is_power_on_ulp(int panel_power_state)
 }
 
 /**
+=======
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * mdss_panel_intf_type: - checks if a given intf type is primary
  * @intf_val: panel interface type of the individual controller
  *

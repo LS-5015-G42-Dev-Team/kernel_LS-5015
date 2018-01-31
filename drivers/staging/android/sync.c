@@ -345,6 +345,7 @@ static int sync_fence_merge_pts(struct sync_fence *dst, struct sync_fence *src)
 			 * the later of the two
 			 */
 			if (dst_pt->parent == src_pt->parent) {
+<<<<<<< HEAD
 				int cmp_val;
 				int (*cmp_fn)
 					(struct sync_pt *, struct sync_pt *);
@@ -360,6 +361,10 @@ static int sync_fence_merge_pts(struct sync_fence *dst, struct sync_fence *src)
 					break;
 
 				if (cmp_val == -1) {
+=======
+				if (dst_pt->parent->ops->compare(dst_pt, src_pt)
+						 == -1) {
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 					struct sync_pt *new_pt =
 						sync_pt_dup(src_pt);
 					if (new_pt == NULL)
@@ -609,7 +614,11 @@ static const char *sync_status_str(int status)
 		return "error";
 }
 
+<<<<<<< HEAD
 static void sync_pt_log(struct sync_pt *pt, bool pt_callback)
+=======
+static void sync_pt_log(struct sync_pt *pt)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	int status = pt->status;
 	pr_cont("  %s_pt %s",
@@ -634,11 +643,19 @@ static void sync_pt_log(struct sync_pt *pt, bool pt_callback)
 	pr_cont("\n");
 
 	/* Show additional details for active fences */
+<<<<<<< HEAD
 	if (pt->status == 0 && pt->parent->ops->pt_log && pt_callback)
 		pt->parent->ops->pt_log(pt);
 }
 
 void _sync_fence_log(struct sync_fence *fence, bool pt_callback)
+=======
+	if (pt->status == 0 && pt->parent->ops->pt_log)
+		pt->parent->ops->pt_log(pt);
+}
+
+void sync_fence_log(struct sync_fence *fence)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct list_head *pos;
 	unsigned long flags;
@@ -662,6 +679,7 @@ void _sync_fence_log(struct sync_fence *fence, bool pt_callback)
 	list_for_each(pos, &fence->pt_list_head) {
 		struct sync_pt *pt =
 			container_of(pos, struct sync_pt, pt_list);
+<<<<<<< HEAD
 		sync_pt_log(pt, pt_callback);
 	}
 }
@@ -670,6 +688,11 @@ void sync_fence_log(struct sync_fence *fence)
 {
 	_sync_fence_log(fence, false);
 }
+=======
+		sync_pt_log(pt);
+	}
+}
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 EXPORT_SYMBOL(sync_fence_log);
 
 int sync_fence_wait(struct sync_fence *fence, long timeout)
@@ -697,7 +720,11 @@ int sync_fence_wait(struct sync_fence *fence, long timeout)
 
 	if (fence->status < 0) {
 		pr_info("fence error %d on [%p]\n", fence->status, fence);
+<<<<<<< HEAD
 		_sync_fence_log(fence, true);
+=======
+		sync_fence_log(fence);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return fence->status;
 	}
 
@@ -705,7 +732,11 @@ int sync_fence_wait(struct sync_fence *fence, long timeout)
 		if (timeout > 0) {
 			pr_info("fence timeout on [%p] after %dms\n", fence,
 				jiffies_to_msecs(timeout));
+<<<<<<< HEAD
 			_sync_fence_log(fence, true);
+=======
+			sync_fence_log(fence);
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 		return -ETIME;
 	}

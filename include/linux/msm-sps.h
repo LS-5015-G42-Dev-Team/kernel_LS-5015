@@ -24,7 +24,11 @@
 
 /* Returns 36bits physical address from 32bit address &
  * flags word */
+<<<<<<< HEAD
 #define DESC_FULL_ADDR(flags, addr) ((((phys_addr_t)flags & 0xF) << 32) | addr)
+=======
+#define DESC_FULL_ADDR(flags, addr) (((flags & 0xF) << 32) | addr)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* Returns flags word with flags and 4bit upper address
  * from flags and 36bit physical address */
@@ -111,8 +115,13 @@
 #define SPS_BAM_CANCEL_WB           (1UL << 6)
 /* Confirm resource status before access BAM*/
 #define SPS_BAM_RES_CONFIRM         (1UL << 7)
+<<<<<<< HEAD
 /* Hold memory for BAM DMUX */
 #define SPS_BAM_HOLD_MEM            (1UL << 8)
+=======
+/* Verify Low Memory status */
+#define SPS_BAM_ATMC_MEM            (1UL << 8)
+>>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* BAM device management flags */
 
