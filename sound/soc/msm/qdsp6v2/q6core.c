@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -163,7 +163,7 @@ static int32_t aprv2_core_fn_q(struct apr_client_data *data, void *priv)
 			generic_get_data->valid = 1;
 			generic_get_data->size_in_ints =
 				data->payload_size/sizeof(int);
-			pr_debug("DTS_EAGLE_CORE callback size = %i\n",
+			pr_debug("callback size = %i\n",
 				 data->payload_size);
 			memcpy(generic_get_data->ints, data->payload,
 				data->payload_size);
@@ -340,7 +340,7 @@ fail_cmd:
 	return ret;
 }
 
-int core_dts_eagle_set(int size, char *data)
+/*int core_dts_eagle_set(int size, char *data)
 {
 	struct adsp_dts_eagle *payload = NULL;
 	int rc = 0, size_aligned4byte;
@@ -447,7 +447,7 @@ fail_cmd_2:
 	kfree(generic_get_data);
 	generic_get_data = NULL;
 	return rc;
-}
+}*/
 
 uint32_t core_set_dolby_manufacturer_id(int manufacturer_id)
 {

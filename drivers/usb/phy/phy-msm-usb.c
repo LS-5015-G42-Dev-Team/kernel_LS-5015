@@ -3304,6 +3304,9 @@ static void msm_otg_sm_work(struct work_struct *w)
 				case USB_PROPRIETARY_CHARGER:
 					msm_otg_notify_charger(motg,
 							IDEV_CHG_MAX);
+					otg->phy->state =
+						OTG_STATE_B_CHARGER;
+					work = 0;
 					msm_otg_dbg_log_event(&motg->phy,
 					"PM RUNTIME: PROPCHG PUT",
 					get_pm_runtime_counter(otg->phy->dev),
@@ -3313,6 +3316,9 @@ static void msm_otg_sm_work(struct work_struct *w)
 				case USB_FLOATED_CHARGER:
 					msm_otg_notify_charger(motg,
 							IDEV_CHG_MAX);
+					otg->phy->state =
+						OTG_STATE_B_CHARGER;
+					work = 0;
 					msm_otg_dbg_log_event(&motg->phy,
 					"PM RUNTIME: FLCHG PUT",
 					get_pm_runtime_counter(otg->phy->dev),
@@ -3528,6 +3534,16 @@ static void msm_otg_sm_work(struct work_struct *w)
 			}
 		} else if (test_bit(ID_C, &motg->inputs)) {
 			msm_otg_notify_charger(motg, IDEV_ACA_CHG_MAX);
+		}
+		break;
+	case OTG_STATE_B_CHARGER:
+		if (test_bit(B_SESS_VLD, &motg->inputs)) {
+			pr_debug("BSV set again\n");
+			msm_otg_dbg_log_event(&motg->phy, "BSV SET AGAIN",
+					motg->inputs, otg->phy->state);
+		} else if (!test_bit(B_SESS_VLD, &motg->inputs)) {
+			otg->phy->state = OTG_STATE_B_IDLE;
+			work = 1;
 		}
 		break;
 	case OTG_STATE_B_WAIT_ACON:
@@ -5518,7 +5534,7 @@ static int msm_otg_probe(struct platform_device *pdev)
 		ret = -ENOMEM;
 		goto devote_bus_bw;
 	}
-	dev_info(&pdev->dev, "OTG regs = %p\n", motg->regs);
+	dev_info(&pdev->dev, "OTG regs = %pK\n", motg->regs);
 
 	if (pdata->enable_sec_phy) {
 		res = platform_get_resource_byname(pdev,

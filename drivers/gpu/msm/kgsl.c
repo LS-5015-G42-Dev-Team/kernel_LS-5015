@@ -1,4 +1,4 @@
-/* Copyright (c) 2008-2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -209,8 +209,11 @@ kgsl_mem_entry_create(void)
 {
 	struct kgsl_mem_entry *entry = kzalloc(sizeof(*entry), GFP_KERNEL);
 
-	if (entry)
+	if (entry) {
 		kref_init(&entry->refcount);
+		/* put this ref in the caller functions after init */
+		kref_get(&entry->refcount);
+	}
 
 	return entry;
 }
@@ -519,20 +522,17 @@ void kgsl_context_dump(struct kgsl_context *context)
 EXPORT_SYMBOL(kgsl_context_dump);
 
 /* Allocate a new context ID */
-int _kgsl_get_context_id(struct kgsl_device *device,
-		struct kgsl_context *context)
+int _kgsl_get_context_id(struct kgsl_device *device)
 {
 	int id;
 
 	idr_preload(GFP_KERNEL);
 	write_lock(&device->context_lock);
-	id = idr_alloc(&device->context_idr, context, 1,
+	/* Allocate the slot but don't put a pointer in it yet */
+	id = idr_alloc(&device->context_idr, NULL, 1,
 		KGSL_MEMSTORE_MAX, GFP_NOWAIT);
 	write_unlock(&device->context_lock);
 	idr_preload_end();
-
-	if (id > 0)
-		context->id = id;
 
 	return id;
 }
@@ -557,7 +557,7 @@ int kgsl_context_init(struct kgsl_device_private *dev_priv,
 	char name[64];
 	int ret = 0, id;
 
-	id = _kgsl_get_context_id(device, context);
+	id = _kgsl_get_context_id(device);
 	if (id == -ENOSPC) {
 		/*
 		 * Before declaring that there are no contexts left try
@@ -568,7 +568,7 @@ int kgsl_context_init(struct kgsl_device_private *dev_priv,
 		mutex_unlock(&device->mutex);
 		flush_workqueue(device->events_wq);
 		mutex_lock(&device->mutex);
-		id = _kgsl_get_context_id(device, context);
+		id = _kgsl_get_context_id(device);
 	}
 
 	if (id < 0) {
@@ -579,6 +579,8 @@ int kgsl_context_init(struct kgsl_device_private *dev_priv,
 
 		return id;
 	}
+
+	context->id = id;
 
 	kref_init(&context->refcount);
 	/*
@@ -1595,7 +1597,7 @@ void kgsl_dump_syncpoints(struct kgsl_device *device,
 		}
 		case KGSL_CMD_SYNCPOINT_TYPE_FENCE:
 			if (event->handle)
-				dev_err(device->dev, "  fence: [%p] %s\n",
+				dev_err(device->dev, "  fence: [%pK] %s\n",
 					event->handle->fence,
 					event->handle->name);
 			else
@@ -1610,6 +1612,7 @@ static void _kgsl_cmdbatch_timer(unsigned long data)
 	struct kgsl_device *device;
 	struct kgsl_cmdbatch *cmdbatch = (struct kgsl_cmdbatch *) data;
 	struct kgsl_cmdbatch_sync_event *event;
+	unsigned long flags;
 
 	if (cmdbatch == NULL || cmdbatch->context == NULL)
 		return;
@@ -1624,14 +1627,15 @@ static void _kgsl_cmdbatch_timer(unsigned long data)
 	kgsl_context_dump(cmdbatch->context);
 	clear_bit(CMDBATCH_FLAG_FENCE_LOG, &cmdbatch->priv);
 
-	spin_lock(&cmdbatch->lock);
+	spin_lock_irqsave(&cmdbatch->lock, flags);
 	/* Print all the fences */
 	list_for_each_entry(event, &cmdbatch->synclist, node) {
 		if (KGSL_CMD_SYNCPOINT_TYPE_FENCE == event->type &&
 			event->handle && event->handle->fence)
 			kgsl_sync_fence_log(event->handle->fence);
 	}
-	spin_unlock(&cmdbatch->lock);
+
+	spin_unlock_irqrestore(&cmdbatch->lock, flags);
 	dev_err(device->dev, "--gpu syncpoint deadlock print end--\n");
 
 }
@@ -1688,15 +1692,16 @@ static void kgsl_cmdbatch_sync_expire(struct kgsl_device *device,
 	struct kgsl_cmdbatch_sync_event *event)
 {
 	struct kgsl_cmdbatch_sync_event *e, *tmp;
+	unsigned long flags;
 	int sched = 0;
 	int removed = 0;
 
 	/*
-	 * We may have cmdbatch timer running, which also uses same lock,
-	 * take a lock with software interrupt disabled (bh) to avoid
-	 * spin lock recursion.
+	 * cmdbatch timer or event callback might run at
+	 * this time in interrupt context and uses same lock.
+	 * So use irq-save version of spin lock.
 	 */
-	spin_lock_bh(&event->cmdbatch->lock);
+	spin_lock_irqsave(&event->cmdbatch->lock, flags);
 
 	/*
 	 * sync events that are contained by a cmdbatch which has been
@@ -1711,8 +1716,9 @@ static void kgsl_cmdbatch_sync_expire(struct kgsl_device *device,
 		}
 	}
 
+	event->handle = NULL;
 	sched = list_empty(&event->cmdbatch->synclist) ? 1 : 0;
-	spin_unlock_bh(&event->cmdbatch->lock);
+	spin_unlock_irqrestore(&event->cmdbatch->lock, flags);
 
 	/* If the list is empty delete the canary timer */
 	if (sched)
@@ -1774,16 +1780,20 @@ void kgsl_cmdbatch_destroy(struct kgsl_cmdbatch *cmdbatch)
 	struct kgsl_cmdbatch_sync_event *event, *tmpsync;
 	LIST_HEAD(cancel_synclist);
 	int sched = 0;
+	unsigned long flags;
 
 	/* Zap the canary timer */
 	del_timer_sync(&cmdbatch->timer);
 
-	/* non-bh because we just destroyed timer */
-	spin_lock(&cmdbatch->lock);
+	/*
+	 * callback might run in interrupt context
+	 * so need to use irqsave version of spinlocks.
+	 */
+	spin_lock_irqsave(&cmdbatch->lock, flags);
 
 	/* Empty the synclist before canceling events */
 	list_splice_init(&cmdbatch->synclist, &cancel_synclist);
-	spin_unlock(&cmdbatch->lock);
+	spin_unlock_irqrestore(&cmdbatch->lock, flags);
 
 	/*
 	 * Finish canceling events outside the cmdbatch spinlock and
@@ -1805,8 +1815,15 @@ void kgsl_cmdbatch_destroy(struct kgsl_cmdbatch *cmdbatch)
 				kgsl_cmdbatch_sync_func, event);
 		} else if (event->type == KGSL_CMD_SYNCPOINT_TYPE_FENCE) {
 			/* Put events that are successfully canceled */
-			if (kgsl_sync_fence_async_cancel(event->handle))
+			spin_lock_irqsave(&cmdbatch->lock, flags);
+
+			if (kgsl_sync_fence_async_cancel(event->handle)) {
+				event->handle = NULL;
+				spin_unlock_irqrestore(&cmdbatch->lock, flags);
 				kgsl_cmdbatch_sync_event_put(event);
+			} else {
+				spin_unlock_irqrestore(&cmdbatch->lock, flags);
+			}
 		}
 
 		/* Put events that have been removed from the synclist */
@@ -1867,6 +1884,7 @@ static int kgsl_cmdbatch_add_sync_fence(struct kgsl_device *device,
 {
 	struct kgsl_cmd_syncpoint_fence *sync = priv;
 	struct kgsl_cmdbatch_sync_event *event;
+	unsigned long flags;
 
 	event = kzalloc(sizeof(*event), GFP_KERNEL);
 
@@ -1895,11 +1913,6 @@ static int kgsl_cmdbatch_add_sync_fence(struct kgsl_device *device,
 
 	kref_get(&event->refcount);
 
-	/* non-bh because, we haven't started cmdbatch timer yet */
-	spin_lock(&cmdbatch->lock);
-	list_add(&event->node, &cmdbatch->synclist);
-	spin_unlock(&cmdbatch->lock);
-
 	/*
 	 * Increment the reference count for the async callback.
 	 * Decrement when the callback is successfully canceled, when
@@ -1907,6 +1920,10 @@ static int kgsl_cmdbatch_add_sync_fence(struct kgsl_device *device,
 	 */
 
 	kref_get(&event->refcount);
+
+	spin_lock_irqsave(&cmdbatch->lock, flags);
+	list_add(&event->node, &cmdbatch->synclist);
+
 	event->handle = kgsl_sync_fence_async_wait(sync->fd,
 		kgsl_cmdbatch_sync_fence_func, event);
 
@@ -1914,17 +1931,14 @@ static int kgsl_cmdbatch_add_sync_fence(struct kgsl_device *device,
 		int ret = PTR_ERR(event->handle);
 
 		event->handle = NULL;
-
-		/* Failed to add the event to the async callback */
-		kgsl_cmdbatch_sync_event_put(event);
-
 		/* Remove event from the synclist */
-		spin_lock(&cmdbatch->lock);
 		list_del(&event->node);
-		spin_unlock(&cmdbatch->lock);
+		spin_unlock_irqrestore(&cmdbatch->lock, flags);
+		/* Put for event removal from the synclist */
 		kgsl_cmdbatch_sync_event_put(event);
-
-		/* Event no longer needed by this function */
+		/* Unable to add event to the async callback so a put */
+		kgsl_cmdbatch_sync_event_put(event);
+		/* Put since event no longer needed by this function */
 		kgsl_cmdbatch_sync_event_put(event);
 
 		/*
@@ -1938,6 +1952,7 @@ static int kgsl_cmdbatch_add_sync_fence(struct kgsl_device *device,
 	}
 
 	trace_syncpoint_fence(cmdbatch, event->handle->name);
+	spin_unlock_irqrestore(&cmdbatch->lock, flags);
 
 	/*
 	 * Event was successfully added to the synclist, the async
@@ -2585,7 +2600,13 @@ long kgsl_ioctl_drawctxt_create(struct kgsl_device_private *dev_priv,
 		goto done;
 	}
 	trace_kgsl_context_create(dev_priv->device, context, param->flags);
+
+	/* Commit the pointer to the context in context_idr */
+	write_lock(&device->context_lock);
+	idr_replace(&device->context_idr, context, context->id);
 	param->drawctxt_id = context->id;
+	write_unlock(&device->context_lock);
+
 done:
 	mutex_unlock(&device->mutex);
 	return result;
@@ -2902,7 +2923,8 @@ static int kgsl_setup_useraddr(struct kgsl_mem_entry *entry,
 	struct vm_area_struct *vma = NULL;
 	int ret;
 
-	if (param->offset != 0 || param->hostptr == 0
+	if (param->len == 0 || param->offset != 0
+		|| param->hostptr == 0
 		|| !KGSL_IS_PAGE_ALIGNED(param->hostptr)
 		|| !KGSL_IS_PAGE_ALIGNED(param->len))
 		return -EINVAL;
@@ -2938,15 +2960,16 @@ static int kgsl_setup_useraddr(struct kgsl_mem_entry *entry,
 		if (fd != 0)
 			dmabuf = dma_buf_get(fd - 1);
 	}
-	up_read(&current->mm->mmap_sem);
 
 	if (!IS_ERR_OR_NULL(dmabuf)) {
 		ret = kgsl_setup_dma_buf(entry, pagetable, device, dmabuf);
-		if (ret)
+		if (ret) {
 			dma_buf_put(dmabuf);
-		else {
+			up_read(&current->mm->mmap_sem);
+		}else {
 			/* Match the cache settings of the vma region */
 			_setup_cache_mode(entry, vma);
+			up_read(&current->mm->mmap_sem);
 			/* Set the useraddr to the incoming hostptr */
 			entry->memdesc.useraddr = param->hostptr;
 		}
@@ -3254,6 +3277,9 @@ long kgsl_ioctl_map_user_mem(struct kgsl_device_private *dev_priv,
 	trace_kgsl_mem_map(entry, param->fd);
 
 	kgsl_mem_entry_commit_process(private, entry);
+
+	/* put the extra refcount for kgsl_mem_entry_create() */
+	kgsl_mem_entry_put(entry);
 	return result;
 
 error_attach:
@@ -3598,6 +3624,9 @@ long kgsl_ioctl_gpumem_alloc(struct kgsl_device_private *dev_priv,
 	param->flags = entry->memdesc.flags;
 
 	kgsl_mem_entry_commit_process(private, entry);
+
+	/* put the extra refcount for kgsl_mem_entry_create() */
+	kgsl_mem_entry_put(entry);
 	return result;
 err:
 	kgsl_sharedmem_free(&entry->memdesc);
@@ -3640,6 +3669,9 @@ long kgsl_ioctl_gpumem_alloc_id(struct kgsl_device_private *dev_priv,
 	param->gpuaddr = entry->memdesc.gpuaddr;
 
 	kgsl_mem_entry_commit_process(private, entry);
+
+	/* put the extra refcount for kgsl_mem_entry_create() */
+	kgsl_mem_entry_put(entry);
 	return result;
 err:
 	if (entry)
@@ -4670,9 +4702,8 @@ int kgsl_device_platform_probe(struct kgsl_device *device)
 	disable_irq(device->pwrctrl.interrupt_num);
 
 	KGSL_DRV_INFO(device,
-		"dev_id %d regs phys 0x%08lx size 0x%08x virt %p\n",
-		device->id, device->reg_phys, device->reg_len,
-		device->reg_virt);
+		"dev_id %d regs phys 0x%08lx size 0x%08x\n",
+		device->id, device->reg_phys, device->reg_len);
 
 	rwlock_init(&device->context_lock);
 
