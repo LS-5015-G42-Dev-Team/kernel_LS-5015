@@ -1503,14 +1503,11 @@ struct teth_ioc_aggr_params {
 	uint16_t lcid;
 };
 
-<<<<<<< HEAD
 enum ipacm_client_enum {
 	IPACM_CLIENT_USB = 1,
 	IPACM_CLIENT_WLAN,
 	IPACM_CLIENT_MAX
 };
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define TETH_BRIDGE_IOC_SET_BRIDGE_MODE _IOW(TETH_BRIDGE_IOC_MAGIC, \
 				TETH_BRIDGE_IOCTL_SET_BRIDGE_MODE, \

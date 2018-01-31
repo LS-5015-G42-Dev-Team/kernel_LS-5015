@@ -113,7 +113,6 @@ enum mdss_mdp_block_type {
 };
 
 enum mdss_mdp_csc_type {
-<<<<<<< HEAD
 	MDSS_MDP_CSC_YUV2RGB_601L,
 	MDSS_MDP_CSC_YUV2RGB_601FR,
 	MDSS_MDP_CSC_YUV2RGB_709L,
@@ -122,12 +121,6 @@ enum mdss_mdp_csc_type {
 	MDSS_MDP_CSC_RGB2YUV_709L,
 	MDSS_MDP_CSC_YUV2YUV,
 	MDSS_MDP_CSC_RGB2RGB,
-=======
-	MDSS_MDP_CSC_RGB2RGB,
-	MDSS_MDP_CSC_YUV2RGB,
-	MDSS_MDP_CSC_RGB2YUV,
-	MDSS_MDP_CSC_YUV2YUV,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	MDSS_MDP_MAX_CSC
 };
 
@@ -475,10 +468,7 @@ struct mdss_mdp_pipe {
 	struct mdp_scale_data scale;
 	u8 chroma_sample_h;
 	u8 chroma_sample_v;
-<<<<<<< HEAD
 	u8 csc_coeff_set;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct mdss_mdp_writeback_arg {
@@ -510,10 +500,7 @@ struct mdss_overlay_private {
 	struct mdss_mdp_data free_list[MAX_FREE_LIST_SIZE];
 	int free_list_size;
 	int ad_state;
-<<<<<<< HEAD
 	int dyn_pu_state;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	bool handoff;
 	u32 splash_mem_addr;
@@ -643,7 +630,6 @@ static inline int mdss_mdp_line_buffer_width(void)
 	return MAX_LINE_BUFFER_WIDTH;
 }
 
-<<<<<<< HEAD
 static inline bool mdss_mdp_req_init_restore_cfg(struct mdss_data_type *mdata)
 {
 	if ((mdata->mdp_rev == MDSS_MDP_HW_REV_106) ||
@@ -653,8 +639,6 @@ static inline bool mdss_mdp_req_init_restore_cfg(struct mdss_data_type *mdata)
 	return false;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static inline int mdss_mdp_panic_signal_support_mode(
 	struct mdss_data_type *mdata, struct mdss_mdp_pipe *pipe)
 {
@@ -751,7 +735,6 @@ static inline u32 left_lm_w_from_mfd(struct msm_fb_data_type *mfd)
 	return (ctl && ctl->mixer_left) ? ctl->mixer_left->width : 0;
 }
 
-<<<<<<< HEAD
 static inline uint8_t pp_vig_csc_pipe_val(struct mdss_mdp_pipe *pipe)
 {
 	switch (pipe->csc_coeff_set) {
@@ -765,8 +748,6 @@ static inline uint8_t pp_vig_csc_pipe_val(struct mdss_mdp_pipe *pipe)
 	}
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 irqreturn_t mdss_mdp_isr(int irq, void *ptr);
 void mdss_mdp_irq_clear(struct mdss_data_type *mdata,
 		u32 intr_type, u32 intf_num);
@@ -831,11 +812,7 @@ int mdss_mdp_perf_bw_check_pipe(struct mdss_mdp_perf_params *perf,
 int mdss_mdp_perf_calc_pipe(struct mdss_mdp_pipe *pipe,
 	struct mdss_mdp_perf_params *perf, struct mdss_rect *roi,
 	u32 flags);
-<<<<<<< HEAD
 u32 mdss_mdp_calc_latency_buf_bytes(bool is_bwc,
-=======
-u32 mdss_mdp_calc_latency_buf_bytes(bool is_yuv, bool is_bwc,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	bool is_tile, u32 src_w, u32 bpp, bool use_latency_buf_percentage,
 	u32 smp_bytes);
 u32 mdss_mdp_get_mdp_clk_rate(struct mdss_data_type *mdata);
@@ -929,11 +906,7 @@ void mdss_mdp_pipe_unmap(struct mdss_mdp_pipe *pipe);
 struct mdss_mdp_pipe *mdss_mdp_pipe_alloc_dma(struct mdss_mdp_mixer *mixer);
 
 u32 mdss_mdp_smp_calc_num_blocks(struct mdss_mdp_pipe *pipe);
-<<<<<<< HEAD
 u32 mdss_mdp_smp_get_size(struct mdss_mdp_pipe *pipe, u32 num_planes);
-=======
-u32 mdss_mdp_smp_get_size(struct mdss_mdp_pipe *pipe);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int mdss_mdp_smp_reserve(struct mdss_mdp_pipe *pipe);
 void mdss_mdp_smp_unreserve(struct mdss_mdp_pipe *pipe);
 void mdss_mdp_smp_release(struct mdss_mdp_pipe *pipe);

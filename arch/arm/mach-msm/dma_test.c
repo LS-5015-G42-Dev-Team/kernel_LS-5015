@@ -99,11 +99,7 @@ static int buffer_req(struct msm_dma_alloc_req *req)
 	if (i >= MAX_TEST_BUFFERS)
 		goto error;
 
-<<<<<<< HEAD
 	buffers[i] = kzalloc(req->size, GFP_KERNEL | __GFP_DMA);
-=======
-	buffers[i] = kmalloc(req->size, GFP_KERNEL | __GFP_DMA);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (buffers[i] == 0)
 		goto error;
 	sizes[i] = req->size;

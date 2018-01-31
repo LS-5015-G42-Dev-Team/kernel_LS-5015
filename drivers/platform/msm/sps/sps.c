@@ -2196,10 +2196,7 @@ EXPORT_SYMBOL(sps_register_bam_device);
 int sps_deregister_bam_device(unsigned long dev_handle)
 {
 	struct sps_bam *bam;
-<<<<<<< HEAD
 	int n;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	SPS_DBG2("sps:%s.", __func__);
 
@@ -2216,15 +2213,12 @@ int sps_deregister_bam_device(unsigned long dev_handle)
 
 	SPS_DBG2("sps:SPS deregister BAM: phys %pa.", &bam->props.phys_addr);
 
-<<<<<<< HEAD
 	if (bam->props.options & SPS_BAM_HOLD_MEM) {
 		for (n = 0; n < BAM_MAX_PIPES; n++)
 			if (bam->desc_cache_pointers[n] != NULL)
 				kfree(bam->desc_cache_pointers[n]);
 	}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* If this BAM is attached to a BAM-DMA, init the BAM-DMA device */
 #ifdef CONFIG_SPS_SUPPORT_BAMDMA
 	if ((bam->props.options & SPS_BAM_OPT_BAMDMA)) {

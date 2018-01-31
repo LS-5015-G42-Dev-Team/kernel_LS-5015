@@ -949,14 +949,10 @@ int create_pkt_cmd_session_set_property(
 		struct hfi_enable *hfi;
 		pkt->rg_property_data[0] = HFI_PROPERTY_CONFIG_REALTIME;
 		hfi = (struct hfi_enable *) &pkt->rg_property_data[1];
-<<<<<<< HEAD
 		/* firmware has inverted vaules for realtime and
 		 * non-realtime priority
 		 */
 		hfi->enable = !(((struct hfi_enable *) pdata)->enable);
-=======
-		hfi->enable = ((struct hfi_enable *) pdata)->enable;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		pkt->size += sizeof(u32) * 2;
 		break;
 	}

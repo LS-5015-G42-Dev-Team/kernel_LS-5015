@@ -327,7 +327,6 @@ static struct task_struct *dup_task_struct(struct task_struct *orig)
 		goto free_ti;
 
 	tsk->stack = ti;
-<<<<<<< HEAD
 #ifdef CONFIG_SECCOMP
 	/*
 	 * We must handle setting up seccomp filters once we're under
@@ -337,8 +336,6 @@ static struct task_struct *dup_task_struct(struct task_struct *orig)
 	 */
 	tsk->seccomp.filter = NULL;
 #endif
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	setup_thread_stack(tsk, orig);
 	clear_user_return_notifier(tsk);
@@ -1073,14 +1070,11 @@ static int copy_signal(unsigned long clone_flags, struct task_struct *tsk)
 	sig->nr_threads = 1;
 	atomic_set(&sig->live, 1);
 	atomic_set(&sig->sigcnt, 1);
-<<<<<<< HEAD
 
 	/* list_add(thread_node, thread_head) without INIT_LIST_HEAD() */
 	sig->thread_head = (struct list_head)LIST_HEAD_INIT(tsk->thread_node);
 	tsk->thread_node = (struct list_head)LIST_HEAD_INIT(sig->thread_head);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	init_waitqueue_head(&sig->wait_chldexit);
 	sig->curr_target = tsk;
 	init_sigpending(&sig->shared_pending);
@@ -1122,7 +1116,6 @@ static void copy_flags(unsigned long clone_flags, struct task_struct *p)
 	p->flags = new_flags;
 }
 
-<<<<<<< HEAD
 static void copy_seccomp(struct task_struct *p)
 {
 #ifdef CONFIG_SECCOMP
@@ -1156,8 +1149,6 @@ static void copy_seccomp(struct task_struct *p)
 #endif
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 SYSCALL_DEFINE1(set_tid_address, int __user *, tidptr)
 {
 	current->clear_child_tid = tidptr;
@@ -1262,10 +1253,6 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 		goto fork_out;
 
 	ftrace_graph_init_task(p);
-<<<<<<< HEAD
-=======
-	get_seccomp_filter(p);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rt_mutex_init_task(p);
 
@@ -1311,10 +1298,7 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 
 	p->utime = p->stime = p->gtime = 0;
 	p->utimescaled = p->stimescaled = 0;
-<<<<<<< HEAD
 	p->cpu_power = 0;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #ifndef CONFIG_VIRT_CPU_ACCOUNTING_NATIVE
 	p->prev_cputime.utime = p->prev_cputime.stime = 0;
 #endif
@@ -1512,15 +1496,12 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 	spin_lock(&current->sighand->siglock);
 
 	/*
-<<<<<<< HEAD
 	 * Copy seccomp details explicitly here, in case they were changed
 	 * before holding sighand lock.
 	 */
 	copy_seccomp(p);
 
 	/*
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	 * Process group and session signals need to be delivered to just the
 	 * parent before the fork or both the parent and the child after the
 	 * fork. Restart if a signal comes in before we add the new process to
@@ -1560,12 +1541,9 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 			list_add_tail(&p->sibling, &p->real_parent->children);
 			list_add_tail_rcu(&p->tasks, &init_task.tasks);
 			__this_cpu_inc(process_counts);
-<<<<<<< HEAD
 		} else {
 			list_add_tail_rcu(&p->thread_node,
 					  &p->signal->thread_head);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 		attach_pid(p, PIDTYPE_PID, pid);
 		nr_threads++;

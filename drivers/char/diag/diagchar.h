@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2008-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2008-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -94,10 +90,7 @@
 #define DIAG_DIAG_POLL		0x03
 #define DIAG_DEL_RSP_WRAP	0x04
 #define DIAG_DEL_RSP_WRAP_CNT	0x05
-<<<<<<< HEAD
 #define DIAG_EXT_MOBILE_ID	0x06
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define DIAG_CMD_OP_LOG_DISABLE		0
 #define DIAG_CMD_OP_GET_LOG_RANGE	1
@@ -114,10 +107,7 @@
 
 #define MODE_CMD	41
 #define RESET_ID	2
-<<<<<<< HEAD
 #define POWER_OFF_ID    6
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define FEATURE_MASK_LEN	2
 
@@ -222,7 +212,6 @@ struct diag_pkt_header_t {
 	uint16_t subsys_cmd_code;
 } __packed;
 
-<<<<<<< HEAD
 struct diag_cmd_ext_mobile_rsp_t {
 	struct diag_pkt_header_t header;
 	uint8_t version;
@@ -231,8 +220,6 @@ struct diag_cmd_ext_mobile_rsp_t {
 	uint32_t chip_id;
 } __packed;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct diag_master_table {
 	uint16_t cmd_code;
 	uint16_t subsys_id;
@@ -381,10 +368,7 @@ struct diagchar_dev {
 	struct device *diag_dev;
 	int ref_count;
 	struct mutex diagchar_mutex;
-<<<<<<< HEAD
 	struct mutex diag_file_mutex;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	wait_queue_head_t wait_q;
 	wait_queue_head_t smd_wait_q;
 	struct diag_client_map *client_map;
@@ -520,9 +504,6 @@ void diag_ws_on_copy_fail(int type);
 void diag_ws_on_copy_complete(int type);
 void diag_ws_reset(int type);
 void diag_ws_release(void);
-<<<<<<< HEAD
 void chk_logging_wakeup(void);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #endif

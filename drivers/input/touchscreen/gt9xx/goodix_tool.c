@@ -307,11 +307,7 @@ nput:
 Output:
     Return write length.
 ********************************************************/
-<<<<<<< HEAD
 static ssize_t goodix_tool_write(struct file *filp, const char __user *userbuf,
-=======
-static s32 goodix_tool_write(struct file *filp, const char __user *userbuf,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 						size_t count, loff_t *ppos)
 {
 	s32 ret = 0;
@@ -390,11 +386,7 @@ static s32 goodix_tool_write(struct file *filp, const char __user *userbuf,
 		if (cmd_head.data_len > sizeof(ic_type)) {
 			dev_err(&gt_client->dev,
 				"data len %d > data buff %d, rejected!\n",
-<<<<<<< HEAD
 				cmd_head.data_len, (int)sizeof(ic_type));
-=======
-				cmd_head.data_len, sizeof(ic_type));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			ret = -EINVAL;
 			goto exit;
 		}
@@ -483,11 +475,7 @@ Input:
 Output:
     Return read length.
 ********************************************************/
-<<<<<<< HEAD
 static ssize_t goodix_tool_read(struct file *file, char __user *user_buf,
-=======
-static s32 goodix_tool_read(struct file *file, char __user *user_buf,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 					size_t count, loff_t *ppos)
 {
 	u16 data_len = 0;

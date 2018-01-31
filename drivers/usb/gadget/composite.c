@@ -368,13 +368,7 @@ static int usb_func_wakeup_int(struct usb_function *func,
 {
 	int ret;
 	int interface_id;
-<<<<<<< HEAD
 	struct usb_gadget *gadget;
-=======
-	unsigned long flags;
-	struct usb_gadget *gadget;
-	struct usb_composite_dev *cdev;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	pr_debug("%s - %s function wakeup, use pending: %u\n",
 		__func__, func->name ? func->name : "", use_pending_flag);
@@ -393,17 +387,8 @@ static int usb_func_wakeup_int(struct usb_function *func,
 		return -ENOTSUPP;
 	}
 
-<<<<<<< HEAD
 	if (use_pending_flag && !func->func_wakeup_pending) {
 		pr_debug("Pending flag is cleared - Function wakeup is cancelled.\n");
-=======
-	cdev = get_gadget_data(gadget);
-	spin_lock_irqsave(&cdev->lock, flags);
-
-	if (use_pending_flag && !func->func_wakeup_pending) {
-		pr_debug("Pending flag is cleared - Function wakeup is cancelled.\n");
-		spin_unlock_irqrestore(&cdev->lock, flags);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return 0;
 	}
 
@@ -413,10 +398,6 @@ static int usb_func_wakeup_int(struct usb_function *func,
 			"Function %s - Unknown interface id. Canceling USB request. ret=%d\n",
 			func->name ? func->name : "", ret);
 
-<<<<<<< HEAD
-=======
-		spin_unlock_irqrestore(&cdev->lock, flags);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return ret;
 	}
 
@@ -430,29 +411,18 @@ static int usb_func_wakeup_int(struct usb_function *func,
 			func->func_wakeup_pending = true;
 	}
 
-<<<<<<< HEAD
-=======
-	spin_unlock_irqrestore(&cdev->lock, flags);
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return ret;
 }
 
 int usb_func_wakeup(struct usb_function *func)
 {
 	int ret;
-<<<<<<< HEAD
 	unsigned long flags;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	pr_debug("%s function wakeup\n",
 		func->name ? func->name : "");
 
-<<<<<<< HEAD
 	spin_lock_irqsave(&func->config->cdev->lock, flags);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ret = usb_func_wakeup_int(func, false);
 	if (ret == -EAGAIN) {
 		DBG(func->config->cdev,
@@ -465,10 +435,7 @@ int usb_func_wakeup(struct usb_function *func)
 			func->name ? func->name : "", ret);
 	}
 
-<<<<<<< HEAD
 	spin_unlock_irqrestore(&func->config->cdev->lock, flags);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return ret;
 }
 
@@ -808,15 +775,12 @@ static int set_config(struct usb_composite_dev *cdev,
 		 */
 		switch (gadget->speed) {
 		case USB_SPEED_SUPER:
-<<<<<<< HEAD
 			if (!f->ss_descriptors) {
 				pr_err("%s(): No SS desc for function:%s\n",
 							__func__, f->name);
 				usb_gadget_set_state(gadget, USB_STATE_ADDRESS);
 				return -EINVAL;
 			}
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			descriptors = f->ss_descriptors;
 			break;
 		case USB_SPEED_HIGH:
@@ -1940,10 +1904,7 @@ composite_resume(struct usb_gadget *gadget)
 	struct usb_function		*f;
 	u8				maxpower;
 	int ret;
-<<<<<<< HEAD
 	unsigned long			flags;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* REVISIT:  should we have config level
 	 * suspend/resume callbacks?
@@ -1952,10 +1913,7 @@ composite_resume(struct usb_gadget *gadget)
 	if (cdev->driver->resume)
 		cdev->driver->resume(cdev);
 
-<<<<<<< HEAD
 	spin_lock_irqsave(&cdev->lock, flags);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (cdev->config) {
 		list_for_each_entry(f, &cdev->config->functions, list) {
 			ret = usb_func_wakeup_int(f, true);
@@ -1983,10 +1941,7 @@ composite_resume(struct usb_gadget *gadget)
 			maxpower : CONFIG_USB_GADGET_VBUS_DRAW);
 	}
 
-<<<<<<< HEAD
 	spin_unlock_irqrestore(&cdev->lock, flags);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	cdev->suspended = 0;
 }
 

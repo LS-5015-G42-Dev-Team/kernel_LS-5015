@@ -195,14 +195,9 @@ static int handle_to_path(int mountdirfd, struct file_handle __user *ufh,
 		goto out_err;
 	}
 	/* copy the full handle */
-<<<<<<< HEAD
 	*handle = f_handle;
 	if (copy_from_user(&handle->f_handle,
 			   &ufh->f_handle,
-=======
-	if (copy_from_user(handle, ufh,
-			   sizeof(struct file_handle) +
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			   f_handle.handle_bytes)) {
 		retval = -EFAULT;
 		goto out_handle;

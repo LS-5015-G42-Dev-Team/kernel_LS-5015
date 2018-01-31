@@ -766,7 +766,6 @@ static long compat_ashmem_ioctl(struct file *file, unsigned int cmd, unsigned lo
 }
 #endif
 
-<<<<<<< HEAD
 static const struct file_operations ashmem_fops = {
 	.owner = THIS_MODULE,
 	.open = ashmem_open,
@@ -789,13 +788,6 @@ static struct miscdevice ashmem_misc = {
 static int is_ashmem_file(struct file *file)
 {
 	return (file->f_op == &ashmem_fops);
-=======
-static int is_ashmem_file(struct file *file)
-{
-	char fname[256], *name;
-	name = dentry_path(file->f_dentry, fname, 256);
-	return strcmp(name, "/ashmem") ? 0 : 1;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 int get_ashmem_file(int fd, struct file **filp, struct file **vm_file,
@@ -844,28 +836,6 @@ void put_ashmem_file(struct file *file)
 }
 EXPORT_SYMBOL(put_ashmem_file);
 
-<<<<<<< HEAD
-=======
-static const struct file_operations ashmem_fops = {
-	.owner = THIS_MODULE,
-	.open = ashmem_open,
-	.release = ashmem_release,
-	.read = ashmem_read,
-	.llseek = ashmem_llseek,
-	.mmap = ashmem_mmap,
-	.unlocked_ioctl = ashmem_ioctl,
-#ifdef CONFIG_COMPAT
-	.compat_ioctl = compat_ashmem_ioctl,
-#endif
-};
-
-static struct miscdevice ashmem_misc = {
-	.minor = MISC_DYNAMIC_MINOR,
-	.name = "ashmem",
-	.fops = &ashmem_fops,
-};
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int __init ashmem_init(void)
 {
 	int ret;

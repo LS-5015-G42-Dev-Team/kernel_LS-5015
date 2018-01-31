@@ -762,7 +762,6 @@ static int snd_compr_partial_drain(struct snd_compr_stream *stream)
 	return retval;
 }
 
-<<<<<<< HEAD
 static int snd_compr_set_next_track_param(struct snd_compr_stream *stream,
 		unsigned long arg)
 {
@@ -784,8 +783,6 @@ static int snd_compr_set_next_track_param(struct snd_compr_stream *stream,
 	return 0;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int snd_compress_simple_ioctls(struct file *file,
 				struct snd_compr_stream *stream,
 				unsigned int cmd, unsigned long arg)
@@ -882,13 +879,10 @@ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 		retval = snd_compr_next_track(stream);
 		break;
 
-<<<<<<< HEAD
 	case _IOC_NR(SNDRV_COMPRESS_SET_NEXT_TRACK_PARAM):
 		retval = snd_compr_set_next_track_param(stream, arg);
 		break;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	default:
 		mutex_unlock(&stream->device->lock);
 		return snd_compress_simple_ioctls(f, stream, cmd, arg);

@@ -62,11 +62,8 @@
 struct wiphy;
 
 #define TDLS_MGMT_VERSION2 1
-<<<<<<< HEAD
 #define CFG80211_BSSID_HINT_BACKPORT 1
 #define CFG80211_DEL_STA_V2 1
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /*
  * wireless hardware capability structures
@@ -693,7 +690,6 @@ struct station_parameters {
 };
 
 /**
-<<<<<<< HEAD
  * struct station_del_parameters - station deletion parameters
  *
  * Used to delete a station entry (or all stations).
@@ -710,8 +706,6 @@ struct station_del_parameters {
 };
 
 /**
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * enum cfg80211_station_type - the type of station being modified
  * @CFG80211_STA_AP_CLIENT: client of an AP interface
  * @CFG80211_STA_AP_MLME_CLIENT: client of an AP interface that has
@@ -1952,11 +1946,7 @@ struct cfg80211_auth_params {
  * @stop_ap: Stop being an AP, including stopping beaconing.
  *
  * @add_station: Add a new station.
-<<<<<<< HEAD
  * @del_station: Remove a station
-=======
- * @del_station: Remove a station; @mac may be NULL to remove all stations.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  * @change_station: Modify a given station. Note that flags changes are not much
  *	validated in cfg80211, in particular the auth/assoc/authorized flags
  *	might come to the driver in invalid combinations -- make sure to check
@@ -2185,11 +2175,7 @@ struct cfg80211_ops {
 	int	(*add_station)(struct wiphy *wiphy, struct net_device *dev,
 			       u8 *mac, struct station_parameters *params);
 	int	(*del_station)(struct wiphy *wiphy, struct net_device *dev,
-<<<<<<< HEAD
 			       struct station_del_parameters *params);
-=======
-			       u8 *mac);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int	(*change_station)(struct wiphy *wiphy, struct net_device *dev,
 				  u8 *mac, struct station_parameters *params);
 	int	(*get_station)(struct wiphy *wiphy, struct net_device *dev,

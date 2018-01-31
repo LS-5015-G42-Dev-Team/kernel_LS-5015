@@ -65,7 +65,6 @@
 #define COMPAT_PT_TEXT_ADDR		0x10000
 #define COMPAT_PT_DATA_ADDR		0x10004
 #define COMPAT_PT_TEXT_END_ADDR		0x10008
-<<<<<<< HEAD
 
 /*
  * used to skip a system call when tracer changes its number to -1
@@ -75,8 +74,6 @@
 #define RET_SKIP_SYSCALL_TRACE	-2
 #define IS_SKIP_SYSCALL(no)	((int)(no & 0xffffffff) == -1)
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #ifndef __ASSEMBLY__
 
 /* sizeof(struct user) for AArch32 */

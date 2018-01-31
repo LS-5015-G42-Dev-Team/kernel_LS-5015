@@ -285,7 +285,6 @@ config PANIC_ON_OOPS_VALUE
 	default 0 if !PANIC_ON_OOPS
 	default 1 if PANIC_ON_OOPS
 
-<<<<<<< HEAD
 config PANIC_ON_RECURSIVE_FAULT
 	bool "Panic on recursive faults during task exit"
 	help
@@ -297,8 +296,6 @@ config PANIC_ON_RECURSIVE_FAULT
 
 	  Say N if unsure.
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 config DETECT_HUNG_TASK
 	bool "Detect Hung Tasks"
 	depends on DEBUG_KERNEL

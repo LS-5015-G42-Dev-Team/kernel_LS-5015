@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -57,10 +53,7 @@ struct q_perip_data {
 	uint8_t pol_low;    /* bitmap */
 	uint8_t int_en;     /* bitmap */
 	uint8_t use_count;
-<<<<<<< HEAD
 	spinlock_t lock;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct q_irq_data {
@@ -213,11 +206,7 @@ static void qpnpint_irq_mask(struct irq_data *d)
 	struct q_chip_data *chip_d = irq_d->chip_d;
 	struct q_perip_data *per_d = irq_d->per_d;
 	int rc;
-<<<<<<< HEAD
 	uint8_t prev_int_en;
-=======
-	uint8_t prev_int_en = per_d->int_en;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	pr_debug("hwirq %lu irq: %d\n", d->hwirq, d->irq);
 
@@ -228,11 +217,8 @@ static void qpnpint_irq_mask(struct irq_data *d)
 		return;
 	}
 
-<<<<<<< HEAD
 	spin_lock(&per_d->lock);
 	prev_int_en = per_d->int_en;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	per_d->int_en &= ~irq_d->mask_shift;
 
 	if (prev_int_en && !(per_d->int_en)) {
@@ -242,10 +228,7 @@ static void qpnpint_irq_mask(struct irq_data *d)
 		 */
 		qpnpint_arbiter_op(d, irq_d, chip_d->cb->mask);
 	}
-<<<<<<< HEAD
 	spin_unlock(&per_d->lock);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rc = qpnpint_spmi_write(irq_d, QPNPINT_REG_EN_CLR,
 					(u8 *)&irq_d->mask_shift, 1);
@@ -272,11 +255,7 @@ static void qpnpint_irq_unmask(struct irq_data *d)
 	struct q_perip_data *per_d = irq_d->per_d;
 	int rc;
 	uint8_t buf[2];
-<<<<<<< HEAD
 	uint8_t prev_int_en;
-=======
-	uint8_t prev_int_en = per_d->int_en;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	pr_debug("hwirq %lu irq: %d\n", d->hwirq, d->irq);
 
@@ -287,11 +266,8 @@ static void qpnpint_irq_unmask(struct irq_data *d)
 		return;
 	}
 
-<<<<<<< HEAD
 	spin_lock(&per_d->lock);
 	prev_int_en = per_d->int_en;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	per_d->int_en |= irq_d->mask_shift;
 	if (!prev_int_en && per_d->int_en) {
 		/*
@@ -301,10 +277,7 @@ static void qpnpint_irq_unmask(struct irq_data *d)
 		 */
 		qpnpint_arbiter_op(d, irq_d, chip_d->cb->unmask);
 	}
-<<<<<<< HEAD
 	spin_unlock(&per_d->lock);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Check the current state of the interrupt enable bit. */
 	rc = qpnpint_spmi_read(irq_d, QPNPINT_REG_EN_SET, buf, 1);
@@ -463,10 +436,7 @@ static struct q_irq_data *qpnpint_alloc_irq_data(
 			rc = -ENOMEM;
 			goto alloc_fail;
 		}
-<<<<<<< HEAD
 		spin_lock_init(&per_d->lock);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		rc = radix_tree_preload(GFP_KERNEL);
 		if (rc)
 			goto alloc_fail;

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -19,11 +15,8 @@
 
 #include <sensor/csiphy/msm_csiphy.h>
 
-<<<<<<< HEAD
 #define MIPI_CSIPHY_GLBL_PWG_CFG0_OFFSET    0x1FC
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct csiphy_reg_parms_t csiphy_v3_1 = {
 	/*MIPI CSI PHY registers*/
 	0x0,

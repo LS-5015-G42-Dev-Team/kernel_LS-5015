@@ -358,7 +358,6 @@ static void msm_ispif_sel_csid_core(struct ispif_device *ispif,
 	switch (intftype) {
 	case PIX0:
 		data &= ~(BIT(1) | BIT(0));
-<<<<<<< HEAD
 		data |= (uint32_t)csid;
 		break;
 	case RDI0:
@@ -376,25 +375,6 @@ static void msm_ispif_sel_csid_core(struct ispif_device *ispif,
 	case RDI2:
 		data &= ~(BIT(21) | BIT(20));
 		data |= (uint32_t)(csid << 20);
-=======
-		data |= csid;
-		break;
-	case RDI0:
-		data &= ~(BIT(5) | BIT(4));
-		data |= (csid << 4);
-		break;
-	case PIX1:
-		data &= ~(BIT(9) | BIT(8));
-		data |= (csid << 8);
-		break;
-	case RDI1:
-		data &= ~(BIT(13) | BIT(12));
-		data |= (csid << 12);
-		break;
-	case RDI2:
-		data &= ~(BIT(21) | BIT(20));
-		data |= (csid << 20);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 	}
 
@@ -470,15 +450,9 @@ static void msm_ispif_enable_intf_cids(struct ispif_device *ispif,
 
 	data = msm_camera_io_r(ispif->base + intf_addr);
 	if (enable)
-<<<<<<< HEAD
 		data |= (uint32_t)cid_mask;
 	else
 		data &= ~((uint32_t)cid_mask);
-=======
-		data |= cid_mask;
-	else
-		data &= ~cid_mask;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	msm_camera_io_w_mb(data, ispif->base + intf_addr);
 }
 
@@ -1195,7 +1169,6 @@ static irqreturn_t msm_io_ispif_irq(int irq_num, void *data)
 static int msm_ispif_set_vfe_info(struct ispif_device *ispif,
 	struct msm_ispif_vfe_info *vfe_info)
 {
-<<<<<<< HEAD
 	if (!vfe_info || (vfe_info->num_vfe <= 0) ||
 		((uint32_t)(vfe_info->num_vfe) > ispif->hw_num_isps)) {
 		pr_err("Invalid VFE info: %p %d\n", vfe_info,
@@ -1205,11 +1178,6 @@ static int msm_ispif_set_vfe_info(struct ispif_device *ispif,
 
 	memcpy(&ispif->vfe_info, vfe_info, sizeof(struct msm_ispif_vfe_info));
 
-=======
-	memcpy(&ispif->vfe_info, vfe_info, sizeof(struct msm_ispif_vfe_info));
-	if (ispif->vfe_info.num_vfe > ispif->hw_num_isps)
-		return -EINVAL;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 

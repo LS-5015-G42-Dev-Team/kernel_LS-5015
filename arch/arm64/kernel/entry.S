@@ -25,15 +25,9 @@
 #include <asm/asm-offsets.h>
 #include <asm/errno.h>
 #include <asm/esr.h>
-<<<<<<< HEAD
 #include <asm/ptrace.h>
 #include <asm/thread_info.h>
 #include <asm/unistd.h>
-=======
-#include <asm/thread_info.h>
-#include <asm/unistd.h>
-#include <asm/unistd32.h>
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /*
  * Bad Abort numbers
@@ -98,7 +92,6 @@
 	ldp	x21, x22, [sp, #S_PC]		// load ELR, SPSR
 	.if	\el == 0
 	ldr	x23, [sp, #S_SP]		// load return stack pointer
-<<<<<<< HEAD
 	msr	sp_el0, x23
 #ifdef CONFIG_ARM64_ERRATUM_845719
 	tbz x22, #4, 1f
@@ -111,10 +104,6 @@
 #endif
 	.endif
 1:	.if	\ret
-=======
-	.endif
-	.if	\ret
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ldr	x1, [sp, #S_X1]			// preserve x0 (syscall return)
 	add	sp, sp, S_X2
 	.else
@@ -656,13 +645,10 @@ __sys_trace:
 	mov	x0, sp
 	bl	syscall_trace_enter
 	adr	lr, __sys_trace_return		// return address
-<<<<<<< HEAD
 	cmp	w0, #RET_SKIP_SYSCALL_TRACE	// skip syscall and tracing?
 	b.eq	ret_to_user
 	cmp	w0, #RET_SKIP_SYSCALL		// skip syscall?
 	b.eq	__sys_trace_return_skipped
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	uxtw	scno, w0			// syscall number (possibly new)
 	mov	x1, sp				// pointer to regs
 	cmp	scno, sc_nr			// check upper syscall limit
@@ -676,10 +662,7 @@ __sys_trace:
 
 __sys_trace_return:
 	str	x0, [sp]			// save returned x0
-<<<<<<< HEAD
 __sys_trace_return_skipped:			// x0 already in regs[0]
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mov	x0, sp
 	bl	syscall_trace_exit
 	b	ret_to_user

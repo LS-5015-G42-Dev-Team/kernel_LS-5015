@@ -691,19 +691,11 @@ out:
 
 static void jit_free_defer(struct work_struct *arg)
 {
-<<<<<<< HEAD
 	module_memfree(arg);
 }
 
 /* run from softirq, we must use a work_struct to call
  * module_memfree() from process context
-=======
-	module_free(NULL, arg);
-}
-
-/* run from softirq, we must use a work_struct to call
- * module_free() from process context
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  */
 void bpf_jit_free(struct sk_filter *fp)
 {

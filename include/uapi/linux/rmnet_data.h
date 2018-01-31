@@ -1,9 +1,5 @@
  /*
-<<<<<<< HEAD
  * Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -27,11 +23,8 @@
 #define RMNET_EGRESS_FORMAT_MAP                 (1<<1)
 #define RMNET_EGRESS_FORMAT_AGGREGATION         (1<<2)
 #define RMNET_EGRESS_FORMAT_MUXING              (1<<3)
-<<<<<<< HEAD
 #define RMNET_EGRESS_FORMAT_MAP_CKSUMV3         (1<<4)
 #define RMNET_EGRESS_FORMAT_MAP_CKSUMV4         (1<<5)
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define RMNET_INGRESS_FIX_ETHERNET              (1<<0)
 #define RMNET_INGRESS_FORMAT_MAP                (1<<1)
@@ -39,10 +32,7 @@
 #define RMNET_INGRESS_FORMAT_DEMUXING           (1<<3)
 #define RMNET_INGRESS_FORMAT_MAP_COMMANDS       (1<<4)
 #define RMNET_INGRESS_FORMAT_MAP_CKSUMV3        (1<<5)
-<<<<<<< HEAD
 #define RMNET_INGRESS_FORMAT_MAP_CKSUMV4        (1<<6)
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* ***************** Netlink API ******************************************** */
 #define RMNET_NETLINK_PROTO 31

@@ -2,7 +2,6 @@
 menu "Bluetooth device drivers"
 	depends on BT
 
-<<<<<<< HEAD
 config BT_HCISMD
 	tristate "HCI SMD driver"
 	help
@@ -13,8 +12,6 @@ config BT_HCISMD
 	  Say Y here to compile support for Bluetooth USB devices into the
           kernel or say M to compile is as a module (hci_smd).
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 config BT_HCIBTUSB
 	tristate "HCI USB driver"
 	depends on USB

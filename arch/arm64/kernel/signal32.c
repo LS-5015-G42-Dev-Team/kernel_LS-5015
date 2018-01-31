@@ -27,11 +27,7 @@
 #include <asm/fpsimd.h>
 #include <asm/signal32.h>
 #include <asm/uaccess.h>
-<<<<<<< HEAD
 #include <asm/unistd.h>
-=======
-#include <asm/unistd32.h>
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 struct compat_sigcontext {
 	/* We always set these two fields to 0 */
@@ -190,7 +186,6 @@ int copy_siginfo_to_user32(compat_siginfo_t __user *to, const siginfo_t *from)
 		err |= __put_user(from->si_uid, &to->si_uid);
 		err |= __put_user((compat_uptr_t)(unsigned long)from->si_ptr, &to->si_ptr);
 		break;
-<<<<<<< HEAD
 #ifdef __ARCH_SIGSYS
 	case __SI_SYS:
 		err |= __put_user((compat_uptr_t)(unsigned long)
@@ -199,8 +194,6 @@ int copy_siginfo_to_user32(compat_siginfo_t __user *to, const siginfo_t *from)
 		err |= __put_user(from->si_arch, &to->si_arch);
 		break;
 #endif
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	default: /* this is just in case for now ... */
 		err |= __put_user(from->si_pid, &to->si_pid);
 		err |= __put_user(from->si_uid, &to->si_uid);

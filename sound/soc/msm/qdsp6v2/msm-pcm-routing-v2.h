@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -24,10 +20,7 @@
 #define LPASS_BE_HDMI "HDMI"
 #define LPASS_BE_INT_BT_SCO_RX "INT_BT_SCO_RX"
 #define LPASS_BE_INT_BT_SCO_TX "INT_BT_SCO_TX"
-<<<<<<< HEAD
 #define LPASS_BE_INT_BT_A2DP_RX "INT_BT_A2DP_RX"
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define LPASS_BE_INT_FM_RX "INT_FM_RX"
 #define LPASS_BE_INT_FM_TX "INT_FM_TX"
 #define LPASS_BE_AFE_PCM_RX "RT_PROXY_DAI_001_RX"
@@ -163,10 +156,7 @@ enum {
 	MSM_BACKEND_DAI_SLIMBUS_6_TX,
 	MSM_BACKEND_DAI_SPDIF_RX,
 	MSM_BACKEND_DAI_SECONDARY_MI2S_RX_SD1,
-<<<<<<< HEAD
 	MSM_BACKEND_DAI_INT_BT_A2DP_RX,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	MSM_BACKEND_DAI_MAX,
 };
 
@@ -208,11 +198,7 @@ struct msm_pcm_routing_bdai_data {
 	unsigned int  sample_rate;
 	unsigned int  channel;
 	unsigned int  format;
-<<<<<<< HEAD
 	u32 passthr_mode;
-=======
-	u32 compr_passthr_mode;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	char *name;
 };
 

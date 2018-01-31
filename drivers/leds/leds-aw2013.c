@@ -61,10 +61,6 @@ struct aw2013_led {
 	struct regulator *vcc;
 	int num_leds;
 	int id;
-<<<<<<< HEAD
-=======
-	bool suspended;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	bool poweron;
 };
 
@@ -209,28 +205,17 @@ static void aw2013_brightness_work(struct work_struct *work)
 					brightness_work);
 	u8 val;
 
-<<<<<<< HEAD
 	mutex_lock(&led->pdata->led->lock);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* enable regulators if they are disabled */
 	if (!led->pdata->led->poweron) {
 		if (aw2013_power_on(led->pdata->led, true)) {
 			dev_err(&led->pdata->led->client->dev, "power on failed");
-<<<<<<< HEAD
 			mutex_unlock(&led->pdata->led->lock);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			return;
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	mutex_lock(&led->pdata->led->lock);
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (led->cdev.brightness > 0) {
 		if (led->cdev.brightness > led->cdev.max_brightness)
 			led->cdev.brightness = led->cdev.max_brightness;
@@ -247,7 +232,6 @@ static void aw2013_brightness_work(struct work_struct *work)
 		aw2013_write(led, AW_REG_LED_ENABLE, val & (~(1 << led->id)));
 	}
 
-<<<<<<< HEAD
 	aw2013_read(led, AW_REG_LED_ENABLE, &val);
 	/*
 	 * If value in AW_REG_LED_ENABLE is 0, it means the RGB leds are
@@ -262,8 +246,6 @@ static void aw2013_brightness_work(struct work_struct *work)
 		}
 	}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mutex_unlock(&led->pdata->led->lock);
 }
 
@@ -301,7 +283,6 @@ static void aw2013_led_blink_set(struct aw2013_led *led, unsigned long blinking)
 		aw2013_read(led, AW_REG_LED_ENABLE, &val);
 		aw2013_write(led, AW_REG_LED_ENABLE, val & (~(1 << led->id)));
 	}
-<<<<<<< HEAD
 
 	aw2013_read(led, AW_REG_LED_ENABLE, &val);
 	/*
@@ -315,8 +296,6 @@ static void aw2013_led_blink_set(struct aw2013_led *led, unsigned long blinking)
 			return;
 		}
 	}
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void aw2013_set_brightness(struct led_classdev *cdev,
@@ -413,91 +392,6 @@ static int aw_2013_check_chipid(struct aw2013_led *led)
 		return -EINVAL;
 }
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_PM
-static int aw2013_led_suspend(struct device *dev)
-{
-	struct aw2013_led *led = dev_get_drvdata(dev);
-	int ret = 0;
-	u8 val;
-
-	if (led->suspended) {
-		dev_info(dev, "Already in suspend state\n");
-		return 0;
-	}
-
-	mutex_lock(&led->lock);
-	aw2013_read(led, AW_REG_LED_ENABLE, &val);
-	/*
-	 * If value in AW_REG_LED_ENABLE is 0, it means the RGB leds are
-	 * all off. So we need to power it off.
-	 * If value in AW_REG_LED_ENABLE is not 0, that means LEDs are
-	 * already turned on by upper layer, we keep them alive during
-	 * suspend so as to support screen-off notification LED.
-	 */
-	if (val == 0) {
-		ret = aw2013_power_on(led, false);
-		if (ret) {
-			dev_err(dev, "power off failed");
-			mutex_unlock(&led->lock);
-			return ret;
-		}
-	}
-	led->suspended = true;
-	mutex_unlock(&led->lock);
-	return ret;
-}
-
-static int aw2013_led_resume(struct device *dev)
-{
-	struct aw2013_led *led = dev_get_drvdata(dev);
-	int ret = 0;
-
-	if (!led->suspended) {
-		dev_info(dev, "Already in awake state\n");
-		return 0;
-	}
-
-	mutex_lock(&led->lock);
-	if (led->poweron) {
-		led->suspended = false;
-		mutex_unlock(&led->lock);
-		return 0;
-	}
-
-	ret = aw2013_power_on(led, true);
-	if (ret) {
-		dev_err(dev, "power on failed");
-		mutex_unlock(&led->lock);
-		return ret;
-	}
-
-	led->suspended = false;
-	mutex_unlock(&led->lock);
-	return ret;
-}
-
-static const struct dev_pm_ops aw2013_led_pm_ops = {
-	.suspend = aw2013_led_suspend,
-	.resume = aw2013_led_resume,
-};
-#else
-static int aw2013_led_suspend(struct device *dev)
-{
-	return 0;
-}
-
-static int aw2013_led_resume(struct device *dev)
-{
-	return 0;
-}
-
-static const struct dev_pm_ops aw2013_led_pm_ops = {
-};
-#endif
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int aw2013_led_err_handle(struct aw2013_led *led_array,
 				int parsed_leds)
 {
@@ -693,21 +587,8 @@ static int aw2013_led_probe(struct i2c_client *client,
 		goto fail_parsed_node;
 	}
 
-<<<<<<< HEAD
 	return 0;
 
-=======
-	ret = aw2013_power_on(led_array, true);
-	if (ret) {
-		dev_err(&client->dev, "power on failed");
-		goto pwr_deinit;
-	}
-
-	return 0;
-
-pwr_deinit:
-	aw2013_power_init(led_array, false);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 fail_parsed_node:
 	aw2013_led_err_handle(led_array, num_leds);
 free_led_arry:
@@ -755,12 +636,6 @@ static struct i2c_driver aw2013_led_driver = {
 		.name = "aw2013_led",
 		.owner = THIS_MODULE,
 		.of_match_table = of_match_ptr(aw2013_match_table),
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_PM
-		.pm = &aw2013_led_pm_ops,
-#endif
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	},
 	.id_table = aw2013_led_id,
 };

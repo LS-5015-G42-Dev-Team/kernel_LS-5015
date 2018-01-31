@@ -1209,14 +1209,10 @@ unsigned int min_max_freq = 1;
 
 unsigned int max_capacity = 1024; /* max(rq->capacity) */
 unsigned int min_capacity = 1024; /* min(rq->capacity) */
-<<<<<<< HEAD
 unsigned int max_load_scale_factor = 1024; /* max possible load scale factor */
 unsigned int max_possible_capacity = 1024; /* max(rq->max_possible_capacity) */
 unsigned int min_max_possible_capacity = 1024; /* min(max_possible_capacity) */
 unsigned int min_max_capacity_delta_pct;
-=======
-unsigned int max_load_scale_factor = 1024; /* max(rq->load_scale_factor) */
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* Window size (in ns) */
 __read_mostly unsigned int sched_ravg_window = 10000000;
@@ -1329,11 +1325,8 @@ static inline unsigned int load_to_freq(struct rq *rq, u64 load)
 static int send_notification(struct rq *rq)
 {
 	unsigned int cur_freq, freq_required;
-<<<<<<< HEAD
 	unsigned long flags;
 	int rc = 0;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!sched_enable_hmp)
 		return 0;
@@ -1344,7 +1337,6 @@ static int send_notification(struct rq *rq)
 	if (nearly_same_freq(cur_freq, freq_required))
 		return 0;
 
-<<<<<<< HEAD
 	raw_spin_lock_irqsave(&rq->lock, flags);
 	if (!rq->notifier_sent) {
 		rq->notifier_sent = 1;
@@ -1353,9 +1345,6 @@ static int send_notification(struct rq *rq)
 	raw_spin_unlock_irqrestore(&rq->lock, flags);
 
 	return rc;
-=======
-	return 1;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /* Alert governor if there is a need to change frequency */
@@ -2125,15 +2114,12 @@ void reset_all_window_stats(u64 window_start, unsigned int window_size)
 
 #ifdef CONFIG_SCHED_FREQ_INPUT
 
-<<<<<<< HEAD
 static inline u64
 scale_load_to_freq(u64 load, unsigned int src_freq, unsigned int dst_freq)
 {
 	return div64_u64(load * (u64)src_freq, (u64)dst_freq);
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 unsigned long sched_get_busy(int cpu)
 {
 	unsigned long flags;
@@ -2148,10 +2134,6 @@ unsigned long sched_get_busy(int cpu)
 	raw_spin_lock_irqsave(&rq->lock, flags);
 	update_task_ravg(rq->curr, rq, TASK_UPDATE, sched_clock(), 0);
 	load = rq->old_busy_time = rq->prev_runnable_sum;
-<<<<<<< HEAD
-=======
-	raw_spin_unlock_irqrestore(&rq->lock, flags);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/*
 	 * Scale load in reference to rq->max_possible_freq.
@@ -2160,7 +2142,6 @@ unsigned long sched_get_busy(int cpu)
 	 * rq->max_freq
 	 */
 	load = scale_load_to_cpu(load, cpu);
-<<<<<<< HEAD
 
 	if (!rq->notifier_sent) {
 		u64 load_at_cur_freq;
@@ -2181,11 +2162,6 @@ unsigned long sched_get_busy(int cpu)
 
 	raw_spin_unlock_irqrestore(&rq->lock, flags);
 
-=======
-	load = div64_u64(load * (u64)rq->max_freq, (u64)rq->max_possible_freq);
-	load = div64_u64(load, NSEC_PER_USEC);
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	trace_sched_get_busy(cpu, load);
 
 	return load;
@@ -2313,10 +2289,7 @@ static void update_min_max_capacity(void)
 {
 	int i;
 	int max = 0, min = INT_MAX;
-<<<<<<< HEAD
 	int max_pc = INT_MIN, min_pc = INT_MAX;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int max_lsf = 0;
 
 	for_each_possible_cpu(i) {
@@ -2327,19 +2300,15 @@ static void update_min_max_capacity(void)
 
 		if (cpu_rq(i)->load_scale_factor > max_lsf)
 			max_lsf = cpu_rq(i)->load_scale_factor;
-<<<<<<< HEAD
 
 		max_pc = max(cpu_rq(i)->max_possible_capacity, max_pc);
 		if (cpu_rq(i)->max_possible_capacity > 0)
 			min_pc = min(cpu_rq(i)->max_possible_capacity, min_pc);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	max_capacity = max;
 	min_capacity = min;
 	max_load_scale_factor = max_lsf;
-<<<<<<< HEAD
 
 	max_possible_capacity = max_pc;
 	min_max_possible_capacity = min_pc;
@@ -2347,8 +2316,6 @@ static void update_min_max_capacity(void)
 	min_max_capacity_delta_pct =
 	    div64_u64((u64)(max_possible_capacity - min_max_possible_capacity) *
 		      100, min_max_possible_capacity);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /*
@@ -2498,10 +2465,7 @@ static int cpufreq_notifier_policy(struct notifier_block *nb,
 	}
 
 	update_min_max_capacity();
-<<<<<<< HEAD
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	post_big_small_task_count_change(cpu_possible_mask);
 
 	return 0;
@@ -9076,10 +9040,7 @@ void __init sched_init(void)
 #ifdef CONFIG_SCHED_FREQ_INPUT
 		rq->old_busy_time = 0;
 		rq->curr_runnable_sum = rq->prev_runnable_sum = 0;
-<<<<<<< HEAD
 		rq->notifier_sent = 0;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif
 #endif
 

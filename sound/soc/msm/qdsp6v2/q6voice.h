@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1431,7 +1427,6 @@ struct share_memory_info {
 	struct mem_map_table	memtbl;
 };
 
-<<<<<<< HEAD
 #define VSS_ISOUNDFOCUS_CMD_SET_SECTORS     0x00013133
 #define VSS_ISOUNDFOCUS_CMD_GET_SECTORS     0x00013134
 #define VSS_ISOUNDFOCUS_RSP_GET_SECTORS     0x00013135
@@ -1482,8 +1477,6 @@ struct shared_mem_info {
 	struct mem_map_table sh_mem_table;
 };
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct voice_data {
 	int voc_state;/*INIT, CHANGE, RELEASE, RUN */
 
@@ -1592,14 +1585,11 @@ struct common_data {
 	bool is_vote_bms;
 	char cvd_version[CVD_VERSION_STRING_MAX_SIZE];
 	bool is_per_vocoder_cal_enabled;
-<<<<<<< HEAD
 	bool is_sound_focus_resp_success;
 	bool is_source_tracking_resp_success;
 	struct vss_isoundfocus_rsp_get_sectors_t soundFocusResponse;
 	struct shared_mem_info source_tracking_sh_mem;
 	struct vss_isourcetrack_activity_data_t sourceTrackingResponse;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct voice_session_itr {
@@ -1733,10 +1723,7 @@ void voc_set_vote_bms_flag(bool is_vote_bms);
 int voc_disable_topology(uint32_t session_id, uint32_t disable);
 
 uint32_t voice_get_topology(uint32_t topology_idx);
-<<<<<<< HEAD
 int voc_set_sound_focus(struct sound_focus_param sound_focus_param);
 int voc_get_sound_focus(struct sound_focus_param *soundFocusData);
 int voc_get_source_tracking(struct source_tracking_param *sourceTrackingData);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif

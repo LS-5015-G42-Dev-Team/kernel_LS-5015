@@ -151,10 +151,7 @@ struct mdss_util_intf mdss_util = {
 	.bus_bandwidth_ctrl = NULL,
 	.bus_scale_set_quota = NULL,
 	.panel_intf_type = NULL,
-<<<<<<< HEAD
 	.dyn_clk_gating_ctrl = NULL,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	.mdp_probe_done = false
 };
 

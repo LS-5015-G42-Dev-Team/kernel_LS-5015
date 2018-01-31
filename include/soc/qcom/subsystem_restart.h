@@ -45,11 +45,8 @@ struct module;
  * @ssctl_instance_id: Instance id used to connect with SSCTL service
  * @sysmon_pid:	pdev id that sysmon is probed with for the subsystem
  * @sysmon_shutdown_ret: Return value for the call to sysmon_send_shutdown
-<<<<<<< HEAD
  * @system_debug: If "set", triggers a device restart when the
  * subsystem's wdog bite handler is invoked.
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  */
 struct subsys_desc {
 	const char *name;
@@ -61,37 +58,25 @@ struct subsys_desc {
 	int (*powerup)(const struct subsys_desc *desc);
 	void (*crash_shutdown)(const struct subsys_desc *desc);
 	int (*ramdump)(int, const struct subsys_desc *desc);
-<<<<<<< HEAD
 	void (*free_memory)(const struct subsys_desc *desc);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	irqreturn_t (*err_fatal_handler) (int irq, void *dev_id);
 	irqreturn_t (*stop_ack_handler) (int irq, void *dev_id);
 	irqreturn_t (*wdog_bite_handler) (int irq, void *dev_id);
 	int is_not_loadable;
-<<<<<<< HEAD
 	int err_fatal_gpio;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	unsigned int err_fatal_irq;
 	unsigned int err_ready_irq;
 	unsigned int stop_ack_irq;
 	unsigned int wdog_bite_irq;
 	int force_stop_gpio;
 	int ramdump_disable_gpio;
-<<<<<<< HEAD
 	int shutdown_ack_gpio;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int ramdump_disable;
 	bool no_auth;
 	int ssctl_instance_id;
 	u32 sysmon_pid;
 	int sysmon_shutdown_ret;
-<<<<<<< HEAD
 	bool system_debug;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 /**
@@ -126,10 +111,7 @@ extern void subsys_set_crash_status(struct subsys_device *dev, bool crashed);
 extern bool subsys_get_crash_status(struct subsys_device *dev);
 void notify_proxy_vote(struct device *device);
 void notify_proxy_unvote(struct device *device);
-<<<<<<< HEAD
 extern int wait_for_shutdown_ack(struct subsys_desc *desc);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #else
 
 static inline int subsys_get_restart_level(struct subsys_device *dev)
@@ -176,13 +158,10 @@ static inline bool subsys_get_crash_status(struct subsys_device *dev)
 }
 static inline void notify_proxy_vote(struct device *device) { }
 static inline void notify_proxy_unvote(struct device *device) { }
-<<<<<<< HEAD
 static inline int wait_for_shutdown_ack(struct subsys_desc *desc)
 {
 	return -ENOSYS;
 }
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif /* CONFIG_MSM_SUBSYSTEM_RESTART */
 
 #endif

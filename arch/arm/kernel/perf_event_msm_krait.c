@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2011-2014, 2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -212,12 +208,6 @@ static unsigned int get_krait_evtinfo(unsigned int krait_evt_type,
 	code = (krait_evt_type & 0x00FF0) >> 4;
 	group = krait_evt_type & 0x0000F;
 
-<<<<<<< HEAD
-=======
-	if ((group > 3) || (reg > KRAIT_MAX_L1_REG))
-		return -EINVAL;
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (prefix != KRAIT_EVT_PREFIX && prefix != KRAIT_VENUMEVT_PREFIX)
 		return -EINVAL;
 
@@ -228,12 +218,9 @@ static unsigned int get_krait_evtinfo(unsigned int krait_evt_type,
 			reg += VENUM_BASE_OFFSET;
 	}
 
-<<<<<<< HEAD
 	if ((group > 3) || (reg > KRAIT_MAX_L1_REG))
 		return -EINVAL;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	evtinfo->group_setval = 0x80000000 | (code << (group * 8));
 	evtinfo->groupcode = reg;
 	evtinfo->armv7_evt_type = evt_type_base[reg] | group;

@@ -57,14 +57,11 @@ unsigned long int checksum_dl_stats[RMNET_MAP_CHECKSUM_ENUM_LENGTH];
 module_param_array(checksum_dl_stats, ulong, 0, S_IRUGO);
 MODULE_PARM_DESC(checksum_dl_stats, "Downlink Checksum Statistics");
 
-<<<<<<< HEAD
 static DEFINE_SPINLOCK(rmnet_checksum_ul_stats);
 unsigned long int checksum_ul_stats[RMNET_MAP_CHECKSUM_ENUM_LENGTH];
 module_param_array(checksum_ul_stats, ulong, 0, S_IRUGO);
 MODULE_PARM_DESC(checksum_ul_stats, "Uplink Checksum Statistics");
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 void rmnet_kfree_skb(struct sk_buff *skb, unsigned int reason)
 {
 	unsigned long flags;
@@ -125,7 +122,6 @@ void rmnet_stats_dl_checksum(unsigned int rc)
 	checksum_dl_stats[rc]++;
 	spin_unlock_irqrestore(&rmnet_checksum_dl_stats, flags);
 }
-<<<<<<< HEAD
 
 void rmnet_stats_ul_checksum(unsigned int rc)
 {
@@ -138,5 +134,3 @@ void rmnet_stats_ul_checksum(unsigned int rc)
 	checksum_ul_stats[rc]++;
 	spin_unlock_irqrestore(&rmnet_checksum_ul_stats, flags);
 }
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

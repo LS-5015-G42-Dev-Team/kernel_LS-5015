@@ -319,7 +319,6 @@
 #define WCD9330_A_LEAKAGE_CTL__POR				(0x04)
 #define WCD9330_A_CDC_CTL				(0x034)
 #define WCD9330_A_CDC_CTL__POR					(0x00)
-<<<<<<< HEAD
 
 /* Class-H registers for codecs from and above WCD9335 */
 #define WCD9XXX_A_CDC_RX0_RX_PATH_CFG0			(0xB42)
@@ -336,6 +335,4 @@
 #define WCD9XXX_HPH_R_EN				(0x6D6)
 #define WCD9XXX_HPH_REFBUFF_UHQA_CTL			(0x6DD)
 #define WCD9XXX_CLASSH_CTRL_VCL_2                       (0x69B)
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif

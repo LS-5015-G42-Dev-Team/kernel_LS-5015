@@ -75,12 +75,8 @@ struct page *ksm_might_need_to_copy(struct page *page,
 
 int page_referenced_ksm(struct page *page,
 			struct mem_cgroup *memcg, unsigned long *vm_flags);
-<<<<<<< HEAD
 int try_to_unmap_ksm(struct page *page,
 			enum ttu_flags flags, struct vm_area_struct *vma);
-=======
-int try_to_unmap_ksm(struct page *page, enum ttu_flags flags);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int rmap_walk_ksm(struct page *page, int (*rmap_one)(struct page *,
 		  struct vm_area_struct *, unsigned long, void *), void *arg);
 void ksm_migrate_page(struct page *newpage, struct page *oldpage);
@@ -120,12 +116,8 @@ static inline int page_referenced_ksm(struct page *page,
 	return 0;
 }
 
-<<<<<<< HEAD
 static inline int try_to_unmap_ksm(struct page *page,
 			enum ttu_flags flags, struct vm_area_struct *target_vma)
-=======
-static inline int try_to_unmap_ksm(struct page *page, enum ttu_flags flags)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	return 0;
 }

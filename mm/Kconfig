@@ -540,7 +540,6 @@ config BALANCE_ANON_FILE_RECLAIM
 
 config GENERIC_EARLY_IOREMAP
 	bool
-<<<<<<< HEAD
 
 config PROCESS_RECLAIM
 	bool "Enable process reclaim"
@@ -557,5 +556,3 @@ config PROCESS_RECLAIM
 	 (addr, addr + size-bytes) of the process.
 
 	 Any other vaule is ignored.
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

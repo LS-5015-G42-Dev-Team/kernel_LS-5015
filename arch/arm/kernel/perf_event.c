@@ -240,10 +240,7 @@ armpmu_add(struct perf_event *event, int flags)
 			pr_err("Event: %llx failed constraint check.\n",
 					event->attr.config);
 			event->state = PERF_EVENT_STATE_OFF;
-<<<<<<< HEAD
 			err = -EPERM;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			goto out;
 		}
 

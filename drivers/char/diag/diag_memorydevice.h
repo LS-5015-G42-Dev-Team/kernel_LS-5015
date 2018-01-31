@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -35,10 +31,6 @@ struct diag_buf_tbl_t {
 	unsigned char *buf;
 	int len;
 	int ctx;
-<<<<<<< HEAD
-=======
-	spinlock_t lock;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct diag_md_info {
@@ -46,10 +38,7 @@ struct diag_md_info {
 	int ctx;
 	int mempool;
 	int num_tbl_entries;
-<<<<<<< HEAD
 	spinlock_t lock;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct diag_buf_tbl_t *tbl;
 	struct diag_mux_ops *ops;
 };
@@ -62,9 +51,5 @@ void diag_md_open_all(void);
 void diag_md_close_all(void);
 int diag_md_register(int id, int ctx, struct diag_mux_ops *ops);
 int diag_md_write(int id, unsigned char *buf, int len, int ctx);
-<<<<<<< HEAD
 int diag_md_copy_to_user(char __user *buf, int *pret, size_t buf_size);
-=======
-int diag_md_copy_to_user(char __user *buf, int *pret);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif

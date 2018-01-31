@@ -106,21 +106,6 @@
 	qcom,msm-micbias2-ext-cap;
 };
 
-<<<<<<< HEAD
-=======
-&spk_vreg {
-	status = "okay";
-};
-
-&pm8909_conga_dig {
-	cdc-vdd-spkdrv-supply = <&spk_vreg>;
-	qcom,cdc-vdd-spkdrv-voltage = <5000000 5000000>;
-	qcom,cdc-vdd-spkdrv-current = <20000>;
-	qcom,cdc-on-demand-supplies = "cdc-vdd-mic-bias",
-				      "cdc-vdd-spkdrv";
-};
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 &wcnss {
         qcom,wcnss-vadc = <&pm8909_vadc>;
 };

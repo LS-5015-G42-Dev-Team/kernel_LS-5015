@@ -142,7 +142,6 @@ static inline unsigned long zone_page_state_snapshot(struct zone *zone,
 	return x;
 }
 
-<<<<<<< HEAD
 static inline unsigned long global_page_state_snapshot(enum zone_stat_item item)
 {
 	long x = atomic_long_read(&vm_stat[item]);
@@ -162,8 +161,6 @@ static inline unsigned long global_page_state_snapshot(enum zone_stat_item item)
 	return x;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #ifdef CONFIG_NUMA
 /*
  * Determine the per node value of a stat item. This function

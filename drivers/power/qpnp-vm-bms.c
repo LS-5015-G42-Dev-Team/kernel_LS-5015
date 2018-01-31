@@ -244,10 +244,7 @@ struct qpnp_bms_chip {
 	u16				charge_cycles;
 	unsigned int			start_soc;
 	unsigned int			end_soc;
-<<<<<<< HEAD
 	unsigned int			chg_start_soc;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	struct bms_battery_data		*batt_data;
 	struct bms_dt_cfg		dt;
@@ -1611,13 +1608,9 @@ static int report_vm_bms_soc(struct qpnp_bms_chip *chip)
 	 * avoid overflows when charging continues for extended periods
 	 */
 	if (charging && chip->last_soc != -EINVAL) {
-<<<<<<< HEAD
 		if (chip->charge_start_tm_sec == 0 ||
 			(chip->catch_up_time_sec == 0 &&
 				(abs(soc - chip->last_soc) >= MIN_SOC_UUC))) {
-=======
-		if (chip->charge_start_tm_sec == 0) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			/*
 			 * calculating soc for the first time
 			 * after start of chg. Initialize catchup time
@@ -1629,7 +1622,6 @@ static int report_vm_bms_soc(struct qpnp_bms_chip *chip)
 			else
 				chip->catch_up_time_sec = SOC_CATCHUP_SEC_MAX;
 
-<<<<<<< HEAD
 			chip->chg_start_soc = chip->last_soc;
 
 			if (chip->catch_up_time_sec < 0)
@@ -1639,26 +1631,16 @@ static int report_vm_bms_soc(struct qpnp_bms_chip *chip)
 			pr_debug("chg_start_soc=%d charge_start_tm_sec=%d catch_up_time_sec=%d\n",
 				chip->chg_start_soc, chip->charge_start_tm_sec,
 						chip->catch_up_time_sec);
-=======
-			if (chip->catch_up_time_sec < 0)
-				chip->catch_up_time_sec = 0;
-			chip->charge_start_tm_sec = last_change_sec;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 
 		charge_time_sec = min(SOC_CATCHUP_SEC_MAX, (int)last_change_sec
 				- chip->charge_start_tm_sec);
 
 		/* end catchup if calculated soc and last soc are same */
-<<<<<<< HEAD
 		if (chip->last_soc == soc) {
 			chip->catch_up_time_sec = 0;
 			chip->chg_start_soc = chip->last_soc;
 		}
-=======
-		if (chip->last_soc == soc)
-			chip->catch_up_time_sec = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	if (chip->last_soc != -EINVAL) {
@@ -1676,11 +1658,7 @@ static int report_vm_bms_soc(struct qpnp_bms_chip *chip)
 		else if (chip->last_soc < soc && soc != 100)
 			soc = scale_soc_while_chg(chip, charge_time_sec,
 					chip->catch_up_time_sec,
-<<<<<<< HEAD
 					soc, chip->chg_start_soc);
-=======
-					soc, chip->last_soc);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		/*
 		 * if the battery is close to cutoff or if the batt_temp
@@ -1996,14 +1974,11 @@ static void calculate_reported_soc(struct qpnp_bms_chip *chip)
 {
 	union power_supply_propval ret = {0,};
 
-<<<<<<< HEAD
 	if (chip->last_soc < 0) {
 		pr_debug("last_soc is not ready, return\n");
 		return;
 	}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (chip->reported_soc > chip->last_soc) {
 		/*send DISCHARGING status if the reported_soc drops from 100 */
 		if (chip->reported_soc == 100) {
@@ -2063,7 +2038,6 @@ static int clamp_soc_based_on_voltage(struct qpnp_bms_chip *chip, int soc)
 	}
 }
 
-<<<<<<< HEAD
 static void battery_voltage_check(struct qpnp_bms_chip *chip)
 {
 	int rc, vbat_uv = 0;
@@ -2077,19 +2051,13 @@ static void battery_voltage_check(struct qpnp_bms_chip *chip)
 	}
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define UI_SOC_CATCHUP_TIME	(60)
 static void monitor_soc_work(struct work_struct *work)
 {
 	struct qpnp_bms_chip *chip = container_of(work,
 				struct qpnp_bms_chip,
 				monitor_soc_work.work);
-<<<<<<< HEAD
 	int rc, new_soc = 0, batt_temp;
-=======
-	int rc, vbat_uv = 0, new_soc = 0, batt_temp;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	bms_stay_awake(&chip->vbms_soc_wake_source);
 
@@ -2105,17 +2073,7 @@ static void monitor_soc_work(struct work_struct *work)
 		chip->last_soc = -EINVAL;
 		new_soc = 100;
 	} else {
-<<<<<<< HEAD
 		battery_voltage_check(chip);
-=======
-		rc = get_battery_voltage(chip, &vbat_uv);
-		if (rc < 0) {
-			pr_err("Failed to read battery-voltage rc=%d\n", rc);
-		} else {
-			very_low_voltage_check(chip, vbat_uv);
-			cv_voltage_check(chip, vbat_uv);
-		}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		if (chip->dt.cfg_use_voltage_soc) {
 			calculate_soc_from_voltage(chip);
@@ -2140,14 +2098,11 @@ static void monitor_soc_work(struct work_struct *work)
 				pr_debug("SOC changed! new_soc=%d prev_soc=%d\n",
 						new_soc, chip->calculated_soc);
 				chip->calculated_soc = new_soc;
-<<<<<<< HEAD
 				/*
 				 * To recalculate the catch-up time, clear it
 				 * when SOC changes.
 				 */
 				chip->catch_up_time_sec = 0;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 				if (chip->calculated_soc == 100)
 					/* update last_soc immediately */
@@ -2522,15 +2477,9 @@ static void qpnp_vm_bms_ext_power_changed(struct power_supply *psy)
 	battery_status_check(chip);
 	battery_insertion_check(chip);
 
-<<<<<<< HEAD
 	mutex_lock(&chip->last_soc_mutex);
 	battery_voltage_check(chip);
 	mutex_unlock(&chip->last_soc_mutex);
-=======
-	/* Re-schedule monitor_soc_work */
-	cancel_delayed_work_sync(&chip->monitor_soc_work);
-	schedule_delayed_work(&chip->monitor_soc_work, 0);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (chip->reported_soc_in_use)
 		reported_soc_check_status(chip);
@@ -3021,11 +2970,7 @@ static int calculate_initial_aging_comp(struct qpnp_bms_chip *chip)
 
 static int bms_load_hw_defaults(struct qpnp_bms_chip *chip)
 {
-<<<<<<< HEAD
 	u8 val, bms_en = 0;
-=======
-	u8 val, state, bms_en = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	u32 interval[2], count[2], fifo[2];
 	int rc;
 
@@ -3123,21 +3068,10 @@ static int bms_load_hw_defaults(struct qpnp_bms_chip *chip)
 	get_fifo_length(chip, S2_STATE, &fifo[1]);
 
 	/* Force the BMS state to S2 at boot-up */
-<<<<<<< HEAD
 	rc = force_fsm_state(chip, S2_STATE);
 	if (rc) {
 		pr_err("Unable to force S2 state rc=%d\n", rc);
 		return rc;
-=======
-	rc = get_fsm_state(chip, &state);
-	if (rc)
-		pr_err("Unable to get FSM state rc=%d\n", rc);
-	if (rc || (state != S2_STATE)) {
-		pr_debug("Forcing S2 state\n");
-		rc = force_fsm_state(chip, S2_STATE);
-		if (rc)
-			pr_err("Unable to set FSM state rc=%d\n", rc);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	rc = qpnp_read_wrapper(chip, &bms_en, chip->base + EN_CTL_REG, 1);

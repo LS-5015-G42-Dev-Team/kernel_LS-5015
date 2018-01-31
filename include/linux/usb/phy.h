@@ -44,10 +44,7 @@ enum usb_otg_state {
 	OTG_STATE_B_IDLE,
 	OTG_STATE_B_SRP_INIT,
 	OTG_STATE_B_PERIPHERAL,
-<<<<<<< HEAD
 	OTG_STATE_B_CHARGER,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* extra dual-role default-b states */
 	OTG_STATE_B_WAIT_ACON,

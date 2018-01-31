@@ -42,12 +42,9 @@ choice
 			- Indexing of video
 			- Crytographic operations
 
-<<<<<<< HEAD
 	config DVB_MPQ_SW
 		bool "Software plugin"
 		help
 			Use this option if your HW does not have any TSPP hardware support
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 endchoice
 

@@ -2333,7 +2333,6 @@ config NEON
 	  Say Y to include support code for NEON, the ARMv7 Advanced SIMD
 	  Extension.
 
-<<<<<<< HEAD
 config KERNEL_MODE_NEON
 	bool "Support for NEON in kernel mode"
 	default n
@@ -2341,8 +2340,6 @@ config KERNEL_MODE_NEON
 	help
 	  Say Y to include support for NEON in kernel mode.
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 endmenu
 
 menu "Userspace binary formats"

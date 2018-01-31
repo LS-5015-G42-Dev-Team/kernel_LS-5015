@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 #include <linux/cpufreq.h>
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/export.h>
 #include <linux/sched.h>
 #include <linux/tsacct_kern.h>
@@ -159,12 +156,9 @@ void account_user_time(struct task_struct *p, cputime_t cputime,
 
 	/* Account for user time used */
 	acct_account_cputime(p);
-<<<<<<< HEAD
 
 	/* Account power usage for user time */
 	acct_update_power(p, cputime);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /*
@@ -215,12 +209,9 @@ void __account_system_time(struct task_struct *p, cputime_t cputime,
 
 	/* Account for system time used */
 	acct_account_cputime(p);
-<<<<<<< HEAD
 
 	/* Account power usage for system time */
 	acct_update_power(p, cputime);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /*

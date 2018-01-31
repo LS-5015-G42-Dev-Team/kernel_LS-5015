@@ -61,10 +61,7 @@ struct msm_led_flash_ctrl_t {
 	struct led_trigger *torch_trigger[MAX_LED_TRIGGERS];
 	uint32_t torch_num_sources;
 	uint32_t torch_op_current[MAX_LED_TRIGGERS];
-<<<<<<< HEAD
 	uint32_t pre_op_current[MAX_LED_TRIGGERS];
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	uint32_t torch_max_current[MAX_LED_TRIGGERS];
 
 	void *data;

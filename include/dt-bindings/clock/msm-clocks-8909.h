@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -228,10 +224,7 @@
 #define clk_apc3_m_clk				0x78c64486
 #define clk_l2_m_clk                            0x4bedf4d0
 
-<<<<<<< HEAD
 #define clk_audio_ap_clk			0x312ac429
 #define clk_audio_pmi_clk			0xb7ba2274
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif

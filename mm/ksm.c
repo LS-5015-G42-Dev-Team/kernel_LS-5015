@@ -2003,12 +2003,8 @@ out:
 	return referenced;
 }
 
-<<<<<<< HEAD
 int try_to_unmap_ksm(struct page *page, enum ttu_flags flags,
 			struct vm_area_struct *target_vma)
-=======
-int try_to_unmap_ksm(struct page *page, enum ttu_flags flags)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct stable_node *stable_node;
 	struct rmap_item *rmap_item;
@@ -2021,15 +2017,12 @@ int try_to_unmap_ksm(struct page *page, enum ttu_flags flags)
 	stable_node = page_stable_node(page);
 	if (!stable_node)
 		return SWAP_FAIL;
-<<<<<<< HEAD
 
 	if (target_vma) {
 		unsigned long address = vma_address(page, target_vma);
 		ret = try_to_unmap_one(page, target_vma, address, flags);
 		goto out;
 	}
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 again:
 	hlist_for_each_entry(rmap_item, &stable_node->hlist, hlist) {
 		struct anon_vma *anon_vma = rmap_item->anon_vma;

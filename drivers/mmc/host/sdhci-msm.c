@@ -104,14 +104,11 @@ enum sdc_mpm_pin_state {
 #define CORE_HC_SELECT_IN_HS400	(6 << 19)
 #define CORE_HC_SELECT_IN_MASK	(7 << 19)
 
-<<<<<<< HEAD
 #define CORE_VENDOR_SPEC_FUNC2 0x110
 #define HC_SW_RST_WAIT_IDLE_DIS	(1 << 20)
 #define HC_SW_RST_REQ (1 << 21)
 #define CORE_ONE_MID_EN     (1 << 25)
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define CORE_VENDOR_SPEC_CAPABILITIES0	0x11C
 #define CORE_8_BIT_SUPPORT		(1 << 18)
 #define CORE_3_3V_SUPPORT		(1 << 24)
@@ -311,10 +308,7 @@ struct sdhci_msm_pltfm_data {
 	unsigned long mmc_bus_width;
 	struct sdhci_msm_slot_reg_data *vreg_data;
 	bool nonremovable;
-<<<<<<< HEAD
 	bool use_mod_dynamic_qos;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	bool nonhotplug;
 	bool no_1p8v;
 	bool pin_cfg_sts;
@@ -329,10 +323,7 @@ struct sdhci_msm_pltfm_data {
 	int mpm_sdiowakeup_int;
 	int sdiowakeup_irq;
 	enum pm_qos_req_type cpu_affinity_type;
-<<<<<<< HEAD
 	cpumask_t cpu_affinity_mask;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct sdhci_msm_bus_vote {
@@ -1496,7 +1487,6 @@ out:
 }
 
 #ifdef CONFIG_SMP
-<<<<<<< HEAD
 static void sdhci_msm_populate_affinity(struct sdhci_msm_pltfm_data *pdata,
 					struct device_node *np,
 					char *qos_affinity_name,
@@ -1549,32 +1539,10 @@ static void sdhci_msm_populate_affinity(struct sdhci_msm_pltfm_data *pdata,
 
 static inline void sdhci_set_pm_qos_irq_type(struct sdhci_host *host,
 						int i)
-=======
-static void sdhci_msm_populate_affinity_type(struct sdhci_msm_pltfm_data *pdata,
-					     struct device_node *np)
-{
-	const char *cpu_affinity = NULL;
-
-	pdata->cpu_affinity_type = PM_QOS_REQ_AFFINE_IRQ;
-	if (!of_property_read_string(np, "qcom,cpu-affinity",
-				    &cpu_affinity)) {
-		if (!strcmp(cpu_affinity, "all_cores"))
-			pdata->cpu_affinity_type = PM_QOS_REQ_ALL_CORES;
-		else if (!strcmp(cpu_affinity, "affine_cores"))
-			pdata->cpu_affinity_type = PM_QOS_REQ_AFFINE_CORES;
-		else if (!strcmp(cpu_affinity, "affine_irq"))
-			pdata->cpu_affinity_type = PM_QOS_REQ_AFFINE_IRQ;
-	}
-}
-#else
-static void sdhci_msm_populate_affinity_type(struct sdhci_msm_pltfm_data *pdata,
-					     struct device_node *np)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 }
 #endif
 
-<<<<<<< HEAD
 static void sdhci_msm_update_host_qos_data(struct sdhci_msm_pltfm_data *pdata,
 		struct sdhci_host *host, int i)
 {
@@ -1700,26 +1668,14 @@ out:
 /* Parse platform data */
 static struct sdhci_msm_pltfm_data *sdhci_msm_populate_pdata(struct device *dev,
 						struct sdhci_host *host)
-=======
-/* Parse platform data */
-static struct sdhci_msm_pltfm_data *sdhci_msm_populate_pdata(struct device *dev)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct sdhci_msm_pltfm_data *pdata = NULL;
 	struct device_node *np = dev->of_node;
 	u32 bus_width = 0;
-<<<<<<< HEAD
-=======
-	u32 prop_val = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int len, i, mpm_int;
 	int clk_table_len;
 	u32 *clk_table = NULL;
 	enum of_gpio_flags flags = OF_GPIO_ACTIVE_LOW;
-<<<<<<< HEAD
-=======
-	bool skip_qos_from_dt = false;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
 	if (!pdata) {
@@ -1740,57 +1696,8 @@ static struct sdhci_msm_pltfm_data *sdhci_msm_populate_pdata(struct device *dev)
 		dev_notice(dev, "invalid bus-width, default to 1-bit mode\n");
 		pdata->mmc_bus_width = 0;
 	}
-<<<<<<< HEAD
 	if (sdhci_msm_populate_qos(dev, pdata, host))
 		goto out;
-=======
-
-	if (of_get_property(np, "qcom,cpu-dma-latency-us",
-				&prop_val)) {
-
-		pdata->cpu_dma_latency_tbl_sz =
-			prop_val/sizeof(*pdata->cpu_dma_latency_us);
-
-		if (!(pdata->cpu_dma_latency_tbl_sz == 1 ||
-			pdata->cpu_dma_latency_tbl_sz == 3)) {
-			dev_warn(dev, "incorrect Qos param passed from DT: %d\n",
-				pdata->cpu_dma_latency_tbl_sz);
-			skip_qos_from_dt = true;
-		} else {
-			pdata->cpu_dma_latency_us = devm_kzalloc(dev,
-				sizeof(*pdata->cpu_dma_latency_us) *
-				pdata->cpu_dma_latency_tbl_sz,
-				GFP_KERNEL);
-			if (!pdata->cpu_dma_latency_us) {
-				dev_err(dev, "No memory for cpu_dma_latency_us\n");
-				goto out;
-			}
-			if (of_property_read_u32_array(np,
-					"qcom,cpu-dma-latency-us",
-					pdata->cpu_dma_latency_us,
-					pdata->cpu_dma_latency_tbl_sz)) {
-				dev_err(dev, "failed to parse cpu-dma-latency\n");
-				goto out;
-			}
-		}
-	} else {
-		dev_info(dev, "no qcom,cpu-dma-latency-us found\n");
-		skip_qos_from_dt = true;
-	}
-
-	if (skip_qos_from_dt) {
-		pdata->cpu_dma_latency_tbl_sz = 1;
-		pdata->cpu_dma_latency_us = devm_kzalloc(dev,
-			sizeof(*pdata->cpu_dma_latency_us) *
-			pdata->cpu_dma_latency_tbl_sz,
-			GFP_KERNEL);
-		if (!pdata->cpu_dma_latency_us) {
-			dev_err(dev, "No memory for cpu_dma_latency_us\n");
-			goto out;
-		}
-		pdata->cpu_dma_latency_us[0] = MSM_MMC_DEFAULT_CPU_DMA_LATENCY;
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (sdhci_msm_dt_get_array(dev, "qcom,clk-rates",
 			&clk_table, &clk_table_len, 0)) {
@@ -1858,12 +1765,9 @@ static struct sdhci_msm_pltfm_data *sdhci_msm_populate_pdata(struct device *dev)
 	if (of_get_property(np, "qcom,nonremovable", NULL))
 		pdata->nonremovable = true;
 
-<<<<<<< HEAD
 	if (of_get_property(np, "qcom,modified-dynamic-qos", NULL))
 		pdata->use_mod_dynamic_qos = true;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (of_get_property(np, "qcom,nonhotplug", NULL))
 		pdata->nonhotplug = true;
 
@@ -1876,11 +1780,6 @@ static struct sdhci_msm_pltfm_data *sdhci_msm_populate_pdata(struct device *dev)
 	else
 		pdata->mpm_sdiowakeup_int = -1;
 
-<<<<<<< HEAD
-=======
-	sdhci_msm_populate_affinity_type(pdata, np);
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return pdata;
 out:
 	return NULL;
@@ -2416,7 +2315,6 @@ static irqreturn_t sdhci_msm_sdiowakeup_irq(int irq, void *data)
 	return IRQ_HANDLED;
 }
 
-<<<<<<< HEAD
 void sdhci_msm_dump_pwr_ctrl_regs(struct sdhci_host *host)
 {
 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
@@ -2429,8 +2327,6 @@ void sdhci_msm_dump_pwr_ctrl_regs(struct sdhci_host *host)
 		readl_relaxed(msm_host->core_mem + CORE_PWRCTL_CTL));
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static irqreturn_t sdhci_msm_pwr_irq(int irq, void *data)
 {
 	struct sdhci_host *host = (struct sdhci_host *)data;
@@ -2441,10 +2337,7 @@ static irqreturn_t sdhci_msm_pwr_irq(int irq, void *data)
 	int ret = 0;
 	int pwr_state = 0, io_level = 0;
 	unsigned long flags;
-<<<<<<< HEAD
 	int retry = 10;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	irq_status = readb_relaxed(msm_host->core_mem + CORE_PWRCTL_STATUS);
 	pr_debug("%s: Received IRQ(%d), status=0x%x\n",
@@ -2459,7 +2352,6 @@ static irqreturn_t sdhci_msm_pwr_irq(int irq, void *data)
 	 * completed before its next update to registers within hc_mem.
 	 */
 	mb();
-<<<<<<< HEAD
 	/*
 	 * There is a rare HW scenario where the first clear pulse could be
 	 * lost when actual reset and clear/read of status register is
@@ -2483,8 +2375,6 @@ static irqreturn_t sdhci_msm_pwr_irq(int irq, void *data)
 	if (likely(retry < 10))
 		pr_debug("%s: success clearing (0x%x) pwrctl status register, retries left %d\n",
 				mmc_hostname(host->mmc), irq_status, retry);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Handle BUS ON/OFF*/
 	if (irq_status & CORE_PWRCTL_BUS_ON) {
@@ -3199,11 +3089,8 @@ void sdhci_msm_dump_vendor_regs(struct sdhci_host *host)
 		readl_relaxed(host->ioaddr + CORE_VENDOR_SPEC),
 		readl_relaxed(host->ioaddr + CORE_VENDOR_SPEC_ADMA_ERR_ADDR0),
 		readl_relaxed(host->ioaddr + CORE_VENDOR_SPEC_ADMA_ERR_ADDR1));
-<<<<<<< HEAD
 	pr_info("Vndr func2: 0x%08x\n",
 		readl_relaxed(host->ioaddr + CORE_VENDOR_SPEC_FUNC2));
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/*
 	 * tbsel indicates [2:0] bits and tbsel2 indicates [7:4] bits
@@ -3235,7 +3122,6 @@ void sdhci_msm_dump_vendor_regs(struct sdhci_host *host)
 			CORE_TESTBUS_CONFIG);
 }
 
-<<<<<<< HEAD
 void sdhci_msm_reset_workaround(struct sdhci_host *host, u32 enable)
 {
 	u32 vendor_func2;
@@ -3278,8 +3164,6 @@ void sdhci_msm_reset_workaround(struct sdhci_host *host, u32 enable)
 	}
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static struct sdhci_ops sdhci_msm_ops = {
 	.set_uhs_signaling = sdhci_msm_set_uhs_signaling,
 	.check_power_status = sdhci_msm_check_power_status,
@@ -3293,10 +3177,7 @@ static struct sdhci_ops sdhci_msm_ops = {
 	.dump_vendor_regs = sdhci_msm_dump_vendor_regs,
 	.config_auto_tuning_cmd = sdhci_msm_config_auto_tuning_cmd,
 	.enable_controller_clock = sdhci_msm_enable_controller_clock,
-<<<<<<< HEAD
 	.reset_workaround = sdhci_msm_reset_workaround,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 static int sdhci_msm_cfg_mpm_pin_wakeup(struct sdhci_host *host, unsigned mode)
@@ -3337,10 +3218,7 @@ static void sdhci_set_default_hw_caps(struct sdhci_msm_host *msm_host,
 	u32 version, caps;
 	u16 minor;
 	u8 major;
-<<<<<<< HEAD
 	u32 val;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	version = readl_relaxed(msm_host->core_mem + CORE_MCI_VERSION);
 	major = (version & CORE_VERSION_MAJOR_MASK) >>
@@ -3371,7 +3249,6 @@ static void sdhci_set_default_hw_caps(struct sdhci_msm_host *msm_host,
 	}
 
 	/*
-<<<<<<< HEAD
 	 * Enable one MID mode for SDCC5 (major 1) on 8916/8939 (minor 0x2e) and
 	 * on 8992 (minor 0x3e) as a workaround to reset for data stuck issue.
 	 */
@@ -3382,8 +3259,6 @@ static void sdhci_set_default_hw_caps(struct sdhci_msm_host *msm_host,
 			host->ioaddr + CORE_VENDOR_SPEC_FUNC2);
 	}
 	/*
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	 * SDCC 5 controller with major version 1, minor version 0x34 and later
 	 * with HS 400 mode support will use CM DLL instead of CDC LP 533 DLL.
 	 */
@@ -3447,11 +3322,7 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 			goto pltfm_free;
 		}
 
-<<<<<<< HEAD
 		msm_host->pdata = sdhci_msm_populate_pdata(&pdev->dev, host);
-=======
-		msm_host->pdata = sdhci_msm_populate_pdata(&pdev->dev);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (!msm_host->pdata) {
 			dev_err(&pdev->dev, "DT parsing error\n");
 			goto pltfm_free;
@@ -3620,14 +3491,11 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 	if (host->quirks2 & SDHCI_QUIRK2_ALWAYS_USE_BASE_CLOCK)
 		host->quirks2 |= SDHCI_QUIRK2_DIVIDE_TOUT_BY_4;
 
-<<<<<<< HEAD
 	host->host_use_default_qos = !msm_host->pdata->use_mod_dynamic_qos;
 	sdhci_msm_print_qos_data(&pdev->dev, host);
 	dev_info(&pdev->dev, "Host using %s pm_qos\n",
 		host->host_use_default_qos ? "default" : "mod dynamic");
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	host_version = readw_relaxed((host->ioaddr + SDHCI_HOST_VERSION));
 	dev_dbg(&pdev->dev, "Host Version: 0x%x Vendor Version 0x%x\n",
 		host_version, ((host_version & SDHCI_VENDOR_VER_MASK) >>
@@ -3677,10 +3545,7 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 	/* Set host capabilities */
 	msm_host->mmc->caps |= msm_host->pdata->mmc_bus_width;
 	msm_host->mmc->caps |= msm_host->pdata->caps;
-<<<<<<< HEAD
 	msm_host->mmc->caps |= MMC_CAP_WAIT_WHILE_BUSY;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	msm_host->mmc->caps2 |= msm_host->pdata->caps2;
 	msm_host->mmc->caps2 |= MMC_CAP2_CORE_RUNTIME_PM;
 	msm_host->mmc->caps2 |= MMC_CAP2_PACKED_WR;
@@ -3701,13 +3566,6 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 	if (msm_host->pdata->nonhotplug)
 		msm_host->mmc->caps2 |= MMC_CAP2_NONHOTPLUG;
 
-<<<<<<< HEAD
-=======
-	host->cpu_dma_latency_us = msm_host->pdata->cpu_dma_latency_us;
-	host->cpu_dma_latency_tbl_sz = msm_host->pdata->cpu_dma_latency_tbl_sz;
-	host->pm_qos_req_dma.type = msm_host->pdata->cpu_affinity_type;
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	init_completion(&msm_host->pwr_irq_completion);
 
 	if (gpio_is_valid(msm_host->pdata->status_gpio)) {

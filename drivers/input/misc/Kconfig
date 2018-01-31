@@ -745,7 +745,6 @@ config SENSORS_AP3426
 	  To compile this driver as a module, choose M here: the
 	  module will be called ap3426.
 
-<<<<<<< HEAD
 
 config SENSORS_LTR553_TEST
 	tristate "LTR553 light and proximity device driver"
@@ -758,9 +757,6 @@ config SENSORS_LTR553_TEST
 	  module will be called ltr553 for test.
 
 config SENSORS_LTR553_TEST_PLUS
-=======
-config SENSORS_LTR553
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	tristate "LTR553 light and proximity device driver"
 	depends on I2C
 	help
@@ -768,11 +764,7 @@ config SENSORS_LTR553
 	  proximity sensor driver.
 
 	  To compile this driver as a module, choose M here: the
-<<<<<<< HEAD
 	  module will be called ltr553 for test_plus.
-=======
-	  module will be called ltr553.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 config SENSORS_MMC3416X
 	tristate "MMC3416xPJ 3-axis magnetic sensor driver"
@@ -784,7 +776,6 @@ config SENSORS_MMC3416X
 	  To compile this driver as a module, choose M here: the
 	  module will be called mmc3416x.
 
-<<<<<<< HEAD
 config SENSORS_ST480_TEST_PLUS
 	tristate "Senodia ST480 magnetic sensor support"
 	depends on I2C=y
@@ -801,8 +792,6 @@ config SENSORS_ST480_TEST
                 If you say yes here you get support for Senodia
                 magnetic sensors ST480 for test.
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 config SENSORS_AKM09911
 	tristate "AKM09911 3-axis electronic compass sensor driver"
 	depends on I2C
@@ -888,7 +877,6 @@ config SENSORS_BMI058
 	 If you say yes here, you get support for Bosch Sensortec's
 	 sensor driver of BMI058.
 
-<<<<<<< HEAD
 config INPUT_LSM6DS3
      tristate "STMicroelectronics LSM6DS3"
      depends on INPUT
@@ -923,7 +911,5 @@ config LSM6DS3_FIFO_MODE
 endchoice
 
 endif
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 endif
 

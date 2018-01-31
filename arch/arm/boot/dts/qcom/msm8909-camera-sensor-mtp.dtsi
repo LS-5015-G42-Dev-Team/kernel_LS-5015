@@ -157,11 +157,7 @@
 		clock-names = "cam_src_clk", "cam_clk";
 	};
 
-<<<<<<< HEAD
 	qcom_camera1: qcom,camera@1 {
-=======
-	qcom,camera@1 {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		cell-index = <1>;
 		compatible = "qcom,camera";
 		reg = <0x1>;

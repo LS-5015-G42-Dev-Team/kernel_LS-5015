@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -94,11 +90,7 @@ static void adsp_loader_do(struct platform_device *pdev)
 		 * apr_modem_state to prevent loading of image twice
                  */
 		adsp_state = apr_get_modem_state();
-<<<<<<< HEAD
 		if (adsp_state != APR_SUBSYS_LOADED) {
-=======
-		if (adsp_state == APR_SUBSYS_DOWN) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			priv = platform_get_drvdata(pdev);
 			if (!priv) {
 				dev_err(&pdev->dev,
@@ -126,11 +118,7 @@ static void adsp_loader_do(struct platform_device *pdev)
 load_adsp:
 	{
 		adsp_state = apr_get_q6_state();
-<<<<<<< HEAD
 		if (adsp_state != APR_SUBSYS_LOADED) {
-=======
-		if (adsp_state == APR_SUBSYS_DOWN) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			priv = platform_get_drvdata(pdev);
 			if (!priv) {
 				dev_err(&pdev->dev,

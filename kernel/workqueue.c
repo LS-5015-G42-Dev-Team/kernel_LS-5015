@@ -2876,7 +2876,6 @@ bool flush_work(struct work_struct *work)
 }
 EXPORT_SYMBOL_GPL(flush_work);
 
-<<<<<<< HEAD
 struct cwt_wait {
 	wait_queue_t		wait;
 	struct work_struct	*work;
@@ -2894,17 +2893,12 @@ static int cwt_wakefn(wait_queue_t *wait, unsigned mode, int sync, void *key)
 static bool __cancel_work_timer(struct work_struct *work, bool is_dwork)
 {
 	static DECLARE_WAIT_QUEUE_HEAD(cancel_waitq);
-=======
-static bool __cancel_work_timer(struct work_struct *work, bool is_dwork)
-{
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	unsigned long flags;
 	int ret;
 
 	do {
 		ret = try_to_grab_pending(work, is_dwork, &flags);
 		/*
-<<<<<<< HEAD
 		 * If someone else is already canceling, wait for it to
 		 * finish.  flush_work() doesn't work for PREEMPT_NONE
 		 * because we may get scheduled between @work's completion
@@ -2933,13 +2927,6 @@ static bool __cancel_work_timer(struct work_struct *work, bool is_dwork)
 				schedule();
 			finish_wait(&cancel_waitq, &cwait.wait);
 		}
-=======
-		 * If someone else is canceling, wait for the same event it
-		 * would be waiting for before retrying.
-		 */
-		if (unlikely(ret == -ENOENT))
-			flush_work(work);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	} while (unlikely(ret < 0));
 
 	/* tell other tasks trying to grab @work to back off */
@@ -2948,7 +2935,6 @@ static bool __cancel_work_timer(struct work_struct *work, bool is_dwork)
 
 	flush_work(work);
 	clear_work_data(work);
-<<<<<<< HEAD
 
 	/*
 	 * Paired with prepare_to_wait() above so that either
@@ -2959,8 +2945,6 @@ static bool __cancel_work_timer(struct work_struct *work, bool is_dwork)
 	if (waitqueue_active(&cancel_waitq))
 		__wake_up(&cancel_waitq, TASK_NORMAL, 1, work);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return ret;
 }
 

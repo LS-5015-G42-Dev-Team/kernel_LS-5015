@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -17,15 +13,11 @@
 #define __WCD_MBHC_V2_H__
 
 #include <linux/wait.h>
-<<<<<<< HEAD
 #include <linux/stringify.h>
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include "wcdcal-hwdep.h"
 
 #define TOMBAK_MBHC_NC	0
 #define TOMBAK_MBHC_NO	1
-<<<<<<< HEAD
 #define WCD_MBHC_DEF_BUTTONS 8
 #define WCD_MBHC_KEYCODE_NUM 8
 #define WCD_MBHC_USLEEP_RANGE_MARGIN_US 100
@@ -69,9 +61,6 @@ enum wcd_mbhc_register_function {
 	WCD_MBHC_PULLDOWN_CTRL,
 	WCD_MBHC_REG_FUNC_MAX,
 };
-=======
-#define WCD_MBHC_DEF_BUTTONS 5
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 enum wcd_mbhc_plug_type {
 	MBHC_PLUG_TYPE_INVALID = -1,
@@ -92,7 +81,6 @@ enum wcd_mbhc_btn_det_mem {
 	WCD_MBHC_BTN_DET_V_BTN_HIGH
 };
 
-<<<<<<< HEAD
 enum {
 	MIC_BIAS_1 = 1,
 	MIC_BIAS_2,
@@ -134,8 +122,6 @@ enum wcd_notify_event {
 	WCD_EVENT_LAST,
 };
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum wcd_mbhc_event_state {
 	WCD_MBHC_EVENT_PA_HPHL,
 	WCD_MBHC_EVENT_PA_HPHR,
@@ -217,7 +203,6 @@ struct wcd_mbhc_imped_detect_cfg {
 	u16 _beta[3];
 } __packed;
 
-<<<<<<< HEAD
 enum wcd_mbhc_hph_type {
 	WCD_MBHC_HPH_NONE = 0,
 	WCD_MBHC_HPH_MONO,
@@ -248,8 +233,6 @@ struct wcd_mbhc_moisture_cfg {
 	enum mbhc_hs_pullup_iref m_iref_ctl;
 };
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct wcd_mbhc_config {
 	bool read_fw_bin;
 	void *calibration;
@@ -257,14 +240,11 @@ struct wcd_mbhc_config {
 	bool mono_stero_detection;
 	bool (*swap_gnd_mic) (struct snd_soc_codec *codec);
 	bool hs_ext_micbias;
-<<<<<<< HEAD
 	bool gnd_det_en;
 	int key_code[WCD_MBHC_KEYCODE_NUM];
 	uint32_t linein_th;
 	struct wcd_mbhc_moisture_cfg moist_cfg;
 	bool insert_detect;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct wcd_mbhc_intr {
@@ -277,7 +257,6 @@ struct wcd_mbhc_intr {
 	int hph_right_ocp;
 };
 
-<<<<<<< HEAD
 struct wcd_mbhc_register {
 	const char *id;
 	u16 reg;
@@ -337,18 +316,11 @@ struct wcd_mbhc_cb {
 	int (*enable_mb_source) (struct snd_soc_codec *, bool);
 	void (*trim_btn_reg) (struct snd_soc_codec *);
 	void (*compute_impedance)(struct wcd_mbhc *, uint32_t *, uint32_t *);
-=======
-struct wcd_mbhc_cb {
-	int (*enable_mb_source) (struct snd_soc_codec *, bool);
-	void (*trim_btn_reg) (struct snd_soc_codec *);
-	void (*compute_impedance) (s16 , s16 , uint32_t *, uint32_t *, bool);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	void (*set_micbias_value) (struct snd_soc_codec *);
 	void (*set_auto_zeroing) (struct snd_soc_codec *, bool);
 	struct firmware_cal * (*get_hwdep_fw_cal)(struct snd_soc_codec *,
 			enum wcd_cal_type);
 	void (*set_cap_mode)(struct snd_soc_codec *, bool, bool);
-<<<<<<< HEAD
 	int (*register_notifier)(struct snd_soc_codec *,
 				 struct notifier_block *nblock,
 				 bool enable);
@@ -379,8 +351,6 @@ struct wcd_mbhc_cb {
 	int (*mbhc_micb_ctrl_thr_mic)(struct snd_soc_codec *, int, bool);
 	void (*mbhc_gnd_det_ctrl)(struct snd_soc_codec *, bool);
 	void (*hph_pull_down_ctrl)(struct snd_soc_codec *, bool);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct wcd_mbhc {
@@ -407,11 +377,8 @@ struct wcd_mbhc {
 	bool btn_press_intr;
 	bool is_hs_recording;
 	bool is_extn_cable;
-<<<<<<< HEAD
 	bool skip_imped_detection;
 	bool is_btn_already_regd;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	struct snd_soc_codec *codec;
 	/* Work to perform MBHC Firmware Read */
@@ -428,12 +395,9 @@ struct wcd_mbhc {
 	uint32_t zl, zr;
 	bool impedance_detect;
 
-<<<<<<< HEAD
 	/* Holds type of Headset - Mono/Stereo */
 	enum wcd_mbhc_hph_type hph_type;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct snd_soc_jack headset_jack;
 	struct snd_soc_jack button_jack;
 	struct mutex codec_resource_lock;
@@ -444,15 +408,12 @@ struct wcd_mbhc {
 	/* Work to correct accessory type */
 	struct work_struct correct_plug_swch;
 	struct notifier_block nblock;
-<<<<<<< HEAD
 
 	struct wcd_mbhc_register *wcd_mbhc_regs;
 
 	struct completion btn_press_compl;
 	struct mutex hphl_pa_lock;
 	struct mutex hphr_pa_lock;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 #define WCD_MBHC_CAL_SIZE(buttons, rload) ( \
 	sizeof(struct wcd_mbhc_general_cfg) + \
@@ -506,18 +467,14 @@ struct wcd_mbhc {
 	(cfg_ptr->_n_rload * \
 	(sizeof(cfg_ptr->_rload[0]) + sizeof(cfg_ptr->_alpha[0]))))
 
-<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_WCD_MBHC
 int wcd_mbhc_set_keycode(struct wcd_mbhc *mbhc);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int wcd_mbhc_start(struct wcd_mbhc *mbhc,
 		       struct wcd_mbhc_config *mbhc_cfg);
 void wcd_mbhc_stop(struct wcd_mbhc *mbhc);
 int wcd_mbhc_init(struct wcd_mbhc *mbhc, struct snd_soc_codec *codec,
 		      const struct wcd_mbhc_cb *mbhc_cb,
 		      const struct wcd_mbhc_intr *mbhc_cdc_intr_ids,
-<<<<<<< HEAD
 		      struct wcd_mbhc_register *mbhc_reg,
 		      bool impedance_det_en);
 int wcd_mbhc_get_impedance(struct wcd_mbhc *mbhc, uint32_t *zl,
@@ -550,10 +507,5 @@ static inline int wcd_mbhc_get_impedance(struct wcd_mbhc *mbhc,
 	return -EINVAL;
 }
 #endif
-=======
-		      bool impedance_det_en);
-int wcd_mbhc_get_impedance(struct wcd_mbhc *mbhc, uint32_t *zl,
-			   uint32_t *zr);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 void wcd_mbhc_deinit(struct wcd_mbhc *mbhc);
 #endif /* __WCD_MBHC_V2_H__ */

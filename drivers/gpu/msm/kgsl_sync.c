@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -174,25 +170,12 @@ int kgsl_add_fence_event(struct kgsl_device *device,
 	if (context == NULL)
 		goto unlock;
 
-<<<<<<< HEAD
 	if (test_bit(KGSL_CONTEXT_PRIV_INVALID, &context->priv))
 		goto unlock;
 
 	pt = kgsl_sync_pt_create(context->timeline, context, timestamp);
 	if (pt == NULL) {
 		KGSL_DRV_CRIT_RATELIMIT(device, "kgsl_sync_pt_create failed\n");
-=======
-	if (test_bit(KGSL_CONTEXT_PRIV_INVALID, &context->priv)) {
-		KGSL_DRV_ERR(device,
-			"Cannot create a fence: context %d is invalid\n",
-			context->id);
-		goto unlock;
-	}
-
-	pt = kgsl_sync_pt_create(context->timeline, context, timestamp);
-	if (pt == NULL) {
-		KGSL_DRV_ERR(device, "kgsl_sync_pt_create failed\n");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		ret = -ENOMEM;
 		goto unlock;
 	}
@@ -206,23 +189,15 @@ int kgsl_add_fence_event(struct kgsl_device *device,
 	if (fence == NULL) {
 		/* only destroy pt when not added to fence */
 		kgsl_sync_pt_destroy(pt);
-<<<<<<< HEAD
 		KGSL_DRV_CRIT_RATELIMIT(device, "sync_fence_create failed\n");
-=======
-		KGSL_DRV_ERR(device, "sync_fence_create failed\n");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		ret = -ENOMEM;
 		goto unlock;
 	}
 
 	priv.fence_fd = get_unused_fd_flags(0);
 	if (priv.fence_fd < 0) {
-<<<<<<< HEAD
 		KGSL_DRV_CRIT_RATELIMIT(device,
 			"Unable to get a file descriptor: %d\n",
-=======
-		KGSL_DRV_ERR(device, "Unable to get a file descriptor: %d\n",
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			priv.fence_fd);
 		ret = priv.fence_fd;
 		goto unlock;
@@ -258,10 +233,7 @@ int kgsl_add_fence_event(struct kgsl_device *device,
 	return 0;
 
 unlock:
-<<<<<<< HEAD
 	kgsl_context_put(context);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mutex_unlock(&device->mutex);
 
 out:
@@ -271,10 +243,6 @@ out:
 	if (fence)
 		sync_fence_put(fence);
 
-<<<<<<< HEAD
-=======
-	kgsl_context_put(context);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return ret;
 }
 
@@ -505,7 +473,6 @@ long kgsl_ioctl_syncsource_create(struct kgsl_device_private *dev_priv,
 		goto out;
 	}
 
-<<<<<<< HEAD
 	kref_init(&syncsource->refcount);
 	syncsource->private = private;
 
@@ -514,31 +481,15 @@ long kgsl_ioctl_syncsource_create(struct kgsl_device_private *dev_priv,
 	id = idr_alloc(&private->syncsource_idr, syncsource, 1, 0, GFP_NOWAIT);
 	if (id > 0) {
 		syncsource->id = id;
-=======
-	idr_preload(GFP_KERNEL);
-	spin_lock(&private->syncsource_lock);
-	id = idr_alloc(&private->syncsource_idr, syncsource, 1, 0, GFP_NOWAIT);
-	spin_unlock(&private->syncsource_lock);
-	idr_preload_end();
-
-	if (id > 0) {
-		kref_init(&syncsource->refcount);
-		syncsource->id = id;
-		syncsource->private = private;
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		param->id = id;
 		ret = 0;
 	} else {
 		ret = id;
 	}
 
-<<<<<<< HEAD
 	spin_unlock(&private->syncsource_lock);
 	idr_preload_end();
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 out:
 	if (ret) {
 		if (syncsource && syncsource->oneshot)
@@ -596,7 +547,6 @@ long kgsl_ioctl_syncsource_destroy(struct kgsl_device_private *dev_priv,
 {
 	struct kgsl_syncsource_destroy *param = data;
 	struct kgsl_syncsource *syncsource = NULL;
-<<<<<<< HEAD
 	struct kgsl_process_private *private = dev_priv->process_priv;
 
 	spin_lock(&private->syncsource_lock);
@@ -608,32 +558,12 @@ long kgsl_ioctl_syncsource_destroy(struct kgsl_device_private *dev_priv,
 	}
 
 	spin_unlock(&private->syncsource_lock);
-=======
-	struct kgsl_process_private *private;
-
-	syncsource = kgsl_syncsource_get(dev_priv->process_priv,
-				     param->id);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (syncsource == NULL)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	/* put reference from syncsource creation */
 	kgsl_syncsource_put(syncsource);
-=======
-	private = syncsource->private;
-
-	spin_lock(&private->syncsource_lock);
-	idr_remove(&private->syncsource_idr, param->id);
-	syncsource->id = 0;
-	spin_unlock(&private->syncsource_lock);
-
-	/* put reference from syncsource creation */
-	kgsl_syncsource_put(syncsource);
-	/* put reference from getting the syncsource above */
-	kgsl_syncsource_put(syncsource);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 

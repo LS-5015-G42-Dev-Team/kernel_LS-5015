@@ -358,10 +358,7 @@ CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 USERINCLUDE    := \
 		-I$(srctree)/arch/$(hdr-arch)/include/uapi \
 		-Iarch/$(hdr-arch)/include/generated/uapi \
-<<<<<<< HEAD
 		-I$(srctree)/drivers/soc/qcom \
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		-I$(srctree)/include/uapi \
 		-Iinclude/generated/uapi \
                 -include $(srctree)/include/linux/kconfig.h
@@ -706,12 +703,9 @@ ifeq ($(CONFIG_STRIP_ASM_SYMS),y)
 LDFLAGS_vmlinux	+= $(call ld-option, -X,)
 endif
 
-<<<<<<< HEAD
 LDFLAGS_vmlinux += $(call ld-option, --fix-cortex-a53-843419)
 LDFLAGS_MODULE += $(call ld-option, --fix-cortex-a53-843419)
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 # Default kernel image to build when no specific target is given.
 # KBUILD_IMAGE may be overruled on the command line or
 # set in the environment

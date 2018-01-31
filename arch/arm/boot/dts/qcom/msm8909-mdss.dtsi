@@ -31,10 +31,7 @@
                 mdss_fb0: qcom,mdss_fb_primary {
 			cell-index = <0>;
 			compatible = "qcom,mdss-fb";
-<<<<<<< HEAD
 			qcom,mdss-fb-format = "rgba8888";
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			qcom,cont-splash-memory {
 				linux,contiguous-region = <&cont_splash_mem>;
 			};
@@ -104,11 +101,7 @@
 				qcom,supply-max-voltage = <1200000>;
 				qcom,supply-enable-load = <100000>;
 				qcom,supply-disable-load = <100>;
-<<<<<<< HEAD
 				qcom,supply-post-on-sleep = <5>;
-=======
-				qcom,supply-post-on-sleep = <20>;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			};
 		};
 

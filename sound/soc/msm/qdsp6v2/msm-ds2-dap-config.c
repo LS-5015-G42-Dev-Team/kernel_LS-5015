@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License version 2 and
 * only version 2 as published by the Free Software Foundation.
@@ -1107,11 +1103,7 @@ static int msm_ds2_dap_send_end_point(int dev_map_idx, int endp_idx)
 	ds2_ap_params_obj = &ds2_dap_params[cache_device];
 	pr_debug("%s: cache dev %d, dev_map_idx %d\n", __func__,
 		 cache_device, dev_map_idx);
-<<<<<<< HEAD
 	pr_debug("%s: endp - %pK %pK\n",  __func__,
-=======
-	pr_debug("%s: endp - %p %p\n",  __func__,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		 &ds2_dap_params[cache_device], ds2_ap_params_obj);
 
 	params_value = kzalloc(params_length, GFP_KERNEL);
@@ -1197,11 +1189,7 @@ static int msm_ds2_dap_send_cached_params(int dev_map_idx,
 	}
 
 	ds2_ap_params_obj = &ds2_dap_params[cache_device];
-<<<<<<< HEAD
 	pr_debug("%s: cached param - %pK %pK, cache_device %d\n", __func__,
-=======
-	pr_debug("%s: cached param - %p %p, cache_device %d\n", __func__,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		 &ds2_dap_params[cache_device], ds2_ap_params_obj,
 		 cache_device);
 	params_value = kzalloc(params_length, GFP_KERNEL);
@@ -1366,7 +1354,6 @@ end:
 static int msm_ds2_dap_handle_commands(u32 cmd, void *arg)
 {
 	int ret  = 0, port_id = 0;
-<<<<<<< HEAD
 	int32_t data;
 	struct dolby_param_data *dolby_data = (struct dolby_param_data *)arg;
 	if (get_user(data, &dolby_data->data[0])) {
@@ -1378,13 +1365,6 @@ static int msm_ds2_dap_handle_commands(u32 cmd, void *arg)
 	pr_debug("%s: param_id %d,be_id %d,device_id 0x%x,length %d,data %d\n",
 		 __func__, dolby_data->param_id, dolby_data->be_id,
 		dolby_data->device_id, dolby_data->length, data);
-=======
-	struct dolby_param_data *dolby_data = (struct dolby_param_data *)arg;
-
-	pr_debug("%s: param_id %d,be_id %d,device_id 0x%x,length %d,data %d\n",
-		 __func__, dolby_data->param_id, dolby_data->be_id,
-		dolby_data->device_id, dolby_data->length, dolby_data->data[0]);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	switch (dolby_data->param_id) {
 	case DAP_CMD_COMMIT_ALL:
@@ -1396,30 +1376,18 @@ static int msm_ds2_dap_handle_commands(u32 cmd, void *arg)
 	break;
 
 	case DAP_CMD_USE_CACHE_FOR_INIT:
-<<<<<<< HEAD
 		ds2_dap_params_states.use_cache = data;
-=======
-		ds2_dap_params_states.use_cache = dolby_data->data[0];
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	break;
 
 	case DAP_CMD_SET_BYPASS:
 		pr_debug("%s: bypass %d bypass type %d, data %d\n", __func__,
 			 ds2_dap_params_states.dap_bypass,
 			 ds2_dap_params_states.dap_bypass_type,
-<<<<<<< HEAD
 			 data);
 		/* Do not perform bypass operation if bypass state is same*/
 		if (ds2_dap_params_states.dap_bypass == data)
 			break;
 		ds2_dap_params_states.dap_bypass = data;
-=======
-			 dolby_data->data[0]);
-		/* Do not perform bypass operation if bypass state is same*/
-		if (ds2_dap_params_states.dap_bypass == dolby_data->data[0])
-			break;
-		ds2_dap_params_states.dap_bypass = dolby_data->data[0];
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		/* hard bypass */
 		if (ds2_dap_params_states.dap_bypass_type == DAP_HARD_BYPASS)
 			msm_ds2_dap_handle_bypass(dolby_data);
@@ -1428,11 +1396,7 @@ static int msm_ds2_dap_handle_commands(u32 cmd, void *arg)
 	break;
 
 	case DAP_CMD_SET_BYPASS_TYPE:
-<<<<<<< HEAD
 		if (data == true)
-=======
-		if (dolby_data->data[0] == true)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			ds2_dap_params_states.dap_bypass_type =
 				DAP_HARD_BYPASS;
 		else
@@ -1471,10 +1435,7 @@ static int msm_ds2_dap_set_param(u32 cmd, void *arg)
 {
 	int rc = 0, idx, i, j, off, port_id = 0, cdev = 0;
 	int32_t num_device = 0;
-<<<<<<< HEAD
 	int32_t data = 0;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int32_t dev_arr[DS2_DSP_SUPPORTED_ENDP_DEVICE] = {0};
 	struct dolby_param_data *dolby_data =  (struct dolby_param_data *)arg;
 
@@ -1514,7 +1475,6 @@ static int msm_ds2_dap_set_param(u32 cmd, void *arg)
 			goto end;
 		}
 
-<<<<<<< HEAD
 		off = ds2_dap_params_offset[idx];
 		if ((dolby_data->length <= 0) ||
 			(dolby_data->length > TOTAL_LENGTH_DS2_PARAM - off)) {
@@ -1535,16 +1495,6 @@ static int msm_ds2_dap_set_param(u32 cmd, void *arg)
 			ds2_dap_params[cdev].params_val[off + j] = data;
 				pr_debug("%s:off %d,val[i/p:o/p]-[%d / %d]\n",
 					 __func__, off, data,
-=======
-		/* cache the parameters */
-		ds2_dap_params[cdev].dap_params_modified[idx] += 1;
-		for (j = 0; j <  dolby_data->length; j++) {
-			off = ds2_dap_params_offset[idx];
-			ds2_dap_params[cdev].params_val[off + j] =
-							dolby_data->data[j];
-				pr_debug("%s:off %d,val[i/p:o/p]-[%d / %d]\n",
-					 __func__, off, dolby_data->data[j],
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 					 ds2_dap_params[cdev].
 					 params_val[off + j]);
 		}

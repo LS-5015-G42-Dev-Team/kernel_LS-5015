@@ -151,10 +151,7 @@ enum dsi_pm_type {
 #define DSI_CMD_DST_FORMAT_RGB666	7
 #define DSI_CMD_DST_FORMAT_RGB888	8
 
-<<<<<<< HEAD
 #define DSI_INTR_DESJEW_MASK			BIT(31)
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define DSI_INTR_DYNAMIC_REFRESH_MASK		BIT(29)
 #define DSI_INTR_DYNAMIC_REFRESH_DONE		BIT(28)
 #define DSI_INTR_ERROR_MASK		BIT(25)
@@ -170,7 +167,6 @@ enum dsi_pm_type {
 /* Update this if more interrupt masks are added in future chipsets */
 #define DSI_INTR_TOTAL_MASK		0x2222AA02
 
-<<<<<<< HEAD
 #define DSI_INTR_MASK_ALL	\
 		(DSI_INTR_DESJEW_MASK | \
 		DSI_INTR_DYNAMIC_REFRESH_MASK | \
@@ -180,8 +176,6 @@ enum dsi_pm_type {
 		DSI_INTR_CMD_MDP_DONE_MASK | \
 		DSI_INTR_CMD_DMA_DONE_MASK)
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define DSI_CMD_TRIGGER_NONE		0x0	/* mdp trigger */
 #define DSI_CMD_TRIGGER_TE		0x02
 #define DSI_CMD_TRIGGER_SW		0x04
@@ -196,10 +190,7 @@ enum dsi_pm_type {
 
 #define DSI_DATA_LANES_STOP_STATE	0xF
 #define DSI_CLK_LANE_STOP_STATE		BIT(4)
-<<<<<<< HEAD
 #define DSI_DATA_LANES_ENABLED		0xF0
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* offsets for dynamic refresh */
 #define DSI_DYNAMIC_REFRESH_CTRL		0x200
@@ -304,20 +295,14 @@ enum {
 #define DSI_EV_MDP_FIFO_UNDERFLOW	0x0002
 #define DSI_EV_DSI_FIFO_EMPTY		0x0004
 #define DSI_EV_DLNx_FIFO_OVERFLOW	0x0008
-<<<<<<< HEAD
 #define DSI_EV_LP_RX_TIMEOUT		0x0010
 #define DSI_EV_STOP_HS_CLK_LANE		0x40000000
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define DSI_EV_MDP_BUSY_RELEASE		0x80000000
 
 struct mdss_dsi_ctrl_pdata {
 	int ndx;	/* panel_num */
 	int (*on) (struct mdss_panel_data *pdata);
-<<<<<<< HEAD
 	int (*post_panel_on)(struct mdss_panel_data *pdata);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int (*off) (struct mdss_panel_data *pdata);
 	int (*low_power_config) (struct mdss_panel_data *pdata, int enable);
 	int (*set_col_page_addr) (struct mdss_panel_data *pdata);
@@ -327,10 +312,7 @@ struct mdss_dsi_ctrl_pdata {
 	void (*switch_mode) (struct mdss_panel_data *pdata, int mode);
 	struct mdss_panel_data panel_data;
 	unsigned char *ctrl_base;
-<<<<<<< HEAD
 	u32 hw_rev;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct dss_io_data ctrl_io;
 	struct dss_io_data mmss_misc_io;
 	struct dss_io_data phy_io;
@@ -368,18 +350,12 @@ struct mdss_dsi_ctrl_pdata {
 	int bklt_max;
 	int new_fps;
 	int pwm_enabled;
-<<<<<<< HEAD
 	int clk_lane_cnt;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	bool panel_bias_vreg;
 	bool dsi_irq_line;
 	atomic_t te_irq_ready;
 
-<<<<<<< HEAD
 	bool cmd_clk_ln_recovery_en;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	bool cmd_sync_wait_broadcast;
 	bool cmd_sync_wait_trigger;
 
@@ -395,11 +371,8 @@ struct mdss_dsi_ctrl_pdata {
 	struct mdss_intf_recovery *recovery;
 
 	struct dsi_panel_cmds on_cmds;
-<<<<<<< HEAD
 	struct dsi_panel_cmds post_dms_on_cmds;
 	struct dsi_panel_cmds post_panel_on_cmds;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct dsi_panel_cmds off_cmds;
 	struct dsi_panel_cmds status_cmds;
 	u32 status_cmds_rlen;
@@ -420,10 +393,7 @@ struct mdss_dsi_ctrl_pdata {
 	int mdp_busy;
 	struct mutex mutex;
 	struct mutex cmd_mutex;
-<<<<<<< HEAD
 	struct mutex clk_lane_mutex;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	u32 ulps_clamp_ctrl_off;
 	u32 ulps_phyrst_ctrl_off;
@@ -448,11 +418,8 @@ struct mdss_dsi_ctrl_pdata {
 	int horizontal_idle_cnt;
 	struct panel_horizontal_idle *line_idle;
 	struct mdss_util_intf *mdss_util;
-<<<<<<< HEAD
 
 	bool dfps_status;	/* dynamic refresh status */
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct dsi_status_data {
@@ -513,11 +480,7 @@ void mdss_dsi_phy_sw_reset(struct mdss_dsi_ctrl_pdata *ctrl);
 void mdss_dsi_phy_init(struct mdss_dsi_ctrl_pdata *ctrl);
 void mdss_dsi_ctrl_init(struct device *ctrl_dev,
 			struct mdss_dsi_ctrl_pdata *ctrl);
-<<<<<<< HEAD
 int mdss_dsi_cmd_mdp_busy(struct mdss_dsi_ctrl_pdata *ctrl);
-=======
-void mdss_dsi_cmd_mdp_busy(struct mdss_dsi_ctrl_pdata *ctrl);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 void mdss_dsi_wait4video_done(struct mdss_dsi_ctrl_pdata *ctrl);
 void mdss_dsi_en_wait4dynamic_done(struct mdss_dsi_ctrl_pdata *ctrl);
 int mdss_dsi_cmdlist_commit(struct mdss_dsi_ctrl_pdata *ctrl, int from_mdp);
@@ -530,11 +493,8 @@ void mdss_dsi_dln0_phy_err(struct mdss_dsi_ctrl_pdata *ctrl);
 void mdss_dsi_lp_cd_rx(struct mdss_dsi_ctrl_pdata *ctrl);
 u32 mdss_dsi_panel_cmd_read(struct mdss_dsi_ctrl_pdata *ctrl, char cmd0,
 		char cmd1, void (*fxn)(int), char *rbuf, int len);
-<<<<<<< HEAD
 void mdss_dsi_get_hw_revision(struct mdss_dsi_ctrl_pdata *ctrl);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int mdss_dsi_panel_init(struct device_node *node,
 		struct mdss_dsi_ctrl_pdata *ctrl_pdata,
 		bool cmd_cfg_cont_splash);
@@ -543,10 +503,7 @@ int mdss_panel_get_dst_fmt(u32 bpp, char mipi_mode, u32 pixel_packing,
 
 int mdss_dsi_register_recovery_handler(struct mdss_dsi_ctrl_pdata *ctrl,
 		struct mdss_intf_recovery *recovery);
-<<<<<<< HEAD
 void mdss_dsi_unregister_bl_settings(struct mdss_dsi_ctrl_pdata *ctrl_pdata);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 static inline const char *__mdss_dsi_pm_name(enum dsi_pm_type module)
 {

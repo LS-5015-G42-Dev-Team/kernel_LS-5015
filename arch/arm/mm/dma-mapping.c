@@ -684,13 +684,10 @@ static void *__alloc_from_contiguous(struct device *dev, size_t size,
 			 * clients trying to use the address incorrectly
 			 */
 			ptr = (void *)NO_KERNEL_MAPPING_DUMMY;
-<<<<<<< HEAD
 
 			/* also flush out the stale highmem mappings */
 			kmap_flush_unused();
 			kmap_atomic_flush_unused();
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		} else {
 			ptr = __dma_alloc_remap(page, size, GFP_KERNEL, prot,
 						caller);

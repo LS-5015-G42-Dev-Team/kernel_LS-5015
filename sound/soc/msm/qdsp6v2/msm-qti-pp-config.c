@@ -60,7 +60,6 @@ struct msm_audio_eq_stream_config {
 	struct msm_audio_eq_band	eq_bands[EQ_BAND_MAX];
 } __packed;
 
-<<<<<<< HEAD
 /* Audio Sphere data structures */
 struct msm_audio_pp_asphere_state_s {
 	uint32_t enabled;
@@ -76,8 +75,6 @@ struct msm_audio_pp_asphere_state_s {
 
 static struct msm_audio_pp_asphere_state_s asphere_state;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct msm_audio_eq_stream_config	eq_data[MAX_EQ_SESSIONS];
 
 static int msm_route_hfp_vol_control;
@@ -509,7 +506,6 @@ static int msm_qti_pp_put_channel_map_mixer(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-<<<<<<< HEAD
 /* Audio Sphere functions */
 
 static void msm_qti_pp_asphere_init_state(void)
@@ -677,8 +673,6 @@ static int msm_qti_pp_asphere_set(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static const struct snd_kcontrol_new int_fm_vol_mixer_controls[] = {
 	SOC_SINGLE_EXT_TLV("Internal FM RX Volume", SND_SOC_NOPM, 0,
 	INT_RX_VOL_GAIN, 0, msm_qti_pp_get_fm_vol_mixer,
@@ -857,14 +851,11 @@ static const struct snd_kcontrol_new eq_coeff_mixer_controls[] = {
 	msm_qti_pp_get_eq_band_audio_mixer, msm_qti_pp_put_eq_band_audio_mixer),
 };
 
-<<<<<<< HEAD
 static const struct snd_kcontrol_new asphere_mixer_controls[] = {
 	SOC_SINGLE_MULTI_EXT("MSM ASphere Set Param", SND_SOC_NOPM, 0,
 	0xFFFFFFFF, 0, 2, msm_qti_pp_asphere_get, msm_qti_pp_asphere_set),
 };
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 void msm_qti_pp_add_controls(struct snd_soc_platform *platform)
 {
 	snd_soc_add_platform_controls(platform, int_fm_vol_mixer_controls,
@@ -895,10 +886,7 @@ void msm_qti_pp_add_controls(struct snd_soc_platform *platform)
 
 	snd_soc_add_platform_controls(platform, eq_coeff_mixer_controls,
 			ARRAY_SIZE(eq_coeff_mixer_controls));
-<<<<<<< HEAD
 
 	snd_soc_add_platform_controls(platform, asphere_mixer_controls,
 			ARRAY_SIZE(asphere_mixer_controls));
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }

@@ -67,11 +67,7 @@ static int h4_open(struct hci_uart *hu)
 {
 	struct h4_struct *h4;
 
-<<<<<<< HEAD
 	BT_DBG("hu %pK", hu);
-=======
-	BT_DBG("hu %p", hu);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	h4 = kzalloc(sizeof(*h4), GFP_KERNEL);
 	if (!h4)
@@ -88,11 +84,7 @@ static int h4_flush(struct hci_uart *hu)
 {
 	struct h4_struct *h4 = hu->priv;
 
-<<<<<<< HEAD
 	BT_DBG("hu %pK", hu);
-=======
-	BT_DBG("hu %p", hu);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	skb_queue_purge(&h4->txq);
 
@@ -106,11 +98,7 @@ static int h4_close(struct hci_uart *hu)
 
 	hu->priv = NULL;
 
-<<<<<<< HEAD
 	BT_DBG("hu %pK", hu);
-=======
-	BT_DBG("hu %p", hu);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	skb_queue_purge(&h4->txq);
 
@@ -127,11 +115,7 @@ static int h4_enqueue(struct hci_uart *hu, struct sk_buff *skb)
 {
 	struct h4_struct *h4 = hu->priv;
 
-<<<<<<< HEAD
 	BT_DBG("hu %pK skb %pK", hu, skb);
-=======
-	BT_DBG("hu %p skb %p", hu, skb);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* Prepend skb with frame type */
 	memcpy(skb_push(skb, 1), &bt_cb(skb)->pkt_type, 1);

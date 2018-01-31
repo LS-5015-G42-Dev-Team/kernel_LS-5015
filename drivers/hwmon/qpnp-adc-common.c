@@ -1591,7 +1591,6 @@ int32_t qpnp_adc_qrd_skuh_btm_scaler(struct qpnp_vadc_chip *chip,
 }
 EXPORT_SYMBOL(qpnp_adc_qrd_skuh_btm_scaler);
 
-<<<<<<< HEAD
 int32_t qpnp_adc_qrd_skue_btm_scaler(struct qpnp_vadc_chip *chip,
 		struct qpnp_adc_tm_btm_param *param,
 		uint32_t *low_threshold, uint32_t *high_threshold)
@@ -1645,8 +1644,6 @@ int32_t qpnp_adc_qrd_skue_btm_scaler(struct qpnp_vadc_chip *chip,
 }
 EXPORT_SYMBOL(qpnp_adc_qrd_skue_btm_scaler);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int32_t qpnp_adc_smb_btm_rscaler(struct qpnp_vadc_chip *chip,
 		struct qpnp_adc_tm_btm_param *param,
 		uint32_t *low_threshold, uint32_t *high_threshold)

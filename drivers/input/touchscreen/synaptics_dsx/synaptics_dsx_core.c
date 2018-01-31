@@ -3610,14 +3610,10 @@ err_set_input_dev:
 					false, 0, 0);
 		}
 	} else {
-<<<<<<< HEAD
 		if (gpio_is_valid(bdata->irq_gpio))
 			gpio_free(bdata->irq_gpio);
 		if (gpio_is_valid(bdata->reset_gpio))
 			gpio_free(bdata->reset_gpio);
-=======
-		synaptics_dsx_gpio_configure(rmi4_data, false);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 err_config_gpio:
 	if (rmi4_data->ts_pinctrl) {
@@ -3709,14 +3705,10 @@ static int synaptics_rmi4_remove(struct platform_device *pdev)
 					false, 0, 0);
 		}
 	} else {
-<<<<<<< HEAD
 		if (gpio_is_valid(bdata->irq_gpio))
 			gpio_free(bdata->irq_gpio);
 		if (gpio_is_valid(bdata->reset_gpio))
 			gpio_free(bdata->reset_gpio);
-=======
-		synaptics_dsx_gpio_configure(rmi4_data, false);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (rmi4_data->ts_pinctrl) {
 			if (IS_ERR_OR_NULL(rmi4_data->pinctrl_state_release)) {
 				devm_pinctrl_put(rmi4_data->ts_pinctrl);

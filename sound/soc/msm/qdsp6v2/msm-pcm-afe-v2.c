@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License version 2 and
@@ -391,11 +387,7 @@ static int msm_afe_open(struct snd_pcm_substream *substream)
 		pr_err("Failed to allocate memory for msm_audio\n");
 		return -ENOMEM;
 	} else
-<<<<<<< HEAD
 		pr_debug("prtd %pK\n", prtd);
-=======
-		pr_debug("prtd %p\n", prtd);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	mutex_init(&prtd->lock);
 	spin_lock_init(&prtd->dsp_lock);
@@ -614,11 +606,7 @@ static int msm_afe_hw_params(struct snd_pcm_substream *substream,
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
 	pr_debug("%s:buf = %pK\n", __func__, buf);
-=======
-	pr_debug("%s:buf = %p\n", __func__, buf);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	dma_buf->dev.type = SNDRV_DMA_TYPE_DEV;
 	dma_buf->dev.dev = substream->pcm->card->dev;
 	dma_buf->private_data = NULL;

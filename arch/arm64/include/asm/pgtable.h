@@ -90,10 +90,6 @@ extern pgprot_t pgprot_default;
 #define __PAGE_COPY_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN)
 #define __PAGE_READONLY		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_UXN)
 #define __PAGE_READONLY_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN)
-<<<<<<< HEAD
-=======
-#define __PAGE_EXECONLY		__pgprot(_PAGE_DEFAULT | PTE_NG | PTE_PXN)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #endif /* __ASSEMBLY__ */
 
@@ -101,11 +97,7 @@ extern pgprot_t pgprot_default;
 #define __P001  __PAGE_READONLY
 #define __P010  __PAGE_COPY
 #define __P011  __PAGE_COPY
-<<<<<<< HEAD
 #define __P100  __PAGE_READONLY_EXEC
-=======
-#define __P100  __PAGE_EXECONLY
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define __P101  __PAGE_READONLY_EXEC
 #define __P110  __PAGE_COPY_EXEC
 #define __P111  __PAGE_COPY_EXEC
@@ -114,11 +106,7 @@ extern pgprot_t pgprot_default;
 #define __S001  __PAGE_READONLY
 #define __S010  __PAGE_SHARED
 #define __S011  __PAGE_SHARED
-<<<<<<< HEAD
 #define __S100  __PAGE_READONLY_EXEC
-=======
-#define __S100  __PAGE_EXECONLY
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define __S101  __PAGE_READONLY_EXEC
 #define __S110  __PAGE_SHARED_EXEC
 #define __S111  __PAGE_SHARED_EXEC
@@ -155,11 +143,6 @@ extern struct page *empty_zero_page;
 #define pte_write(pte)		(!!(pte_val(pte) & PTE_WRITE))
 #define pte_exec(pte)		(!(pte_val(pte) & PTE_UXN))
 
-<<<<<<< HEAD
-=======
-#define pte_valid_ng(pte) \
-	((pte_val(pte) & (PTE_VALID | PTE_NG)) == (PTE_VALID | PTE_NG))
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define pte_valid_user(pte) \
 	((pte_val(pte) & (PTE_VALID | PTE_USER)) == (PTE_VALID | PTE_USER))
 #define pte_valid_not_user(pte) \
@@ -238,11 +221,7 @@ extern void __sync_icache_dcache(pte_t pteval, unsigned long addr);
 static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
 			      pte_t *ptep, pte_t pte)
 {
-<<<<<<< HEAD
 	if (pte_valid_user(pte)) {
-=======
-	if (pte_valid_ng(pte)) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (!pte_special(pte) && pte_exec(pte))
 			__sync_icache_dcache(pte, addr);
 		if (pte_dirty(pte) && pte_write(pte))

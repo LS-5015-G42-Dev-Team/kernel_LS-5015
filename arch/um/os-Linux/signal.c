@@ -25,11 +25,7 @@ void (*sig_info[NSIG])(int, struct siginfo *, struct uml_pt_regs *) = {
 	[SIGIO]		= sigio_handler,
 	[SIGVTALRM]	= timer_handler };
 
-<<<<<<< HEAD
 static void sig_handler_common(int sig, struct siginfo *si, mcontext_t *mc)
-=======
-static void sig_handler_common(int sig, siginfo_t *si, mcontext_t *mc)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct uml_pt_regs r;
 	int save_errno = errno;
@@ -65,11 +61,7 @@ static void sig_handler_common(int sig, siginfo_t *si, mcontext_t *mc)
 static int signals_enabled;
 static unsigned int signals_pending;
 
-<<<<<<< HEAD
 void sig_handler(int sig, struct siginfo *si, mcontext_t *mc)
-=======
-void sig_handler(int sig, siginfo_t *si, mcontext_t *mc)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	int enabled;
 
@@ -128,11 +120,7 @@ void set_sigstack(void *sig_stack, int size)
 		panic("enabling signal stack failed, errno = %d\n", errno);
 }
 
-<<<<<<< HEAD
 static void (*handlers[_NSIG])(int sig, struct siginfo *si, mcontext_t *mc) = {
-=======
-static void (*handlers[_NSIG])(int sig, siginfo_t *si, mcontext_t *mc) = {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	[SIGSEGV] = sig_handler,
 	[SIGBUS] = sig_handler,
 	[SIGILL] = sig_handler,
@@ -174,11 +162,7 @@ static void hard_handler(int sig, siginfo_t *si, void *p)
 		while ((sig = ffs(pending)) != 0){
 			sig--;
 			pending &= ~(1 << sig);
-<<<<<<< HEAD
 			(*handlers[sig])(sig, (struct siginfo *)si, mc);
-=======
-			(*handlers[sig])(sig, si, mc);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 
 		/*

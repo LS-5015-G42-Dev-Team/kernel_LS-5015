@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -253,11 +249,7 @@ void extract_dci_pkt_rsp(unsigned char *buf, int len, int data_source,
 			 int token);
 void extract_dci_ctrl_pkt(unsigned char *buf, int len, int token);
 struct diag_dci_client_tbl *diag_dci_get_client_entry(int client_id);
-<<<<<<< HEAD
 struct diag_dci_client_tbl *dci_lookup_client_entry_pid(int tgid);
-=======
-struct diag_dci_client_tbl *dci_lookup_client_entry_pid(int pid);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int diag_process_remote_dci_read_data(int index, void *buf, int recd_bytes);
 int diag_dci_get_support_list(struct diag_dci_peripherals_t *support_list);
 /* DCI Log streaming functions */

@@ -57,17 +57,11 @@
 
 #define CMD_META_DATA_READY		0x1
 #define CMD_LOAD_READY			0x2
-<<<<<<< HEAD
 #define CMD_PILFAIL_NFY_MBA		0xffffdead
 
 #define STATUS_META_DATA_AUTH_SUCCESS	0x3
 #define STATUS_AUTH_COMPLETE		0x4
 #define STATUS_MBA_UNLOCKED		0x6
-=======
-
-#define STATUS_META_DATA_AUTH_SUCCESS	0x3
-#define STATUS_AUTH_COMPLETE		0x4
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 /* External BHS */
 #define EXTERNAL_BHS_ON			BIT(0)
@@ -285,16 +279,11 @@ int pil_mss_shutdown(struct pil_desc *pil)
 	return ret;
 }
 
-<<<<<<< HEAD
 int __pil_mss_deinit_image(struct pil_desc *pil, bool err_path)
-=======
-int pil_mss_deinit_image(struct pil_desc *pil)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct modem_data *drv = dev_get_drvdata(pil->dev);
 	struct q6v5_data *q6_drv = container_of(pil, struct q6v5_data, desc);
 	int ret = 0;
-<<<<<<< HEAD
 	s32 status;
 
 	if (err_path) {
@@ -309,8 +298,6 @@ int pil_mss_deinit_image(struct pil_desc *pil)
 			dev_err(pil->dev, "MBA unlock returned err status: %d\n",
 						status);
 	}
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	ret = pil_mss_shutdown(pil);
 
@@ -326,14 +313,11 @@ int pil_mss_deinit_image(struct pil_desc *pil)
 	return ret;
 }
 
-<<<<<<< HEAD
 int pil_mss_deinit_image(struct pil_desc *pil)
 {
 	return __pil_mss_deinit_image(pil, true);
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int pil_mss_make_proxy_votes(struct pil_desc *pil)
 {
 	int ret;
@@ -467,7 +451,6 @@ int pil_mss_reset_load_mba(struct pil_desc *pil)
 	}
 
 	drv->mba_size = SZ_1M;
-<<<<<<< HEAD
 
 	if (md->mba_mem_dev_fixed)
 		md->mba_mem_dev = *md->mba_mem_dev_fixed;
@@ -475,10 +458,6 @@ int pil_mss_reset_load_mba(struct pil_desc *pil)
 		md->mba_mem_dev.coherent_dma_mask =
 			DMA_BIT_MASK(sizeof(dma_addr_t) * 8);
 
-=======
-	md->mba_mem_dev.coherent_dma_mask =
-		DMA_BIT_MASK(sizeof(dma_addr_t) * 8);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	init_dma_attrs(&md->attrs_dma);
 	dma_set_attr(DMA_ATTR_STRONGLY_ORDERED, &md->attrs_dma);
 	mba_virt = dma_alloc_attrs(&md->mba_mem_dev, drv->mba_size,
@@ -519,10 +498,7 @@ int pil_mss_reset_load_mba(struct pil_desc *pil)
 err_mss_reset:
 	dma_free_attrs(&md->mba_mem_dev, drv->mba_size, drv->mba_virt,
 				drv->mba_phys, &md->attrs_dma);
-<<<<<<< HEAD
 	drv->mba_virt = NULL;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 err_dma_alloc:
 	release_firmware(fw);
 	return ret;
@@ -538,29 +514,20 @@ static int pil_msa_auth_modem_mdt(struct pil_desc *pil, const u8 *metadata,
 	int ret;
 	DEFINE_DMA_ATTRS(attrs);
 
-<<<<<<< HEAD
 	if (drv->mba_mem_dev_fixed)
 		drv->mba_mem_dev = *drv->mba_mem_dev_fixed;
 	else
 		drv->mba_mem_dev.coherent_dma_mask =
 			DMA_BIT_MASK(sizeof(dma_addr_t) * 8);
 
-=======
-	drv->mba_mem_dev.coherent_dma_mask =
-		DMA_BIT_MASK(sizeof(dma_addr_t) * 8);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	dma_set_attr(DMA_ATTR_STRONGLY_ORDERED, &attrs);
 	/* Make metadata physically contiguous and 4K aligned. */
 	mdata_virt = dma_alloc_attrs(&drv->mba_mem_dev, size, &mdata_phys,
 					GFP_KERNEL, &attrs);
 	if (!mdata_virt) {
 		dev_err(pil->dev, "MBA metadata buffer allocation failed\n");
-<<<<<<< HEAD
 		ret = -ENOMEM;
 		goto fail;
-=======
-		return -ENOMEM;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	memcpy(mdata_virt, metadata, size);
 	/* wmb() ensures copy completes prior to starting authentication. */
@@ -585,7 +552,6 @@ static int pil_msa_auth_modem_mdt(struct pil_desc *pil, const u8 *metadata,
 
 	dma_free_attrs(&drv->mba_mem_dev, size, mdata_virt, mdata_phys, &attrs);
 
-<<<<<<< HEAD
 	if (!ret)
 		return ret;
 
@@ -597,12 +563,6 @@ fail:
 				drv->q6->mba_virt, drv->q6->mba_phys,
 				&drv->attrs_dma);
 		drv->q6->mba_virt = NULL;
-=======
-	if (ret) {
-		modem_log_rmb_regs(drv->rmb_base);
-		if (drv->q6)
-			pil_mss_shutdown(pil);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	return ret;
 }

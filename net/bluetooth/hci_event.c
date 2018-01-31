@@ -1106,11 +1106,7 @@ static void hci_cs_create_conn(struct hci_dev *hdev, __u8 status)
 
 	conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK, &cp->bdaddr);
 
-<<<<<<< HEAD
 	BT_DBG("%s bdaddr %pMR hcon %pK", hdev->name, &cp->bdaddr, conn);
-=======
-	BT_DBG("%s bdaddr %pMR hcon %p", hdev->name, &cp->bdaddr, conn);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (status) {
 		if (conn && conn->state == BT_CONNECT) {
@@ -1539,11 +1535,7 @@ static void hci_cs_le_create_conn(struct hci_dev *hdev, __u8 status)
 			return;
 		}
 
-<<<<<<< HEAD
 		BT_DBG("%s bdaddr %pMR conn %pK", hdev->name, &conn->dst, conn);
-=======
-		BT_DBG("%s bdaddr %pMR conn %p", hdev->name, &conn->dst, conn);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		conn->state = BT_CLOSED;
 		mgmt_connect_failed(hdev, &conn->dst, conn->type,
@@ -2541,11 +2533,7 @@ static void hci_num_comp_pkts_evt(struct hci_dev *hdev, struct sk_buff *skb)
 			break;
 
 		default:
-<<<<<<< HEAD
 			BT_ERR("Unknown type %d conn %pK", conn->type, conn);
-=======
-			BT_ERR("Unknown type %d conn %p", conn->type, conn);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			break;
 		}
 	}
@@ -2616,11 +2604,7 @@ static void hci_num_comp_blocks_evt(struct hci_dev *hdev, struct sk_buff *skb)
 			break;
 
 		default:
-<<<<<<< HEAD
 			BT_ERR("Unknown type %d conn %pK", conn->type, conn);
-=======
-			BT_ERR("Unknown type %d conn %p", conn->type, conn);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			break;
 		}
 	}
@@ -3504,11 +3488,7 @@ static void hci_loglink_complete_evt(struct hci_dev *hdev, struct sk_buff *skb)
 
 	hchan->handle = le16_to_cpu(ev->handle);
 
-<<<<<<< HEAD
 	BT_DBG("hcon %pK mgr %pK hchan %pK", hcon, hcon->amp_mgr, hchan);
-=======
-	BT_DBG("hcon %p mgr %p hchan %p", hcon, hcon->amp_mgr, hchan);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	mgr = hcon->amp_mgr;
 	if (mgr && mgr->bredr_chan) {

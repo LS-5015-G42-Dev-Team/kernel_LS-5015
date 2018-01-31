@@ -34,10 +34,6 @@
 #include <media/msm_media_info.h>
 
 #include "vidc_hfi_api.h"
-<<<<<<< HEAD
-=======
-#include "vidc_hfi_api.h"
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define MSM_VIDC_DRV_NAME "msm_vidc_driver"
 #define MSM_VIDC_VERSION KERNEL_VERSION(0, 0, 1);

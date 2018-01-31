@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1686,13 +1682,10 @@ static int diag_dci_process_apps_pkt(struct diag_pkt_header_t *pkt_header,
 			write_len = sizeof(struct diag_pkt_header_t);
 			*(uint16_t *)(payload_ptr + write_len) = wrap_count;
 			write_len += sizeof(uint16_t);
-<<<<<<< HEAD
 		} else if (ss_cmd_code == DIAG_EXT_MOBILE_ID) {
 			write_len = diag_cmd_get_mobile_id(req_buf, req_len,
 						   payload_ptr,
 						   APPS_BUF_SIZE - header_len);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 	}
 
@@ -2106,21 +2099,13 @@ struct diag_dci_client_tbl *diag_dci_get_client_entry(int client_id)
 	return NULL;
 }
 
-<<<<<<< HEAD
 struct diag_dci_client_tbl *dci_lookup_client_entry_pid(int tgid)
-=======
-struct diag_dci_client_tbl *dci_lookup_client_entry_pid(int pid)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct list_head *start, *temp;
 	struct diag_dci_client_tbl *entry = NULL;
 	list_for_each_safe(start, temp, &driver->dci_client_list) {
 		entry = list_entry(start, struct diag_dci_client_tbl, track);
-<<<<<<< HEAD
 		if (entry->client->tgid == tgid)
-=======
-		if (entry->client->tgid == pid)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			return entry;
 	}
 	return NULL;

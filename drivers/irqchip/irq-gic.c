@@ -209,12 +209,9 @@ static void gic_unmask_irq(struct irq_data *d)
 
 static void gic_disable_irq(struct irq_data *d)
 {
-<<<<<<< HEAD
 	/* don't lazy-disable PPIs */
 	if (gic_irq(d) < 32)
 		gic_mask_irq(d);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (gic_arch_extn.irq_disable)
 		gic_arch_extn.irq_disable(d);
 }

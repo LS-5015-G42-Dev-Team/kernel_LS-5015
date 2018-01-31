@@ -12,10 +12,7 @@
 #include <linux/percpu.h>
 #include <linux/kthread.h>
 #include <linux/smpboot.h>
-<<<<<<< HEAD
 #include <linux/kmemleak.h>
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #include "smpboot.h"
 
@@ -178,11 +175,8 @@ __smpboot_create_thread(struct smp_hotplug_thread *ht, unsigned int cpu)
 	td = kzalloc_node(sizeof(*td), GFP_KERNEL, cpu_to_node(cpu));
 	if (!td)
 		return -ENOMEM;
-<<<<<<< HEAD
 
 	kmemleak_not_leak(td);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	td->cpu = cpu;
 	td->ht = ht;
 

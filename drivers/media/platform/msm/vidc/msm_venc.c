@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1067,7 +1063,6 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.step = 1,
 		.qmenu = NULL,
 	},
-<<<<<<< HEAD
 	{
 		.id = V4L2_CID_MPEG_VIDC_VIDEO_PRIORITY,
 		.name = "Session Priority",
@@ -1088,8 +1083,6 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.step = 1,
 		.qmenu = NULL,
 	},
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 #define NUM_CTRLS ARRAY_SIZE(msm_venc_ctrls)
@@ -1201,10 +1194,7 @@ static int msm_venc_queue_setup(struct vb2_queue *q,
 	rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
 	if (rc) {
 		dprintk(VIDC_ERR, "Failed to open instance\n");
-<<<<<<< HEAD
 		msm_comm_session_clean(inst);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return rc;
 	}
 
@@ -2584,11 +2574,6 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 			rc = -ENOTSUPP;
 			break;
 		}
-<<<<<<< HEAD
-=======
-
-		msm_comm_scale_clocks_and_bus(inst);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 	case V4L2_CID_MPEG_VIDC_VIDEO_H264_VUI_BITSTREAM_RESTRICT:
 		property_id = HAL_PARAM_VENC_H264_VUI_BITSTREAM_RESTRC;
@@ -2704,7 +2689,6 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 		hyb_hierp.layers = ctrl->val;
 		pdata = &hyb_hierp;
 		break;
-<<<<<<< HEAD
 	case V4L2_CID_MPEG_VIDC_VIDEO_PRIORITY:
 		property_id = HAL_CONFIG_REALTIME;
 		enable.enable = ctrl->val;
@@ -2713,8 +2697,6 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 	case V4L2_CID_MPEG_VIDC_VIDEO_OPERATING_RATE:
 		property_id = 0;
 		break;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	default:
 		dprintk(VIDC_ERR, "Unsupported index: %x\n", ctrl->id);
 		rc = -ENOTSUPP;
@@ -3044,12 +3026,8 @@ int msm_venc_enum_fmt(struct msm_vidc_inst *inst, struct v4l2_fmtdesc *f)
 
 int msm_venc_s_parm(struct msm_vidc_inst *inst, struct v4l2_streamparm *a)
 {
-<<<<<<< HEAD
 	u32 property_id = 0;
 	u64 us_per_frame = 0;
-=======
-	u32 property_id = 0, us_per_frame = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	void *pdata;
 	int rc = 0, fps = 0;
 	struct hal_frame_rate frame_rate;
@@ -3092,11 +3070,7 @@ int msm_venc_s_parm(struct msm_vidc_inst *inst, struct v4l2_streamparm *a)
 
 	if ((fps % 15 == 14) || (fps % 24 == 23))
 		fps = fps + 1;
-<<<<<<< HEAD
 	else if ((fps > 1) && ((fps % 24 == 1) || (fps % 15 == 1)))
-=======
-	else if ((fps % 24 == 1) || (fps % 15 == 1))
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		fps = fps - 1;
 
 	if (inst->prop.fps != fps) {
@@ -3278,10 +3252,7 @@ int msm_venc_s_fmt(struct msm_vidc_inst *inst, struct v4l2_format *f)
 		rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
 		if (rc) {
 			dprintk(VIDC_ERR, "Failed to open instance\n");
-<<<<<<< HEAD
 			msm_comm_session_clean(inst);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			goto exit;
 		}
 

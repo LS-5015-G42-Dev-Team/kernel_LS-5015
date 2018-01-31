@@ -10,10 +10,7 @@
  * published by the Free Software Foundation.
  */
 
-<<<<<<< HEAD
 #include <linux/bitops.h>
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/err.h>
 #include <linux/slab.h>
 #include <linux/stat.h>
@@ -83,11 +80,8 @@ static const struct mmc_fixup mmc_fixups[] = {
 		  MMC_QUIRK_CACHE_DISABLE),
 	MMC_FIXUP(CID_NAME_ANY, CID_MANFID_NUMONYX_MICRON, CID_OEMID_ANY,
 		add_quirk_mmc, MMC_QUIRK_CACHE_DISABLE),
-<<<<<<< HEAD
         MMC_FIXUP(CID_NAME_ANY, CID_MANFID_SAMSUNG, CID_OEMID_ANY,
                 add_quirk_mmc, MMC_QUIRK_CACHE_DISABLE),
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	MMC_FIXUP("MMC16G", CID_MANFID_KINGSTON, CID_OEMID_ANY, add_quirk_mmc,
 		  MMC_QUIRK_CACHE_DISABLE),
 
@@ -336,22 +330,12 @@ static int mmc_read_ext_csd(struct mmc_card *card, u8 *ext_csd)
 		}
 	}
 
-<<<<<<< HEAD
 	/*
 	 * The EXT_CSD format is meant to be forward compatible. As long
 	 * as CSD_STRUCTURE does not change, all values for EXT_CSD_REV
 	 * are authorized, see JEDEC JESD84-B50 section B.8.
 	 */
 	card->ext_csd.rev = ext_csd[EXT_CSD_REV];
-=======
-	card->ext_csd.rev = ext_csd[EXT_CSD_REV];
-	if (card->ext_csd.rev > 7) {
-		pr_err("%s: unrecognised EXT_CSD revision %d\n",
-			mmc_hostname(card->host), card->ext_csd.rev);
-		err = -EINVAL;
-		goto out;
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* fixup device after ext_csd revision field is updated */
 	mmc_fixup_device(card, mmc_fixups);
@@ -548,7 +532,6 @@ static int mmc_read_ext_csd(struct mmc_card *card, u8 *ext_csd)
 			card->ext_csd.bkops_en = ext_csd[EXT_CSD_BKOPS_EN];
 			card->ext_csd.raw_bkops_status =
 				ext_csd[EXT_CSD_BKOPS_STATUS];
-<<<<<<< HEAD
 			if (!(mmc_card_get_bkops_en_manual(card)) &&
 				card->host->caps2 & MMC_CAP2_INIT_BKOPS) {
 				mmc_card_set_bkops_en_manual(card);
@@ -562,17 +545,6 @@ static int mmc_read_ext_csd(struct mmc_card *card, u8 *ext_csd)
 					mmc_card_clr_bkops_en_manual(card);
 				}
 
-=======
-			if (!card->ext_csd.bkops_en &&
-				card->host->caps2 & MMC_CAP2_INIT_BKOPS) {
-				err = mmc_switch(card, EXT_CSD_CMD_SET_NORMAL,
-					EXT_CSD_BKOPS_EN, 1, 0);
-				if (err)
-					pr_warn("%s: Enabling BKOPS failed\n",
-						mmc_hostname(card->host));
-				else
-					card->ext_csd.bkops_en = 1;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			}
 		}
 
@@ -583,7 +555,6 @@ static int mmc_read_ext_csd(struct mmc_card *card, u8 *ext_csd)
 		card->ext_csd.rst_n_function = ext_csd[EXT_CSD_RST_N_FUNCTION];
 
 		/*
-<<<<<<< HEAD
 		 * Some eMMC vendors violate eMMC 5.0 spec and set
 		 * REL_WR_SEC_C register to 0x10 to indicate the
 		 * ability of RPMB throughput improvement thus lead
@@ -596,8 +567,6 @@ static int mmc_read_ext_csd(struct mmc_card *card, u8 *ext_csd)
 			card->ext_csd.rel_sectors = 0x1;
 
 		/*
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		 * RPMB regions are defined in multiples of 128K.
 		 */
 		card->ext_csd.raw_rpmb_size_mult = ext_csd[EXT_CSD_RPMB_MULT];
@@ -1735,12 +1704,7 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 				goto free_card;
 			}
 		}
-<<<<<<< HEAD
 		if (mmc_card_get_bkops_en_manual(card)) {
-=======
-
-		if (card->ext_csd.bkops_en) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			INIT_DELAYED_WORK(&card->bkops_info.dw,
 					  mmc_start_idle_time_bkops);
 

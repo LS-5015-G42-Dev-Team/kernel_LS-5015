@@ -671,7 +671,6 @@ int32_t gc0310_sensor_config(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
-<<<<<<< HEAD
 		if (!conf_array.size ||
 			conf_array.size > I2C_REG_DATA_MAX) {
 			pr_err("%s:%d failed\n", __func__, __LINE__);
@@ -679,8 +678,6 @@ int32_t gc0310_sensor_config(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		reg_setting = kzalloc(conf_array.size *
 			(sizeof(struct msm_camera_i2c_reg_array)), GFP_KERNEL);
 		if (!reg_setting) {
@@ -715,7 +712,6 @@ int32_t gc0310_sensor_config(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
-<<<<<<< HEAD
 		if (!conf_array.size ||
 			conf_array.size > I2C_SEQ_REG_DATA_MAX) {
 			pr_err("%s:%d failed\n", __func__, __LINE__);
@@ -723,8 +719,6 @@ int32_t gc0310_sensor_config(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		reg_setting = kzalloc(conf_array.size *
 			(sizeof(struct msm_camera_i2c_seq_reg_array)),
 			GFP_KERNEL);
@@ -1011,7 +1005,6 @@ int32_t gc0310_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
-<<<<<<< HEAD
 		if (!conf_array.size ||
 			conf_array.size > I2C_REG_DATA_MAX) {
 			pr_err("%s:%d failed\n", __func__, __LINE__);
@@ -1019,8 +1012,6 @@ int32_t gc0310_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		reg_setting = kzalloc(conf_array.size *
 			(sizeof(struct msm_camera_i2c_reg_array)), GFP_KERNEL);
 		if (!reg_setting) {
@@ -1055,7 +1046,6 @@ int32_t gc0310_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
-<<<<<<< HEAD
 		if (!conf_array.size ||
 			conf_array.size > I2C_SEQ_REG_DATA_MAX) {
 			pr_err("%s:%d failed\n", __func__, __LINE__);
@@ -1063,8 +1053,6 @@ int32_t gc0310_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			break;
 		}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		reg_setting = kzalloc(conf_array.size *
 			(sizeof(struct msm_camera_i2c_seq_reg_array)),
 			GFP_KERNEL);

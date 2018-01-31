@@ -419,7 +419,6 @@ static void acct_isolated(struct zone *zone, bool locked, struct compact_control
 	}
 }
 
-<<<<<<< HEAD
 static bool __too_many_isolated(struct zone *zone, int safe)
 {
 	unsigned long active, inactive, isolated;
@@ -439,24 +438,10 @@ static bool __too_many_isolated(struct zone *zone, int safe)
 		isolated = zone_page_state(zone, NR_ISOLATED_FILE) +
 			zone_page_state(zone, NR_ISOLATED_ANON);
 	}
-=======
-/* Similar to reclaim, but different enough that they don't share logic */
-static bool too_many_isolated(struct zone *zone)
-{
-	unsigned long active, inactive, isolated;
-
-	inactive = zone_page_state(zone, NR_INACTIVE_FILE) +
-					zone_page_state(zone, NR_INACTIVE_ANON);
-	active = zone_page_state(zone, NR_ACTIVE_FILE) +
-					zone_page_state(zone, NR_ACTIVE_ANON);
-	isolated = zone_page_state(zone, NR_ISOLATED_FILE) +
-					zone_page_state(zone, NR_ISOLATED_ANON);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return isolated > (inactive + active) / 2;
 }
 
-<<<<<<< HEAD
 /* Similar to reclaim, but different enough that they don't share logic */
 static bool too_many_isolated(struct compact_control *cc)
 {
@@ -474,8 +459,6 @@ static bool too_many_isolated(struct compact_control *cc)
 	return false;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /**
  * isolate_migratepages_range() - isolate all migrate-able pages in range.
  * @zone:	Zone pages are in.
@@ -514,11 +497,7 @@ isolate_migratepages_range(struct zone *zone, struct compact_control *cc,
 	 * list by either parallel reclaimers or compaction. If there are,
 	 * delay for some time until fewer pages are isolated
 	 */
-<<<<<<< HEAD
 	while (unlikely(too_many_isolated(cc))) {
-=======
-	while (unlikely(too_many_isolated(zone))) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		/* async migration should just abort */
 		if (!cc->sync)
 			return 0;

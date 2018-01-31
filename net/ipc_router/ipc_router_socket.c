@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2014, 2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -574,7 +570,6 @@ static int msm_ipc_router_ioctl(struct socket *sock,
 
 		ret = copy_to_user((void *)arg, &server_arg,
 				   sizeof(server_arg));
-<<<<<<< HEAD
 
 		n = min(server_arg.num_entries_found,
 			server_arg.num_entries_in_array);
@@ -587,15 +582,6 @@ static int msm_ipc_router_ioctl(struct socket *sock,
 		if (ret)
 			ret = -EFAULT;
 		kfree(srv_info);
-=======
-		if (srv_info_sz) {
-			ret = copy_to_user((void *)(arg + sizeof(server_arg)),
-					   srv_info, srv_info_sz);
-			if (ret)
-				ret = -EFAULT;
-			kfree(srv_info);
-		}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case IPC_ROUTER_IOCTL_BIND_CONTROL_PORT:

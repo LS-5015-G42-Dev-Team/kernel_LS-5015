@@ -117,11 +117,8 @@ enum {
 	FUSE_I_ADVISE_RDPLUS,
 	/** An operation changing file size is in progress  */
 	FUSE_I_SIZE_UNSTABLE,
-<<<<<<< HEAD
 	/** i_mtime has been updated locally; a flush to userspace needed */
 	FUSE_I_MTIME_DIRTY,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct fuse_conn;
@@ -483,12 +480,9 @@ struct fuse_conn {
 	/** Set if bdi is valid */
 	unsigned bdi_initialized:1;
 
-<<<<<<< HEAD
 	/** write-back cache policy (default is write-through) */
 	unsigned writeback_cache:1;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/*
 	 * The following bitfields are only for optimization purposes
 	 * and hence races in setting them will not cause malfunction
@@ -797,11 +791,8 @@ void fuse_invalidate_attr(struct inode *inode);
 
 void fuse_invalidate_entry_cache(struct dentry *entry);
 
-<<<<<<< HEAD
 void fuse_invalidate_atime(struct inode *inode);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /**
  * Acquire reference to fuse_conn
  */
@@ -872,7 +863,6 @@ int fuse_reverse_inval_entry(struct super_block *sb, u64 parent_nodeid,
 
 int fuse_do_open(struct fuse_conn *fc, u64 nodeid, struct file *file,
 		 bool isdir);
-<<<<<<< HEAD
 
 /**
  * fuse_direct_io() flags
@@ -887,11 +877,6 @@ int fuse_do_open(struct fuse_conn *fc, u64 nodeid, struct file *file,
 ssize_t fuse_direct_io(struct fuse_io_priv *io, const struct iovec *iov,
 		       unsigned long nr_segs, size_t count, loff_t *ppos,
 		       int flags);
-=======
-ssize_t fuse_direct_io(struct fuse_io_priv *io, const struct iovec *iov,
-		       unsigned long nr_segs, size_t count, loff_t *ppos,
-		       int write);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 long fuse_do_ioctl(struct file *file, unsigned int cmd, unsigned long arg,
 		   unsigned int flags);
 long fuse_ioctl_common(struct file *file, unsigned int cmd,
@@ -899,13 +884,9 @@ long fuse_ioctl_common(struct file *file, unsigned int cmd,
 unsigned fuse_file_poll(struct file *file, poll_table *wait);
 int fuse_dev_release(struct inode *inode, struct file *file);
 
-<<<<<<< HEAD
 bool fuse_write_update_size(struct inode *inode, loff_t pos);
 
 int fuse_flush_mtime(struct file *file, bool nofail);
-=======
-void fuse_write_update_size(struct inode *inode, loff_t pos);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 int fuse_do_setattr(struct inode *inode, struct iattr *attr,
 		    struct file *file);

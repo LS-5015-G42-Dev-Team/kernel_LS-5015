@@ -19,10 +19,7 @@
 #include <linux/module.h>
 #include <linux/rmnet_data.h>
 #include <linux/net_map.h>
-<<<<<<< HEAD
 #include <linux/netdev_features.h>
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include "rmnet_data_private.h"
 #include "rmnet_data_config.h"
 #include "rmnet_data_vnd.h"
@@ -107,16 +104,10 @@ void rmnet_print_packet(const struct sk_buff *skb, const char *dev, char dir)
 	if (!printlen)
 		return;
 
-<<<<<<< HEAD
 	pr_err("[%s][%c] - PKT skb->len=%d skb->head=%pK skb->data=%pK\n",
 	       dev, dir, skb->len, (void *)skb->head, (void *)skb->data);
 	pr_err("[%s][%c] - PKT skb->tail=%pK skb->end=%pK\n",
 	       dev, dir, skb_tail_pointer(skb), skb_end_pointer(skb));
-=======
-	pr_err("[%s][%c] - PKT skb->len=%d skb->head=%p skb->data=%p skb->tail=%p skb->end=%p\n",
-		dev, dir, skb->len, (void *)skb->head, (void *)skb->data,
-		skb_tail_pointer(skb), skb_end_pointer(skb));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (skb->len > 0)
 		len = skb->len;
@@ -293,7 +284,6 @@ static rx_handler_result_t _rmnet_map_ingress_handler(struct sk_buff *skb,
 	if (config->ingress_data_format & RMNET_INGRESS_FORMAT_DEMUXING)
 		skb->dev = ep->egress_dev;
 
-<<<<<<< HEAD
 	if ((config->ingress_data_format & RMNET_INGRESS_FORMAT_MAP_CKSUMV3) ||
 	    (config->ingress_data_format & RMNET_INGRESS_FORMAT_MAP_CKSUMV4)) {
 		ckresult = rmnet_map_checksum_downlink_packet(skb);
@@ -301,13 +291,6 @@ static rx_handler_result_t _rmnet_map_ingress_handler(struct sk_buff *skb,
 		rmnet_stats_dl_checksum(ckresult);
 		if (likely((ckresult == RMNET_MAP_CHECKSUM_OK)
 			    || (ckresult == RMNET_MAP_CHECKSUM_SKIPPED)))
-=======
-	if (config->ingress_data_format & RMNET_INGRESS_FORMAT_MAP_CKSUMV3) {
-		ckresult = rmnet_map_checksum_downlink_packet(skb);
-		trace_rmnet_map_checksum_downlink_packet(skb, ckresult);
-		rmnet_stats_dl_checksum(ckresult);
-		if (likely(ckresult == RMNET_MAP_CHECKSUM_OK))
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			skb->ip_summed |= CHECKSUM_UNNECESSARY;
 		else if (ckresult != RMNET_MAP_CHECKSUM_ERR_UNKNOWN_IP_VERSION
 			&& ckresult != RMNET_MAP_CHECKSUM_ERR_UNKNOWN_TRANSPORT
@@ -371,10 +354,7 @@ static rx_handler_result_t rmnet_map_ingress_handler(struct sk_buff *skb,
  * @config:     Physical endpoint configuration for the egress device
  * @ep:         logical endpoint configuration of the packet originator
  *              (e.g.. RmNet virtual network device)
-<<<<<<< HEAD
  * @orig_dev:   The originator vnd device
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * Called if and only if MAP is configured in the egress device's egress data
  * format. Will expand skb if there is insufficient headroom for MAP protocol.
@@ -386,22 +366,15 @@ static rx_handler_result_t rmnet_map_ingress_handler(struct sk_buff *skb,
  */
 static int rmnet_map_egress_handler(struct sk_buff *skb,
 				    struct rmnet_phys_ep_conf_s *config,
-<<<<<<< HEAD
 				    struct rmnet_logical_ep_conf_s *ep,
 				    struct net_device *orig_dev)
 {
 	int required_headroom, additional_header_length, ckresult;
-=======
-				    struct rmnet_logical_ep_conf_s *ep)
-{
-	int required_headroom, additional_header_length;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct rmnet_map_header_s *map_header;
 
 	additional_header_length = 0;
 
 	required_headroom = sizeof(struct rmnet_map_header_s);
-<<<<<<< HEAD
 	if ((config->egress_data_format & RMNET_EGRESS_FORMAT_MAP_CKSUMV3) ||
 	    (config->egress_data_format & RMNET_EGRESS_FORMAT_MAP_CKSUMV4)) {
 		required_headroom +=
@@ -409,8 +382,6 @@ static int rmnet_map_egress_handler(struct sk_buff *skb,
 		additional_header_length +=
 			sizeof(struct rmnet_map_ul_checksum_header_s);
 	}
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	LOGD("headroom of %d bytes", required_headroom);
 
@@ -422,7 +393,6 @@ static int rmnet_map_egress_handler(struct sk_buff *skb,
 		}
 	}
 
-<<<<<<< HEAD
 	if ((config->egress_data_format & RMNET_EGRESS_FORMAT_MAP_CKSUMV3) ||
 	    (config->egress_data_format & RMNET_EGRESS_FORMAT_MAP_CKSUMV4)) {
 		ckresult = rmnet_map_checksum_uplink_packet
@@ -431,8 +401,6 @@ static int rmnet_map_egress_handler(struct sk_buff *skb,
 		rmnet_stats_ul_checksum(ckresult);
 	}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	map_header = rmnet_map_add_map_header(skb, additional_header_length);
 
 	if (!map_header) {
@@ -596,11 +564,7 @@ void rmnet_egress_handler(struct sk_buff *skb,
 	     skb->dev->name, config->egress_data_format);
 
 	if (config->egress_data_format & RMNET_EGRESS_FORMAT_MAP) {
-<<<<<<< HEAD
 		switch (rmnet_map_egress_handler(skb, config, ep, orig_dev)) {
-=======
-		switch (rmnet_map_egress_handler(skb, config, ep)) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		case RMNET_MAP_CONSUMED:
 			LOGD("%s", "MAP process consumed packet");
 			return;

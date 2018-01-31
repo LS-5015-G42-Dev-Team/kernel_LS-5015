@@ -1617,11 +1617,7 @@ int write_one_page(struct page *page, int wait);
 void task_dirty_inc(struct task_struct *tsk);
 
 /* readahead.c */
-<<<<<<< HEAD
 #define VM_MAX_READAHEAD	128	/* kbytes */
-=======
-#define VM_MAX_READAHEAD	512	/* kbytes */
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define VM_MIN_READAHEAD	16	/* kbytes (includes current page) */
 
 int force_page_cache_readahead(struct address_space *mapping, struct file *filp,
@@ -1893,7 +1889,6 @@ void __init setup_nr_node_ids(void);
 static inline void setup_nr_node_ids(void) {}
 #endif
 
-<<<<<<< HEAD
 #ifdef CONFIG_PROCESS_RECLAIM
 struct reclaim_param {
 	struct vm_area_struct *vma;
@@ -1908,7 +1903,5 @@ extern struct reclaim_param reclaim_task_anon(struct task_struct *task,
 		int nr_to_reclaim);
 #endif
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #endif /* __KERNEL__ */
 #endif /* _LINUX_MM_H */

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -56,7 +52,6 @@
 #define TOMBAK_IS_1_0(ver) \
 	((ver == TOMBAK_VERSION_1_0) ? 1 : 0)
 
-<<<<<<< HEAD
 #define TASHA_VERSION_1_0     0
 #define TASHA_VERSION_1_1     1
 #define TASHA_VERSION_2_0     2
@@ -67,14 +62,11 @@
 #define TASHA_IS_2_0(ver) \
 	((ver == TASHA_VERSION_2_0) ? 1 : 0)
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum wcd9xxx_slim_slave_addr_type {
 	WCD9XXX_SLIM_SLAVE_ADDR_TYPE_TABLA,
 	WCD9XXX_SLIM_SLAVE_ADDR_TYPE_TAIKO,
 };
 
-<<<<<<< HEAD
 enum codec_variant {
 	WCD9XXX,
 	WCD9330,
@@ -82,8 +74,6 @@ enum codec_variant {
 	WCD9326,
 };
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum {
 	/* INTR_REG 0 */
 	WCD9XXX_IRQ_SLIMBUS = 0,
@@ -142,7 +132,6 @@ enum {
 };
 
 enum {
-<<<<<<< HEAD
 	/* INTR_REG 0 */
 	WCD9335_IRQ_FLL_LOCK_LOSS = 1,
 	WCD9335_IRQ_HPH_PA_OCPL_FAULT,
@@ -181,17 +170,12 @@ enum {
 };
 
 enum {
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	TABLA_NUM_IRQS = WCD9310_NUM_IRQS,
 	SITAR_NUM_IRQS = WCD9310_NUM_IRQS,
 	TAIKO_NUM_IRQS = WCD9XXX_NUM_IRQS,
 	TAPAN_NUM_IRQS = WCD9306_NUM_IRQS,
 	TOMTOM_NUM_IRQS = WCD9330_NUM_IRQS,
-<<<<<<< HEAD
 	TASHA_NUM_IRQS = WCD9335_NUM_IRQS,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 /*
@@ -239,7 +223,6 @@ enum wcd9xxx_chipid_major {
 	TAIKO_MAJOR = cpu_to_le16(0x102),
 	TAPAN_MAJOR = cpu_to_le16(0x103),
 	TOMTOM_MAJOR = cpu_to_le16(0x105),
-<<<<<<< HEAD
 	TASHA_MAJOR = cpu_to_le16(0x0),
 	TASHA2P0_MAJOR = cpu_to_le16(0x107),
 };
@@ -253,8 +236,6 @@ enum codec_power_states {
 enum wcd_power_regions {
 	WCD9XXX_DIG_CORE_REGION_1,
 	WCD9XXX_MAX_PWR_REGIONS,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct wcd9xxx_codec_type {
@@ -268,15 +249,12 @@ struct wcd9xxx_codec_type {
 	u16 i2c_chip_status;
 };
 
-<<<<<<< HEAD
 struct wcd9xxx_power_region {
 	enum codec_power_states power_state;
 	u16 pwr_collapse_reg_min;
 	u16 pwr_collapse_reg_max;
 };
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct wcd9xxx {
 	struct device *dev;
 	struct slim_device *slim;
@@ -311,7 +289,6 @@ struct wcd9xxx {
 	struct wcd9xxx_ch *rx_chs;
 	struct wcd9xxx_ch *tx_chs;
 	u32 mclk_rate;
-<<<<<<< HEAD
 	enum codec_variant type;
 	bool using_regmap;
 	struct regmap *regmap;
@@ -326,17 +303,12 @@ struct wcd9xxx_reg_val {
 	unsigned short reg; /* register address */
 	u8 *buf;            /* buffer to be written to reg. addr */
 	int bytes;          /* number of bytes to be written */
-=======
-
-	const struct wcd9xxx_codec_type *codec_type;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 int wcd9xxx_interface_reg_read(struct wcd9xxx *wcd9xxx, unsigned short reg);
 int wcd9xxx_interface_reg_write(struct wcd9xxx *wcd9xxx, unsigned short reg,
 		u8 val);
 int wcd9xxx_get_logical_addresses(u8 *pgd_la, u8 *inf_la);
-<<<<<<< HEAD
 int wcd9xxx_bus_write_repeat(struct wcd9xxx *wcd9xxx, unsigned short reg,
 			     int bytes, void *src);
 int wcd9xxx_slim_reserve_bw(struct wcd9xxx *wcd9xxx,
@@ -358,22 +330,13 @@ int wcd9xxx_disable_static_supplies_to_optimum(struct wcd9xxx *wcd9xxx,
 int wcd9xxx_enable_static_supplies_to_optimum(
 			struct wcd9xxx *wcd9xxx,
 			void *pdata);
-=======
-int wcd9xxx_slim_write_repeat(struct wcd9xxx *wcd9xxx, unsigned short reg,
-			     int bytes, void *src);
-int wcd9xxx_slim_reserve_bw(struct wcd9xxx *wcd9xxx,
-			    u32 bw_ops, bool commit);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #if defined(CONFIG_WCD9310_CODEC) || \
 	defined(CONFIG_WCD9304_CODEC) || \
 	defined(CONFIG_WCD9320_CODEC) || \
 	defined(CONFIG_WCD9330_CODEC) || \
 	defined(CONFIG_WCD9306_CODEC) || \
-<<<<<<< HEAD
 	defined(CONFIG_WCD9335_CODEC) || \
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	defined(CONFIG_SND_SOC_MSM8X16_WCD)
 int __init wcd9xxx_irq_of_init(struct device_node *node,
 			       struct device_node *parent);

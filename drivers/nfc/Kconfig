@@ -49,7 +49,6 @@ config NFC_QNCI
 	  This enables the NFC driver for QCA199x based devices.
 	  This is for i2c connected version. NCI protocol logic
 	  resides in the usermode and it has no other NFC dependencies.
-<<<<<<< HEAD
 
 config NFC_NQ
 	bool "Qualcomm NCI based NFC Controller Driver for NQx"
@@ -59,5 +58,3 @@ config NFC_NQ
 	  This enables the NFC driver for NQx based devices.
 	  This is for i2c connected version. NCI protocol logic
 	  resides in the usermode and it has no other NFC dependencies.
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

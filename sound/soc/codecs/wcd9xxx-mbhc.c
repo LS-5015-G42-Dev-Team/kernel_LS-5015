@@ -4503,7 +4503,6 @@ static void wcd9xxx_cleanup_debugfs(struct wcd9xxx_mbhc *mbhc)
 }
 #endif
 
-<<<<<<< HEAD
 int wcd9xxx_mbhc_set_keycode(struct wcd9xxx_mbhc *mbhc)
 {
 	enum snd_jack_types type;
@@ -4562,8 +4561,6 @@ int wcd9xxx_mbhc_set_keycode(struct wcd9xxx_mbhc *mbhc)
 	return result;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int wcd9xxx_mbhc_start(struct wcd9xxx_mbhc *mbhc,
 		       struct wcd9xxx_mbhc_config *mbhc_cfg)
 {
@@ -4587,13 +4584,10 @@ int wcd9xxx_mbhc_start(struct wcd9xxx_mbhc *mbhc,
 	/* Save mbhc config */
 	mbhc->mbhc_cfg = mbhc_cfg;
 
-<<<<<<< HEAD
 	/* Set btn key code */
 	if (wcd9xxx_mbhc_set_keycode(mbhc))
 		pr_err("Set btn key code error!!!\n");
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* Get HW specific mbhc registers' address */
 	wcd9xxx_get_mbhc_micbias_regs(mbhc, MBHC_PRIMARY_MIC_MB);
 

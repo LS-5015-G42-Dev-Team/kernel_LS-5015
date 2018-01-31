@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014, 2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -25,11 +21,8 @@
 #include <linux/cpu.h>
 
 #define MAX_PSTATES 20
-<<<<<<< HEAD
 #define NUM_OF_PENTRY 3 /* number of variables for ptable node */
 #define NUM_OF_EENTRY 2 /* number of variables for enable node */
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 enum arg_offset {
 	CPU_OFFSET,
@@ -139,23 +132,15 @@ static void add_to_ptable(uint64_t *arg)
 		node->ptr->len = node->len;
 }
 
-<<<<<<< HEAD
 static int split_ptable_args(char *line, uint64_t *arg, uint32_t n)
-=======
-static int split_ptable_args(char *line, uint64_t *arg)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	char *args;
 	int i;
 	int ret = 0;
 
-<<<<<<< HEAD
 	for (i = 0; i < n; i++) {
 		if (!line)
 			break;
-=======
-	for (i = 0; line; i++) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		args = strsep(&line, " ");
 		ret = kstrtoull(args, 10, &arg[i]);
 	}
@@ -181,11 +166,7 @@ static ssize_t msm_core_ptable_write(struct file *file,
 		goto done;
 	}
 	kbuf[len] = '\0';
-<<<<<<< HEAD
 	ret = split_ptable_args(kbuf, arg, NUM_OF_PENTRY);
-=======
-	ret = split_ptable_args(kbuf, arg);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (!ret) {
 		add_to_ptable(arg);
 		ret = len;
@@ -249,11 +230,7 @@ static ssize_t msm_core_enable_write(struct file *file,
 		goto done;
 	}
 	kbuf[len] = '\0';
-<<<<<<< HEAD
 	ret = split_ptable_args(kbuf, arg, NUM_OF_EENTRY);
-=======
-	ret = split_ptable_args(kbuf, arg);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (ret)
 		goto done;
 	cpu = arg[CPU_OFFSET];

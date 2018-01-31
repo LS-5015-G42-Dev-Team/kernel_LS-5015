@@ -46,12 +46,9 @@
 #define FORMAT_EAC3         0x0014
 #define FORMAT_MP2          0x0015
 #define FORMAT_FLAC         0x0016
-<<<<<<< HEAD
 #define FORMAT_ALAC         0x0017
 #define FORMAT_VORBIS       0x0018
 #define FORMAT_APE          0x0019
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define ENCDEC_SBCBITRATE   0x0001
 #define ENCDEC_IMMEDIATE_DECODE 0x0002
@@ -389,7 +386,6 @@ int q6asm_media_format_block_amrwbplus(struct audio_client *ac,
 int q6asm_stream_media_format_block_flac(struct audio_client *ac,
 			struct asm_flac_cfg *cfg, int stream_id);
 
-<<<<<<< HEAD
 int q6asm_media_format_block_alac(struct audio_client *ac,
 			struct asm_alac_cfg *cfg, int stream_id);
 
@@ -399,8 +395,6 @@ int q6asm_stream_media_format_block_vorbis(struct audio_client *ac,
 int q6asm_media_format_block_ape(struct audio_client *ac,
 			struct asm_ape_cfg *cfg, int stream_id);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int q6asm_ds1_set_endp_params(struct audio_client *ac,
 				int param_id, int param_value);
 
@@ -417,17 +411,10 @@ int q6asm_set_volume(struct audio_client *ac, int volume);
 /* Send Volume Command */
 int q6asm_set_volume_v2(struct audio_client *ac, int volume, int instance);
 
-<<<<<<< HEAD
 int q6asm_dts_eagle_set(struct audio_client *ac, int param_id, uint32_t size,
 			void *data);
 int q6asm_dts_eagle_get(struct audio_client *ac, int param_id,
 			uint32_t size, void *data);
-=======
-int q6asm_dts_eagle_set(struct audio_client *ac, int param_id, int size,
-			void *data);
-int q6asm_dts_eagle_get(struct audio_client *ac, int param_id,
-			int size, void *data);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 /* Set SoftPause Params */
 int q6asm_set_softpause(struct audio_client *ac,
 			struct asm_softpause_params *param);

@@ -53,13 +53,8 @@
 #define VFE_CLK_INFO_MAX 16
 #define STATS_COMP_BIT_MASK 0xFF0000
 
-<<<<<<< HEAD
 #define MSM_ISP_MIN_AB 11000000
 #define MSM_ISP_MIN_IB 11000000
-=======
-#define MSM_ISP_MIN_AB 100000000
-#define MSM_ISP_MIN_IB 120000000
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 struct vfe_device;
 struct msm_vfe_axi_stream;
@@ -102,12 +97,9 @@ struct msm_vfe_irq_ops {
 	void (*process_reg_update) (struct vfe_device *vfe_dev,
 		uint32_t irq_status0, uint32_t irq_status1,
 		struct msm_isp_timestamp *ts);
-<<<<<<< HEAD
 	void (*process_epoch_irq)(struct vfe_device *vfe_dev,
 		uint32_t irq_status0, uint32_t irq_status1,
 		struct msm_isp_timestamp *ts);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	void (*process_reset_irq) (struct vfe_device *vfe_dev,
 		uint32_t irq_status0, uint32_t irq_status1);
 	void (*process_halt_irq) (struct vfe_device *vfe_dev,
@@ -172,11 +164,7 @@ struct msm_vfe_axi_ops {
 };
 
 struct msm_vfe_core_ops {
-<<<<<<< HEAD
 	void (*reg_update) (struct vfe_device *vfe_dev, uint32_t input_src);
-=======
-	void (*reg_update) (struct vfe_device *vfe_dev);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	long (*reset_hw) (struct vfe_device *vfe_dev, uint32_t first_start,
 		uint32_t blocking_call);
 	int (*init_hw) (struct vfe_device *vfe_dev);
@@ -321,10 +309,6 @@ struct msm_vfe_axi_stream {
 	uint32_t request_frm_num;
 	uint8_t buf_divert;
 	enum msm_vfe_axi_stream_type stream_type;
-<<<<<<< HEAD
-=======
-	uint32_t vt_enable;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	uint32_t frame_based;
 	enum msm_vfe_frame_skip_pattern frame_skip_pattern;
 	uint32_t framedrop_period;

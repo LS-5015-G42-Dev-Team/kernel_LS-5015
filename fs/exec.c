@@ -1220,11 +1220,7 @@ EXPORT_SYMBOL(install_exec_creds);
 /*
  * determine how safe it is to execute the proposed program
  * - the caller must hold ->cred_guard_mutex to protect against
-<<<<<<< HEAD
  *   PTRACE_ATTACH or seccomp thread-sync
-=======
- *   PTRACE_ATTACH
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  */
 static int check_unsafe_exec(struct linux_binprm *bprm)
 {
@@ -1243,11 +1239,7 @@ static int check_unsafe_exec(struct linux_binprm *bprm)
 	 * This isn't strictly necessary, but it makes it harder for LSMs to
 	 * mess up.
 	 */
-<<<<<<< HEAD
 	if (task_no_new_privs(current))
-=======
-	if (current->no_new_privs)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		bprm->unsafe |= LSM_UNSAFE_NO_NEW_PRIVS;
 
 	n_fs = 1;
@@ -1294,11 +1286,7 @@ int prepare_binprm(struct linux_binprm *bprm)
 	bprm->cred->egid = current_egid();
 
 	if (!(bprm->file->f_path.mnt->mnt_flags & MNT_NOSUID) &&
-<<<<<<< HEAD
 	    !task_no_new_privs(current) &&
-=======
-	    !current->no_new_privs &&
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	    kuid_has_mapping(bprm->cred->user_ns, inode->i_uid) &&
 	    kgid_has_mapping(bprm->cred->user_ns, inode->i_gid)) {
 		/* Set-uid? */

@@ -1520,7 +1520,6 @@ static int soc_check_aux_dev(struct snd_soc_card *card, int num)
 	return -EPROBE_DEFER;
 }
 
-<<<<<<< HEAD
 int soc_check_aux_dev_byname(struct snd_soc_card *card, const char *codec_name)
 {
 	struct snd_soc_codec *codec;
@@ -1537,8 +1536,6 @@ int soc_check_aux_dev_byname(struct snd_soc_card *card, const char *codec_name)
 }
 EXPORT_SYMBOL(soc_check_aux_dev_byname);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int soc_probe_aux_dev(struct snd_soc_card *card, int num)
 {
 	struct snd_soc_aux_dev *aux_dev = &card->aux_dev[num];

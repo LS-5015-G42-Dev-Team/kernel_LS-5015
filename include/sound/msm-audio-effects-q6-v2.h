@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -20,11 +16,8 @@
 
 #include <sound/audio_effects.h>
 
-<<<<<<< HEAD
 #define MAX_PP_PARAMS_SZ   128
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 bool msm_audio_effects_is_effmodule_supp_in_top(int effect_module,
 						int topology);
 
@@ -35,14 +28,11 @@ int msm_audio_effects_reverb_handler(struct audio_client *ac,
 int msm_audio_effects_bass_boost_handler(struct audio_client *ac,
 					struct bass_boost_params *bass_boost,
 					long *values);
-<<<<<<< HEAD
 
 int msm_audio_effects_pbe_handler(struct audio_client *ac,
 					struct pbe_params *pbe,
 					long *values);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int msm_audio_effects_virtualizer_handler(struct audio_client *ac,
 				struct virtualizer_params *virtualizer,
 				long *values);

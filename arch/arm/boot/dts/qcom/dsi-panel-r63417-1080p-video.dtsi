@@ -81,10 +81,7 @@
 		qcom,mdss-dsi-bl-max-level = <255>;
 		qcom,mdss-dsi-dma-trigger = "trigger_sw";
 		qcom,mdss-dsi-mdp-trigger = "none";
-<<<<<<< HEAD
 		qcom,mdss-dsi-min-refresh-rate = <50>;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 		qcom,mdss-dsi-reset-sequence = <1 20>, <0 2>, <1 20>;
 	};

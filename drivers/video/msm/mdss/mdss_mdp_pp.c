@@ -24,7 +24,6 @@
 #include <linux/msm-bus-board.h>
 
 struct mdp_csc_cfg mdp_csc_convert[MDSS_MDP_MAX_CSC] = {
-<<<<<<< HEAD
 	[MDSS_MDP_CSC_YUV2RGB_601L] = {
 		0,
 		{
@@ -45,21 +44,10 @@ struct mdp_csc_cfg mdp_csc_convert[MDSS_MDP_MAX_CSC] = {
 			0x0200, 0x038b, 0x0000,
 		},
 		{ 0x0000, 0xff80, 0xff80,},
-=======
-	[MDSS_MDP_CSC_RGB2RGB] = {
-		0,
-		{
-			0x0200, 0x0000, 0x0000,
-			0x0000, 0x0200, 0x0000,
-			0x0000, 0x0000, 0x0200,
-		},
-		{ 0x0, 0x0, 0x0,},
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		{ 0x0, 0x0, 0x0,},
 		{ 0x0, 0xff, 0x0, 0xff, 0x0, 0xff,},
 		{ 0x0, 0xff, 0x0, 0xff, 0x0, 0xff,},
 	},
-<<<<<<< HEAD
 	[MDSS_MDP_CSC_YUV2RGB_709L] = {
 		0,
 		{
@@ -102,26 +90,6 @@ struct mdp_csc_cfg mdp_csc_convert[MDSS_MDP_MAX_CSC] = {
 			0x005d, 0x013a, 0x0020,
 			0xffcc, 0xff53, 0x00e1,
 			0x00e1, 0xff34, 0xffeb
-=======
-	[MDSS_MDP_CSC_YUV2RGB] = {
-		0,
-		{
-			0x0254, 0x0000, 0x0331,
-			0x0254, 0xff37, 0xfe60,
-			0x0254, 0x0409, 0x0000,
-		},
-		{ 0xfff0, 0xff80, 0xff80,},
-		{ 0x0, 0x0, 0x0,},
-		{ 0x0, 0xff, 0x0, 0xff, 0x0, 0xff,},
-		{ 0x0, 0xff, 0x0, 0xff, 0x0, 0xff,},
-	},
-	[MDSS_MDP_CSC_RGB2YUV] = {
-		0,
-		{
-			0x0083, 0x0102, 0x0032,
-			0x1fb5, 0x1f6c, 0x00e1,
-			0x00e1, 0x1f45, 0x1fdc
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		},
 		{ 0x0, 0x0, 0x0,},
 		{ 0x0010, 0x0080, 0x0080,},
@@ -140,7 +108,6 @@ struct mdp_csc_cfg mdp_csc_convert[MDSS_MDP_MAX_CSC] = {
 		{ 0x0, 0xff, 0x0, 0xff, 0x0, 0xff,},
 		{ 0x0, 0xff, 0x0, 0xff, 0x0, 0xff,},
 	},
-<<<<<<< HEAD
 	[MDSS_MDP_CSC_RGB2RGB] = {
 		0,
 		{
@@ -153,8 +120,6 @@ struct mdp_csc_cfg mdp_csc_convert[MDSS_MDP_MAX_CSC] = {
 		{ 0x0, 0xff, 0x0, 0xff, 0x0, 0xff,},
 		{ 0x0, 0xff, 0x0, 0xff, 0x0, 0xff,},
 	},
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 /*
@@ -521,10 +486,7 @@ static int pp_ad_linearize_bl(struct mdss_ad_info *ad, u32 bl, u32 *bl_out,
 		int inv);
 static int pp_ad_calc_bl(struct msm_fb_data_type *mfd, int bl_in, int *bl_out,
 		bool *bl_out_notify);
-<<<<<<< HEAD
 static int pp_ad_shutdown_cleanup(struct msm_fb_data_type *mfd);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int pp_num_to_side(struct mdss_mdp_ctl *ctl, u32 num);
 static inline bool pp_sts_is_enabled(u32 sts, int side);
 static inline void pp_sts_set_split_bits(u32 *sts, u32 bits);
@@ -543,11 +505,7 @@ inline int linear_map(int in, int *out, int in_max, int out_max)
 {
 	if (in < 0 || !out || in_max <= 0 || out_max <= 0)
 		return -EINVAL;
-<<<<<<< HEAD
 	*out = ((2 * (in * out_max) + in_max) / (2 * in_max));
-=======
-	*out = ((in * out_max) / in_max);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pr_debug("in = %d, out = %d, in_max = %d, out_max = %d\n",
 		in, *out, in_max, out_max);
 	if ((in > 0) && (*out == 0))
@@ -959,39 +917,20 @@ static int pp_vig_pipe_setup(struct mdss_mdp_pipe *pipe, u32 *op)
 						MDP_CSC_FLAG_YUV_IN) << 18;
 			opmode |= !!(pipe->pp_cfg.csc_cfg.flags &
 						MDP_CSC_FLAG_YUV_OUT) << 19;
-<<<<<<< HEAD
 
 			mdss_mdp_csc_setup_data(
 				MDSS_MDP_BLOCK_SSPP,
 				pipe->num,
 				&pipe->pp_cfg.csc_cfg);
 
-=======
-			/*
-			 * TODO: Allow pipe to be programmed whenever new CSC is
-			 * applied (i.e. dirty bit)
-			 */
-			mdss_mdp_csc_setup_data(MDSS_MDP_BLOCK_SSPP, pipe->num,
-					&pipe->pp_cfg.csc_cfg);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	} else {
 		if (pipe->src_fmt->is_yuv) {
 			opmode |= (0 << 19) |	/* DST_DATA=RGB */
 				  (1 << 18) |	/* SRC_DATA=YCBCR */
 				  (1 << 17);	/* CSC_1_EN */
-<<<<<<< HEAD
 
 			mdss_mdp_csc_setup(MDSS_MDP_BLOCK_SSPP, pipe->num,
 					   pp_vig_csc_pipe_val(pipe));
-=======
-			/*
-			 * TODO: Needs to be part of dirty bit logic: if there
-			 * is a previously configured pipe need to re-configure
-			 * CSC matrix
-			 */
-			mdss_mdp_csc_setup(MDSS_MDP_BLOCK_SSPP, pipe->num,
-					   MDSS_MDP_CSC_YUV2RGB);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 	}
 
@@ -1172,13 +1111,8 @@ static int mdss_mdp_scale_setup(struct mdss_mdp_pipe *pipe)
 		}
 	}
 
-<<<<<<< HEAD
 	src_w = DECIMATED_DIMENSION(pipe->src.w, pipe->horz_deci);
 	src_h = DECIMATED_DIMENSION(pipe->src.h, pipe->vert_deci);
-=======
-	src_w = pipe->src.w >> pipe->horz_deci;
-	src_h = pipe->src.h >> pipe->vert_deci;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	chroma_sample = pipe->src_fmt->chroma_sample;
 	if (pipe->flags & MDP_SOURCE_ROTATED_90) {
@@ -2263,7 +2197,6 @@ int mdss_mdp_pp_override_pu(int enable)
 
 int mdss_mdp_pp_overlay_init(struct msm_fb_data_type *mfd)
 {
-<<<<<<< HEAD
 	struct mdss_data_type *mdata = mdss_mdp_get_mdata();
 
 	if ((!mfd) || (!mdata)) {
@@ -2275,14 +2208,6 @@ int mdss_mdp_pp_overlay_init(struct msm_fb_data_type *mfd)
 		mfd->mdp.ad_calc_bl = pp_ad_calc_bl;
 		mfd->mdp.ad_shutdown_cleanup = pp_ad_shutdown_cleanup;
 	}
-=======
-	if (!mfd) {
-		pr_err("Invalid mfd.\n");
-		return -EPERM;
-	}
-
-	mfd->mdp.ad_calc_bl = pp_ad_calc_bl;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 
@@ -2361,7 +2286,6 @@ static int pp_ad_calc_bl(struct msm_fb_data_type *mfd, int bl_in, int *bl_out,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int pp_ad_shutdown_cleanup(struct msm_fb_data_type *mfd)
 {
 	struct mdss_data_type *mdata = mdss_mdp_get_mdata();
@@ -2410,8 +2334,6 @@ static int pp_ad_shutdown_cleanup(struct msm_fb_data_type *mfd)
 	return 0;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int pp_get_dspp_num(u32 disp_num, u32 *dspp_num)
 {
 	int i;
@@ -4787,10 +4709,7 @@ int mdss_mdp_ad_input(struct msm_fb_data_type *mfd,
 			mdss_fb_set_backlight(mfd, bl);
 			mutex_unlock(&mfd->bl_lock);
 			mutex_lock(&ad->lock);
-<<<<<<< HEAD
 			mfd->calib_mode_bl = bl;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		} else {
 			pr_warn("should be in calib mode\n");
 		}
@@ -5006,11 +4925,8 @@ static void pp_ad_vsync_handler(struct mdss_mdp_ctl *ctl, ktime_t t)
 
 	if (ctl->mixer_left && ctl->mixer_left->num < mdata->nad_cfgs) {
 		ad = &mdata->ad_cfgs[ctl->mixer_left->num];
-<<<<<<< HEAD
 		if (!ad || !ad->mfd || !mdata->ad_calc_wq)
 			return;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		queue_work(mdata->ad_calc_wq, &ad->calc_work);
 	}
 }
@@ -5780,12 +5696,9 @@ int mdss_mdp_calib_mode(struct msm_fb_data_type *mfd,
 		return -EINVAL;
 	mutex_lock(&mdss_pp_mutex);
 	mfd->calib_mode = cfg->calib_mask;
-<<<<<<< HEAD
 	mutex_lock(&mfd->bl_lock);
 	mfd->calib_mode_bl = mfd->bl_level;
 	mutex_unlock(&mfd->bl_lock);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mutex_unlock(&mdss_pp_mutex);
 	return 0;
 }

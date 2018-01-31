@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2014, 2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -508,11 +504,7 @@ static int hpcm_allocate_shared_memory(struct hpcm_drv *prtd)
 
 	sess->tp_mem_table.size = sizeof(struct vss_imemory_table_t);
 
-<<<<<<< HEAD
 	pr_debug("%s: data %pK phys %pK\n", __func__,
-=======
-	pr_debug("%s: data %p phys %pa\n", __func__,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		 sess->tp_mem_table.data, &sess->tp_mem_table.phys);
 
 	/* Split 4096 block into four 1024 byte blocks for each dai */
@@ -690,11 +682,7 @@ void hpcm_notify_evt_processing(uint8_t *data, char *session,
 	}
 
 	if (tp == NULL || tmd == NULL) {
-<<<<<<< HEAD
 		pr_err("%s: tp = %pK or tmd = %pK is null\n", __func__,
-=======
-		pr_err("%s: tp = %p or tmd = %p is null\n", __func__,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		       tp, tmd);
 
 		return;

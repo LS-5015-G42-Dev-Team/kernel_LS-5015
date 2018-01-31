@@ -594,31 +594,12 @@ EXPORT_SYMBOL_GPL(cdc_ncm_select_altsetting);
 
 static int cdc_ncm_bind(struct usbnet *dev, struct usb_interface *intf)
 {
-<<<<<<< HEAD
-=======
-	int ret;
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* MBIM backwards compatible function? */
 	cdc_ncm_select_altsetting(dev, intf);
 	if (cdc_ncm_comm_intf_is_mbim(intf->cur_altsetting))
 		return -ENODEV;
 
-<<<<<<< HEAD
 	return cdc_ncm_bind_common(dev, intf, CDC_NCM_DATA_ALTSETTING_NCM);
-=======
-	/* NCM data altsetting is always 1 */
-	ret = cdc_ncm_bind_common(dev, intf, 1);
-
-	/*
-	 * We should get an event when network connection is "connected" or
-	 * "disconnected". Set network connection in "disconnected" state
-	 * (carrier is OFF) during attach, so the IP network stack does not
-	 * start IPv6 negotiation and more.
-	 */
-	usbnet_link_change(dev, 0, 0);
-	return ret;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void cdc_ncm_align_tail(struct sk_buff *skb, size_t modulus, size_t remainder, size_t max)
@@ -1164,12 +1145,8 @@ static void cdc_ncm_disconnect(struct usb_interface *intf)
 
 static const struct driver_info cdc_ncm_info = {
 	.description = "CDC NCM",
-<<<<<<< HEAD
 	.flags = FLAG_POINTTOPOINT | FLAG_NO_SETINT | FLAG_MULTI_PACKET
                         | FLAG_LINK_INTR,
-=======
-	.flags = FLAG_POINTTOPOINT | FLAG_NO_SETINT | FLAG_MULTI_PACKET,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	.bind = cdc_ncm_bind,
 	.unbind = cdc_ncm_unbind,
 	.check_connect = cdc_ncm_check_connect,
@@ -1183,11 +1160,7 @@ static const struct driver_info cdc_ncm_info = {
 static const struct driver_info wwan_info = {
 	.description = "Mobile Broadband Network Device",
 	.flags = FLAG_POINTTOPOINT | FLAG_NO_SETINT | FLAG_MULTI_PACKET
-<<<<<<< HEAD
 			| FLAG_LINK_INTR | FLAG_WWAN,
-=======
-			| FLAG_WWAN,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	.bind = cdc_ncm_bind,
 	.unbind = cdc_ncm_unbind,
 	.check_connect = cdc_ncm_check_connect,
@@ -1201,11 +1174,7 @@ static const struct driver_info wwan_info = {
 static const struct driver_info wwan_noarp_info = {
 	.description = "Mobile Broadband Network Device (NO ARP)",
 	.flags = FLAG_POINTTOPOINT | FLAG_NO_SETINT | FLAG_MULTI_PACKET
-<<<<<<< HEAD
 			| FLAG_LINK_INTR | FLAG_WWAN | FLAG_NOARP,
-=======
-			| FLAG_WWAN | FLAG_NOARP,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	.bind = cdc_ncm_bind,
 	.unbind = cdc_ncm_unbind,
 	.check_connect = cdc_ncm_check_connect,

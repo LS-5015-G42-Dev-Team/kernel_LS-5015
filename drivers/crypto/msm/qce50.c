@@ -1,10 +1,6 @@
 /* Qualcomm Crypto Engine driver.
  *
-<<<<<<< HEAD
  * Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -48,12 +44,9 @@
 #define CE_CLK_100MHZ	100000000
 #define CE_CLK_DIV	1000000
 
-<<<<<<< HEAD
 #define CRYPTO_CORE_MAJOR_VER_NUM 0x05
 #define CRYPTO_CORE_MINOR_VER_NUM 0x03
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static DEFINE_MUTEX(bam_register_lock);
 struct bam_registration_info {
 	struct list_head qlist;
@@ -94,10 +87,7 @@ struct qce_device {
 	struct clk *ce_clk;		/* Handle to CE clk */
 	struct clk *ce_bus_clk;	/* Handle to CE AXI clk*/
 
-<<<<<<< HEAD
 	bool no_get_around;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	qce_comp_func_ptr_t qce_cb;	/* qce callback function pointer */
 
 	int assoc_nents;
@@ -224,7 +214,6 @@ static int _probe_ce_engine(struct qce_device *pce_dev)
 	min_rev = (rev & CRYPTO_CORE_MINOR_REV_MASK) >> CRYPTO_CORE_MINOR_REV;
 	step_rev = (rev & CRYPTO_CORE_STEP_REV_MASK) >> CRYPTO_CORE_STEP_REV;
 
-<<<<<<< HEAD
 	if (maj_rev != CRYPTO_CORE_MAJOR_VER_NUM) {
 		pr_err("Unsupported Qualcomm crypto device at 0x%x, rev %d.%d.%d\n",
 			pce_dev->phy_iobase, maj_rev, min_rev, step_rev);
@@ -234,13 +223,6 @@ static int _probe_ce_engine(struct qce_device *pce_dev)
 			CRYPTO_CORE_MINOR_VER_NUM) ? true : false;
 	}
 
-=======
-	if (maj_rev != 0x05) {
-		pr_err("Unknown Qualcomm crypto device at 0x%x, rev %d.%d.%d\n",
-			pce_dev->phy_iobase, maj_rev, min_rev, step_rev);
-		return -EIO;
-	};
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pce_dev->ce_sps.minor_version = min_rev;
 
 	pce_dev->engines_avail = readl_relaxed(pce_dev->iobase +
@@ -416,16 +398,12 @@ go_proc:
 
 	/* write seg size */
 	pce = cmdlistinfo->seg_size;
-<<<<<<< HEAD
 
 	/* always ensure there is input data. ZLT does not work for bam-ndp */
 	if (sreq->size)
 		pce->data = sreq->size;
 	else
 		pce->data = pce_dev->ce_sps.ce_burst_size;
-=======
-	pce->data = sreq->size;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return 0;
 }
@@ -1981,11 +1959,7 @@ static int _qce_unlock_other_pipes(struct qce_device *pce_dev)
 {
 	int rc = 0;
 
-<<<<<<< HEAD
 	if (pce_dev->no_get_around || pce_dev->support_cmd_dscr == false)
-=======
-	if (pce_dev->support_cmd_dscr == false)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return rc;
 
 	pce_dev->ce_sps.consumer.event.callback = NULL;
@@ -2004,10 +1978,7 @@ static int _aead_complete(struct qce_device *pce_dev)
 	struct aead_request *areq;
 	unsigned char mac[SHA256_DIGEST_SIZE];
 	uint32_t status;
-<<<<<<< HEAD
 	uint32_t result_dump_status;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int32_t result_status;
 
 	areq = (struct aead_request *) pce_dev->areq;
@@ -2027,7 +1998,6 @@ static int _aead_complete(struct qce_device *pce_dev)
 	/* read status before unlock */
 	status = readl_relaxed(pce_dev->iobase + CRYPTO_STATUS_REG);
 
-<<<<<<< HEAD
 	if (_qce_unlock_other_pipes(pce_dev)) {
 		pce_dev->qce_cb(areq, mac, NULL, -ENXIO);
 		return -ENXIO;
@@ -2039,25 +2009,6 @@ static int _aead_complete(struct qce_device *pce_dev)
 	if (result_dump_status & ((1 << CRYPTO_SW_ERR) | (1 << CRYPTO_AXI_ERR)
 			| (1 <<  CRYPTO_HSD_ERR))) {
 		pr_err("aead operation error. Status %x\n", result_dump_status);
-=======
-	if (_qce_unlock_other_pipes(pce_dev))
-		return -EINVAL;
-
-	/*
-	 * Don't use result dump status. The operation may not
-	 * be complete.
-	 * Instead, use the status we just read of device.
-	 * In case, we need to use result_status from result
-	 * dump the result_status needs to be byte swapped,
-	 * since we set the device to little endian.
-	 */
-	result_status = 0;
-	pce_dev->ce_sps.result->status = 0;
-
-	if (status & ((1 << CRYPTO_SW_ERR) | (1 << CRYPTO_AXI_ERR)
-			| (1 <<  CRYPTO_HSD_ERR))) {
-		pr_err("aead operation error. Status %x\n", status);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		result_status = -ENXIO;
 	} else if (pce_dev->ce_sps.consumer_status |
 				pce_dev->ce_sps.producer_status)  {
@@ -2065,7 +2016,6 @@ static int _aead_complete(struct qce_device *pce_dev)
 				pce_dev->ce_sps.consumer_status,
 				pce_dev->ce_sps.producer_status);
 		result_status = -ENXIO;
-<<<<<<< HEAD
 	}
 
 	if (pce_dev->mode == QCE_MODE_CCM) {
@@ -2073,18 +2023,6 @@ static int _aead_complete(struct qce_device *pce_dev)
 		 * Not from result dump, instead, use the status we just
 		 * read of device for MAC_FAILED.
 		 */
-=======
-	} else if ((status & (1 << CRYPTO_OPERATION_DONE)) == 0) {
-		pr_err("aead operation not done? Status %x, sps status %x %x\n",
-				status,
-				pce_dev->ce_sps.consumer_status,
-				pce_dev->ce_sps.producer_status);
-		result_status = -ENXIO;
-	}
-
-	if (pce_dev->mode == QCE_MODE_CCM) {
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (result_status == 0 && (status & (1 << CRYPTO_MAC_FAILED)))
 			result_status = -EBADMSG;
 		pce_dev->qce_cb(areq, mac, NULL, result_status);
@@ -2111,13 +2049,8 @@ static int _sha_complete(struct qce_device *pce_dev)
 	struct ahash_request *areq;
 	unsigned char digest[SHA256_DIGEST_SIZE];
 	uint32_t bytecount32[2];
-<<<<<<< HEAD
 	int32_t result_status;
 	uint32_t result_dump_status;
-=======
-	int32_t result_status = pce_dev->ce_sps.result->status;
-	uint32_t status;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	areq = (struct ahash_request *) pce_dev->areq;
 	qce_dma_unmap_sg(pce_dev->pdev, areq->src, pce_dev->src_nents,
@@ -2128,7 +2061,6 @@ static int _sha_complete(struct qce_device *pce_dev)
 		(unsigned char *)pce_dev->ce_sps.result->auth_byte_count,
 					2 * CRYPTO_REG_SIZE);
 
-<<<<<<< HEAD
 	if (_qce_unlock_other_pipes(pce_dev)) {
 		pce_dev->qce_cb(areq, digest, (char *)bytecount32,
 				-ENXIO);
@@ -2142,40 +2074,11 @@ static int _sha_complete(struct qce_device *pce_dev)
 			| (1 <<  CRYPTO_HSD_ERR))) {
 
 		pr_err("sha operation error. Status %x\n", result_dump_status);
-=======
-	/* read status before unlock */
-	status = readl_relaxed(pce_dev->iobase + CRYPTO_STATUS_REG);
-
-	if (_qce_unlock_other_pipes(pce_dev))
-		return -EINVAL;
-
-	/*
-	 * Don't use result dump status. The operation may not be complete.
-	 * Instead, use the status we just read of device.
-	 * In case, we need to use result_status from result
-	 * dump the result_status needs to be byte swapped,
-	 * since we set the device to little endian.
-	 */
-
-	if (status & ((1 << CRYPTO_SW_ERR) | (1 << CRYPTO_AXI_ERR)
-			| (1 <<  CRYPTO_HSD_ERR))) {
-
-		pr_err("sha operation error. Status %x\n", status);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		result_status = -ENXIO;
 	} else if (pce_dev->ce_sps.consumer_status) {
 		pr_err("sha sps operation error. sps status %x\n",
 			pce_dev->ce_sps.consumer_status);
 		result_status = -ENXIO;
-<<<<<<< HEAD
-=======
-	} else if ((status & (1 << CRYPTO_OPERATION_DONE)) == 0) {
-		pr_err("sha operation not done? Status %x, sps status %x\n",
-			status, pce_dev->ce_sps.consumer_status);
-		result_status = -ENXIO;
-	} else {
-		result_status = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	pce_dev->qce_cb(areq, digest, (char *)bytecount32,
 				result_status);
@@ -2185,30 +2088,19 @@ static int _sha_complete(struct qce_device *pce_dev)
 static int _f9_complete(struct qce_device *pce_dev)
 {
 	uint32_t mac_i;
-<<<<<<< HEAD
 	int32_t result_status;
 	uint32_t result_dump_status;
-=======
-	uint32_t status;
-	int32_t result_status;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	dma_unmap_single(pce_dev->pdev, pce_dev->phy_ota_src,
 				pce_dev->ota_size, DMA_TO_DEVICE);
 	_byte_stream_to_net_words(&mac_i,
 		(char *)(&pce_dev->ce_sps.result->auth_iv[0]),
 		CRYPTO_REG_SIZE);
-<<<<<<< HEAD
 
-=======
-	/* read status before unlock */
-	status = readl_relaxed(pce_dev->iobase + CRYPTO_STATUS_REG);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (_qce_unlock_other_pipes(pce_dev)) {
 		pce_dev->qce_cb(pce_dev->areq, NULL, NULL, -ENXIO);
 		return -ENXIO;
 	}
-<<<<<<< HEAD
 
 	result_status = 0;
 	result_dump_status = be32_to_cpu(pce_dev->ce_sps.result->status);
@@ -2216,11 +2108,6 @@ static int _f9_complete(struct qce_device *pce_dev)
 	if (result_dump_status & ((1 << CRYPTO_SW_ERR) | (1 << CRYPTO_AXI_ERR)
 				| (1 <<  CRYPTO_HSD_ERR))) {
 		pr_err("f9 operation error. Status %x\n", result_dump_status);
-=======
-	if (status & ((1 << CRYPTO_SW_ERR) | (1 << CRYPTO_AXI_ERR)
-				| (1 <<  CRYPTO_HSD_ERR))) {
-		pr_err("f9 operation error. Status %x\n", status);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		result_status = -ENXIO;
 	} else if (pce_dev->ce_sps.consumer_status |
 				pce_dev->ce_sps.producer_status)  {
@@ -2228,17 +2115,6 @@ static int _f9_complete(struct qce_device *pce_dev)
 				pce_dev->ce_sps.consumer_status,
 				pce_dev->ce_sps.producer_status);
 		result_status = -ENXIO;
-<<<<<<< HEAD
-=======
-	} else if ((status & (1 << CRYPTO_OPERATION_DONE)) == 0) {
-		pr_err("f9 operation not done? Status %x, sps status %x %x\n",
-			status,
-			pce_dev->ce_sps.consumer_status,
-			pce_dev->ce_sps.producer_status);
-		result_status = -ENXIO;
-	} else {
-		result_status = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	pce_dev->qce_cb(pce_dev->areq, (char *)&mac_i, NULL, result_status);
 
@@ -2249,13 +2125,8 @@ static int _ablk_cipher_complete(struct qce_device *pce_dev)
 {
 	struct ablkcipher_request *areq;
 	unsigned char iv[NUM_OF_CRYPTO_CNTR_IV_REG * CRYPTO_REG_SIZE];
-<<<<<<< HEAD
 	int32_t result_status;
 	uint32_t result_dump_status;
-=======
-	uint32_t status;
-	int32_t result_status;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	areq = (struct ablkcipher_request *) pce_dev->areq;
 
@@ -2267,7 +2138,6 @@ static int _ablk_cipher_complete(struct qce_device *pce_dev)
 		(areq->src == areq->dst) ? DMA_BIDIRECTIONAL :
 						DMA_TO_DEVICE);
 
-<<<<<<< HEAD
 	if (_qce_unlock_other_pipes(pce_dev)) {
 		pce_dev->qce_cb(areq, NULL, NULL, -ENXIO);
 		return -ENXIO;
@@ -2280,25 +2150,6 @@ static int _ablk_cipher_complete(struct qce_device *pce_dev)
 			| (1 <<  CRYPTO_HSD_ERR))) {
 		pr_err("ablk_cipher operation error. Status %x\n",
 				result_dump_status);
-=======
-	/* read status before unlock */
-	status = readl_relaxed(pce_dev->iobase + CRYPTO_STATUS_REG);
-
-	if (_qce_unlock_other_pipes(pce_dev))
-		return -EINVAL;
-
-	/*
-	 * Don't use result dump status. The operation may not be complete.
-	 * Instead, use the status we just read of device.
-	 * In case, we need to use result_status from result
-	 * dump the result_status needs to be byte swapped,
-	 * since we set the device to little endian.
-	 */
-	if (status & ((1 << CRYPTO_SW_ERR) | (1 << CRYPTO_AXI_ERR)
-			| (1 <<  CRYPTO_HSD_ERR))) {
-		pr_err("ablk_cipher operation error. Status %x\n",
-				status);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		result_status = -ENXIO;
 	} else if (pce_dev->ce_sps.consumer_status |
 				pce_dev->ce_sps.producer_status)  {
@@ -2306,18 +2157,6 @@ static int _ablk_cipher_complete(struct qce_device *pce_dev)
 				pce_dev->ce_sps.consumer_status,
 				pce_dev->ce_sps.producer_status);
 		result_status = -ENXIO;
-<<<<<<< HEAD
-=======
-	} else if ((status & (1 << CRYPTO_OPERATION_DONE)) == 0) {
-		pr_err("ablk_cipher operation not done? Status %x, sps status %x %x\n",
-			status,
-			pce_dev->ce_sps.consumer_status,
-			pce_dev->ce_sps.producer_status);
-		result_status = -ENXIO;
-
-	} else {
-		result_status = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	if (pce_dev->mode == QCE_MODE_ECB) {
@@ -2376,13 +2215,8 @@ static int _ablk_cipher_complete(struct qce_device *pce_dev)
 
 static int _f8_complete(struct qce_device *pce_dev)
 {
-<<<<<<< HEAD
 	int32_t result_status;
 	uint32_t result_dump_status;
-=======
-	uint32_t status;
-	int32_t result_status;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (pce_dev->phy_ota_dst != 0)
 		dma_unmap_single(pce_dev->pdev, pce_dev->phy_ota_dst,
@@ -2391,17 +2225,11 @@ static int _f8_complete(struct qce_device *pce_dev)
 		dma_unmap_single(pce_dev->pdev, pce_dev->phy_ota_src,
 				pce_dev->ota_size, (pce_dev->phy_ota_dst) ?
 				DMA_TO_DEVICE : DMA_BIDIRECTIONAL);
-<<<<<<< HEAD
 
-=======
-	/* read status before unlock */
-	status = readl_relaxed(pce_dev->iobase + CRYPTO_STATUS_REG);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (_qce_unlock_other_pipes(pce_dev)) {
 		pce_dev->qce_cb(pce_dev->areq, NULL, NULL, -ENXIO);
 		return -ENXIO;
 	}
-<<<<<<< HEAD
 	result_status = 0;
 	result_dump_status = be32_to_cpu(pce_dev->ce_sps.result->status);
 	pce_dev->ce_sps.result->status = 0;
@@ -2409,11 +2237,6 @@ static int _f8_complete(struct qce_device *pce_dev)
 	if (result_dump_status & ((1 << CRYPTO_SW_ERR) | (1 << CRYPTO_AXI_ERR)
 				| (1 <<  CRYPTO_HSD_ERR))) {
 		pr_err("f8 operation error. Status %x\n", result_dump_status);
-=======
-	if (status & ((1 << CRYPTO_SW_ERR) | (1 << CRYPTO_AXI_ERR)
-				| (1 <<  CRYPTO_HSD_ERR))) {
-		pr_err("f8 operation error. Status %x\n", status);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		result_status = -ENXIO;
 	} else if (pce_dev->ce_sps.consumer_status |
 				pce_dev->ce_sps.producer_status)  {
@@ -2421,17 +2244,6 @@ static int _f8_complete(struct qce_device *pce_dev)
 				pce_dev->ce_sps.consumer_status,
 				pce_dev->ce_sps.producer_status);
 		result_status = -ENXIO;
-<<<<<<< HEAD
-=======
-	} else if ((status & (1 << CRYPTO_OPERATION_DONE)) == 0) {
-		pr_err("f8 operation not done? Status %x, sps status %x %x\n",
-			status,
-			pce_dev->ce_sps.consumer_status,
-			pce_dev->ce_sps.producer_status);
-		result_status = -ENXIO;
-	} else {
-		result_status = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	pce_dev->qce_cb(pce_dev->areq, NULL, NULL, result_status);
 	return 0;
@@ -2814,12 +2626,8 @@ static int qce_sps_get_bam(struct qce_device *pce_dev)
 					true : false;
 	if (pbam->support_cmd_dscr == false) {
 		pr_info("qce50 don't support command descriptor. bam_cfg%x\n",
-<<<<<<< HEAD
 							bam_cfg);
 		pce_dev->no_get_around = false;
-=======
-								 bam_cfg);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	pce_dev->support_cmd_dscr = pbam->support_cmd_dscr;
 
@@ -2937,7 +2745,6 @@ static void qce_sps_exit(struct qce_device *pce_dev)
 	qce_sps_release_bam(pce_dev);
 }
 
-<<<<<<< HEAD
 static void print_notify_debug(struct sps_event_notify *notify)
 {
 	phys_addr_t addr = DESC_FULL_ADDR(notify->data.transfer.iovec.flags,
@@ -2949,29 +2756,15 @@ static void print_notify_debug(struct sps_event_notify *notify)
 			notify->data.transfer.user);
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static void _aead_sps_producer_callback(struct sps_event_notify *notify)
 {
 	struct qce_device *pce_dev = (struct qce_device *)
 		((struct sps_event_notify *)notify)->user;
 
 	pce_dev->ce_sps.notify = *notify;
-<<<<<<< HEAD
 	print_notify_debug(notify);
 	if (pce_dev->ce_sps.producer_state == QCE_PIPE_STATE_COMP) {
 		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-=======
-	pr_debug("sps ev_id=%d, addr=0x%x, size=0x%x, flags=0x%x\n",
-			notify->event_id,
-			notify->data.transfer.iovec.addr,
-			notify->data.transfer.iovec.size,
-			notify->data.transfer.iovec.flags);
-
-	if (pce_dev->ce_sps.producer_state == QCE_PIPE_STATE_COMP) {
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-		/* done */
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		_aead_complete(pce_dev);
 	} else {
 		int rc = 0;
@@ -2989,11 +2782,7 @@ static void _aead_sps_producer_callback(struct sps_event_notify *notify)
 				(uintptr_t)pce_dev->ce_sps.producer.pipe, rc);
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-};
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 static void _sha_sps_producer_callback(struct sps_event_notify *notify)
 {
@@ -3001,20 +2790,9 @@ static void _sha_sps_producer_callback(struct sps_event_notify *notify)
 		((struct sps_event_notify *)notify)->user;
 
 	pce_dev->ce_sps.notify = *notify;
-<<<<<<< HEAD
 	print_notify_debug(notify);
 	_sha_complete(pce_dev);
 }
-=======
-	pr_debug("sps ev_id=%d, addr=0x%x, size=0x%x, flags=0x%x\n",
-			notify->event_id,
-			notify->data.transfer.iovec.addr,
-			notify->data.transfer.iovec.size,
-			notify->data.transfer.iovec.flags);
-	/* done */
-	_sha_complete(pce_dev);
-};
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 static void _f9_sps_producer_callback(struct sps_event_notify *notify)
 {
@@ -3022,16 +2800,7 @@ static void _f9_sps_producer_callback(struct sps_event_notify *notify)
 		((struct sps_event_notify *)notify)->user;
 
 	pce_dev->ce_sps.notify = *notify;
-<<<<<<< HEAD
 	print_notify_debug(notify);
-=======
-	pr_debug("sps ev_id=%d, addr=0x%x, size=0x%x, flags=0x%x\n",
-			notify->event_id,
-			notify->data.transfer.iovec.addr,
-			notify->data.transfer.iovec.size,
-			notify->data.transfer.iovec.flags);
-	/* done */
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	_f9_complete(pce_dev);
 }
 
@@ -3041,37 +2810,8 @@ static void _f8_sps_producer_callback(struct sps_event_notify *notify)
 		((struct sps_event_notify *)notify)->user;
 
 	pce_dev->ce_sps.notify = *notify;
-<<<<<<< HEAD
 	print_notify_debug(notify);
 	_f8_complete(pce_dev);
-=======
-	pr_debug("sps ev_id=%d, addr=0x%x, size=0x%x, flags=0x%x\n",
-			notify->event_id,
-			notify->data.transfer.iovec.addr,
-			notify->data.transfer.iovec.size,
-			notify->data.transfer.iovec.flags);
-
-	if (pce_dev->ce_sps.producer_state == QCE_PIPE_STATE_COMP) {
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-		/* done */
-		_f8_complete(pce_dev);
-	} else {
-		int rc = 0;
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_COMP;
-		pce_dev->ce_sps.out_transfer.iovec_count = 0;
-		_qce_sps_add_data(GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
-					CRYPTO_RESULT_DUMP_SIZE,
-					  &pce_dev->ce_sps.out_transfer);
-		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-				SPS_IOVEC_FLAG_EOT|SPS_IOVEC_FLAG_INT);
-		rc = sps_transfer(pce_dev->ce_sps.producer.pipe,
-					  &pce_dev->ce_sps.out_transfer);
-		if (rc) {
-			pr_err("sps_xfr() fail (producer pipe=0x%lx) rc = %d\n",
-				(uintptr_t)pce_dev->ce_sps.producer.pipe, rc);
-		}
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void _ablk_cipher_sps_producer_callback(struct sps_event_notify *notify)
@@ -3080,21 +2820,9 @@ static void _ablk_cipher_sps_producer_callback(struct sps_event_notify *notify)
 		((struct sps_event_notify *)notify)->user;
 
 	pce_dev->ce_sps.notify = *notify;
-<<<<<<< HEAD
 	print_notify_debug(notify);
 	if (pce_dev->ce_sps.producer_state == QCE_PIPE_STATE_COMP) {
 		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-=======
-	pr_debug("sps ev_id=%d, addr=0x%x, size=0x%x, flags=0x%x\n",
-			notify->event_id,
-			notify->data.transfer.iovec.addr,
-			notify->data.transfer.iovec.size,
-			notify->data.transfer.iovec.flags);
-
-	if (pce_dev->ce_sps.producer_state == QCE_PIPE_STATE_COMP) {
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-		/* done */
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		_ablk_cipher_complete(pce_dev);
 	} else {
 		int rc = 0;
@@ -4552,13 +4280,10 @@ static int _qce_aead_ccm_req(void *handle, struct qce_req *q_req)
 			goto bad;
 		_qce_set_flag(&pce_dev->ce_sps.in_transfer,
 				SPS_IOVEC_FLAG_EOT|SPS_IOVEC_FLAG_NWD);
-<<<<<<< HEAD
 		if (pce_dev->no_get_around)
 			_qce_sps_add_cmd(pce_dev, SPS_IOVEC_FLAG_UNLOCK,
 				&pce_dev->ce_sps.cmdlistptr.unlock_all_pipes,
 				&pce_dev->ce_sps.in_transfer);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		/* Pass through to ignore associated  data*/
 		if (_qce_sps_add_data(
@@ -4574,34 +4299,19 @@ static int _qce_aead_ccm_req(void *handle, struct qce_req *q_req)
 				GET_PHYS_ADDR(pce_dev->ce_sps.ignore_buffer),
 				hw_pad_out, &pce_dev->ce_sps.out_transfer))
 			goto bad;
-<<<<<<< HEAD
 		if (pce_dev->no_get_around ||
 				totallen_in <= SPS_MAX_PKT_SIZE) {
-=======
-		if (totallen_in > SPS_MAX_PKT_SIZE) {
-			_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-			pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-		} else {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			if (_qce_sps_add_data(
 				GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
 					CRYPTO_RESULT_DUMP_SIZE,
 					  &pce_dev->ce_sps.out_transfer))
 				goto bad;
-<<<<<<< HEAD
 			pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_COMP;
 		} else {
 			pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
 		}
 		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
 							SPS_IOVEC_FLAG_INT);
-=======
-			_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-			pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_COMP;
-		}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	rc = _qce_sps_transfer(pce_dev);
 	if (rc)
@@ -4841,14 +4551,11 @@ int qce_aead_req(void *handle, struct qce_req *q_req)
 		_qce_set_flag(&pce_dev->ce_sps.in_transfer,
 				SPS_IOVEC_FLAG_EOT|SPS_IOVEC_FLAG_NWD);
 
-<<<<<<< HEAD
 		if (pce_dev->no_get_around)
 			_qce_sps_add_cmd(pce_dev, SPS_IOVEC_FLAG_UNLOCK,
 				&pce_dev->ce_sps.cmdlistptr.unlock_all_pipes,
 				&pce_dev->ce_sps.in_transfer);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		/* Pass through to ignore associated + iv data*/
 		if (_qce_sps_add_data(
 				GET_PHYS_ADDR(pce_dev->ce_sps.ignore_buffer),
@@ -4859,33 +4566,18 @@ int qce_aead_req(void *handle, struct qce_req *q_req)
 					&pce_dev->ce_sps.out_transfer))
 			goto bad;
 
-<<<<<<< HEAD
 		if (pce_dev->no_get_around || totallen <= SPS_MAX_PKT_SIZE) {
-=======
-		if (totallen > SPS_MAX_PKT_SIZE) {
-			_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-			pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-		} else {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			if (_qce_sps_add_data(
 				GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
 					CRYPTO_RESULT_DUMP_SIZE,
 					  &pce_dev->ce_sps.out_transfer))
 				goto bad;
-<<<<<<< HEAD
 			pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_COMP;
 		} else {
 			pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
 		}
 		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
 							SPS_IOVEC_FLAG_INT);
-=======
-			_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-			pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_COMP;
-		}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	rc = _qce_sps_transfer(pce_dev);
 	if (rc)
@@ -4988,7 +4680,6 @@ int qce_ablk_cipher_req(void *handle, struct qce_req *c_req)
 	_qce_set_flag(&pce_dev->ce_sps.in_transfer,
 				SPS_IOVEC_FLAG_EOT|SPS_IOVEC_FLAG_NWD);
 
-<<<<<<< HEAD
 	if (pce_dev->no_get_around)
 		_qce_sps_add_cmd(pce_dev, SPS_IOVEC_FLAG_UNLOCK,
 			&pce_dev->ce_sps.cmdlistptr.unlock_all_pipes,
@@ -4998,32 +4689,16 @@ int qce_ablk_cipher_req(void *handle, struct qce_req *c_req)
 					&pce_dev->ce_sps.out_transfer))
 		goto bad;
 	if (pce_dev->no_get_around || areq->nbytes <= SPS_MAX_PKT_SIZE) {
-=======
-	if (_qce_sps_add_sg_data(pce_dev, areq->dst, areq->nbytes,
-					&pce_dev->ce_sps.out_transfer))
-		goto bad;
-	if (areq->nbytes > SPS_MAX_PKT_SIZE) {
-		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-	} else {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_COMP;
 		if (_qce_sps_add_data(
 				GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
 				CRYPTO_RESULT_DUMP_SIZE,
 				&pce_dev->ce_sps.out_transfer))
 			goto bad;
-<<<<<<< HEAD
 	} else {
 		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
 	}
 	_qce_set_flag(&pce_dev->ce_sps.out_transfer, SPS_IOVEC_FLAG_INT);
-=======
-		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	rc = _qce_sps_transfer(pce_dev);
 	if (rc)
 		goto bad;
@@ -5090,7 +4765,6 @@ int qce_process_sha_req(void *handle, struct qce_sha_req *sreq)
 	if (_qce_sps_add_sg_data(pce_dev, areq->src, areq->nbytes,
 						 &pce_dev->ce_sps.in_transfer))
 		goto bad;
-<<<<<<< HEAD
 
 	/* always ensure there is input data. ZLT does not work for bam-ndp */
 	if (!areq->nbytes)
@@ -5105,11 +4779,6 @@ int qce_process_sha_req(void *handle, struct qce_sha_req *sreq)
 			&pce_dev->ce_sps.cmdlistptr.unlock_all_pipes,
 			&pce_dev->ce_sps.in_transfer);
 
-=======
-	if (areq->nbytes)
-		_qce_set_flag(&pce_dev->ce_sps.in_transfer,
-					SPS_IOVEC_FLAG_EOT|SPS_IOVEC_FLAG_NWD);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (_qce_sps_add_data(GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
 					CRYPTO_RESULT_DUMP_SIZE,
 					  &pce_dev->ce_sps.out_transfer))
@@ -5127,10 +4796,6 @@ bad:
 	return rc;
 }
 EXPORT_SYMBOL(qce_process_sha_req);
-<<<<<<< HEAD
-=======
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int qce_f8_req(void *handle, struct qce_f8_req *req,
 			void *cookie, qce_comp_func_ptr_t qce_cb)
 {
@@ -5153,7 +4818,6 @@ int qce_f8_req(void *handle, struct qce_f8_req *req,
 
 	key_stream_mode = (req->data_in == NULL);
 
-<<<<<<< HEAD
 	/* don't support key stream mode */
 
 	if (key_stream_mode || (req->bearer >= QCE_OTA_MAX_BEARER))
@@ -5164,21 +4828,6 @@ int qce_f8_req(void *handle, struct qce_f8_req *req,
 					req->data_in, req->data_len,
 					(req->data_in == req->data_out) ?
 					DMA_BIDIRECTIONAL : DMA_TO_DEVICE);
-=======
-	if ((key_stream_mode && (req->data_len & 0xf)) ||
-				(req->bearer >= QCE_OTA_MAX_BEARER))
-		return -EINVAL;
-
-	/* F8 cipher input       */
-	if (key_stream_mode)
-		pce_dev->phy_ota_src = 0;
-	else {
-		pce_dev->phy_ota_src = dma_map_single(pce_dev->pdev,
-					req->data_in, req->data_len,
-					(req->data_in == req->data_out) ?
-					DMA_BIDIRECTIONAL : DMA_TO_DEVICE);
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* F8 cipher output     */
 	if (req->data_in != req->data_out) {
@@ -5223,7 +4872,6 @@ int qce_f8_req(void *handle, struct qce_f8_req *req,
 		_qce_sps_add_cmd(pce_dev, SPS_IOVEC_FLAG_LOCK, cmdlistinfo,
 					&pce_dev->ce_sps.in_transfer);
 
-<<<<<<< HEAD
 	_qce_sps_add_data((uint32_t)pce_dev->phy_ota_src, req->data_len,
 					&pce_dev->ce_sps.in_transfer);
 	_qce_set_flag(&pce_dev->ce_sps.in_transfer,
@@ -5232,37 +4880,14 @@ int qce_f8_req(void *handle, struct qce_f8_req *req,
 	_qce_sps_add_cmd(pce_dev, SPS_IOVEC_FLAG_UNLOCK,
 			&pce_dev->ce_sps.cmdlistptr.unlock_all_pipes,
 					&pce_dev->ce_sps.in_transfer);
-=======
-	if (!key_stream_mode) {
-		_qce_sps_add_data((uint32_t)pce_dev->phy_ota_src, req->data_len,
-					&pce_dev->ce_sps.in_transfer);
-		_qce_set_flag(&pce_dev->ce_sps.in_transfer,
-				SPS_IOVEC_FLAG_EOT|SPS_IOVEC_FLAG_NWD);
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	_qce_sps_add_data((uint32_t)dst, req->data_len,
 					&pce_dev->ce_sps.out_transfer);
 
-<<<<<<< HEAD
 	_qce_sps_add_data(GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
 					CRYPTO_RESULT_DUMP_SIZE,
 					  &pce_dev->ce_sps.out_transfer);
 	_qce_set_flag(&pce_dev->ce_sps.out_transfer, SPS_IOVEC_FLAG_INT);
-=======
-	if (req->data_len > SPS_MAX_PKT_SIZE) {
-		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-	} else {
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_COMP;
-		_qce_sps_add_data(GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
-					CRYPTO_RESULT_DUMP_SIZE,
-					  &pce_dev->ce_sps.out_transfer);
-		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	rc = _qce_sps_transfer(pce_dev);
 	if (rc)
 		goto bad;
@@ -5360,7 +4985,6 @@ int qce_f8_multi_pkt_req(void *handle, struct qce_f8_multi_pkt_req *mreq,
 	_qce_set_flag(&pce_dev->ce_sps.in_transfer,
 				SPS_IOVEC_FLAG_EOT|SPS_IOVEC_FLAG_NWD);
 
-<<<<<<< HEAD
 	_qce_sps_add_cmd(pce_dev, SPS_IOVEC_FLAG_UNLOCK,
 			&pce_dev->ce_sps.cmdlistptr.unlock_all_pipes,
 					&pce_dev->ce_sps.in_transfer);
@@ -5372,23 +4996,6 @@ int qce_f8_multi_pkt_req(void *handle, struct qce_f8_multi_pkt_req *mreq,
 					CRYPTO_RESULT_DUMP_SIZE,
 					  &pce_dev->ce_sps.out_transfer);
 	_qce_set_flag(&pce_dev->ce_sps.out_transfer, SPS_IOVEC_FLAG_INT);
-=======
-	_qce_sps_add_data((uint32_t)dst, total,
-					&pce_dev->ce_sps.out_transfer);
-
-	if (total > SPS_MAX_PKT_SIZE) {
-		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_IDLE;
-	} else {
-		pce_dev->ce_sps.producer_state = QCE_PIPE_STATE_COMP;
-		_qce_sps_add_data(GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
-					CRYPTO_RESULT_DUMP_SIZE,
-					  &pce_dev->ce_sps.out_transfer);
-		_qce_set_flag(&pce_dev->ce_sps.out_transfer,
-							SPS_IOVEC_FLAG_INT);
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	rc = _qce_sps_transfer(pce_dev);
 
 	if (rc == 0)
@@ -5457,13 +5064,10 @@ int qce_f9_req(void *handle, struct qce_f9_req *req, void *cookie,
 	_qce_set_flag(&pce_dev->ce_sps.in_transfer,
 				SPS_IOVEC_FLAG_EOT|SPS_IOVEC_FLAG_NWD);
 
-<<<<<<< HEAD
 	_qce_sps_add_cmd(pce_dev, SPS_IOVEC_FLAG_UNLOCK,
 			&pce_dev->ce_sps.cmdlistptr.unlock_all_pipes,
 					&pce_dev->ce_sps.in_transfer);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	_qce_sps_add_data(GET_PHYS_ADDR(pce_dev->ce_sps.result_dump),
 					CRYPTO_RESULT_DUMP_SIZE,
 					  &pce_dev->ce_sps.out_transfer);

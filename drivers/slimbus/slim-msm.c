@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -421,11 +417,7 @@ static int msm_slim_post_tx_msgq(struct msm_slim_ctrl *dev, u8 *buf, int len)
 	return ret;
 }
 
-<<<<<<< HEAD
 void msm_slim_tx_msg_return(struct msm_slim_ctrl *dev, int err)
-=======
-void msm_slim_tx_msg_return(struct msm_slim_ctrl *dev)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct msm_slim_endp *endpoint = &dev->tx_msgq;
 	struct sps_mem_buffer *mem = &endpoint->buf;
@@ -454,7 +446,6 @@ void msm_slim_tx_msg_return(struct msm_slim_ctrl *dev)
 			struct completion *comp = dev->wr_comp[idx];
 			dev->wr_comp[idx] = NULL;
 			complete(comp);
-<<<<<<< HEAD
 		} else if (idx >= MSM_TX_BUFS) {
 			SLIM_ERR(dev, "BUF out of bounds:base:0x%llx, io:0x%x",
 					(u64)mem->phys_base, iovec.addr);
@@ -474,8 +465,6 @@ void msm_slim_tx_msg_return(struct msm_slim_ctrl *dev)
 			if (err == -EINVAL)
 				sps_get_bam_debug_info(dev->bam.hdl, 93,
 							SPS_BAM_PIPE(4), 0, 2);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 		/* reclaim all packets that were delivered out of order */
 		if (idx != dev->tx_head)
@@ -507,11 +496,7 @@ static u32 *msm_slim_modify_tx_buf(struct msm_slim_ctrl *dev,
 	return retbuf;
 }
 u32 *msm_slim_manage_tx_msgq(struct msm_slim_ctrl *dev, bool getbuf,
-<<<<<<< HEAD
 					struct completion *comp, int err)
-=======
-					struct completion *comp)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	int ret = 0;
 	int retries = 0;
@@ -519,11 +504,7 @@ u32 *msm_slim_manage_tx_msgq(struct msm_slim_ctrl *dev, bool getbuf,
 
 	mutex_lock(&dev->tx_buf_lock);
 	if (!getbuf) {
-<<<<<<< HEAD
 		msm_slim_tx_msg_return(dev, err);
-=======
-		msm_slim_tx_msg_return(dev);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		mutex_unlock(&dev->tx_buf_lock);
 		return NULL;
 	}
@@ -535,11 +516,7 @@ u32 *msm_slim_manage_tx_msgq(struct msm_slim_ctrl *dev, bool getbuf,
 	}
 
 	do {
-<<<<<<< HEAD
 		msm_slim_tx_msg_return(dev, err);
-=======
-		msm_slim_tx_msg_return(dev);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		retbuf = msm_slim_modify_tx_buf(dev, comp);
 		if (!retbuf)
 			ret = -EAGAIN;
@@ -593,11 +570,7 @@ u32 *msm_get_msg_buf(struct msm_slim_ctrl *dev, int len,
 		return dev->tx_buf;
 	}
 
-<<<<<<< HEAD
 	return msm_slim_manage_tx_msgq(dev, true, comp, 0);
-=======
-	return msm_slim_manage_tx_msgq(dev, true, comp);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void
@@ -747,17 +720,12 @@ int msm_slim_connect_endp(struct msm_slim_ctrl *dev,
 		}
 		dev->use_rx_msgqs = MSM_MSGQ_ENABLED;
 	} else {
-<<<<<<< HEAD
 		mutex_lock(&dev->tx_buf_lock);
 		dev->tx_tail = 0;
 		dev->tx_head = 0;
 		for (i = 0; i < MSM_TX_BUFS; i++)
 			dev->wr_comp[i] = NULL;
 		mutex_unlock(&dev->tx_buf_lock);
-=======
-		dev->tx_tail = 0;
-		dev->tx_head = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		dev->use_tx_msgqs = MSM_MSGQ_ENABLED;
 	}
 
@@ -1004,7 +972,6 @@ init_msgq:
 	if (ret && bam_handle)
 		dev->use_tx_msgqs = MSM_MSGQ_DISABLED;
 
-<<<<<<< HEAD
 	/*
 	 * If command interface for BAM fails, register interface is used for
 	 * commands.
@@ -1014,26 +981,13 @@ init_msgq:
 	 */
 
 	return 0;
-=======
-	if (dev->use_tx_msgqs == MSM_MSGQ_DISABLED &&
-		dev->use_rx_msgqs == MSM_MSGQ_DISABLED && bam_handle) {
-		sps_deregister_bam_device(bam_handle);
-		dev->bam.hdl = 0L;
-	}
-
-	return ret;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 void msm_slim_disconnect_endp(struct msm_slim_ctrl *dev,
 					struct msm_slim_endp *endpoint,
 					enum msm_slim_msgq *msgq_flag)
 {
-<<<<<<< HEAD
 	if (*msgq_flag >= MSM_MSGQ_ENABLED) {
-=======
-	if (*msgq_flag == MSM_MSGQ_ENABLED) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		sps_disconnect(endpoint->sps);
 		*msgq_flag = MSM_MSGQ_RESET;
 	}

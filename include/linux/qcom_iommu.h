@@ -114,10 +114,7 @@ struct msm_iommu_drvdata {
 	void __iomem *glb_base;
 	void __iomem *cb_base;
 	void __iomem *smmu_local_base;
-<<<<<<< HEAD
 	void __iomem *vbif_base;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int ncb;
 	int ttbr_split;
 	struct clk *clk;
@@ -184,10 +181,7 @@ void iommu_resume(const struct msm_iommu_drvdata *iommu_drvdata);
 			the secure environment, false otherwise
  * @asid		ASID used with this context.
  * @attach_count	Number of time this context has been attached.
-<<<<<<< HEAD
  * @report_error_on_fault - true if error is returned back to master
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * A msm_iommu_ctx_drvdata holds the driver data for a single context bank
  * within each IOMMU hardware instance
@@ -205,10 +199,7 @@ struct msm_iommu_ctx_drvdata {
 	int attach_count;
 	u32 sid_mask[MAX_NUM_SMR];
 	unsigned int n_sid_mask;
-<<<<<<< HEAD
 	bool report_error_on_fault;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 enum dump_reg {

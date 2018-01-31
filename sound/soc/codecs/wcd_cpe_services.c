@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -20,18 +16,12 @@
 #include <linux/sched.h>
 #include <linux/completion.h>
 #include <linux/kthread.h>
-<<<<<<< HEAD
 #include <linux/delay.h>
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <linux/mfd/wcd9xxx/core.h>
 #include <sound/cpe_cmi.h>
 #include <sound/soc.h>
 #include <linux/mfd/wcd9xxx/wcd9330_registers.h>
-<<<<<<< HEAD
 #include <linux/mfd/wcd9335/registers.h>
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include "wcd_cpe_services.h"
 #include "wcd_cmi_api.h"
 
@@ -41,10 +31,7 @@
 #define CMI_DRIVER_SUPPORTED_VERSION 0
 #define CMI_API_SUCCESS 0
 #define CMI_MSG_TRANSPORT (0x0002)
-<<<<<<< HEAD
 #define CPE_SVC_INACTIVE_STATE_RETRIES_MAX 10
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #define TOMTOM_A_SVASS_SPE_DRAM_OFFSET				0x50000
 #define TOMTOM_A_SVASS_SPE_DRAM_SIZE				0x30000
@@ -61,7 +48,6 @@
 
 #define TOMTOM_A_SVASS_SPE_INBOX(N)	(TOMTOM_A_SVASS_SPE_INBOX_0 + (N))
 #define TOMTOM_A_SVASS_SPE_OUTBOX(N)	(TOMTOM_A_SVASS_SPE_OUTBOX_0 + (N))
-<<<<<<< HEAD
 
 #define WCD9335_CPE_SS_SPE_DRAM_OFFSET		0x48000
 #define WCD9335_CPE_SS_SPE_DRAM_SIZE		0x34000
@@ -76,8 +62,6 @@
 #define WCD9335_CPE_SS_SPE_OUTBOX1(N)	(WCD9335_CPE_SS_OUTBOX1_0 + (N))
 #define WCD9335_CPE_SS_MEM_BANK(N)	(WCD9335_CPE_SS_MEM_BANK_0 + (N))
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define CHUNK_SIZE 16
 
 #define CPE_SVC_GRAB_LOCK(lock, name)		\
@@ -103,7 +87,6 @@ static const struct cpe_svc_hw_cfg cpe_svc_tomtom_info = {
 	TOMTOM_A_SVASS_SPE_OUTBOX_SIZE
 };
 
-<<<<<<< HEAD
 static const struct cpe_svc_hw_cfg cpe_svc_wcd9335_info = {
 	WCD9335_CPE_SS_SPE_DRAM_SIZE,
 	WCD9335_CPE_SS_SPE_DRAM_OFFSET,
@@ -115,10 +98,6 @@ static const struct cpe_svc_hw_cfg cpe_svc_wcd9335_info = {
 
 enum cpe_state {
 	CPE_STATE_UNINITIALIZED = 0,
-=======
-enum cpe_state {
-	CPE_STATE_UNINITIALIZED,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	CPE_STATE_INITIALIZED,
 	CPE_STATE_IDLE,
 	CPE_STATE_DOWNLOADING,
@@ -130,11 +109,7 @@ enum cpe_state {
 };
 
 enum cpe_substate {
-<<<<<<< HEAD
 	CPE_SS_IDLE = 0,
-=======
-	CPE_SS_IDLE,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	CPE_SS_MSG_REQUEST_ACCESS,
 	CPE_SS_MSG_SEND_INBOX,
 	CPE_SS_MSG_SENT,
@@ -146,19 +121,12 @@ enum cpe_substate {
 };
 
 enum cpe_command {
-<<<<<<< HEAD
 	CPE_CMD_KILL_THREAD = 0,
-=======
-	CPE_CMD_KILL_THREAD,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	CPE_CMD_BOOT,
 	CPE_CMD_BOOT_INITIALIZE,
 	CPE_CMD_BOOT_COMPLETE,
 	CPE_CMD_SEND_MSG,
-<<<<<<< HEAD
 	CPE_CMD_SEND_TRANS_MSG,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	CPE_CMD_SEND_MSG_COMPLETE,
 	CPE_CMD_PROCESS_IRQ,
 	CPE_CMD_RAMDUMP,
@@ -170,7 +138,6 @@ enum cpe_command {
 	CPE_CMD_ENABLE_LAB,
 	CPE_CMD_DISABLE_LAB,
 	CPE_CMD_SWAP_BUFFER,
-<<<<<<< HEAD
 	CPE_LAB_CFG_SB,
 	CPE_CMD_CANCEL_MEMACCESS,
 	CPE_CMD_PROC_INCOMING_MSG,
@@ -181,9 +148,6 @@ enum cpe_process_result {
 	CPE_PROC_FAILED,
 	CPE_PROC_KILLED,
 	CPE_PROC_QUEUED,
-=======
-	CPE_LAB_CFG_SB
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct cpe_command_node {
@@ -200,32 +164,21 @@ struct cpe_info {
 	enum cpe_state state;
 	enum cpe_substate substate;
 	struct list_head client_list;
-<<<<<<< HEAD
 	enum cpe_process_result (*cpe_process_command)
-=======
-	bool (*cpe_process_command)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			(struct cpe_command_node *command_node);
 	enum cpe_svc_result (*cpe_cmd_validate)
 				(const struct cpe_info *i,
 				 enum cpe_command command);
 	enum cpe_svc_result (*cpe_start_notification)
-<<<<<<< HEAD
 			     (struct cpe_info *i);
-=======
-			     (const struct cpe_info *i);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	u32 initialized;
 	struct cpe_svc_tgt_abstraction *tgt;
 	void *pending;
 	void *data;
-<<<<<<< HEAD
 	void *client_context;
 	u32 codec_id;
 	struct work_struct clk_plan_work;
 	struct completion core_svc_cmd_compl;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct cpe_svc_tgt_abstraction {
@@ -237,11 +190,8 @@ struct cpe_svc_tgt_abstraction {
 
 	enum cpe_svc_result (*tgt_reset) (void);
 
-<<<<<<< HEAD
 	enum cpe_svc_result (*tgt_stop)(void);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	enum cpe_svc_result (*tgt_read_mailbox)
 				(u8 *buffer, size_t size);
 
@@ -274,13 +224,10 @@ static enum cpe_svc_result cpe_tgt_tomtom_init(
 	struct cpe_svc_codec_info_v1 *codec_info,
 	struct cpe_svc_tgt_abstraction *param);
 
-<<<<<<< HEAD
 static enum cpe_svc_result cpe_tgt_wcd9335_init(
 	struct cpe_svc_codec_info_v1 *codec_info,
 	struct cpe_svc_tgt_abstraction *param);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct cpe_send_msg {
 	u8 *payload;
 	u32 isobm;
@@ -292,10 +239,7 @@ struct cpe_read_handle {
 	void *registration;
 	struct cpe_info t_info;
 	struct list_head buffers;
-<<<<<<< HEAD
 	void *config;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct generic_notification {
@@ -311,7 +255,6 @@ struct cpe_notif_node {
 	u32 service;
 	const struct cpe_info *context;
 	const char *name;
-<<<<<<< HEAD
 	u32 disabled;
 	struct list_head list;
 };
@@ -341,25 +284,6 @@ static enum cpe_svc_result cpe_is_command_valid(
 static int cpe_register_read(u32 reg, u8 *val)
 {
 	*(val) = snd_soc_read(cpe_d.cdc_priv, reg);
-=======
-	struct list_head list;
-};
-
-static struct cpe_info *cpe_default_handle;
-static void (*cpe_irq_control_callback)(u32 enable);
-static u32 cpe_msg_buffer;
-static struct mutex cpe_api_mutex;
-
-static enum cpe_svc_result
-cpe_is_command_valid(const struct cpe_info *t_info,
-	enum cpe_command command);
-
-static void *cdc_priv;
-
-static int cpe_register_read(u32 reg, u8 *val)
-{
-	*(val) = snd_soc_read(cdc_priv, reg);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 
@@ -367,11 +291,7 @@ static enum cpe_svc_result cpe_update_bits(u32 reg,
 		u32 mask, u32 value)
 {
 	int ret = 0;
-<<<<<<< HEAD
 	ret = snd_soc_update_bits(cpe_d.cdc_priv, reg,
-=======
-	ret = snd_soc_update_bits(cdc_priv, reg,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				  mask, value);
 	if (ret < 0)
 		return CPE_SVC_FAILED;
@@ -383,20 +303,12 @@ static int cpe_register_write(u32 reg, u32 val)
 {
 	int ret = 0;
 
-<<<<<<< HEAD
 	if (reg != TOMTOM_A_SVASS_MEM_BANK &&
 	    reg != WCD9335_CPE_SS_MEM_BANK_0)
 		pr_debug("%s: reg = 0x%x, value = 0x%x\n",
 			  __func__, reg, val);
 
 	ret = snd_soc_write(cpe_d.cdc_priv, reg, val);
-=======
-	if (reg != TOMTOM_A_SVASS_MEM_BANK)
-		pr_debug("%s: reg = 0x%x, value = 0x%x\n",
-			  __func__, reg, val);
-
-	ret = snd_soc_write(cdc_priv, reg, val);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (ret < 0)
 		return CPE_SVC_FAILED;
 
@@ -405,7 +317,6 @@ static int cpe_register_write(u32 reg, u32 val)
 
 static int cpe_register_write_repeat(u32 reg, u8 *ptr, u32 to_write)
 {
-<<<<<<< HEAD
 	struct snd_soc_codec *codec = cpe_d.cdc_priv;
 	struct wcd9xxx *wcd9xxx = dev_get_drvdata(codec->dev->parent);
 	int ret = 0;
@@ -413,15 +324,6 @@ static int cpe_register_write_repeat(u32 reg, u8 *ptr, u32 to_write)
 	ret = wcd9xxx_bus_write_repeat(wcd9xxx, reg, to_write, ptr);
 	if (ret != 0)
 		pr_err("%s: bus_write_repeat failed\n", __func__);
-=======
-	struct snd_soc_codec *codec = cdc_priv;
-	struct wcd9xxx *wcd9xxx = codec->control_data;
-	int ret = 0;
-
-	ret = wcd9xxx_slim_write_repeat(wcd9xxx, reg, to_write, ptr);
-	if (ret != 0)
-		pr_err("%s: slim_write_repeat failed\n", __func__);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (ret < 0)
 		return CPE_SVC_FAILED;
@@ -437,11 +339,7 @@ static bool cpe_register_read_autoinc_supported(void)
 static void cpe_cmd_received(struct cpe_info *t_info)
 {
 	struct cpe_command_node *node = NULL;
-<<<<<<< HEAD
 	enum cpe_process_result proc_rc = CPE_PROC_SUCCESS;
-=======
-	bool check_next = true;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (!t_info) {
 		pr_err("%s: Invalid thread info\n",
 			__func__);
@@ -449,18 +347,13 @@ static void cpe_cmd_received(struct cpe_info *t_info)
 	}
 
 	while (!list_empty(&t_info->main_queue)) {
-<<<<<<< HEAD
 		if (proc_rc != CPE_PROC_SUCCESS)
-=======
-		if (!check_next)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			break;
 		node = list_first_entry(&t_info->main_queue,
 					struct cpe_command_node, list);
 		if (!node)
 			break;
 		list_del(&node->list);
-<<<<<<< HEAD
 		proc_rc = t_info->cpe_process_command(node);
 		pr_debug("%s: process command return %d\n",
 			 __func__, proc_rc);
@@ -479,13 +372,6 @@ static void cpe_cmd_received(struct cpe_info *t_info)
 			list_add(&node->list, &(t_info->main_queue));
 
 		}
-=======
-		check_next = t_info->cpe_process_command(node);
-		if (check_next)
-			kfree(node);
-		else
-			list_add(&node->list, &(t_info->main_queue));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 }
 
@@ -493,15 +379,6 @@ static int cpe_worker_thread(void *context)
 {
 	struct cpe_info *t_info = (struct cpe_info *)context;
 
-<<<<<<< HEAD
-=======
-	if (t_info->cpe_start_notification)
-		t_info->cpe_start_notification(t_info);
-	else
-		pr_debug("%s: no start notification\n",
-			 __func__);
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	while (!kthread_should_stop()) {
 		wait_for_completion(&t_info->cmd_complete);
 		cpe_cmd_received(t_info);
@@ -529,12 +406,8 @@ static void cpe_cleanup_worker_thread(struct cpe_info *t_info)
 
 static enum cpe_svc_result
 cpe_send_cmd_to_thread(struct cpe_info *t_info,
-<<<<<<< HEAD
 	enum cpe_command command, void *data,
 	bool high_prio)
-=======
-	enum cpe_command command, void *data)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	enum cpe_svc_result rc = CPE_SVC_SUCCESS;
 	struct cpe_command_node *cmd = NULL;
@@ -556,22 +429,17 @@ cpe_send_cmd_to_thread(struct cpe_info *t_info,
 
 	cmd->command = command;
 	cmd->data = data;
-<<<<<<< HEAD
 	if (high_prio)
 		list_add(&(cmd->list),
 			 &(t_info->main_queue));
 	else
 		list_add_tail(&(cmd->list),
 			      &(t_info->main_queue));
-=======
-	list_add_tail(&(cmd->list), &(t_info->main_queue));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	complete(&t_info->cmd_complete);
 	return rc;
 }
 
-<<<<<<< HEAD
 static enum cpe_svc_result cpe_change_state(
 	struct cpe_info *t_info,
 	enum cpe_state state, enum cpe_substate ss)
@@ -591,8 +459,6 @@ static enum cpe_svc_result cpe_change_state(
 	return rc;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static enum cpe_svc_result
 cpe_is_command_valid(const struct cpe_info *t_info,
 		enum cpe_command command)
@@ -621,11 +487,7 @@ static void cpe_notify_client(struct cpe_notif_node *client,
 		return;
 	}
 
-<<<<<<< HEAD
 	if (client->notif.notification && !client->disabled)
-=======
-	if (client->notif.notification)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		client->notif.notification(payload);
 
 	if ((client->mask & CPE_SVC_CMI_MSG) &&
@@ -646,23 +508,15 @@ static void cpe_broadcast_notification(const struct cpe_info *t_info,
 
 	pr_debug("%s: notify clients, event = %d\n",
 		 __func__, payload->event);
-<<<<<<< HEAD
 	payload->private_data = cpe_d.cdc_priv;
 
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_svc_lock, "cpe_svc");
-=======
-	payload->private_data = cdc_priv;
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	list_for_each_entry(n, &t_info->client_list, list) {
 		if (!(n->mask & CPE_SVC_CMI_MSG)) {
 			cpe_notify_client(n, payload);
 		}
 	}
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_svc_lock, "cpe_svc");
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void *cpe_register_generic(struct cpe_info *t_info,
@@ -686,7 +540,6 @@ static void *cpe_register_generic(struct cpe_info *t_info,
 	n->notif.notification = notification_callback;
 	n->notif.cmi_notification = cmi_callback;
 	n->context = t_info;
-<<<<<<< HEAD
 	n->disabled = false;
 	n->name = name;
 
@@ -698,10 +551,6 @@ static void *cpe_register_generic(struct cpe_info *t_info,
 		list_add_tail(&n->list, &t_info->client_list);
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_svc_lock, "cpe_svc");
 
-=======
-	n->name = name;
-	list_add_tail(&n->list, &t_info->client_list);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return n;
 }
 
@@ -733,11 +582,8 @@ static enum cpe_svc_result cpe_svc_tgt_init(struct cpe_svc_codec_info_v1 *i,
 	switch (i->id) {
 	case CPE_SVC_CODEC_TOMTOM:
 		return cpe_tgt_tomtom_init(i, abs);
-<<<<<<< HEAD
 	case CPE_SVC_CODEC_WCD9335:
 		return cpe_tgt_wcd9335_init(i, abs);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	default:
 		pr_err("%s: Codec type %d not supported\n",
 			__func__, i->id);
@@ -751,11 +597,7 @@ static void cpe_notify_cmi_client(struct cpe_info *t_info, u8 *payload,
 		enum cpe_svc_result result)
 {
 	struct cpe_notif_node *n = NULL;
-<<<<<<< HEAD
 	struct cmi_api_notification notif;
-=======
-	struct cpe_svc_notification notif;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct cmi_hdr *hdr;
 	u8 service = 0;
 
@@ -770,7 +612,6 @@ static void cpe_notify_cmi_client(struct cpe_info *t_info, u8 *payload,
 
 	notif.event = CPE_SVC_CMI_MSG;
 	notif.result = result;
-<<<<<<< HEAD
 	notif.message = payload;
 
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_svc_lock, "cpe_svc");
@@ -784,35 +625,19 @@ static void cpe_notify_cmi_client(struct cpe_info *t_info, u8 *payload,
 		}
 	}
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_svc_lock, "cpe_svc");
-=======
-	notif.payload = payload;
-
-	list_for_each_entry(n, &t_info->client_list, list) {
-		if ((n->mask & CPE_SVC_CMI_MSG) && n->service == service)
-			cpe_notify_client(n, &notif);
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void cpe_toggle_irq_notification(struct cpe_info *t_info, u32 value)
 {
-<<<<<<< HEAD
 	if (cpe_d.cpe_irq_control_callback)
 		cpe_d.cpe_irq_control_callback(value);
-=======
-	if (cpe_irq_control_callback)
-		cpe_irq_control_callback(value);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void cpe_command_cleanup(struct cpe_command_node *command_node)
 {
 	switch (command_node->command) {
 	case CPE_CMD_SEND_MSG:
-<<<<<<< HEAD
 	case CPE_CMD_SEND_TRANS_MSG:
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	case CPE_CMD_SEND_MSG_COMPLETE:
 	case CPE_CMD_SHUTDOWN:
 	case CPE_CMD_READ:
@@ -826,22 +651,15 @@ static void cpe_command_cleanup(struct cpe_command_node *command_node)
 	}
 }
 
-<<<<<<< HEAD
 static enum cpe_svc_result cpe_send_msg_to_inbox(
 		struct cpe_info *t_info, u32 opcode,
-=======
-static void cpe_send_msg_to_inbox(struct cpe_info *t_info,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		struct cpe_send_msg *msg)
 {
 	size_t bytes = 0;
 	size_t inbox_size =
 		t_info->tgt->tgt_get_cpe_info()->inbox_size;
 	struct cmi_hdr *hdr;
-<<<<<<< HEAD
 	enum cpe_svc_result rc = CPE_SVC_SUCCESS;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	memset(t_info->tgt->inbox, 0, inbox_size);
 	hdr = CMI_GET_HEADER(t_info->tgt->inbox);
@@ -850,16 +668,9 @@ static void cpe_send_msg_to_inbox(struct cpe_info *t_info,
 	CMI_HDR_SET_VERSION(hdr, CMI_DRIVER_SUPPORTED_VERSION);
 	CMI_HDR_SET_OBM(hdr, CMI_OBM_FLAG_IN_BAND);
 
-<<<<<<< HEAD
 	switch (opcode) {
 	case CPE_CORE_SVC_CMD_SHARED_MEM_ALLOC: {
 		struct cmi_core_svc_cmd_shared_mem_alloc *m;
-=======
-	switch (t_info->substate) {
-	case CPE_SS_BOOT_INIT: {
-		struct cmi_core_svc_cmd_shared_mem_alloc *m;
-		hdr = CMI_GET_HEADER(t_info->tgt->inbox);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		CMI_HDR_SET_OPCODE(hdr,
 			CPE_CORE_SVC_CMD_SHARED_MEM_ALLOC);
 		CMI_HDR_SET_PAYLOAD_SIZE(hdr,
@@ -870,7 +681,6 @@ static void cpe_send_msg_to_inbox(struct cpe_info *t_info,
 		pr_debug("send shared mem alloc msg to cpe inbox\n");
 		}
 		break;
-<<<<<<< HEAD
 	case CPE_CORE_SVC_CMD_DRAM_ACCESS_REQ:
 		CMI_HDR_SET_OPCODE(hdr,
 			CPE_CORE_SVC_CMD_DRAM_ACCESS_REQ);
@@ -893,11 +703,6 @@ static void cpe_send_msg_to_inbox(struct cpe_info *t_info,
 		break;
 
 	default:
-=======
-
-	case CPE_SS_DL_COMPLETED:
-	case CPE_SS_MSG_SEND_INBOX:
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (msg->address != 0) {
 			struct cmi_msg_transport *m = NULL;
 			struct cpe_svc_mem_segment mem_seg;
@@ -931,22 +736,6 @@ static void cpe_send_msg_to_inbox(struct cpe_info *t_info,
 		}
 
 		break;
-<<<<<<< HEAD
-=======
-	case CPE_SS_MSG_REQUEST_ACCESS:
-		hdr = CMI_GET_HEADER(t_info->tgt->inbox);
-		CMI_HDR_SET_OPCODE(hdr,
-			CPE_CORE_SVC_CMD_DRAM_ACCESS_REQ);
-		CMI_HDR_SET_PAYLOAD_SIZE(hdr, 0);
-		pr_debug("%s: Creating DRAM acces request message\n",
-			 __func__);
-		break;
-
-	default:
-		pr_err("%s: unhandled substate %d\n",
-			__func__, t_info->substate);
-		break;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	pr_debug("%s: sending message to cpe inbox\n",
@@ -954,7 +743,6 @@ static void cpe_send_msg_to_inbox(struct cpe_info *t_info,
 	bytes = sizeof(struct cmi_hdr);
 	hdr = CMI_GET_HEADER(t_info->tgt->inbox);
 	bytes += CMI_HDR_GET_PAYLOAD_SIZE(hdr);
-<<<<<<< HEAD
 	rc = t_info->tgt->tgt_write_mailbox(t_info->tgt->inbox, bytes);
 
 	return rc;
@@ -997,9 +785,6 @@ static enum cpe_svc_result cpe_process_clk_change_req(
 		CPE_CMI_BASIC_RSP_OPCODE, NULL);
 
 	return CPE_SVC_SUCCESS;
-=======
-	t_info->tgt->tgt_write_mailbox(t_info->tgt->inbox, bytes);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void cpe_process_irq_int(u32 irq,
@@ -1018,11 +803,7 @@ static void cpe_process_irq_int(u32 irq,
 		return;
 	}
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	switch (irq) {
 	case CPE_IRQ_OUTBOX_IRQ:
 		size = t_info->tgt->tgt_get_cpe_info()->outbox_size;
@@ -1031,26 +812,15 @@ static void cpe_process_irq_int(u32 irq,
 
 	case CPE_IRQ_MEM_ACCESS_ERROR:
 		err_irq = true;
-<<<<<<< HEAD
 		cpe_change_state(t_info, CPE_STATE_OFFLINE, CPE_SS_IDLE);
-=======
-		t_info->state = CPE_STATE_OFFLINE;
-		t_info->substate = CPE_SS_IDLE;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case CPE_IRQ_WDOG_BITE:
 	case CPE_IRQ_RCO_WDOG_INT:
 		err_irq = true;
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 		cpe_svc_shutdown(t_info);
 		CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
-		cpe_svc_shutdown(t_info);
-		CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case CPE_IRQ_FLL_LOCK_LOST:
@@ -1062,11 +832,7 @@ static void cpe_process_irq_int(u32 irq,
 	if (err_irq) {
 		pr_err("%s: CPE error IRQ %u occured\n",
 			__func__, irq);
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return;
 	}
 
@@ -1100,7 +866,6 @@ static void cpe_process_irq_int(u32 irq,
 
 		switch (t_info->substate) {
 		case CPE_SS_MSG_REQUEST_ACCESS:
-<<<<<<< HEAD
 			cpe_send_cmd_to_thread(t_info,
 				CPE_CMD_SEND_TRANS_MSG, m, true);
 			break;
@@ -1111,19 +876,6 @@ static void cpe_process_irq_int(u32 irq,
 			else
 				cpe_send_cmd_to_thread(t_info,
 					CPE_CMD_SEND_MSG_COMPLETE, m, true);
-=======
-			t_info->substate = CPE_SS_MSG_SEND_INBOX;
-			cpe_send_msg_to_inbox(t_info, m);
-			break;
-
-		case CPE_SS_MSG_SEND_INBOX:
-			temp_node.command = CPE_CMD_SEND_MSG_COMPLETE;
-			temp_node.data = m->payload;
-			t_info->substate = CPE_SS_MSG_SENT;
-			t_info->cpe_process_command(&temp_node);
-			kfree(m);
-			t_info->pending = NULL;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			break;
 
 		default:
@@ -1136,14 +888,9 @@ static void cpe_process_irq_int(u32 irq,
 	case CPE_STATE_IDLE:
 		pr_debug("%s: Message received, notifying client\n",
 			 __func__);
-<<<<<<< HEAD
 		temp_node.command = CPE_CMD_PROC_INCOMING_MSG;
 		temp_node.data = NULL;
 		t_info->cpe_process_command(&temp_node);
-=======
-		cpe_notify_cmi_client(t_info,
-			t_info->tgt->outbox, CPE_SVC_SUCCESS);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	default:
@@ -1152,59 +899,40 @@ static void cpe_process_irq_int(u32 irq,
 		break;
 	}
 
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 
 static void broacast_boot_failed(void)
 {
-<<<<<<< HEAD
 	struct cpe_info *t_info = cpe_d.cpe_default_handle;
-=======
-	struct cpe_info *t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct cpe_svc_notification payload;
 
 	payload.event = CPE_SVC_BOOT_FAILED;
 	payload.result = CPE_SVC_FAILED;
 	payload.payload = NULL;
-<<<<<<< HEAD
 	if (t_info)
 		payload.private_data =
 			t_info->client_context;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	cpe_broadcast_notification(t_info, &payload);
 }
 
 static enum cpe_svc_result broadcast_boot_event(
-<<<<<<< HEAD
 		struct cpe_info *t_info)
-=======
-		const struct cpe_info *t_info)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct cpe_svc_notification payload;
 
 	payload.event = CPE_SVC_ONLINE;
 	payload.result = CPE_SVC_SUCCESS;
 	payload.payload = NULL;
-<<<<<<< HEAD
 	if (t_info)
 		payload.private_data =
 			t_info->client_context;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	cpe_broadcast_notification(t_info, &payload);
 
 	return CPE_SVC_SUCCESS;
 }
 
-<<<<<<< HEAD
 static enum cpe_process_result cpe_boot_initialize(struct cpe_info *t_info,
 	enum cpe_svc_result *cpe_rc)
 {
@@ -1526,29 +1254,11 @@ static enum cpe_process_result cpe_mt_process_cmd(
 	struct cmi_hdr *hdr;
 	u8 service = 0;
 	u8 retries = 0;
-=======
-static bool cpe_mt_process_cmd(struct cpe_command_node *command_node)
-{
-	bool rc = true;
-	struct cpe_info *t_info = cpe_default_handle;
-	struct cpe_svc_notification payload;
-	struct cmi_core_svc_event_system_boot *ev_boot;
-	struct cmi_core_svc_cmdrsp_shared_mem_alloc *rsp_shmem_alloc;
-	enum cpe_svc_result cpe_rc;
-	struct cpe_send_msg *m;
-	struct cmi_hdr *hdr;
-	u32 size;
-	u8 service = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!t_info || !command_node) {
 		pr_err("%s: Invalid handle/command node\n",
 			__func__);
-<<<<<<< HEAD
 		return CPE_PROC_FAILED;
-=======
-		return false;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	pr_debug("%s: cmd = %u\n", __func__, command_node->command);
@@ -1558,17 +1268,12 @@ static bool cpe_mt_process_cmd(struct cpe_command_node *command_node)
 	if (cpe_rc != CPE_SVC_SUCCESS) {
 		pr_err("%s: Invalid command %d, err = %d\n",
 			__func__, command_node->command, cpe_rc);
-<<<<<<< HEAD
 		return CPE_PROC_FAILED;
-=======
-		return false;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	switch (command_node->command) {
 
 	case CPE_CMD_BOOT_INITIALIZE:
-<<<<<<< HEAD
 		rc = cpe_boot_initialize(t_info, &cpe_rc);
 		break;
 
@@ -1600,76 +1305,6 @@ static bool cpe_mt_process_cmd(struct cpe_command_node *command_node)
 		cpe_change_state(t_info, CPE_STATE_SENDING_MSG,
 				CPE_SS_MSG_SEND_INBOX);
 		rc = cpe_send_msg_to_inbox(t_info, 0, m);
-=======
-		if (CMI_GET_OPCODE(t_info->tgt->outbox) !=
-			CPE_CORE_SVC_EVENT_SYSTEM_BOOT) {
-			broacast_boot_failed();
-			break;
-		}
-
-		ev_boot = (struct cmi_core_svc_event_system_boot *)
-			CMI_GET_PAYLOAD(t_info->tgt->outbox);
-
-		if (ev_boot->status != CPE_BOOT_SUCCESS) {
-			pr_err("%s: cpe boot failed, status = %d\n",
-				__func__, ev_boot->status);
-			broacast_boot_failed();
-			break;
-		}
-
-		t_info->substate = CPE_SS_BOOT_INIT;
-		cpe_send_msg_to_inbox(t_info, NULL);
-		break;
-
-	case CPE_CMD_BOOT_COMPLETE:
-		if (CMI_GET_OPCODE(t_info->tgt->outbox) !=
-			CPE_CORE_SVC_CMDRSP_SHARED_MEM_ALLOC) {
-			broacast_boot_failed();
-			break;
-		}
-
-		rsp_shmem_alloc =
-			(struct cmi_core_svc_cmdrsp_shared_mem_alloc *)
-				CMI_GET_PAYLOAD(t_info->tgt->outbox);
-		cpe_msg_buffer = rsp_shmem_alloc->addr;
-
-		if (cpe_msg_buffer == 0) {
-			pr_err("%s: Invalid cpe buffer for message\n",
-				__func__);
-			broacast_boot_failed();
-		} else {
-			pr_debug("%s: boot complete\n", __func__);
-			cpe_create_worker_thread(t_info);
-		}
-
-		t_info->state = CPE_STATE_IDLE;
-		t_info->substate = CPE_SS_IDLE;
-		break;
-
-	case CPE_CMD_SEND_MSG:
-		m = (struct cpe_send_msg *)command_node->data;
-		size = m->size;
-		t_info->state = CPE_STATE_SENDING_MSG;
-
-		if (size <= t_info->tgt->tgt_get_cpe_info()->inbox_size) {
-			t_info->substate = CPE_SS_MSG_SEND_INBOX;
-			pr_debug("%s: msg fits mailbox, size %u\n",
-				 __func__, size);
-		} else if (size < CPE_MSG_BUFFER_SIZE) {
-			t_info->substate = CPE_SS_MSG_REQUEST_ACCESS;
-			m->address = cpe_msg_buffer;
-			pr_debug("%s: msg is inband\n", __func__);
-		} else {
-			pr_err("%s: Wrong msg size %u\n",
-			       __func__, size);
-			t_info->state = CPE_STATE_IDLE;
-			cpe_command_cleanup(command_node);
-			return CPE_SVC_FAILED;
-		}
-
-		t_info->pending = m;
-		cpe_send_msg_to_inbox(t_info, m);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case CPE_CMD_SEND_MSG_COMPLETE:
@@ -1677,7 +1312,6 @@ static bool cpe_mt_process_cmd(struct cpe_command_node *command_node)
 		service = CMI_HDR_GET_SERVICE(hdr);
 		pr_debug("%s: msg send success, notifying clients\n",
 			 __func__);
-<<<<<<< HEAD
 		cpe_change_state(t_info,
 				 CPE_STATE_IDLE, CPE_SS_IDLE);
 		cpe_notify_cmi_client(t_info,
@@ -1706,52 +1340,14 @@ static bool cpe_mt_process_cmd(struct cpe_command_node *command_node)
 			m = (struct cpe_send_msg *)t_info->pending;
 			cpe_notify_cmi_client(t_info, m->payload,
 					      CPE_SVC_FAILED);
-=======
-		cpe_notify_cmi_client(t_info,
-			t_info->tgt->outbox, CPE_SVC_SUCCESS);
-		cpe_command_cleanup(command_node);
-		t_info->state = CPE_STATE_IDLE;
-		break;
-
-	case CPE_CMD_KILL_THREAD:
-
-		if (t_info->pending) {
-			struct cpe_send_msg *m =
-				(struct cpe_send_msg *)t_info->pending;
-			cpe_notify_cmi_client(t_info, m->payload,
-				CPE_SVC_SHUTTING_DOWN);
-			kfree(t_info->pending);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			t_info->pending = NULL;
 		}
 
 		cpe_command_cleanup(command_node);
-<<<<<<< HEAD
 		rc = CPE_PROC_FAILED;
 		cpe_change_state(t_info, CPE_STATE_IDLE,
 			CPE_SS_IDLE);
 	}
-=======
-		kfree(command_node);
-		payload.result = CPE_SVC_SHUTTING_DOWN;
-		payload.event = CPE_SVC_OFFLINE;
-		payload.payload = NULL;
-		/*
-		 * Make state as offline before broadcasting
-		 * the message to clients.
-		 */
-		t_info->state = CPE_STATE_OFFLINE;
-		t_info->substate = CPE_SS_IDLE;
-		cpe_broadcast_notification(t_info, &payload);
-		cpe_cleanup_worker_thread(t_info);
-		break;
-
-	default:
-		pr_err("%s: unhandled cpe cmd = %d\n",
-			__func__, command_node->command);
-		break;
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return rc;
 }
@@ -1816,19 +1412,13 @@ static enum cpe_svc_result cpe_mt_validate_cmd(
 	case CPE_STATE_IDLE:
 		switch (command) {
 		case CPE_CMD_SEND_MSG:
-<<<<<<< HEAD
 		case CPE_CMD_SEND_TRANS_MSG:
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		case CPE_CMD_SEND_MSG_COMPLETE:
 		case CPE_CMD_PROCESS_IRQ:
 		case CPE_CMD_RESET:
 		case CPE_CMD_SHUTDOWN:
 		case CPE_CMD_KILL_THREAD:
-<<<<<<< HEAD
 		case CPE_CMD_PROC_INCOMING_MSG:
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			rc = CPE_SVC_SUCCESS;
 			break;
 		default:
@@ -1840,18 +1430,12 @@ static enum cpe_svc_result cpe_mt_validate_cmd(
 	case CPE_STATE_SENDING_MSG:
 		switch (command) {
 		case CPE_CMD_SEND_MSG:
-<<<<<<< HEAD
 		case CPE_CMD_SEND_TRANS_MSG:
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		case CPE_CMD_SEND_MSG_COMPLETE:
 		case CPE_CMD_PROCESS_IRQ:
 		case CPE_CMD_SHUTDOWN:
 		case CPE_CMD_KILL_THREAD:
-<<<<<<< HEAD
 		case CPE_CMD_PROC_INCOMING_MSG:
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			rc = CPE_SVC_SUCCESS;
 			break;
 		default:
@@ -1892,7 +1476,6 @@ void *cpe_svc_initialize(
 	struct cpe_info *t_info = NULL;
 	const struct cpe_svc_hw_cfg *cap = NULL;
 	enum cpe_svc_result rc = CPE_SVC_SUCCESS;
-<<<<<<< HEAD
 	struct cpe_svc_init_param *init_context =
 		(struct cpe_svc_init_param *) context;
 	void *client_context = NULL;
@@ -1921,22 +1504,11 @@ void *cpe_svc_initialize(
 		cpe_d.cpe_default_handle = kzalloc(sizeof(struct cpe_info),
 					     GFP_KERNEL);
 		if (!cpe_d.cpe_default_handle) {
-=======
-
-	if (cpe_default_handle && cpe_default_handle->initialized == true)
-		return (void *)cpe_default_handle;
-
-	if (!cpe_default_handle) {
-		cpe_default_handle = kzalloc(sizeof(struct cpe_info),
-					     GFP_KERNEL);
-		if (!cpe_default_handle) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			pr_err("%s: no memory for cpe handle, size = %zu\n",
 				__func__, sizeof(struct cpe_info));
 			goto err_register;
 		}
 
-<<<<<<< HEAD
 		memset(cpe_d.cpe_default_handle, 0,
 		       sizeof(struct cpe_info));
 	}
@@ -1948,16 +1520,6 @@ void *cpe_svc_initialize(
 	cpe_d.cdc_priv = client_context;
 	INIT_WORK(&t_info->clk_plan_work, cpe_clk_plan_work);
 	init_completion(&t_info->core_svc_cmd_compl);
-=======
-		memset(cpe_default_handle, 0,
-		       sizeof(struct cpe_info));
-	}
-
-	t_info = cpe_default_handle;
-
-	INIT_LIST_HEAD(&t_info->client_list);
-	cdc_priv = context;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	t_info->tgt = kzalloc(sizeof(struct cpe_svc_tgt_abstraction),
 			      GFP_KERNEL);
@@ -1967,11 +1529,8 @@ void *cpe_svc_initialize(
 			sizeof(struct cpe_svc_tgt_abstraction));
 		goto err_tgt_alloc;
 	}
-<<<<<<< HEAD
 	t_info->codec_id =
 		((struct cpe_svc_codec_info_v1 *) codec_info)->id;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rc = cpe_svc_tgt_init((struct cpe_svc_codec_info_v1 *)codec_info,
 			t_info->tgt);
@@ -1986,20 +1545,12 @@ void *cpe_svc_initialize(
 
 	memset(t_info->tgt->outbox, 0, cap->outbox_size);
 	memset(t_info->tgt->inbox, 0, cap->inbox_size);
-<<<<<<< HEAD
 	cpe_d.cpe_irq_control_callback = irq_control_callback;
 	t_info->cpe_process_command = cpe_mt_process_cmd;
 	t_info->cpe_cmd_validate = cpe_mt_validate_cmd;
 	t_info->cpe_start_notification = broadcast_boot_event;
 	mutex_init(&cpe_d.cpe_api_mutex);
 	mutex_init(&cpe_d.cpe_svc_lock);
-=======
-	cpe_irq_control_callback = irq_control_callback;
-	t_info->cpe_process_command = cpe_mt_process_cmd;
-	t_info->cpe_cmd_validate = cpe_mt_validate_cmd;
-	t_info->cpe_start_notification = broadcast_boot_event;
-	mutex_init(&cpe_api_mutex);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	pr_debug("%s: cpe services initialized\n", __func__);
 	t_info->state = CPE_STATE_INITIALIZED;
 	t_info->initialized = true;
@@ -2010,13 +1561,8 @@ err_tgt_init:
 	kfree(t_info->tgt);
 
 err_tgt_alloc:
-<<<<<<< HEAD
 	kfree(cpe_d.cpe_default_handle);
 	cpe_d.cpe_default_handle = NULL;
-=======
-	kfree(cpe_default_handle);
-	cpe_default_handle = NULL;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 err_register:
 	return NULL;
@@ -2028,11 +1574,7 @@ enum cpe_svc_result cpe_svc_deinitialize(void *cpe_handle)
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 
 	if (!t_info)
-<<<<<<< HEAD
 		t_info = cpe_d.cpe_default_handle;
-=======
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rc = cpe_is_command_valid(t_info, CPE_CMD_DEINITIALIZE);
 
@@ -2042,7 +1584,6 @@ enum cpe_svc_result cpe_svc_deinitialize(void *cpe_handle)
 		return rc;
 	}
 
-<<<<<<< HEAD
 	if (cpe_d.cpe_default_handle == t_info)
 		cpe_d.cpe_default_handle = NULL;
 
@@ -2053,15 +1594,6 @@ enum cpe_svc_result cpe_svc_deinitialize(void *cpe_handle)
 	kfree(t_info);
 	mutex_destroy(&cpe_d.cpe_api_mutex);
 	mutex_destroy(&cpe_d.cpe_svc_lock);
-=======
-	if (cpe_default_handle == t_info)
-		cpe_default_handle = NULL;
-
-	t_info->tgt->tgt_deinit(t_info->tgt);
-	kfree(t_info->tgt);
-	kfree(t_info);
-	mutex_destroy(&cpe_api_mutex);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return rc;
 }
@@ -2073,7 +1605,6 @@ void *cpe_svc_register(void *cpe_handle,
 {
 	void *reg_handle;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!cpe_d.cpe_default_handle) {
 		cpe_d.cpe_default_handle = kzalloc(sizeof(struct cpe_info),
@@ -2086,39 +1617,17 @@ void *cpe_svc_register(void *cpe_handle,
 		}
 
 		memset(cpe_d.cpe_default_handle, 0,
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!cpe_default_handle) {
-		cpe_default_handle = kzalloc(sizeof(struct cpe_info),
-					     GFP_KERNEL);
-		if (!cpe_default_handle) {
-			pr_err("%s: no_mem for cpe handle, sz = %zu\n",
-				__func__, sizeof(struct cpe_info));
-			CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
-			return NULL;
-		}
-
-		memset(cpe_default_handle, 0,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			sizeof(struct cpe_info));
 	}
 
 	if (!cpe_handle)
-<<<<<<< HEAD
 		cpe_handle = cpe_d.cpe_default_handle;
-=======
-		cpe_handle = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	reg_handle = cpe_register_generic((struct cpe_info *)cpe_handle,
 					   notification_callback,
 					   NULL,
 					   mask, CPE_NO_SERVICE, name);
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return reg_handle;
 }
@@ -2127,7 +1636,6 @@ enum cpe_svc_result cpe_svc_deregister(void *cpe_handle, void *reg_handle)
 {
 	enum cpe_svc_result rc;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!cpe_handle)
 		cpe_handle = cpe_d.cpe_default_handle;
@@ -2135,15 +1643,6 @@ enum cpe_svc_result cpe_svc_deregister(void *cpe_handle, void *reg_handle)
 	rc = cpe_deregister_generic((struct cpe_info *)cpe_handle,
 				    reg_handle);
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!cpe_handle)
-		cpe_handle = cpe_default_handle;
-
-	rc = cpe_deregister_generic((struct cpe_info *)cpe_handle,
-				    reg_handle);
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return rc;
 }
@@ -2154,26 +1653,16 @@ enum cpe_svc_result cpe_svc_download_segment(void *cpe_handle,
 	enum cpe_svc_result rc = CPE_SVC_SUCCESS;
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!t_info)
 		t_info = cpe_d.cpe_default_handle;
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!t_info)
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rc = cpe_is_command_valid(t_info, CPE_CMD_DL_SEGMENT);
 
 	if (rc != CPE_SVC_SUCCESS) {
 		pr_err("%s: cmd validation fail, cmd = %d\n",
 			__func__, CPE_CMD_DL_SEGMENT);
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return rc;
 	}
 
@@ -2182,11 +1671,7 @@ enum cpe_svc_result cpe_svc_download_segment(void *cpe_handle,
 	t_info->substate = CPE_SS_DL_DOWNLOADING;
 	rc = t_info->tgt->tgt_write_ram(t_info, segment);
 	cpe_toggle_irq_notification(t_info, true);
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return rc;
 }
@@ -2196,26 +1681,16 @@ enum cpe_svc_result cpe_svc_boot(void *cpe_handle, int debug_mode)
 	enum cpe_svc_result rc = CPE_SVC_SUCCESS;
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!t_info)
 		t_info = cpe_d.cpe_default_handle;
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!t_info)
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rc = cpe_is_command_valid(t_info, CPE_CMD_BOOT);
 
 	if (rc != CPE_SVC_SUCCESS) {
 		pr_err("%s: cmd validation fail, cmd = %d\n",
 			__func__, CPE_CMD_BOOT);
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return rc;
 	}
 
@@ -2227,11 +1702,7 @@ enum cpe_svc_result cpe_svc_boot(void *cpe_handle, int debug_mode)
 			 __func__);
 	}
 
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return rc;
 }
 
@@ -2241,11 +1712,7 @@ enum cpe_svc_result cpe_svc_process_irq(void *cpe_handle, u32 cpe_irq)
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 
 	if (!t_info)
-<<<<<<< HEAD
 		t_info = cpe_d.cpe_default_handle;
-=======
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	cpe_toggle_irq_notification(t_info, false);
 	cpe_process_irq_int(cpe_irq, t_info);
@@ -2260,24 +1727,14 @@ enum cpe_svc_result cpe_svc_route_notification(void *cpe_handle,
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 	enum cpe_svc_result rc = CPE_SVC_NOT_READY;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!t_info)
 		t_info = cpe_d.cpe_default_handle;
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!t_info)
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (t_info->tgt)
 		rc = t_info->tgt->tgt_route_notification(module, dest);
 
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return rc;
 }
 
@@ -2287,26 +1744,16 @@ enum cpe_svc_result cpe_svc_shutdown(void *cpe_handle)
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 	struct cpe_command_node *n = NULL;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!t_info)
 		t_info = cpe_d.cpe_default_handle;
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!t_info)
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rc = cpe_is_command_valid(t_info, CPE_CMD_SHUTDOWN);
 
 	if (rc != CPE_SVC_SUCCESS) {
 		pr_err("%s: cmd validation fail, cmd = %d\n",
 			__func__, CPE_CMD_SHUTDOWN);
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return rc;
 	}
 
@@ -2328,14 +1775,9 @@ enum cpe_svc_result cpe_svc_shutdown(void *cpe_handle)
 	t_info->state = CPE_STATE_OFFLINE;
 	t_info->substate = CPE_SS_IDLE;
 
-<<<<<<< HEAD
 	rc = cpe_send_cmd_to_thread(t_info, CPE_CMD_KILL_THREAD,
 				    NULL, true);
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	rc = cpe_send_cmd_to_thread(t_info, CPE_CMD_KILL_THREAD, NULL);
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return rc;
 }
@@ -2345,26 +1787,16 @@ enum cpe_svc_result cpe_svc_reset(void *cpe_handle)
 	enum cpe_svc_result rc = CPE_SVC_SUCCESS;
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!t_info)
 		t_info = cpe_d.cpe_default_handle;
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!t_info)
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rc = cpe_is_command_valid(t_info, CPE_CMD_RESET);
 
 	if (rc != CPE_SVC_SUCCESS) {
 		pr_err("%s: cmd validation fail, cmd = %d\n",
 			__func__, CPE_CMD_RESET);
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return rc;
 	}
 
@@ -2375,11 +1807,7 @@ enum cpe_svc_result cpe_svc_reset(void *cpe_handle)
 		t_info->state = CPE_STATE_INITIALIZED;
 		t_info->substate = CPE_SS_IDLE;
 	}
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return rc;
 }
@@ -2390,25 +1818,15 @@ enum cpe_svc_result cpe_svc_ramdump(void *cpe_handle,
 	enum cpe_svc_result rc = CPE_SVC_SUCCESS;
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!t_info)
 		t_info = cpe_d.cpe_default_handle;
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!t_info)
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	rc = cpe_is_command_valid(t_info, CPE_CMD_RAMDUMP);
 	if (rc != CPE_SVC_SUCCESS) {
 		pr_err("%s: cmd validation fail, cmd = %d\n",
 			__func__, CPE_CMD_RAMDUMP);
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return rc;
 	}
 
@@ -2418,11 +1836,7 @@ enum cpe_svc_result cpe_svc_ramdump(void *cpe_handle,
 		pr_err("%s: cpe service not ready\n", __func__);
 		rc = CPE_SVC_NOT_READY;
 	}
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return rc;
 }
@@ -2432,7 +1846,6 @@ enum cpe_svc_result cpe_svc_set_debug_mode(void *cpe_handle, u32 mode)
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 	enum cpe_svc_result rc = CPE_SVC_INVALID_HANDLE;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	if (!t_info)
 		t_info = cpe_d.cpe_default_handle;
@@ -2440,15 +1853,6 @@ enum cpe_svc_result cpe_svc_set_debug_mode(void *cpe_handle, u32 mode)
 	if (t_info->tgt)
 		rc = t_info->tgt->tgt_set_debug_mode(mode);
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	if (!t_info)
-		t_info = cpe_default_handle;
-
-	if (t_info->tgt)
-		rc = t_info->tgt->tgt_set_debug_mode(mode);
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return rc;
 }
@@ -2458,11 +1862,7 @@ const struct cpe_svc_hw_cfg *cpe_svc_get_hw_cfg(void *cpe_handle)
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 
 	if (!t_info)
-<<<<<<< HEAD
 		t_info = cpe_d.cpe_default_handle;
-=======
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (t_info->tgt)
 		return t_info->tgt->tgt_get_cpe_info();
@@ -2477,24 +1877,15 @@ void *cmi_register(
 {
 	void *reg_handle = NULL;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	reg_handle = cpe_register_generic(cpe_d.cpe_default_handle,
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	reg_handle = cpe_register_generic(cpe_default_handle,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			NULL,
 			notification_callback,
 			(CPE_SVC_CMI_MSG | CPE_SVC_OFFLINE |
 			 CPE_SVC_ONLINE),
 			service,
 			"CMI_CLIENT");
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return reg_handle;
 }
@@ -2506,7 +1897,6 @@ enum cmi_api_result cmi_deregister(void *reg_handle)
 	enum cmi_api_result rc = CMI_API_SUCCESS;
 	struct cpe_svc_notification payload;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
 	rc = (enum cmi_api_result) cpe_deregister_generic(
 		cpe_d.cpe_default_handle, reg_handle);
@@ -2517,32 +1907,15 @@ enum cmi_api_result cmi_deregister(void *reg_handle)
 			clients++;
 	}
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_svc_lock, "cpe_svc");
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
-	rc = (enum cmi_api_result) cpe_deregister_generic(
-		cpe_default_handle, reg_handle);
-
-	list_for_each_entry(n, &cpe_default_handle->client_list, list) {
-		if (n->mask & CPE_SVC_CMI_MSG)
-			clients++;
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (clients == 0) {
 		payload.event = CPE_SVC_CMI_CLIENTS_DEREG;
 		payload.payload = NULL;
 		payload.result = CPE_SVC_SUCCESS;
-<<<<<<< HEAD
 		cpe_broadcast_notification(cpe_d.cpe_default_handle, &payload);
 	}
 
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		cpe_broadcast_notification(cpe_default_handle, &payload);
-	}
-
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return rc;
 }
 
@@ -2552,22 +1925,14 @@ enum cmi_api_result cmi_send_msg(void *message)
 	struct cpe_send_msg *msg = NULL;
 	struct cmi_hdr *hdr;
 
-<<<<<<< HEAD
 	CPE_SVC_GRAB_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_GRAB_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	hdr = CMI_GET_HEADER(message);
 	msg = kzalloc(sizeof(struct cpe_send_msg),
 		      GFP_ATOMIC);
 	if (!msg) {
 		pr_err("%s: no memory for cmi msg, sz = %zu\n",
 			__func__, sizeof(struct cpe_send_msg));
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return CPE_SVC_NO_MEMORY;
 	}
 
@@ -2584,26 +1949,17 @@ enum cmi_api_result cmi_send_msg(void *message)
 		pr_err("%s: no memory for cmi payload, sz = %zd\n",
 			__func__, msg->size);
 		kfree(msg);
-<<<<<<< HEAD
 		CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-		CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return CPE_SVC_NO_MEMORY;
 	}
 
 	msg->address = 0;
 	memcpy((void *)msg->payload, message, msg->size);
 
-<<<<<<< HEAD
 	rc = (enum cmi_api_result) cpe_send_cmd_to_thread(
 			cpe_d.cpe_default_handle,
 			CPE_CMD_SEND_MSG,
 			(void *)msg, false);
-=======
-	rc = (enum cmi_api_result)cpe_send_cmd_to_thread(cpe_default_handle,
-		CPE_CMD_SEND_MSG, (void *)msg);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (rc != 0) {
 		pr_err("%s: Failed to queue message\n", __func__);
@@ -2611,11 +1967,7 @@ enum cmi_api_result cmi_send_msg(void *message)
 		kfree(msg);
 	}
 
-<<<<<<< HEAD
 	CPE_SVC_REL_LOCK(&cpe_d.cpe_api_mutex, "cpe_api");
-=======
-	CPE_SVC_REL_LOCK(&cpe_api_mutex, "cpe_api");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return rc;
 }
 
@@ -2644,10 +1996,6 @@ static u32 cpe_tgt_tomtom_is_cpar_init_done(void)
 {
 	u8 status = 0;
 	cpe_register_read(TOMTOM_A_SVASS_STATUS, &status);
-<<<<<<< HEAD
-=======
-	status = status & 0x01;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return status & 0x01;
 }
 
@@ -2655,12 +2003,7 @@ static u32 cpe_tgt_tomtom_is_active(void)
 {
 	u8 status = 0;
 	cpe_register_read(TOMTOM_A_SVASS_STATUS, &status);
-<<<<<<< HEAD
 	return status & 0x04;
-=======
-	status = status & 0x04;
-	return status;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static enum cpe_svc_result cpe_tgt_tomtom_reset(void)
@@ -2703,11 +2046,7 @@ enum cpe_svc_result cpe_svc_toggle_lab(void *cpe_handle, bool enable)
 	struct cpe_info *t_info = (struct cpe_info *)cpe_handle;
 
 	if (!t_info)
-<<<<<<< HEAD
 		t_info = cpe_d.cpe_default_handle;
-=======
-		t_info = cpe_default_handle;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (t_info->tgt)
 		return t_info->tgt->tgt_voice_tx_lab(enable);
@@ -2830,11 +2169,7 @@ static enum cpe_svc_result cpe_tgt_tomtom_read_RAM(struct cpe_info *t_info,
 	mem_reg_val |= mem;
 
 	do {
-<<<<<<< HEAD
 		if (!autoinc || ptr_update) {
-=======
-		if (autoinc || ptr_update) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			rc = cpe_register_write(TOMTOM_A_SVASS_MEM_PTR0,
 				(addr & 0xFF));
 			rc = cpe_register_write(TOMTOM_A_SVASS_MEM_PTR1,
@@ -3030,7 +2365,6 @@ static enum cpe_svc_result cpe_tgt_tomtom_init(
 	return CPE_SVC_SUCCESS;
 }
 
-<<<<<<< HEAD
 static enum cpe_svc_result cpe_tgt_wcd9335_boot(int debug_mode)
 {
 	enum cpe_svc_result rc = CPE_SVC_SUCCESS;
@@ -3465,7 +2799,5 @@ static enum cpe_svc_result cpe_tgt_wcd9335_init(
 	return CPE_SVC_SUCCESS;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 MODULE_DESCRIPTION("WCD CPE Services");
 MODULE_LICENSE("GPL v2");

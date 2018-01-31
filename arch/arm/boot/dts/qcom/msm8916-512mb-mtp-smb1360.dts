@@ -59,8 +59,5 @@
 	status = "ok";
 	qcom,disable-bms;
 };
-<<<<<<< HEAD
 
 /delete-node/ &mba_mss;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

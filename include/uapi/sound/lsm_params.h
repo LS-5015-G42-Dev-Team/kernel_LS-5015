@@ -6,7 +6,6 @@
 
 #define SNDRV_LSM_VERSION SNDRV_PROTOCOL_VERSION(0, 1, 0)
 
-<<<<<<< HEAD
 #define LSM_OUT_FORMAT_PCM (0)
 #define LSM_OUT_FORMAT_ADPCM (1 << 0)
 
@@ -19,8 +18,6 @@
 #define LSM_OUT_TRANSFER_MODE_RT (0)
 #define LSM_OUT_TRANSFER_MODE_FTRT (1)
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum lsm_app_id {
 	LSM_VOICE_WAKEUP_APP_ID = 1,
 	LSM_VOICE_WAKEUP_APP_ID_V2 = 2,
@@ -38,7 +35,6 @@ enum lsm_vw_status {
 	LSM_VOICE_WAKEUP_STATUS_REJECTED
 };
 
-<<<<<<< HEAD
 enum LSM_PARAM_TYPE {
 	LSM_ENDPOINT_DETECT_THRESHOLD = 0,
 	LSM_OPERATION_MODE,
@@ -89,17 +85,6 @@ struct snd_lsm_poll_enable {
 };
 
 
-=======
-struct snd_lsm_sound_model {
-	__u8 __user *data;
-	__u32 data_size;
-	enum lsm_detection_mode detection_mode;
-	__u16 min_keyw_confidence;
-	__u16 min_user_confidence;
-	bool detect_failure;
-};
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct snd_lsm_sound_model_v2 {
 	__u8 __user *data;
 	__u8 *confidence_level;
@@ -124,7 +109,6 @@ struct snd_lsm_detection_params {
 	enum lsm_detection_mode detect_mode;
 	__u8 num_confidence_levels;
 	bool detect_failure;
-<<<<<<< HEAD
 	bool poll_enable;
 };
 
@@ -181,11 +165,6 @@ struct snd_lsm_output_format_cfg {
 	__u8 mode;
 };
 
-=======
-};
-
-#define SNDRV_LSM_REG_SND_MODEL	 _IOW('U', 0x00, struct snd_lsm_sound_model)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define SNDRV_LSM_DEREG_SND_MODEL _IOW('U', 0x01, int)
 #define SNDRV_LSM_EVENT_STATUS	_IOW('U', 0x02, struct snd_lsm_event_status)
 #define SNDRV_LSM_ABORT_EVENT	_IOW('U', 0x03, int)
@@ -198,13 +177,10 @@ struct snd_lsm_output_format_cfg {
 #define SNDRV_LSM_STOP_LAB	_IO('U', 0x09)
 #define SNDRV_LSM_SET_PARAMS	_IOW('U', 0x0A, \
 					struct snd_lsm_detection_params)
-<<<<<<< HEAD
 #define SNDRV_LSM_SET_MODULE_PARAMS	_IOW('U', 0x0B, \
 					struct snd_lsm_module_params)
 #define SNDRV_LSM_OUT_FORMAT_CFG _IOW('U', 0x0C, \
 				      struct snd_lsm_output_format_cfg)
 #define SNDRV_LSM_SET_PORT	_IO('U', 0x0D)
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #endif

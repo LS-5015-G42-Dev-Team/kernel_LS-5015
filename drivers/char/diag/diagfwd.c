@@ -425,20 +425,13 @@ int diag_process_smd_read_data(struct diag_smd_info *smd_info, void *buf,
 	if (write_length > 0) {
 		spin_lock_irqsave(&smd_info->in_busy_lock, flags);
 		*in_busy_ptr = 1;
-<<<<<<< HEAD
 		spin_unlock_irqrestore(&smd_info->in_busy_lock, flags);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		err = diag_mux_write(DIAG_LOCAL_PROC, write_buf, write_length,
 				     ctxt);
 		if (err) {
 			pr_err_ratelimited("diag: In %s, diag_device_write error: %d\n",
 					   __func__, err);
 		}
-<<<<<<< HEAD
-=======
-		spin_unlock_irqrestore(&smd_info->in_busy_lock, flags);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 
 	return 0;
@@ -1032,7 +1025,6 @@ int diag_cmd_log_on_demand(unsigned char *src_buf, int src_len,
 	return write_len;
 }
 
-<<<<<<< HEAD
 int diag_cmd_get_mobile_id(unsigned char *src_buf, int src_len,
 			   unsigned char *dest_buf, int dest_len)
 {
@@ -1061,8 +1053,6 @@ int diag_cmd_get_mobile_id(unsigned char *src_buf, int src_len,
 	return write_len;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 int diag_check_common_cmd(struct diag_pkt_header_t *header)
 {
 	int i;
@@ -1106,11 +1096,7 @@ int diag_process_apps_pkt(unsigned char *buf, int len)
 	data_type = APPS_DATA;
 	/* Dont send any command other than mode reset */
 	if (chk_apps_master() && cmd_code == MODE_CMD) {
-<<<<<<< HEAD
 		if (!(subsys_id == RESET_ID || subsys_id == POWER_OFF_ID))
-=======
-		if (subsys_id != RESET_ID)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			data_type = MODEM_DATA;
 	}
 
@@ -1230,7 +1216,6 @@ int diag_process_apps_pkt(unsigned char *buf, int len)
 			encode_rsp_and_send(write_len - 1);
 		return 0;
 	}
-<<<<<<< HEAD
 	/* Mobile ID Rsp */
 	else if ((*buf == DIAG_CMD_DIAG_SUBSYS) &&
 		(*(buf+1) == DIAG_SS_PARAMS) &&
@@ -1243,8 +1228,6 @@ int diag_process_apps_pkt(unsigned char *buf, int len)
 			return 0;
 		}
 	}
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	 /*
 	  * If the apps processor is master and no other
 	  * processor has registered for polling command.
@@ -1580,19 +1563,6 @@ static int diagfwd_mux_write_done(unsigned char *buf, int len, int buf_ctxt,
 		if (peripheral >= 0 && peripheral < NUM_SMD_DATA_CHANNELS) {
 			smd_info = &driver->smd_data[peripheral];
 			diag_smd_reset_buf(smd_info, num);
-<<<<<<< HEAD
-=======
-			/*
-			 * Flush any work that is currently pending on the data
-			 * channels. This will ensure that the next read is not
-			 * missed.
-			 */
-			if (driver->logging_mode == MEMORY_DEVICE_MODE &&
-					ctxt == DIAG_MEMORY_DEVICE_MODE) {
-				flush_workqueue(smd_info->wq);
-				wake_up(&driver->smd_wait_q);
-			}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		} else if (peripheral == APPS_DATA) {
 			diagmem_free(driver, (unsigned char *)buf,
 				     POOL_TYPE_HDLC);

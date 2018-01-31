@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -44,7 +40,6 @@
 #define MON_MASK(m)		((m)->base + 0x298)
 #define MON_MATCH(m)		((m)->base + 0x29C)
 
-<<<<<<< HEAD
 /*
  * Don't set the threshold lower than this value. This helps avoid
  * threshold IRQs when the traffic is close to zero and even small
@@ -52,8 +47,6 @@
  */
 #define FLOOR_MBPS	100UL
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct bwmon_spec {
 	bool wrap_on_thres;
 	bool overflow;
@@ -80,15 +73,12 @@ static void mon_enable(struct bwmon *m)
 static void mon_disable(struct bwmon *m)
 {
 	writel_relaxed(0x0, MON_EN(m));
-<<<<<<< HEAD
 	/*
 	 * mon_disable() and mon_irq_clear(),
 	 * If latter goes first and count happen to trigger irq, we would
 	 * have the irq line high but no one handling it.
 	 */
 	mb();
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void mon_clear(struct bwmon *m)
@@ -109,14 +99,11 @@ static void mon_irq_enable(struct bwmon *m)
 	val = readl_relaxed(MON_INT_EN(m));
 	val |= 0x1;
 	writel_relaxed(val, MON_INT_EN(m));
-<<<<<<< HEAD
 	/*
 	 * make Sure irq enable complete for local and global
 	 * to avoid race with other monitor calls
 	 */
 	mb();
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void mon_irq_disable(struct bwmon *m)
@@ -132,14 +119,11 @@ static void mon_irq_disable(struct bwmon *m)
 	val = readl_relaxed(MON_INT_EN(m));
 	val &= ~0x1;
 	writel_relaxed(val, MON_INT_EN(m));
-<<<<<<< HEAD
 	/*
 	 * make Sure irq disable complete for local and global
 	 * to avoid race with other monitor calls
 	 */
 	mb();
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static unsigned int mon_irq_status(struct bwmon *m)
@@ -234,11 +218,7 @@ static unsigned long meas_bw_and_set_irq(struct bw_hwmon *hw,
 	 * multiple times before the IRQ is processed.
 	 */
 	if (likely(!m->spec->wrap_on_thres))
-<<<<<<< HEAD
 		limit = mbps_to_bytes(max(mbps, FLOOR_MBPS), sample_ms, tol);
-=======
-		limit = mbps_to_bytes(mbps, sample_ms, tol);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	else
 		limit = mbps_to_bytes(max(mbps, 400UL), sample_ms, tol);
 
@@ -295,16 +275,9 @@ static void stop_bw_hwmon(struct bw_hwmon *hw)
 {
 	struct bwmon *m = to_bwmon(hw);
 
-<<<<<<< HEAD
 	mon_irq_disable(m);
 	free_irq(m->irq, m);
 	mon_disable(m);
-=======
-	disable_irq(m->irq);
-	free_irq(m->irq, m);
-	mon_disable(m);
-	mon_irq_disable(m);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mon_clear(m);
 	mon_irq_clear(m);
 }
@@ -313,15 +286,9 @@ static int suspend_bw_hwmon(struct bw_hwmon *hw)
 {
 	struct bwmon *m = to_bwmon(hw);
 
-<<<<<<< HEAD
 	mon_irq_disable(m);
 	free_irq(m->irq, m);
 	mon_disable(m);
-=======
-	disable_irq(m->irq);
-	mon_disable(m);
-	mon_irq_disable(m);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mon_irq_clear(m);
 
 	return 0;
@@ -330,7 +297,6 @@ static int suspend_bw_hwmon(struct bw_hwmon *hw)
 static int resume_bw_hwmon(struct bw_hwmon *hw)
 {
 	struct bwmon *m = to_bwmon(hw);
-<<<<<<< HEAD
 	int ret;
 
 	mon_clear(m);
@@ -345,13 +311,6 @@ static int resume_bw_hwmon(struct bw_hwmon *hw)
 
 	mon_irq_enable(m);
 	mon_enable(m);
-=======
-
-	mon_clear(m);
-	mon_irq_enable(m);
-	mon_enable(m);
-	enable_irq(m->irq);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return 0;
 }

@@ -62,15 +62,12 @@ static void radio_hci_cmd_task(unsigned long arg);
 static void radio_hci_rx_task(unsigned long arg);
 static struct video_device *video_get_dev(void);
 static DEFINE_RWLOCK(hci_task_lock);
-<<<<<<< HEAD
 extern struct mutex fm_smd_enable;
 
 typedef int (*radio_hci_request_func)(struct radio_hci_dev *hdev,
 		int (*req)(struct
 		radio_hci_dev * hdev, unsigned long param),
 		unsigned long param, __u32 timeout);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 struct iris_device {
 	struct device *dev;
@@ -82,10 +79,7 @@ struct iris_device {
 	struct completion sync_xfr_start;
 	int tune_req;
 	unsigned int mode;
-<<<<<<< HEAD
 	int is_fm_closing;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	__u16 pi;
 	__u8 pty;
@@ -624,7 +618,6 @@ int radio_hci_register_dev(struct radio_hci_dev *hdev)
 }
 EXPORT_SYMBOL(radio_hci_register_dev);
 
-<<<<<<< HEAD
 int radio_hci_unregister_dev(void)
 {
 	struct iris_device *radio = video_get_drvdata(video_get_dev());
@@ -635,29 +628,14 @@ int radio_hci_unregister_dev(void)
 		return -EINVAL;
 	}
 	hdev = radio->fm_hdev;
-=======
-int radio_hci_unregister_dev(struct radio_hci_dev *hdev)
-{
-	struct iris_device *radio = video_get_drvdata(video_get_dev());
-	if (!radio) {
-		FMDERR(":radio is null");
-		return -EINVAL;
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	tasklet_kill(&hdev->rx_task);
 	tasklet_kill(&hdev->cmd_task);
 	skb_queue_purge(&hdev->rx_q);
 	skb_queue_purge(&hdev->cmd_q);
 	skb_queue_purge(&hdev->raw_q);
-<<<<<<< HEAD
 
 	radio->fm_hdev = NULL;
-=======
-	kfree(radio->fm_hdev);
-	kfree(radio->videodev);
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 EXPORT_SYMBOL(radio_hci_unregister_dev);
@@ -1333,11 +1311,7 @@ static int radio_hci_err(__u32 code)
 static int __radio_hci_request(struct radio_hci_dev *hdev,
 		int (*req)(struct radio_hci_dev *hdev,
 			unsigned long param),
-<<<<<<< HEAD
 			unsigned long param, __u32 timeout, int interruptible)
-=======
-			unsigned long param, __u32 timeout)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	int err = 0;
 	DECLARE_WAITQUEUE(wait, current);
@@ -1351,7 +1325,6 @@ static int __radio_hci_request(struct radio_hci_dev *hdev,
 	hdev->req_status = HCI_REQ_PEND;
 
 	add_wait_queue(&hdev->req_wait_q, &wait);
-<<<<<<< HEAD
 	if (interruptible)
 		set_current_state(TASK_INTERRUPTIBLE);
 	else
@@ -1364,17 +1337,6 @@ static int __radio_hci_request(struct radio_hci_dev *hdev,
 	remove_wait_queue(&hdev->req_wait_q, &wait);
 
 	if (interruptible && signal_pending(current)) {
-=======
-	set_current_state(TASK_INTERRUPTIBLE);
-
-	err = req(hdev, param);
-
-	schedule_timeout(timeout);
-
-	remove_wait_queue(&hdev->req_wait_q, &wait);
-
-	if (signal_pending(current)) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		mutex_unlock(&iris_fm);
 		return -EINTR;
 	}
@@ -1395,7 +1357,6 @@ static int __radio_hci_request(struct radio_hci_dev *hdev,
 	return err;
 }
 
-<<<<<<< HEAD
 static inline int radio_hci_request_interruptible(struct radio_hci_dev *hdev,
 		int (*req)(struct
 		radio_hci_dev * hdev, unsigned long param),
@@ -1409,25 +1370,17 @@ static inline int radio_hci_request_interruptible(struct radio_hci_dev *hdev,
 }
 
 static inline int radio_hci_request_uninterruptible(struct radio_hci_dev *hdev,
-=======
-static inline int radio_hci_request(struct radio_hci_dev *hdev,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		int (*req)(struct
 		radio_hci_dev * hdev, unsigned long param),
 		unsigned long param, __u32 timeout)
 {
 	int ret = 0;
 
-<<<<<<< HEAD
 	ret = __radio_hci_request(hdev, req, param, timeout, 0);
-=======
-	ret = __radio_hci_request(hdev, req, param, timeout);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return ret;
 }
 
-<<<<<<< HEAD
 static inline int radio_hci_request(struct radio_hci_dev *hdev,
 		int (*req)(struct
 		radio_hci_dev * hdev, unsigned long param),
@@ -1436,8 +1389,6 @@ static inline int radio_hci_request(struct radio_hci_dev *hdev,
 	return radio_hci_request_interruptible(hdev, req, param, timeout);
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static inline int hci_conf_event_mask(__u8 *arg,
 		struct radio_hci_dev *hdev)
 {
@@ -1808,24 +1759,16 @@ static int hci_set_blend_tbl_req(struct hci_fm_blend_table *arg,
 	return ret;
 }
 
-<<<<<<< HEAD
 static int hci_cmd_internal(unsigned int cmd, struct radio_hci_dev *hdev,
 		int interruptible)
 {
 	int ret = 0;
 	unsigned long arg = 0;
 	radio_hci_request_func radio_hci_request;
-=======
-static int hci_cmd(unsigned int cmd, struct radio_hci_dev *hdev)
-{
-	int ret = 0;
-	unsigned long arg = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!hdev)
 		return -ENODEV;
 
-<<<<<<< HEAD
 	radio_hci_request = interruptible ? radio_hci_request_interruptible :
 			radio_hci_request_uninterruptible;
 
@@ -1833,139 +1776,80 @@ static int hci_cmd(unsigned int cmd, struct radio_hci_dev *hdev)
 	case HCI_FM_ENABLE_RECV_CMD:
 		ret = radio_hci_request(hdev, hci_fm_enable_recv_req, arg,
 			RADIO_HCI_TIMEOUT);
-=======
-	switch (cmd) {
-	case HCI_FM_ENABLE_RECV_CMD:
-		ret = radio_hci_request(hdev, hci_fm_enable_recv_req, arg,
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_DISABLE_RECV_CMD:
 		ret = radio_hci_request(hdev, hci_fm_disable_recv_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_GET_RECV_CONF_CMD:
 		ret = radio_hci_request(hdev, hci_get_fm_recv_conf_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_GET_STATION_PARAM_CMD:
 		ret = radio_hci_request(hdev,
 			hci_fm_get_station_param_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_GET_SIGNAL_TH_CMD:
 		ret = radio_hci_request(hdev,
 			hci_fm_get_sig_threshold_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_GET_PROGRAM_SERVICE_CMD:
 		ret = radio_hci_request(hdev,
 			hci_fm_get_program_service_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_GET_RADIO_TEXT_CMD:
 		ret = radio_hci_request(hdev, hci_fm_get_radio_text_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_GET_AF_LIST_CMD:
 		ret = radio_hci_request(hdev, hci_fm_get_af_list_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_CANCEL_SEARCH_CMD:
 		ret = radio_hci_request(hdev, hci_fm_cancel_search_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_RESET_CMD:
 		ret = radio_hci_request(hdev, hci_fm_reset_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_GET_FEATURES_CMD:
 		ret = radio_hci_request(hdev,
 		hci_fm_get_feature_lists_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_STATION_DBG_PARAM_CMD:
 		ret = radio_hci_request(hdev,
 		hci_fm_get_station_dbg_param_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_ENABLE_TRANS_CMD:
 		ret = radio_hci_request(hdev, hci_fm_enable_trans_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_DISABLE_TRANS_CMD:
 		ret = radio_hci_request(hdev, hci_fm_disable_trans_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 
 	case HCI_FM_GET_TX_CONFIG:
 		ret = radio_hci_request(hdev, hci_get_fm_trans_conf_req, arg,
-<<<<<<< HEAD
 			RADIO_HCI_TIMEOUT);
 		break;
 	case HCI_FM_GET_DET_CH_TH_CMD:
@@ -1975,17 +1859,6 @@ static int hci_cmd(unsigned int cmd, struct radio_hci_dev *hdev)
 	case HCI_FM_GET_BLND_TBL_CMD:
 		ret = radio_hci_request(hdev, hci_fm_get_blend_tbl, arg,
 					RADIO_HCI_TIMEOUT);
-=======
-			msecs_to_jiffies(RADIO_HCI_TIMEOUT));
-		break;
-	case HCI_FM_GET_DET_CH_TH_CMD:
-		ret = radio_hci_request(hdev, hci_fm_get_ch_det_th, arg,
-					msecs_to_jiffies(RADIO_HCI_TIMEOUT));
-		break;
-	case HCI_FM_GET_BLND_TBL_CMD:
-		ret = radio_hci_request(hdev, hci_fm_get_blend_tbl, arg,
-					msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		break;
 	default:
 		ret = -EINVAL;
@@ -1995,7 +1868,6 @@ static int hci_cmd(unsigned int cmd, struct radio_hci_dev *hdev)
 	return ret;
 }
 
-<<<<<<< HEAD
 
 static int hci_cmd(unsigned int cmd, struct radio_hci_dev *hdev)
 {
@@ -2007,8 +1879,6 @@ static int hci_cmd_uninterruptible(unsigned int cmd, struct radio_hci_dev *hdev)
 	return hci_cmd_internal(cmd, hdev, 0);
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static void radio_hci_req_complete(struct radio_hci_dev *hdev, int result)
 {
 
@@ -2018,11 +1888,7 @@ static void radio_hci_req_complete(struct radio_hci_dev *hdev, int result)
 	}
 	hdev->req_result = result;
 	hdev->req_status = HCI_REQ_DONE;
-<<<<<<< HEAD
 	wake_up(&hdev->req_wait_q);
-=======
-	wake_up_interruptible(&hdev->req_wait_q);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void radio_hci_status_complete(struct radio_hci_dev *hdev, int result)
@@ -2033,11 +1899,7 @@ static void radio_hci_status_complete(struct radio_hci_dev *hdev, int result)
 	}
 	hdev->req_result = result;
 	hdev->req_status = HCI_REQ_STATUS;
-<<<<<<< HEAD
 	wake_up(&hdev->req_wait_q);
-=======
-	wake_up_interruptible(&hdev->req_wait_q);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static void hci_cc_rsp(struct radio_hci_dev *hdev, struct sk_buff *skb)
@@ -2071,12 +1933,8 @@ static void hci_cc_fm_disable_rsp(struct radio_hci_dev *hdev,
 
 	status = *((__u8 *) skb->data);
 	if ((radio->mode == FM_TURNING_OFF) && (status == 0)) {
-<<<<<<< HEAD
 		if (!radio->is_fm_closing)
 			iris_q_event(radio, IRIS_EVT_RADIO_DISABLED);
-=======
-		iris_q_event(radio, IRIS_EVT_RADIO_DISABLED);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		radio_hci_req_complete(hdev, status);
 		radio->mode = FM_OFF;
 	} else if (radio->mode == FM_CALIB) {
@@ -3434,11 +3292,6 @@ static int iris_do_calibration(struct iris_device *radio)
 			radio->fm_hdev);
 	if (retval < 0)
 		FMDERR("Disable Failed after calibration %d", retval);
-<<<<<<< HEAD
-=======
-	else
-		radio->mode = FM_OFF;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return retval;
 }
@@ -3791,15 +3644,8 @@ static int iris_vidioc_g_ctrl(struct file *file, void *priv,
 END:
 	if (retval > 0)
 		retval = -EINVAL;
-<<<<<<< HEAD
 	if (ctrl != NULL && retval < 0)
 		FMDERR("get control failed: %d, ret: %d\n", ctrl->id, retval);
-=======
-	if (retval < 0)
-		FMDERR("get control failed with %d\n", retval);
-	if (ctrl != NULL)
-		FMDERR("get control failed id: %d\n", ctrl->id);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return retval;
 }
@@ -4099,11 +3945,7 @@ static int iris_vidioc_s_ctrl(struct file *file, void *priv,
 		radio->tone_freq = ctrl->value;
 		retval = radio_hci_request(radio->fm_hdev,
 				hci_fm_tone_generator, arg,
-<<<<<<< HEAD
 				RADIO_HCI_TIMEOUT);
-=======
-				msecs_to_jiffies(RADIO_HCI_TIMEOUT));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (retval < 0) {
 			FMDERR("Error while setting the tone %d", retval);
 			radio->tone_freq = saved_val;
@@ -5335,7 +5177,6 @@ static int iris_fops_release(struct file *file)
 		return -EINVAL;
 
 	if (radio->mode == FM_OFF)
-<<<<<<< HEAD
 		goto END;
 
 	if (radio->mode == FM_RECV) {
@@ -5362,19 +5203,6 @@ END:
 		radio->fm_hdev->close_smd();
 	mutex_unlock(&fm_smd_enable);
 
-=======
-		return 0;
-
-	if (radio->mode == FM_RECV) {
-		radio->mode = FM_OFF;
-		retval = hci_cmd(HCI_FM_DISABLE_RECV_CMD,
-						radio->fm_hdev);
-	} else if (radio->mode == FM_TRANS) {
-		radio->mode = FM_OFF;
-		retval = hci_cmd(HCI_FM_DISABLE_TRANS_CMD,
-					radio->fm_hdev);
-	}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (retval < 0)
 		FMDERR("Err on disable FM %d\n", retval);
 
@@ -5656,10 +5484,7 @@ static int __init iris_probe(struct platform_device *pdev)
 	init_completion(&radio->sync_xfr_start);
 	radio->tune_req = 0;
 	radio->prev_trans_rds = 2;
-<<<<<<< HEAD
 	radio->is_fm_closing = 0;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	init_waitqueue_head(&radio->event_queue);
 	init_waitqueue_head(&radio->read_queue);
 

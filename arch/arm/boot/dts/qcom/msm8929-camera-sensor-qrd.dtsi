@@ -204,7 +204,6 @@
 		clock-names = "cam_src_clk", "cam_clk";
 	};
 
-<<<<<<< HEAD
 	eeprom2: qcom,eeprom@2{
 		cell-index = <2>;
 		reg = <0x02>;
@@ -385,8 +384,6 @@
 		clock-names = "cam_src_clk", "cam_clk";
 	};
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	qcom,camera@0 {
 		cell-index = <0>;
@@ -396,11 +393,7 @@
 		qcom,csiphy-sd-index = <0>;
 		qcom,csid-sd-index = <0>;
 		qcom,mount-angle = <90>;
-<<<<<<< HEAD
 		qcom,eeprom-src = <&eeprom0 &eeprom1 &eeprom2>;
-=======
-		qcom,eeprom-src = <&eeprom0>;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,actuator-src = <&actuator0>;
 		qcom,led-flash-src = <&led_flash0>;
 		cam_vdig-supply = <&pm8916_l2>;

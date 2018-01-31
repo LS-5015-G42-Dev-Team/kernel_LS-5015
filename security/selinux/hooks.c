@@ -436,7 +436,6 @@ static int sb_finish_set_opts(struct super_block *sb)
 	if (strncmp(sb->s_type->name, "sysfs", sizeof("sysfs")) == 0)
 		sbsec->flags |= SE_SBLABELSUPP;
 
-<<<<<<< HEAD
 	/*
 	 * Special handling for rootfs. Is genfs but supports
 	 * setting SELinux context on in-core inodes.
@@ -444,8 +443,6 @@ static int sb_finish_set_opts(struct super_block *sb)
 	if (strncmp(sb->s_type->name, "rootfs", sizeof("rootfs")) == 0)
 		sbsec->flags |= SE_SBLABELSUPP;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* Initialize the root inode. */
 	rc = inode_doinit_with_dentry(root_inode, root);
 
@@ -3161,7 +3158,6 @@ static void selinux_file_free_security(struct file *file)
 	file_free_security(file);
 }
 
-<<<<<<< HEAD
 /*
  * Check whether a task has the ioctl permission and cmd
  * operation to an inode.
@@ -3200,8 +3196,6 @@ out:
 	return rc;
 }
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static int selinux_file_ioctl(struct file *file, unsigned int cmd,
 			      unsigned long arg)
 {
@@ -3244,11 +3238,7 @@ static int selinux_file_ioctl(struct file *file, unsigned int cmd,
 	 * to the file's ioctl() function.
 	 */
 	default:
-<<<<<<< HEAD
 		error = ioctl_has_perm(cred, file, FILE__IOCTL, (u16) cmd);
-=======
-		error = file_has_perm(cred, file, FILE__IOCTL);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	return error;
 }

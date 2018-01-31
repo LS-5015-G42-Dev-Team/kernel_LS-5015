@@ -2222,11 +2222,7 @@ int ppp_register_net_channel(struct net *net, struct ppp_channel *chan)
 
 	pch->ppp = NULL;
 	pch->chan = chan;
-<<<<<<< HEAD
 	pch->chan_net = get_net(net);
-=======
-	pch->chan_net = net;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	chan->ppp = pch;
 	init_ppp_file(&pch->file, CHANNEL);
 	pch->file.hdrlen = chan->hdrlen;
@@ -2323,11 +2319,8 @@ ppp_unregister_channel(struct ppp_channel *chan)
 	spin_lock_bh(&pn->all_channels_lock);
 	list_del(&pch->list);
 	spin_unlock_bh(&pn->all_channels_lock);
-<<<<<<< HEAD
 	put_net(pch->chan_net);
 	pch->chan_net = NULL;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	pch->file.dead = 1;
 	wake_up_interruptible(&pch->file.rwait);

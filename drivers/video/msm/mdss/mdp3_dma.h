@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -274,13 +270,10 @@ struct mdp3_dma {
 	struct mdp3_dma_cursor cursor;
 	struct mdp3_dma_color_correct_config ccs_config;
 	struct mdp_csc_cfg_data ccs_cache;
-<<<<<<< HEAD
 	int cc_vect_sel;
 
 	struct work_struct underrun_work;
 	struct mutex pp_lock;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	struct mdp3_dma_lut_config lut_config;
 	struct mdp3_dma_histogram_config histogram_config;
@@ -295,18 +288,12 @@ struct mdp3_dma {
 	struct fb_cmap *gc_cmap;
 	struct fb_cmap *hist_cmap;
 
-<<<<<<< HEAD
 	bool (*busy)(void);
 
 	int (*dma_config)(struct mdp3_dma *dma,
 			struct mdp3_dma_source *source_config,
 			struct mdp3_dma_output_config *output_config,
 			bool splash_screen_active);
-=======
-	int (*dma_config)(struct mdp3_dma *dma,
-			struct mdp3_dma_source *source_config,
-			struct mdp3_dma_output_config *output_config);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	int (*dma_sync_config)(struct mdp3_dma *dma, struct mdp3_dma_source
 				*source_config, struct mdp3_tear_check *te);
@@ -345,10 +332,7 @@ struct mdp3_dma {
 
 	void (*dma_done_notifier)(struct mdp3_dma *dma,
 			struct mdp3_notification *dma_client);
-<<<<<<< HEAD
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct mdp3_video_intf_cfg {

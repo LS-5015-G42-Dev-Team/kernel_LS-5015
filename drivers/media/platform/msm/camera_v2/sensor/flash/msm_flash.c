@@ -199,7 +199,6 @@ static int32_t msm_flash_i2c_init(
 			compat_ptr(power_setting_array32->power_down_setting);
 		flash_ctrl->power_setting_array.power_setting =
 			compat_ptr(power_setting_array32->power_setting);
-<<<<<<< HEAD
 
 		/* Validate power_up array size and power_down array size */
 		if ((!flash_ctrl->power_setting_array.size) ||
@@ -217,8 +216,6 @@ static int32_t msm_flash_i2c_init(
 			return -EINVAL;
 		}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		memcpy(&flash_ctrl->power_setting_array.power_down_setting_a,
 			&power_setting_array32->power_down_setting_a,
 			sizeof(power_setting_array32->power_down_setting_a));

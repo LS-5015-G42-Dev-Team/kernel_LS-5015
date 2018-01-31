@@ -629,10 +629,7 @@ static int fib_check_nh(struct fib_config *cfg, struct fib_info *fi,
 				.daddr = nh->nh_gw,
 				.flowi4_scope = cfg->fc_scope + 1,
 				.flowi4_oif = nh->nh_oif,
-<<<<<<< HEAD
 				.flowi4_iif = LOOPBACK_IFINDEX,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			};
 
 			/* It is not necessary, but requires a bit of thinking */

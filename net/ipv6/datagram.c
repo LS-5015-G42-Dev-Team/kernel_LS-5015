@@ -169,15 +169,10 @@ ipv4_connected:
 
 	security_sk_classify_flow(sk, flowi6_to_flowi(&fl6));
 
-<<<<<<< HEAD
 	rcu_read_lock();
 	opt = flowlabel ? flowlabel->opt : rcu_dereference(np->opt);
 	final_p = fl6_update_dst(&fl6, opt, &final);
 	rcu_read_unlock();
-=======
-	opt = flowlabel ? flowlabel->opt : np->opt;
-	final_p = fl6_update_dst(&fl6, opt, &final);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	dst = ip6_dst_lookup_flow(sk, &fl6, final_p, true);
 	err = 0;

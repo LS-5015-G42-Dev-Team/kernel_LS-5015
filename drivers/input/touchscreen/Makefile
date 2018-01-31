@@ -83,9 +83,6 @@ obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_I2C_RMI4)		+= synaptics_i2c_rmi4.o
 obj-$(CONFIG_TOUCHSCREEN_GT9XX)		+= gt9xx/
 obj-$(CONFIG_TOUCHSCREEN_BU21150)	+= bu21150.o
 obj-$(CONFIG_INPUT_MT_WRAPPER)		+= input_mt_wrapper.o
-<<<<<<< HEAD
 obj-$(CONFIG_TOUCHSCREEN_IT7260_I2C)    += it7258_ts_i2c.o
 obj-$(CONFIG_TESTPLUS_ONLY)            += melfas_mip4_testplus/
 obj-$(CONFIG_TEST_ONLY)                += melfas_mip4_test/
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f

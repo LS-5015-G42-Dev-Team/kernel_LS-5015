@@ -129,10 +129,7 @@ struct msm_vidc_platform_resources {
 	bool sw_power_collapsible;
 	bool sys_idle_indicator;
 	bool early_fw_load;
-<<<<<<< HEAD
 	uint32_t pm_qos_latency_us;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 static inline int is_iommu_present(struct msm_vidc_platform_resources *res)

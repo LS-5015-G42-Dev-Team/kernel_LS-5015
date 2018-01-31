@@ -302,11 +302,8 @@ struct ppp_resource {
 	u64 next_ab;
 	u64 next_ib;
 	u64 clk_rate;
-<<<<<<< HEAD
 	u64 solid_fill_pixel;
 	u64 solid_fill_byte;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct ppp_csc_table {

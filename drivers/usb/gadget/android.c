@@ -40,12 +40,9 @@
 #ifdef CONFIG_SND_PCM
 #include "f_audio_source.c"
 #endif
-<<<<<<< HEAD
 #ifdef CONFIG_SND_RAWMIDI
 #include "f_midi.c"
 #endif
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include "f_mass_storage.c"
 #define USB_ETH_RNDIS y
 #include "f_diag.c"
@@ -95,14 +92,11 @@ static const char longname[] = "Gadget Android";
 #define PRODUCT_ID		0x0001
 
 #define ANDROID_DEVICE_NODE_NAME_LENGTH 11
-<<<<<<< HEAD
 /* f_midi configuration */
 #define MIDI_INPUT_PORTS    1
 #define MIDI_OUTPUT_PORTS   1
 #define MIDI_BUFFER_SIZE    1024
 #define MIDI_QUEUE_LENGTH   32
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 struct android_usb_function {
 	char *name;
@@ -2520,13 +2514,10 @@ static int mass_storage_lun_init(struct android_usb_function *f,
 
 static void mass_storage_function_cleanup(struct android_usb_function *f)
 {
-<<<<<<< HEAD
 	struct mass_storage_function_config *config;
 
 	config = f->config;
 	fsg_common_put(config->common);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	kfree(f->config);
 	f->config = NULL;
 }
@@ -2733,12 +2724,8 @@ static ssize_t audio_source_pcm_show(struct device *dev,
 	struct audio_source_config *config = f->config;
 
 	/* print PCM card and device numbers */
-<<<<<<< HEAD
 	return snprintf(buf, PAGE_SIZE,
 			"%d %d\n", config->card, config->device);
-=======
-	return sprintf(buf, "%d %d\n", config->card, config->device);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 static DEVICE_ATTR(pcm, S_IRUGO, audio_source_pcm_show, NULL);
@@ -2804,7 +2791,6 @@ static struct android_usb_function uasp_function = {
 	.bind_config	= uasp_function_bind_config,
 };
 
-<<<<<<< HEAD
 #ifdef CONFIG_SND_RAWMIDI
 static int midi_function_init(struct android_usb_function *f,
 					struct usb_composite_dev *cdev)
@@ -2860,8 +2846,6 @@ static struct android_usb_function midi_function = {
 	.attributes	= midi_function_attributes,
 };
 #endif
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static struct android_usb_function *supported_functions[] = {
 	&ffs_function,
 	&mbim_function,
@@ -2890,12 +2874,9 @@ static struct android_usb_function *supported_functions[] = {
 #endif
 	&uasp_function,
 	&charger_function,
-<<<<<<< HEAD
 #ifdef CONFIG_SND_RAWMIDI
 	&midi_function,
 #endif
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	NULL
 };
 
@@ -3133,7 +3114,6 @@ static ssize_t remote_wakeup_store(struct device *pdev,
 
 	return size;
 }
-<<<<<<< HEAD
 #if defined(CONFIG_MIRAGE_ONLY) || defined(CONFIG_TESTPLUS_ONLY)
 static ssize_t adb_name_show(struct device *pdev,
 			   struct device_attribute *attr, char *buf)
@@ -3141,9 +3121,6 @@ static ssize_t adb_name_show(struct device *pdev,
 	return snprintf(buf, PAGE_SIZE, "%s\n", strings_dev[STRING_SERIAL_IDX].s);
 }
 #endif
-=======
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static ssize_t
 functions_show(struct device *pdev, struct device_attribute *attr, char *buf)
 {
@@ -3480,13 +3457,9 @@ DESCRIPTOR_ATTR(bDeviceProtocol, "%d\n")
 DESCRIPTOR_STRING_ATTR(iManufacturer, manufacturer_string)
 DESCRIPTOR_STRING_ATTR(iProduct, product_string)
 DESCRIPTOR_STRING_ATTR(iSerial, serial_string)
-<<<<<<< HEAD
 #if defined(CONFIG_MIRAGE_ONLY) || defined(CONFIG_TESTPLUS_ONLY)
 static DEVICE_ATTR(adb_display_name, S_IRUGO | S_IWUSR, adb_name_show, NULL);
 #endif
-=======
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 static DEVICE_ATTR(functions, S_IRUGO | S_IWUSR, functions_show,
 						 functions_store);
 static DEVICE_ATTR(enable, S_IRUGO | S_IWUSR, enable_show, enable_store);
@@ -3513,12 +3486,9 @@ static struct device_attribute *android_usb_attributes[] = {
 	&dev_attr_iManufacturer,
 	&dev_attr_iProduct,
 	&dev_attr_iSerial,
-<<<<<<< HEAD
 #if defined(CONFIG_MIRAGE_ONLY) || defined(CONFIG_TESTPLUS_ONLY)
 	&dev_attr_adb_display_name,
 #endif
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	&dev_attr_functions,
 	&dev_attr_enable,
 	&dev_attr_pm_qos,
@@ -3881,11 +3851,8 @@ static int android_probe(struct platform_device *pdev)
 	struct android_usb_platform_data *pdata;
 	struct android_dev *android_dev;
 	struct resource *res;
-<<<<<<< HEAD
 	const char *adb_name;
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int ret = 0, i, len = 0, prop_len = 0;
 	u32 usb_core_id = 0;
 
@@ -3947,11 +3914,8 @@ static int android_probe(struct platform_device *pdev)
 		ret = of_property_read_u8(pdev->dev.of_node,
 				"qcom,android-usb-uicc-nluns",
 				&pdata->uicc_nluns);
-<<<<<<< HEAD
 
 		ret = of_property_read_string(pdev->dev.of_node, "adb_diaplay_name", &adb_name);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	} else {
 		pdata = pdev->dev.platform_data;
 	}

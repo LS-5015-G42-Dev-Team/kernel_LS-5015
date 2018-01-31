@@ -832,7 +832,6 @@ struct snd_soc_platform_driver {
 	snd_pcm_sframes_t (*delay)(struct snd_pcm_substream *,
 		struct snd_soc_dai *);
 
-<<<<<<< HEAD
 	/*
 	 * For platform-caused delay reporting, where the thread blocks waiting
 	 * for the delay amount to be determined.  Defining this will cause the
@@ -843,8 +842,6 @@ struct snd_soc_platform_driver {
 	snd_pcm_sframes_t (*delay_blk)(struct snd_pcm_substream *,
 		struct snd_soc_dai *);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* platform stream pcm ops */
 	const struct snd_pcm_ops *ops;
 
@@ -1255,10 +1252,7 @@ int snd_soc_of_parse_audio_routing(struct snd_soc_card *card,
 				   const char *propname);
 unsigned int snd_soc_of_parse_daifmt(struct device_node *np,
 				     const char *prefix);
-<<<<<<< HEAD
 int soc_check_aux_dev_byname(struct snd_soc_card *card, const char *codec_name);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 #include <sound/soc-dai.h>
 

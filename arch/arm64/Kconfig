@@ -10,10 +10,7 @@ config ARM64
 	select ARM_AMBA
 	select ARM_ARCH_TIMER
 	select ARM_GIC
-<<<<<<< HEAD
         select AUDIT_ARCH_COMPAT_GENERIC
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	select BUILDTIME_EXTABLE_SORT
 	select CLONE_BACKWARDS
 	select COMMON_CLK if !ARCH_MSM
@@ -33,15 +30,10 @@ config ARM64
 	select GENERIC_STRNLEN_USER
 	select GENERIC_TIME_VSYSCALL
 	select HARDIRQS_SW_RESEND
-<<<<<<< HEAD
         select HAVE_ARCH_AUDITSYSCALL
 	select HAVE_ARCH_JUMP_LABEL
 	select HAVE_ARCH_KGDB
 	select HAVE_ARCH_SECCOMP_FILTER
-=======
-	select HAVE_ARCH_JUMP_LABEL
-	select HAVE_ARCH_KGDB
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	select HAVE_ARCH_TRACEHOOK
 	select HAVE_C_RECORDMCOUNT
 	select HAVE_CC_STACKPROTECTOR
@@ -212,10 +204,7 @@ config ARCH_MSM
 config ARCH_MSM8916
 	bool "Enable Support for Qualcomm MSM8916"
 	depends on ARCH_MSM
-<<<<<<< HEAD
 	select RCU_BOOST if DEBUG_KMEMLEAK
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	help
 	  This enables support for the MSM8916 chipset. If you dont
 	  know what do here, say N
@@ -317,7 +306,6 @@ config CPU_BIG_ENDIAN
        help
          Say Y if you plan on running a kernel in big-endian mode.
 
-<<<<<<< HEAD
 config ARM64_ERRATUM_845719
 	bool "Cortex-A53: 845719: a load might read incorrect data"
 	depends on COMPAT
@@ -339,8 +327,6 @@ config ARM64_ERRATUM_845719
 
 	  If unsure, say Y.
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 config ARM64_A57_ERRATA_832075
 	bool "ARMv8 A57 Errata 832075"
 	help
@@ -533,7 +519,6 @@ config FORCE_MAX_ZONEORDER
 	default "14" if (ARM64_64K_PAGES && TRANSPARENT_HUGEPAGE)
 	default "11"
 
-<<<<<<< HEAD
 config SECCOMP
 	bool "Enable seccomp to safely compute untrusted bytecode"
 	---help---
@@ -548,8 +533,6 @@ config SECCOMP
 	  defined by each seccomp mode.
 
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 endmenu
 
 menu "Boot options"

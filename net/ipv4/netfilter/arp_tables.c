@@ -355,20 +355,12 @@ unsigned int arpt_do_table(struct sk_buff *skb,
 }
 
 /* All zeroes == unconditional rule. */
-<<<<<<< HEAD
 static inline bool unconditional(const struct arpt_entry *e)
 {
 	static const struct arpt_arp uncond;
 
 	return e->target_offset == sizeof(struct arpt_entry) &&
 	       memcmp(&e->arp, &uncond, sizeof(uncond)) == 0;
-=======
-static inline bool unconditional(const struct arpt_arp *arp)
-{
-	static const struct arpt_arp uncond;
-
-	return memcmp(arp, &uncond, sizeof(uncond)) == 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /* Figures out from what hook each rule can be called: returns 0 if
@@ -407,18 +399,10 @@ static int mark_source_chains(const struct xt_table_info *newinfo,
 				|= ((1 << hook) | (1 << NF_ARP_NUMHOOKS));
 
 			/* Unconditional return/END. */
-<<<<<<< HEAD
 			if ((unconditional(e) &&
 			     (strcmp(t->target.u.user.name,
 				     XT_STANDARD_TARGET) == 0) &&
 			     t->verdict < 0) || visited) {
-=======
-			if ((e->target_offset == sizeof(struct arpt_entry) &&
-			     (strcmp(t->target.u.user.name,
-				     XT_STANDARD_TARGET) == 0) &&
-			     t->verdict < 0 && unconditional(&e->arp)) ||
-			    visited) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				unsigned int oldpos, size;
 
 				if ((strcmp(t->target.u.user.name,
@@ -563,11 +547,7 @@ static bool check_underflow(const struct arpt_entry *e)
 	const struct xt_entry_target *t;
 	unsigned int verdict;
 
-<<<<<<< HEAD
 	if (!unconditional(e))
-=======
-	if (!unconditional(&e->arp))
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return false;
 	t = arpt_get_target_c(e);
 	if (strcmp(t->u.user.name, XT_STANDARD_TARGET) != 0)
@@ -588,12 +568,8 @@ static inline int check_entry_size_and_hooks(struct arpt_entry *e,
 	unsigned int h;
 
 	if ((unsigned long)e % __alignof__(struct arpt_entry) != 0 ||
-<<<<<<< HEAD
 	    (unsigned char *)e + sizeof(struct arpt_entry) >= limit ||
 	    (unsigned char *)e + e->next_offset > limit) {
-=======
-	    (unsigned char *)e + sizeof(struct arpt_entry) >= limit) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		duprintf("Bad offset %p\n", e);
 		return -EINVAL;
 	}
@@ -613,15 +589,9 @@ static inline int check_entry_size_and_hooks(struct arpt_entry *e,
 			newinfo->hook_entry[h] = hook_entries[h];
 		if ((unsigned char *)e - base == underflows[h]) {
 			if (!check_underflow(e)) {
-<<<<<<< HEAD
 				pr_debug("Underflows must be unconditional and "
 					 "use the STANDARD target with "
 					 "ACCEPT/DROP\n");
-=======
-				pr_err("Underflows must be unconditional and "
-				       "use the STANDARD target with "
-				       "ACCEPT/DROP\n");
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				return -EINVAL;
 			}
 			newinfo->underflow[h] = underflows[h];
@@ -1255,12 +1225,8 @@ check_compat_entry_size_and_hooks(struct compat_arpt_entry *e,
 
 	duprintf("check_compat_entry_size_and_hooks %p\n", e);
 	if ((unsigned long)e % __alignof__(struct compat_arpt_entry) != 0 ||
-<<<<<<< HEAD
 	    (unsigned char *)e + sizeof(struct compat_arpt_entry) >= limit ||
 	    (unsigned char *)e + e->next_offset > limit) {
-=======
-	    (unsigned char *)e + sizeof(struct compat_arpt_entry) >= limit) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		duprintf("Bad offset %p, limit = %p\n", e, limit);
 		return -EINVAL;
 	}

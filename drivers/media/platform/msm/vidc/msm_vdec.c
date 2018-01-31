@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -24,11 +20,8 @@
 
 #define MSM_VDEC_DVC_NAME "msm_vdec_8974"
 #define MIN_NUM_OUTPUT_BUFFERS 4
-<<<<<<< HEAD
 #define MIN_NUM_CAPTURE_BUFFERS 6
 #define MIN_NUM_THUMBNAIL_MODE_CAPTURE_BUFFERS 1
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define MAX_NUM_OUTPUT_BUFFERS VB2_MAX_FRAME
 #define DEFAULT_VIDEO_CONCEAL_COLOR_BLACK 0x8010
 #define MB_SIZE_IN_PIXEL (16 * 16)
@@ -530,7 +523,6 @@ static struct msm_vidc_ctrl msm_vdec_ctrls[] = {
 		.menu_skip_mask = 0,
 		.qmenu = NULL,
 	},
-<<<<<<< HEAD
 	{
 		.id = V4L2_CID_MPEG_VIDC_VIDEO_PRIORITY,
 		.name = "Session Priority",
@@ -551,8 +543,6 @@ static struct msm_vidc_ctrl msm_vdec_ctrls[] = {
 		.step = 1,
 		.qmenu = NULL,
 	},
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 #define NUM_CTRLS ARRAY_SIZE(msm_vdec_ctrls)
@@ -1163,11 +1153,7 @@ int msm_vdec_s_parm(struct msm_vidc_inst *inst, struct v4l2_streamparm *a)
 
 	if ((fps % 15 == 14) || (fps % 24 == 23))
 		fps = fps + 1;
-<<<<<<< HEAD
 	else if ((fps > 1) && ((fps % 24 == 1) || (fps % 15 == 1)))
-=======
-	else if ((fps % 24 == 1) || (fps % 15 == 1))
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		fps = fps - 1;
 
 	if (inst->prop.fps != fps) {
@@ -1481,10 +1467,7 @@ int msm_vdec_s_fmt(struct msm_vidc_inst *inst, struct v4l2_format *f)
 		rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
 		if (rc) {
 			dprintk(VIDC_ERR, "Failed to open instance\n");
-<<<<<<< HEAD
 			msm_comm_session_clean(inst);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			goto err_invalid_fmt;
 		}
 
@@ -1577,10 +1560,7 @@ static int msm_vdec_queue_setup(struct vb2_queue *q,
 	struct hal_buffer_count_actual new_buf_count;
 	enum hal_property property_id;
 	u32 hold_count = 0;
-<<<<<<< HEAD
 	int min_buff_count = 0;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!q || !num_buffers || !num_planes
 		|| !sizes || !q->drv_priv) {
@@ -1624,10 +1604,7 @@ static int msm_vdec_queue_setup(struct vb2_queue *q,
 		rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
 		if (rc) {
 			dprintk(VIDC_ERR, "Failed to open instance\n");
-<<<<<<< HEAD
 			msm_comm_session_clean(inst);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			break;
 		}
 		rc = msm_comm_try_get_bufreqs(inst);
@@ -1648,7 +1625,6 @@ static int msm_vdec_queue_setup(struct vb2_queue *q,
 		}
 
 		*num_buffers = max(*num_buffers, bufreq->buffer_count_min);
-<<<<<<< HEAD
 
 		min_buff_count = (!!(inst->flags & VIDC_THUMBNAIL)) ?
 			MIN_NUM_THUMBNAIL_MODE_CAPTURE_BUFFERS :
@@ -1657,8 +1633,6 @@ static int msm_vdec_queue_setup(struct vb2_queue *q,
 		*num_buffers = clamp_val(*num_buffers,
 			min_buff_count, VB2_MAX_FRAME);
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (*num_buffers != bufreq->buffer_count_actual) {
 			property_id = HAL_PARAM_BUFFER_COUNT_ACTUAL;
 			new_buf_count.buffer_type =
@@ -2445,7 +2419,6 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 			ctrl->val ? "Enabling" : "Disabling");
 		pdata = &hal_property;
 		break;
-<<<<<<< HEAD
 	case V4L2_CID_MPEG_VIDC_VIDEO_PRIORITY:
 		property_id = HAL_CONFIG_REALTIME;
 		hal_property.enable = ctrl->val;
@@ -2454,8 +2427,6 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 	case V4L2_CID_MPEG_VIDC_VIDEO_OPERATING_RATE:
 		property_id = 0;
 		break;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	default:
 		break;
 	}

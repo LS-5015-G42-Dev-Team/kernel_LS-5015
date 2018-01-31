@@ -49,11 +49,8 @@
 #include <asm/timex.h>
 #include <asm/io.h>
 
-<<<<<<< HEAD
 #include "time/tick-internal.h"
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define CREATE_TRACE_POINTS
 #include <trace/events/timer.h>
 
@@ -1159,31 +1156,15 @@ static void call_timer_fn(struct timer_list *timer, void (*fn)(unsigned long),
 /**
  * __run_timers - run all expired timers (if any) on this CPU.
  * @base: the timer vector to be processed.
-<<<<<<< HEAD
-=======
- * @try: try and just return if base's lock already acquired.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This function cascades all vectors and executes all expired timer
  * vectors.
  */
-<<<<<<< HEAD
 static inline void __run_timers(struct tvec_base *base)
 {
 	struct timer_list *timer;
 
 	spin_lock_irq(&base->lock);
-=======
-static inline void __run_timers(struct tvec_base *base, bool try)
-{
-	struct timer_list *timer;
-
-	if (!try)
-		spin_lock_irq(&base->lock);
-	else if (!spin_trylock_irq(&base->lock))
-		return;
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	while (time_after_eq(jiffies, base->timer_jiffies)) {
 		struct list_head work_list;
 		struct list_head *head = &work_list;
@@ -1411,7 +1392,6 @@ static void run_timer_softirq(struct softirq_action *h)
 	hrtimer_run_pending();
 
 #ifdef CONFIG_SMP
-<<<<<<< HEAD
 	if (smp_processor_id() == tick_do_timer_cpu &&
 	    time_after_eq(jiffies, tvec_base_deferral->timer_jiffies))
 		__run_timers(tvec_base_deferral);
@@ -1419,18 +1399,6 @@ static void run_timer_softirq(struct softirq_action *h)
 
 	if (time_after_eq(jiffies, base->timer_jiffies))
 		__run_timers(base);
-=======
-	if (time_after_eq(jiffies, tvec_base_deferral->timer_jiffies))
-		/*
-		 * if other cpu is handling cpu unbound deferrable timer base,
-		 * current cpu doesn't need to handle it so pass try=true.
-		 */
-		__run_timers(tvec_base_deferral, true);
-#endif
-
-	if (time_after_eq(jiffies, base->timer_jiffies))
-		__run_timers(base, false);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 }
 
 /*

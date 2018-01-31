@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -23,10 +19,7 @@ enum wcd_cal_type {
 	WCD9XXX_ANC_CAL = WCD9XXX_MIN_CAL,
 	WCD9XXX_MAD_CAL,
 	WCD9XXX_MBHC_CAL,
-<<<<<<< HEAD
 	WCD9XXX_VBAT_CAL,
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	WCD9XXX_MAX_CAL,
 };
 

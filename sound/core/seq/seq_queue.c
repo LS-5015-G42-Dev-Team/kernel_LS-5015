@@ -144,15 +144,10 @@ static struct snd_seq_queue *queue_new(int owner, int locked)
 static void queue_delete(struct snd_seq_queue *q)
 {
 	/* stop and release the timer */
-<<<<<<< HEAD
 	mutex_lock(&q->timer_mutex);
 	snd_seq_timer_stop(q->timer);
 	snd_seq_timer_close(q);
 	mutex_unlock(&q->timer_mutex);
-=======
-	snd_seq_timer_stop(q->timer);
-	snd_seq_timer_close(q);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	/* wait until access free */
 	snd_use_lock_sync(&q->use_lock);
 	/* release resources... */

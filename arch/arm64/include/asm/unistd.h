@@ -26,7 +26,6 @@
 #define __ARCH_WANT_COMPAT_SYS_SENDFILE
 #define __ARCH_WANT_SYS_FORK
 #define __ARCH_WANT_SYS_VFORK
-<<<<<<< HEAD
 
 /*
  * Compat syscall numbers used by the AArch64 kernel.
@@ -48,9 +47,6 @@
 #define __NR_compat_syscalls		384
 #endif
 
-=======
-#endif
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define __ARCH_WANT_SYS_CLONE
 #include <uapi/asm/unistd.h>
 

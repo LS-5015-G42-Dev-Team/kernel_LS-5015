@@ -25,10 +25,7 @@ generic-y += sembuf.h
 generic-y += serial.h
 generic-y += shmbuf.h
 generic-y += siginfo.h
-<<<<<<< HEAD
 generic-y += simd.h
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 generic-y += sizes.h
 generic-y += socket.h
 generic-y += sockios.h

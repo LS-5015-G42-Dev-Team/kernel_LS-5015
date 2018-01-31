@@ -11,7 +11,6 @@
 #include <linux/in6.h>
 #include <linux/atomic.h>
 
-<<<<<<< HEAD
 /*
  * ifindex generation is per-net namespace, and loopback is
  * always the 1st device in ns (see net_dev_init), thus any
@@ -20,8 +19,6 @@
 
 #define LOOPBACK_IFINDEX	1
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct flowi_common {
 	int	flowic_oif;
 	int	flowic_iif;
@@ -95,11 +92,7 @@ static inline void flowi4_init_output(struct flowi4 *fl4, int oif,
 				      uid_t uid)
 {
 	fl4->flowi4_oif = oif;
-<<<<<<< HEAD
 	fl4->flowi4_iif = LOOPBACK_IFINDEX;
-=======
-	fl4->flowi4_iif = 0;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	fl4->flowi4_mark = mark;
 	fl4->flowi4_tos = tos;
 	fl4->flowi4_scope = scope;

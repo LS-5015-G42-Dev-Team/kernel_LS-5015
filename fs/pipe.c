@@ -117,7 +117,6 @@ void pipe_wait(struct pipe_inode_info *pipe)
 }
 
 static int
-<<<<<<< HEAD
 pipe_iov_copy_from_user(void *addr, int *offset, struct iovec *iov,
 			size_t *remaining, int atomic)
 {
@@ -139,27 +138,6 @@ pipe_iov_copy_from_user(void *addr, int *offset, struct iovec *iov,
 		}
 		*offset += copy;
 		*remaining -= copy;
-=======
-pipe_iov_copy_from_user(void *to, struct iovec *iov, unsigned long len,
-			int atomic)
-{
-	unsigned long copy;
-
-	while (len > 0) {
-		while (!iov->iov_len)
-			iov++;
-		copy = min_t(unsigned long, len, iov->iov_len);
-
-		if (atomic) {
-			if (__copy_from_user_inatomic(to, iov->iov_base, copy))
-				return -EFAULT;
-		} else {
-			if (copy_from_user(to, iov->iov_base, copy))
-				return -EFAULT;
-		}
-		to += copy;
-		len -= copy;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		iov->iov_base += copy;
 		iov->iov_len -= copy;
 	}
@@ -167,7 +145,6 @@ pipe_iov_copy_from_user(void *to, struct iovec *iov, unsigned long len,
 }
 
 static int
-<<<<<<< HEAD
 pipe_iov_copy_to_user(struct iovec *iov, void *addr, int *offset,
 		      size_t *remaining, int atomic)
 {
@@ -189,27 +166,6 @@ pipe_iov_copy_to_user(struct iovec *iov, void *addr, int *offset,
 		}
 		*offset += copy;
 		*remaining -= copy;
-=======
-pipe_iov_copy_to_user(struct iovec *iov, const void *from, unsigned long len,
-		      int atomic)
-{
-	unsigned long copy;
-
-	while (len > 0) {
-		while (!iov->iov_len)
-			iov++;
-		copy = min_t(unsigned long, len, iov->iov_len);
-
-		if (atomic) {
-			if (__copy_to_user_inatomic(iov->iov_base, from, copy))
-				return -EFAULT;
-		} else {
-			if (copy_to_user(iov->iov_base, from, copy))
-				return -EFAULT;
-		}
-		from += copy;
-		len -= copy;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		iov->iov_base += copy;
 		iov->iov_len -= copy;
 	}
@@ -443,14 +399,9 @@ pipe_read(struct kiocb *iocb, const struct iovec *_iov,
 			struct pipe_buffer *buf = pipe->bufs + curbuf;
 			const struct pipe_buf_operations *ops = buf->ops;
 			void *addr;
-<<<<<<< HEAD
 			size_t chars = buf->len, remaining;
 			int error, atomic;
 			int offset;
-=======
-			size_t chars = buf->len;
-			int error, atomic;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 			if (chars > total_len)
 				chars = total_len;
@@ -463,18 +414,12 @@ pipe_read(struct kiocb *iocb, const struct iovec *_iov,
 			}
 
 			atomic = !iov_fault_in_pages_write(iov, chars);
-<<<<<<< HEAD
 			remaining = chars;
 			offset = buf->offset;
 redo:
 			addr = ops->map(pipe, buf, atomic);
 			error = pipe_iov_copy_to_user(iov, addr, &offset,
 						      &remaining, atomic);
-=======
-redo:
-			addr = ops->map(pipe, buf, atomic);
-			error = pipe_iov_copy_to_user(iov, addr + buf->offset, chars, atomic);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			ops->unmap(pipe, buf, addr);
 			if (unlikely(error)) {
 				/*
@@ -594,10 +539,7 @@ pipe_write(struct kiocb *iocb, const struct iovec *_iov,
 		if (ops->can_merge && offset + chars <= PAGE_SIZE) {
 			int error, atomic = 1;
 			void *addr;
-<<<<<<< HEAD
 			size_t remaining = chars;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 			error = ops->confirm(pipe, buf);
 			if (error)
@@ -606,13 +548,8 @@ pipe_write(struct kiocb *iocb, const struct iovec *_iov,
 			iov_fault_in_pages_read(iov, chars);
 redo1:
 			addr = ops->map(pipe, buf, atomic);
-<<<<<<< HEAD
 			error = pipe_iov_copy_from_user(addr, &offset, iov,
 							&remaining, atomic);
-=======
-			error = pipe_iov_copy_from_user(offset + addr, iov,
-							chars, atomic);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			ops->unmap(pipe, buf, addr);
 			ret = error;
 			do_wakeup = 1;
@@ -647,11 +584,8 @@ redo1:
 			struct page *page = pipe->tmp_page;
 			char *src;
 			int error, atomic = 1;
-<<<<<<< HEAD
 			int offset = 0;
 			size_t remaining;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 			if (!page) {
 				page = alloc_page(GFP_HIGHUSER);
@@ -672,23 +606,15 @@ redo1:
 				chars = total_len;
 
 			iov_fault_in_pages_read(iov, chars);
-<<<<<<< HEAD
 			remaining = chars;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 redo2:
 			if (atomic)
 				src = kmap_atomic(page);
 			else
 				src = kmap(page);
 
-<<<<<<< HEAD
 			error = pipe_iov_copy_from_user(src, &offset, iov,
 							&remaining, atomic);
-=======
-			error = pipe_iov_copy_from_user(src, iov, chars,
-							atomic);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			if (atomic)
 				kunmap_atomic(src);
 			else

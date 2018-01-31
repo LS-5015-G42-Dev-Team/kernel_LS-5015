@@ -261,7 +261,6 @@ static int soc_widget_update_bits_locked(struct snd_soc_dapm_widget *w,
 	bool change;
 	unsigned int old, new;
 	int ret;
-<<<<<<< HEAD
 	unsigned int reg_sign = (short)reg;
 
 	if (w->codec && w->codec->using_regmap) {
@@ -272,14 +271,6 @@ static int soc_widget_update_bits_locked(struct snd_soc_dapm_widget *w,
 				return ret;
 		} else
 			change = true;
-=======
-
-	if (w->codec && w->codec->using_regmap) {
-		ret = regmap_update_bits_check(w->codec->control_data,
-					       reg, mask, value, &change);
-		if (ret != 0)
-			return ret;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	} else {
 		soc_widget_lock(w);
 		ret = soc_widget_read(w, reg);
@@ -364,7 +355,6 @@ static void dapm_set_path_status(struct snd_soc_dapm_widget *w,
 		unsigned int mask = (1 << fls(max)) - 1;
 		unsigned int invert = mc->invert;
 
-<<<<<<< HEAD
 		if (reg != SND_SOC_NOPM) {
 			val = soc_widget_read(w, reg);
 			val = (val >> shift) & mask;
@@ -374,14 +364,6 @@ static void dapm_set_path_status(struct snd_soc_dapm_widget *w,
 		} else {
 			p->connect = 0;
 		}
-=======
-		val = soc_widget_read(w, reg);
-		val = (val >> shift) & mask;
-		if (invert)
-			val = max - val;
-
-		p->connect = !!val;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	break;
 	case snd_soc_dapm_mux: {
@@ -2193,15 +2175,8 @@ static int snd_soc_dapm_set_pin(struct snd_soc_dapm_context *dapm,
 {
 	struct snd_soc_dapm_widget *w = dapm_find_widget(dapm, pin, true);
 
-<<<<<<< HEAD
 	if (!w) {
 		dev_err(dapm->dev, "ASoC: DAPM unknown pin %s\n", pin);
-=======
-	mutex_lock_nested(&dapm->card->dapm_mutex, SND_SOC_DAPM_CLASS_RUNTIME);
-	if (!w) {
-		dev_err(dapm->dev, "ASoC: DAPM unknown pin %s\n", pin);
-		mutex_unlock(&dapm->card->dapm_mutex);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return -EINVAL;
 	}
 
@@ -2212,10 +2187,6 @@ static int snd_soc_dapm_set_pin(struct snd_soc_dapm_context *dapm,
 	if (status == 0)
 		w->force = 0;
 
-<<<<<<< HEAD
-=======
-	mutex_unlock(&dapm->card->dapm_mutex);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	return 0;
 }
 
@@ -2697,14 +2668,9 @@ int snd_soc_dapm_get_volsw(struct snd_kcontrol *kcontrol,
 			 "ASoC: Control '%s' is stereo, which is not supported\n",
 			 kcontrol->id.name);
 
-<<<<<<< HEAD
 	if (reg != SND_SOC_NOPM)
 		ucontrol->value.integer.value[0] =
 			(snd_soc_read(widget->codec, reg) >> shift) & mask;
-=======
-	ucontrol->value.integer.value[0] =
-		(snd_soc_read(widget->codec, reg) >> shift) & mask;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (invert)
 		ucontrol->value.integer.value[0] =
 			max - ucontrol->value.integer.value[0];
@@ -2756,14 +2722,10 @@ int snd_soc_dapm_put_volsw(struct snd_kcontrol *kcontrol,
 
 	mutex_lock_nested(&card->dapm_mutex, SND_SOC_DAPM_CLASS_RUNTIME);
 
-<<<<<<< HEAD
 	if (reg != SND_SOC_NOPM)
 		change = snd_soc_test_bits(widget->codec, reg, mask, val);
 	else
 		change = true;
-=======
-	change = snd_soc_test_bits(widget->codec, reg, mask, val);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	if (change) {
 		for (wi = 0; wi < wlist->num_widgets; wi++) {
 			widget = wlist->widgets[wi];
@@ -3641,15 +3603,8 @@ int snd_soc_dapm_force_enable_pin(struct snd_soc_dapm_context *dapm,
 {
 	struct snd_soc_dapm_widget *w = dapm_find_widget(dapm, pin, true);
 
-<<<<<<< HEAD
 	if (!w) {
 		dev_err(dapm->dev, "ASoC: unknown pin %s\n", pin);
-=======
-	mutex_lock_nested(&dapm->card->dapm_mutex, SND_SOC_DAPM_CLASS_RUNTIME);
-	if (!w) {
-		dev_err(dapm->dev, "ASoC: unknown pin %s\n", pin);
-		mutex_unlock(&dapm->card->dapm_mutex);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		return -EINVAL;
 	}
 
@@ -3657,10 +3612,6 @@ int snd_soc_dapm_force_enable_pin(struct snd_soc_dapm_context *dapm,
 	w->connected = 1;
 	w->force = 1;
 	dapm_mark_dirty(w, "force enable");
-<<<<<<< HEAD
-=======
-	mutex_unlock(&dapm->card->dapm_mutex);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	return 0;
 }

@@ -918,11 +918,7 @@ static ssize_t show_available_freqs(struct device *d,
 
 	rcu_read_lock();
 	use_opp = dev_pm_opp_get_opp_count(dev) > 0;
-<<<<<<< HEAD
 	while (use_opp || (!use_opp && i < max_state)) {
-=======
-	do {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (use_opp) {
 			opp = dev_pm_opp_find_freq_ceil(dev, &freq);
 			if (IS_ERR(opp))
@@ -934,11 +930,7 @@ static ssize_t show_available_freqs(struct device *d,
 		count += scnprintf(&buf[count], (PAGE_SIZE - count - 2),
 				   "%lu ", freq);
 		freq++;
-<<<<<<< HEAD
 	}
-=======
-	} while (use_opp || (!use_opp && i < max_state));
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	rcu_read_unlock();
 
 	/* Truncate the trailing space */

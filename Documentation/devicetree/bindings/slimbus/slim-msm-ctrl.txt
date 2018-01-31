@@ -59,15 +59,12 @@ Optional property:
 		 register and receive subsytem restart notification from mdm
 		 and follow appropriate steps to ensure communication on the bus
 		 can be resumed after mdm-restart.
-<<<<<<< HEAD
  - qcom,subsys-name: This value provides the subsystem name where slimbus master
 		 is present. This property enables the slimbus driver to
 		 register and receive subsytem restart notification from subsystem
 		 and follow appropriate steps to ensure communication on the bus
 		 can be resumed after subsytem restart. By default slimbus driver
 		 register with ADSP subsystem.
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 Example:
 	slim@fe12f000 {
 		cell-index = <1>;

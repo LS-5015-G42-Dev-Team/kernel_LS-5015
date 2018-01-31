@@ -15,19 +15,12 @@
 #include <sound/soc.h>
 #include <sound/jack.h>
 #include <sound/q6afe-v2.h>
-<<<<<<< HEAD
 #include "wcd-mbhc-v2.h"
 #include "wcdcal-hwdep.h"
 
 #define MICBIAS_EXT_BYP_CAP 0x00
 #define MICBIAS_NO_EXT_BYP_CAP 0x01
 
-=======
-#include <linux/mfd/wcd9xxx/pdata.h>
-#include "wcd-mbhc-v2.h"
-#include "wcdcal-hwdep.h"
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #define MSM8X16_WCD_NUM_REGISTERS	0x6FF
 #define MSM8X16_WCD_MAX_REGISTER	(MSM8X16_WCD_NUM_REGISTERS-1)
 #define MSM8X16_WCD_CACHE_SIZE		MSM8X16_WCD_NUM_REGISTERS
@@ -56,7 +49,6 @@
 #define MCLK_SUS_RSC	2
 #define MCLK_SUS_NO_ACT	3
 
-<<<<<<< HEAD
 #define NUM_DECIMATORS	4
 #define MSM89XX_VDD_SPKDRV_NAME "cdc-vdd-spkdrv"
 
@@ -68,20 +60,11 @@ extern const u8 msm8x16_wcd_reg_readable[MSM8X16_WCD_CACHE_SIZE];
 extern const u8 msm8x16_wcd_reg_readonly[MSM8X16_WCD_CACHE_SIZE];
 extern const u8 msm8x16_wcd_reset_reg_defaults[MSM8X16_WCD_CACHE_SIZE];
 extern const u8 cajon_digital_reg[MSM8X16_WCD_CACHE_SIZE];
-=======
-#define NUM_DECIMATORS	2
-#define MSM89XX_VDD_SPKDRV_NAME "cdc-vdd-spkdrv"
-
-extern const u8 msm8x16_wcd_reg_readable[MSM8X16_WCD_CACHE_SIZE];
-extern const u8 msm8x16_wcd_reg_readonly[MSM8X16_WCD_CACHE_SIZE];
-extern const u8 msm8x16_wcd_reset_reg_defaults[MSM8X16_WCD_CACHE_SIZE];
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 enum codec_versions {
 	TOMBAK_1_0,
 	TOMBAK_2_0,
 	CONGA,
-<<<<<<< HEAD
 	CAJON,
 	CAJON_2_0,
 	UNSUPPORTED,
@@ -134,11 +117,6 @@ struct wcd9xxx_micbias_setting {
 	bool bias2_is_headset_only;
 };
 
-=======
-	UNSUPPORTED,
-};
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum msm8x16_wcd_pid_current {
 	MSM8X16_WCD_PID_MIC_2P5_UA,
 	MSM8X16_WCD_PID_MIC_5_UA,
@@ -194,24 +172,6 @@ enum {
 	MSM8X16_WCD_NUM_IRQS,
 };
 
-<<<<<<< HEAD
-=======
-enum wcd_notify_event {
-	WCD_EVENT_INVALID,
-	/* events for micbias ON and OFF */
-	WCD_EVENT_PRE_MICBIAS_2_OFF,
-	WCD_EVENT_POST_MICBIAS_2_OFF,
-	WCD_EVENT_PRE_MICBIAS_2_ON,
-	WCD_EVENT_POST_MICBIAS_2_ON,
-	/* events for PA ON and OFF */
-	WCD_EVENT_PRE_HPHL_PA_ON,
-	WCD_EVENT_POST_HPHL_PA_OFF,
-	WCD_EVENT_PRE_HPHR_PA_ON,
-	WCD_EVENT_POST_HPHR_PA_OFF,
-	WCD_EVENT_LAST,
-};
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 enum {
 	ON_DEMAND_MICBIAS = 0,
 	ON_DEMAND_SPKDRV,
@@ -237,7 +197,6 @@ struct msm8x16_wcd_regulator {
 	struct regulator *regulator;
 };
 
-<<<<<<< HEAD
 struct on_demand_supply {
 	struct regulator *supply;
 	atomic_t ref;
@@ -251,8 +210,6 @@ struct wcd_imped_i_ref {
 	int offset;
 };
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct msm8916_asoc_mach_data {
 	int codec_type;
 	int ext_pa;
@@ -264,25 +221,17 @@ struct msm8916_asoc_mach_data {
 	u8 micbias2_cap_mode;
 	atomic_t mclk_rsc_ref;
 	atomic_t mclk_enabled;
-<<<<<<< HEAD
 	atomic_t wsa_mclk_rsc_ref;
 	struct mutex cdc_mclk_mutex;
 	struct mutex wsa_mclk_mutex;
-=======
-	struct mutex cdc_mclk_mutex;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct delayed_work disable_mclk_work;
 	struct afe_digital_clk_cfg digital_cdc_clk;
 	void __iomem *vaddr_gpio_mux_spkr_ctl;
 	void __iomem *vaddr_gpio_mux_mic_ctl;
-<<<<<<< HEAD
 	void __iomem *vaddr_gpio_mux_quin_ctl;
 	void __iomem *vaddr_gpio_mux_pcm_ctl;
 	struct on_demand_supply wsa_switch_supply;
 	struct snd_info_entry *codec_root;
-=======
-	void __iomem *vaddr_gpio_mux_pcm_ctl;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 struct msm8x16_wcd_pdata {
@@ -294,11 +243,8 @@ struct msm8x16_wcd_pdata {
 	struct wcd9xxx_micbias_setting micbias;
 	struct msm8x16_wcd_regulator regulator[MAX_REGULATOR];
 	u32 mclk_rate;
-<<<<<<< HEAD
 	u32 is_lpass;
 	u32 dig_cdc_addr;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 enum msm8x16_wcd_micbias_num {
@@ -326,14 +272,6 @@ struct msm8x16_wcd {
 	char __iomem *dig_base;
 };
 
-<<<<<<< HEAD
-=======
-struct on_demand_supply {
-	struct regulator *supply;
-	atomic_t ref;
-};
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 struct msm8x16_wcd_priv {
 	struct snd_soc_codec *codec;
 	u16 pmic_rev;
@@ -358,15 +296,10 @@ struct msm8x16_wcd_priv {
 	/* cal info for codec */
 	struct fw_info *fw_data;
 	struct blocking_notifier_head notifier;
-<<<<<<< HEAD
 	int (*codec_spk_ext_pa_cb)(struct snd_soc_codec *codec, int enable);
 	unsigned long status_mask;
 	struct wcd_imped_i_ref imped_i_ref;
 	enum wcd_mbhc_imp_det_pin imped_det_pin;
-=======
-	unsigned long status_mask;
-	int (*codec_spk_ext_pa_cb)(struct snd_soc_codec *codec, int enable);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 extern int msm8x16_wcd_mclk_enable(struct snd_soc_codec *codec, int mclk_enable,
@@ -377,15 +310,6 @@ extern int msm8x16_wcd_hs_detect(struct snd_soc_codec *codec,
 
 extern void msm8x16_wcd_hs_detect_exit(struct snd_soc_codec *codec);
 
-<<<<<<< HEAD
-=======
-extern int msm8x16_register_notifier(struct snd_soc_codec *codec,
-				     struct notifier_block *nblock);
-
-extern int msm8x16_unregister_notifier(struct snd_soc_codec *codec,
-				     struct notifier_block *nblock);
-
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 extern void msm8x16_wcd_spk_ext_pa_cb(
 		int (*codec_spk_ext_pa)(struct snd_soc_codec *codec,
 		int enable), struct snd_soc_codec *codec);

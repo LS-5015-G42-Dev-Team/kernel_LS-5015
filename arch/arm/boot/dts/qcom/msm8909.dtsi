@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -284,11 +280,7 @@
 			<          0 0>,
 			<  400000000 4>,
 			<  800000000 5>,
-<<<<<<< HEAD
 			< 1267200000 7>;
-=======
-			< 1305600000 7>;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,speed2-bin-v0 =
 			<          0 0>,
 			<  400000000 4>,
@@ -321,11 +313,7 @@
 	};
 
 	qcom,cpu-bwmon {
-<<<<<<< HEAD
 		compatible = "qcom,bimc-bwmon2";
-=======
-		compatible = "qcom,bimc-bwmon";
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		reg = <0x408000 0x300>, <0x401000 0x200>;
 		reg-names = "base", "global_base";
 		interrupts = <0 183 4>;
@@ -351,11 +339,7 @@
 			 < 1094400 >,
 			 < 1190400 >,
 			 < 1248000 >,
-<<<<<<< HEAD
 			 < 1267200 >;
-=======
-			 < 1305600 >;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 
 
@@ -475,14 +459,11 @@
 		qcom,freq-mitigation-control-mask = <0x01>;
 		qcom,online-hotplug-core;
 		qcom,therm-reset-temp = <115>;
-<<<<<<< HEAD
 		qcom,disable-cx-phase-ctrl;
 		qcom,disable-gfx-phase-ctrl;
 		qcom,disable-vdd-mx;
 		qcom,disable-psm;
 		qcom,disable-ocr;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,vdd-restriction-temp = <5>;
 		qcom,vdd-restriction-temp-hysteresis = <10>;
 		vdd-dig-supply = <&pm8909_s1_floor_corner>;
@@ -529,10 +510,7 @@
 			<144000 266670000 0x55555555>, /* VGA@60 X 2 */
 			<108000 133330000 0xffffffff>, /* 720p@30 Decode */
 			<54000 133330000 0x55555555>; /* HVGA@90 Encode */
-<<<<<<< HEAD
 		qcom,pm-qos-latency-us = <501>;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,hfi = "venus";
 		qcom,reg-presets = <0xE0020 0x05555556>,
 			<0xE0024 0x05555556>,
@@ -678,10 +656,7 @@
 		qcom,rx-ring-size = <32>;
 		qcom,no-cpu-affinity;
 		qcom,max-rx-mtu = <4096>;
-<<<<<<< HEAD
 		qcom,fast-shutdown;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	};
 
 	qcom,smdtty {
@@ -1208,11 +1183,7 @@
 		clocks = <&clock_gcc clk_gcc_blsp1_ahb_clk>,
 			 <&clock_gcc clk_gcc_blsp1_qup4_i2c_apps_clk>;
 		clock-names = "iface_clk", "core_clk";
-<<<<<<< HEAD
 		qcom,clk-freq-out = <400000>;
-=======
-		qcom,clk-freq-out = <100000>;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		qcom,clk-freq-in  = <19200000>;
 		pinctrl-names = "i2c_active", "i2c_sleep";
 		pinctrl-0 = <&i2c_4_active>;
@@ -1411,13 +1382,8 @@
 		dai_mi2s3: qcom,msm-dai-q6-mi2s-quat {
 			compatible = "qcom,msm-dai-q6-mi2s";
 			qcom,msm-dai-q6-mi2s-dev-id = <3>;
-<<<<<<< HEAD
 			qcom,msm-mi2s-rx-lines = <0>;
 			qcom,msm-mi2s-tx-lines = <3>;
-=======
-			qcom,msm-mi2s-rx-lines = <1>;
-			qcom,msm-mi2s-tx-lines = <2>;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		};
 
 		dai_mi2s2: qcom,msm-dai-q6-mi2s-tert {
@@ -1489,14 +1455,11 @@
 			qcom,msm-dai-q6-dev-id = <12289>;
 		};
 
-<<<<<<< HEAD
                 bt_a2dp_rx: qcom,msm-dai-q6-bt-a2dp-rx {
                         compatible = "qcom,msm-dai-q6-dev";
                         qcom,msm-dai-q6-dev-id = <12290>;
                 };
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		int_fm_rx: qcom,msm-dai-q6-int-fm-rx {
 			compatible = "qcom,msm-dai-q6-dev";
 			qcom,msm-dai-q6-dev-id = <12292>;
@@ -1760,10 +1723,7 @@
 		qcom,gpio-err-ready = <&smp2pgpio_ssr_smp2p_1_in 1 0>;
 		qcom,gpio-proxy-unvote = <&smp2pgpio_ssr_smp2p_1_in 2 0>;
 		qcom,gpio-stop-ack = <&smp2pgpio_ssr_smp2p_1_in 3 0>;
-<<<<<<< HEAD
 		qcom,gpio-shutdown-ack = <&smp2pgpio_ssr_smp2p_1_in 7 0>;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 		/* GPIO output to mss */
 		qcom,gpio-force-stop = <&smp2pgpio_ssr_smp2p_1_out 0 0>;

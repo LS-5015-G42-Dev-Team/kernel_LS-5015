@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -20,10 +16,7 @@
 #include <linux/init.h>
 #include <linux/kallsyms.h>
 #include <linux/slab.h>
-<<<<<<< HEAD
 #include <linux/kmemleak.h>
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 #include <soc/qcom/memory_dump.h>
 
 #define MISC_DUMP_DATA_LEN		4096
@@ -144,13 +137,9 @@ static void __init common_log_register_log_buf(void)
 							&entry_log_buf)) {
 			kfree(dump_data);
 			pr_err("Unable to register %d.\n", entry_log_buf.id);
-<<<<<<< HEAD
 		} else
 			kmemleak_not_leak(dump_data);
 
-=======
-		}
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		if (fist_idxp) {
 			dump_data = kzalloc(sizeof(struct msm_dump_data),
 							GFP_KERNEL);
@@ -162,18 +151,12 @@ static void __init common_log_register_log_buf(void)
 			entry_first_idx.id = MSM_DUMP_DATA_LOG_BUF_FIRST_IDX;
 			entry_first_idx.addr = virt_to_phys(dump_data);
 			if (msm_dump_data_register(MSM_DUMP_TABLE_APPS,
-<<<<<<< HEAD
 						&entry_first_idx)) {
 				kfree(dump_data);
 				pr_err("Unable to register %d.\n",
 						entry_first_idx.id);
 			} else
 				kmemleak_not_leak(dump_data);
-=======
-						&entry_first_idx))
-				pr_err("Unable to register %d.\n",
-						entry_first_idx.id);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		}
 	}
 }

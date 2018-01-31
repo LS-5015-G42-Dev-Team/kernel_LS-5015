@@ -3918,39 +3918,24 @@ brcmf_cfg80211_change_beacon(struct wiphy *wiphy, struct net_device *ndev,
 
 static int
 brcmf_cfg80211_del_station(struct wiphy *wiphy, struct net_device *ndev,
-<<<<<<< HEAD
 			   struct station_del_parameters *params)
-=======
-			   u8 *mac)
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 {
 	struct brcmf_cfg80211_info *cfg = wiphy_to_cfg(wiphy);
 	struct brcmf_scb_val_le scbval;
 	struct brcmf_if *ifp = netdev_priv(ndev);
 	s32 err;
 
-<<<<<<< HEAD
 	if (!params->mac)
 		return -EFAULT;
 
 	brcmf_dbg(TRACE, "Enter %pM\n", params->mac);
-=======
-	if (!mac)
-		return -EFAULT;
-
-	brcmf_dbg(TRACE, "Enter %pM\n", mac);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (ifp->vif == cfg->p2p.bss_idx[P2PAPI_BSSCFG_DEVICE].vif)
 		ifp = cfg->p2p.bss_idx[P2PAPI_BSSCFG_PRIMARY].vif->ifp;
 	if (!check_vif_up(ifp->vif))
 		return -EIO;
 
-<<<<<<< HEAD
 	memcpy(&scbval.ea, params->mac, ETH_ALEN);
-=======
-	memcpy(&scbval.ea, mac, ETH_ALEN);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	scbval.val = cpu_to_le32(WLAN_REASON_DEAUTH_LEAVING);
 	err = brcmf_fil_cmd_data_set(ifp, BRCMF_C_SCB_DEAUTHENTICATE_FOR_REASON,
 				     &scbval, sizeof(scbval));

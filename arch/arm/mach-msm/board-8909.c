@@ -76,10 +76,7 @@ static void __init msm8909_init(void)
 
 static const char *msm8909_dt_match[] __initconst = {
 	"qcom,msm8909",
-<<<<<<< HEAD
 	"qcom,apq8009",
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	NULL
 };
 

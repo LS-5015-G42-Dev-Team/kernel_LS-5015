@@ -520,10 +520,7 @@ static int context_alloc(struct fastrpc_apps *me, uint32_t kernel,
 		goto bail;
 
 	INIT_HLIST_NODE(&ctx->hn);
-<<<<<<< HEAD
     hlist_add_fake(&ctx->hn);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	ctx->apps = me;
 	ctx->fdata = fdata;
 	ctx->pra = (remote_arg_t *)(&ctx[1]);

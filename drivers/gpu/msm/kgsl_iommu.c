@@ -306,13 +306,8 @@ static int kgsl_iommu_fault_handler(struct iommu_domain *domain,
 	struct kgsl_iommu *iommu;
 	struct kgsl_iommu_unit *iommu_unit;
 	struct kgsl_iommu_device *iommu_dev;
-<<<<<<< HEAD
 	phys_addr_t ptbase;
 	unsigned int pid, fsr;
-=======
-	unsigned int ptbase, fsr;
-	unsigned int pid;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct _mem_entry prev, next;
 	unsigned int fsynr0, fsynr1;
 	int write;
@@ -379,20 +374,12 @@ static int kgsl_iommu_fault_handler(struct iommu_domain *domain,
 	if (adreno_dev->ft_pf_policy & KGSL_FT_PAGEFAULT_GPUHALT_ENABLE) {
 		adreno_set_gpu_fault(adreno_dev, ADRENO_IOMMU_PAGE_FAULT);
 		/* turn off GPU IRQ so we don't get faults from it too */
-<<<<<<< HEAD
 		kgsl_pwrctrl_change_state(device, KGSL_STATE_AWARE);
-=======
-		kgsl_pwrctrl_irq(device, KGSL_PWRFLAGS_OFF);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		adreno_dispatcher_schedule(device);
 	}
 
 	ptbase = KGSL_IOMMU_GET_CTX_REG_Q(iommu, iommu_unit,
-<<<<<<< HEAD
 		iommu_dev->ctx_id, TTBR0) & KGSL_IOMMU_CTX_TTBR0_ADDR_MASK;
-=======
-				iommu_dev->ctx_id, TTBR0);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	fsynr0 = KGSL_IOMMU_GET_CTX_REG(iommu, iommu_unit,
 		iommu_dev->ctx_id, FSYNR0);
@@ -415,13 +402,8 @@ static int kgsl_iommu_fault_handler(struct iommu_domain *domain,
 		KGSL_MEM_CRIT(iommu_dev->kgsldev,
 			"GPU PAGE FAULT: addr = %lX pid = %d\n", addr, pid);
 		KGSL_MEM_CRIT(iommu_dev->kgsldev,
-<<<<<<< HEAD
 		 "context = %d TTBR0 = %pa FSR = %X FSYNR0 = %X FSYNR1 = %X(%s fault)\n",
 			iommu_dev->ctx_id, &ptbase, fsr, fsynr0, fsynr1,
-=======
-		 "context = %d TTBR0 = %X FSR = %X FSYNR0 = %X FSYNR1 = %X(%s fault)\n",
-			iommu_dev->ctx_id, ptbase, fsr, fsynr0, fsynr1,
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			write ? "write" : "read");
 
 		_check_if_freed(iommu_dev, addr, pid);
@@ -818,11 +800,8 @@ static int kgsl_attach_pagetable_iommu_domain(struct kgsl_mmu *mmu)
 					iommu_unit->clks[2] = drvdata->aclk;
 					iommu_unit->clks[3] =
 							iommu->gtcu_iface_clk;
-<<<<<<< HEAD
 					iommu_unit->clks[4] =
 							iommu->gtbu_clk;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 				}
 			}
 		}
@@ -1334,10 +1313,7 @@ static int kgsl_iommu_init(struct kgsl_mmu *mmu)
 	int status = 0;
 	struct kgsl_iommu *iommu;
 	struct platform_device *pdev = mmu->device->pdev;
-<<<<<<< HEAD
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(mmu->device);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	size_t secured_pool_sz = 0;
 
 	atomic_set(&mmu->fault, 0);
@@ -1361,7 +1337,6 @@ static int kgsl_iommu_init(struct kgsl_mmu *mmu)
 						"gtcu_iface_clk") >= 0)
 		iommu->gtcu_iface_clk = clk_get(&pdev->dev, "gtcu_iface_clk");
 
-<<<<<<< HEAD
 	/* TBU clk needs to be voted for TLB invalidate on A405 */
 	if (adreno_is_a405(adreno_dev)) {
 		iommu->gtbu_clk = clk_get(&pdev->dev, "gtbu_clk");
@@ -1369,8 +1344,6 @@ static int kgsl_iommu_init(struct kgsl_mmu *mmu)
 			iommu->gtbu_clk = NULL;
 	}
 
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	mmu->pt_base = KGSL_MMU_MAPPED_MEM_BASE;
 	mmu->pt_size = (KGSL_MMU_MAPPED_MEM_SIZE - secured_pool_sz);
 
@@ -1751,7 +1724,6 @@ struct scatterlist *_create_sg_no_large_pages(struct kgsl_memdesc *memdesc)
 	struct page *page;
 	struct scatterlist *s, *s_temp, *sg_temp;
 	int sglen_alloc = 0;
-<<<<<<< HEAD
 	uint64_t offset, pg_size;
 	int i;
 
@@ -1762,16 +1734,6 @@ struct scatterlist *_create_sg_no_large_pages(struct kgsl_memdesc *memdesc)
 		} else {
 			sglen_alloc++;
 		}
-=======
-	uint64_t offset;
-	int i;
-
-	for_each_sg(memdesc->sg, s, memdesc->sglen, i) {
-		if (SZ_1M <= s->length)
-			sglen_alloc += s->length >> 16;
-		else
-			sglen_alloc++;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	}
 	/* No large pages were detected */
 	if (sglen_alloc == memdesc->sglen)
@@ -1788,15 +1750,10 @@ struct scatterlist *_create_sg_no_large_pages(struct kgsl_memdesc *memdesc)
 		page = sg_page(s);
 		if (SZ_1M <= s->length) {
 			for (offset = 0; offset < s->length; s_temp++) {
-<<<<<<< HEAD
 				pg_size = ((s->length - offset) >= SZ_64K) ?
 						SZ_64K : SZ_4K;
 				sg_set_page(s_temp, page, pg_size, offset);
 				offset += pg_size;
-=======
-				sg_set_page(s_temp, page, SZ_64K, offset);
-				offset += SZ_64K;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 			}
 		} else {
 			sg_set_page(s_temp, page, s->length, 0);

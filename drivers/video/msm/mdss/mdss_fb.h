@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2008-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2008-2015, The Linux Foundation. All rights reserved.
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -172,10 +168,7 @@ struct msm_mdp_interface {
 				struct mdp_histogram *hist);
 	int (*ad_calc_bl)(struct msm_fb_data_type *mfd, int bl_in,
 		int *bl_out, bool *bl_out_notify);
-<<<<<<< HEAD
 	int (*ad_shutdown_cleanup)(struct msm_fb_data_type *mfd);
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int (*panel_register_done)(struct mdss_panel_data *pdata);
 	u32 (*fb_stride)(u32 fb_index, u32 xres, int bpp);
 	int (*splash_init_fnc)(struct msm_fb_data_type *mfd);
@@ -217,10 +210,7 @@ struct msm_fb_data_type {
 
 	struct panel_id panel;
 	struct mdss_panel_info *panel_info;
-<<<<<<< HEAD
 	struct mdss_panel_info reconfig_panel_info;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	int split_mode;
 	int split_fb_left;
 	int split_fb_right;
@@ -249,21 +239,14 @@ struct msm_fb_data_type {
 	int ext_ad_ctrl;
 	u32 ext_bl_ctrl;
 	u32 calib_mode;
-<<<<<<< HEAD
 	u32 calib_mode_bl;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	u32 ad_bl_level;
 	u32 bl_level;
 	u32 bl_scale;
 	u32 bl_min_lvl;
 	u32 unset_bl_level;
 	u32 bl_updated;
-<<<<<<< HEAD
 	u32 bl_level_scaled;
-=======
-	u32 bl_level_old;
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	struct mutex bl_lock;
 
 	struct platform_device *pdev;
@@ -309,10 +292,7 @@ struct msm_fb_data_type {
 	int doze_mode;
 
 	int fb_mmap_type;
-<<<<<<< HEAD
 	struct led_trigger *boot_notification_led;
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 };
 
 static inline void mdss_fb_update_notify_update(struct msm_fb_data_type *mfd)
@@ -328,11 +308,7 @@ static inline void mdss_fb_update_notify_update(struct msm_fb_data_type *mfd)
 		if (mfd->no_update.timer.function)
 			del_timer(&(mfd->no_update.timer));
 
-<<<<<<< HEAD
 		mfd->no_update.timer.expires = jiffies + ((1 * HZ) / 10);
-=======
-		mfd->no_update.timer.expires = jiffies + (2 * HZ);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		add_timer(&mfd->no_update.timer);
 		mutex_unlock(&mfd->no_update.lock);
 	}

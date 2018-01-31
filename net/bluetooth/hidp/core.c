@@ -106,11 +106,7 @@ static int hidp_send_message(struct hidp_session *session, struct socket *sock,
 	struct sk_buff *skb;
 	struct sock *sk = sock->sk;
 
-<<<<<<< HEAD
 	BT_DBG("session %pK data %pK size %d", session, data, size);
-=======
-	BT_DBG("session %p data %p size %d", session, data, size);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (atomic_read(&session->terminate))
 		return -EIO;
@@ -154,11 +150,7 @@ static int hidp_input_event(struct input_dev *dev, unsigned int type,
 	unsigned char newleds;
 	unsigned char hdr, data[2];
 
-<<<<<<< HEAD
 	BT_DBG("session %pK type %d code %d value %d",
-=======
-	BT_DBG("session %p type %d code %d value %d",
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	       session, type, code, value);
 
 	if (type != EV_LED)
@@ -422,11 +414,7 @@ static void hidp_del_timer(struct hidp_session *session)
 static void hidp_process_handshake(struct hidp_session *session,
 					unsigned char param)
 {
-<<<<<<< HEAD
 	BT_DBG("session %pK param 0x%02x", session, param);
-=======
-	BT_DBG("session %p param 0x%02x", session, param);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 	session->output_report_success = 0; /* default condition */
 
 	switch (param) {
@@ -469,11 +457,7 @@ static void hidp_process_handshake(struct hidp_session *session,
 static void hidp_process_hid_control(struct hidp_session *session,
 					unsigned char param)
 {
-<<<<<<< HEAD
 	BT_DBG("session %pK param 0x%02x", session, param);
-=======
-	BT_DBG("session %p param 0x%02x", session, param);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (param == HIDP_CTRL_VIRTUAL_CABLE_UNPLUG) {
 		/* Flush the transmit queues */
@@ -489,12 +473,8 @@ static int hidp_process_data(struct hidp_session *session, struct sk_buff *skb,
 				unsigned char param)
 {
 	int done_with_skb = 1;
-<<<<<<< HEAD
 	BT_DBG("session %pK skb %pK len %d param 0x%02x",
 	       session, skb, skb->len, param);
-=======
-	BT_DBG("session %p skb %p len %d param 0x%02x", session, skb, skb->len, param);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	switch (param) {
 	case HIDP_DATA_RTYPE_INPUT:
@@ -538,11 +518,7 @@ static void hidp_recv_ctrl_frame(struct hidp_session *session,
 	unsigned char hdr, type, param;
 	int free_skb = 1;
 
-<<<<<<< HEAD
 	BT_DBG("session %pK skb %pK len %d", session, skb, skb->len);
-=======
-	BT_DBG("session %p skb %p len %d", session, skb, skb->len);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	hdr = skb->data[0];
 	skb_pull(skb, 1);
@@ -578,11 +554,7 @@ static void hidp_recv_intr_frame(struct hidp_session *session,
 {
 	unsigned char hdr;
 
-<<<<<<< HEAD
 	BT_DBG("session %pK skb %pK len %d", session, skb, skb->len);
-=======
-	BT_DBG("session %p skb %p len %d", session, skb, skb->len);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	hdr = skb->data[0];
 	skb_pull(skb, 1);
@@ -609,11 +581,7 @@ static int hidp_send_frame(struct socket *sock, unsigned char *data, int len)
 	struct kvec iv = { data, len };
 	struct msghdr msg;
 
-<<<<<<< HEAD
 	BT_DBG("sock %pK data %pK len %d", sock, data, len);
-=======
-	BT_DBG("sock %p data %p len %d", sock, data, len);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!len)
 		return 0;
@@ -631,11 +599,7 @@ static void hidp_process_transmit(struct hidp_session *session,
 	struct sk_buff *skb;
 	int ret;
 
-<<<<<<< HEAD
 	BT_DBG("session %pK", session);
-=======
-	BT_DBG("session %p", session);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	while ((skb = skb_dequeue(transmit))) {
 		ret = hidp_send_frame(sock, skb->data, skb->len);
@@ -1229,11 +1193,7 @@ static int hidp_session_thread(void *arg)
 	struct hidp_session *session = arg;
 	wait_queue_t ctrl_wait, intr_wait;
 
-<<<<<<< HEAD
 	BT_DBG("session %pK", session);
-=======
-	BT_DBG("session %p", session);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	/* initialize runtime environment */
 	hidp_session_get(session);

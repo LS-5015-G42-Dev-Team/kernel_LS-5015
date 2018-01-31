@@ -619,14 +619,11 @@ config QCOM_LIQUID_DOCK
 	  This option enables support for the USB and Ethernet ports found on
 	  the docking station of various models of Qualcomm Technology's
 	  LiQUID Mobile Development Platforms.
-<<<<<<< HEAD
 config UID_CPUTIME
 	tristate "Per-UID cpu time statistics"
 	depends on PROFILING
 	help
 	  Per UID based cpu time statistics exported to /proc/uid_cputime
-=======
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"

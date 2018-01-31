@@ -1788,11 +1788,7 @@ static int prepare_bkops(struct test_data *td)
 
 	bkops_stat = &card->bkops_info.bkops_stats;
 
-<<<<<<< HEAD
 	if (!(mmc_card_get_bkops_en_manual(card))) {
-=======
-	if (!card->ext_csd.bkops_en) {
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 		pr_err("%s: BKOPS is not enabled by card or host)",
 				__func__);
 		return -ENOTSUPP;

@@ -393,11 +393,7 @@ static int bnep_tx_frame(struct bnep_session *s, struct sk_buff *skb)
 	int len = 0, il = 0;
 	u8 type = 0;
 
-<<<<<<< HEAD
 	BT_DBG("skb %pK dev %pK type %d", skb, skb->dev, skb->pkt_type);
-=======
-	BT_DBG("skb %p dev %p type %d", skb, skb->dev, skb->pkt_type);
->>>>>>> b65c8e5645808384eb66dcfff9a96bad1918e30f
 
 	if (!skb->dev) {
 		/* Control frame sent by us */
