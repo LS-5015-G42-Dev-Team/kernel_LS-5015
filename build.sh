@@ -49,12 +49,12 @@ if [[ -d ${UBER} ]]; then
 		rm -rf ${UBER}
 	fi
 else
-	git clone https://github.com/LS-5015-Dev-Team/gcc-prebuilts.git $UBER
+	git clone https://github.com/LS-5015-Dev-Team/ZION959-UBER-TOOLCHAINS $UBER
 fi
 }
 
 # Modify the following variable if you want to build
-export CROSS_COMPILE=$UBER/bin/aarch64-linaro-linux-android-
+export CROSS_COMPILE=$UBER/bin/aarch64-linux-android-
 export ARCH=arm64
 export SUBARCH=arm64
 export KBUILD_BUILD_USER="Faraz"
