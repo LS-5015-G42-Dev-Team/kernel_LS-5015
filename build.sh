@@ -72,7 +72,7 @@ echo "             Compiling Nichrome kernel        "
 echo -e "****************************************************"
 echo -e "$nocol"
 rm -f $KERN_IMG
-make O=out test01a_msm_defconfig
+make O=out nichrome_defconfig
 make O=out $J
 if ! [ -a $KERN_IMG ];
 then
