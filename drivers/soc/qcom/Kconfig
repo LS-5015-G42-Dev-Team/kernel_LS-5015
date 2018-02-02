@@ -571,12 +571,6 @@ config MSM_PERFORMANCE_HOTPLUG_ON
           compile out the nodes needed for core-control functionality through
           msm_performance.
 
-config ALUCARD_HOTPLUG
-	    bool "Enable alucard-hotplug cpu hotplug driver"
-        default n
-        help
-	    Generic Alucard-hotplug cpu hotplug driver for ARM SOCs
-
 config ASMP
  	bool "Multi-core automatic hotplug support"
 	depends on SMP

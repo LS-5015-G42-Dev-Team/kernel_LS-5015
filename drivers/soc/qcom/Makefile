@@ -58,7 +58,6 @@ obj-$(CONFIG_MSM_OCMEM) += ocmem_sched.o ocmem_api.o ocmem_rdm.o ocmem_core.o
 obj-$(CONFIG_MSM_PERFORMANCE) 	  += msm_performance.o
 obj-$(CONFIG_MSM_CORE_CTL_HELPER) += core_ctl_helper.o
 obj-$(CONFIG_MSM_CORE_CTL) += core_ctl.o
-obj-$(CONFIG_ALUCARD_HOTPLUG) += alucard_hotplug.o
 obj-$(CONFIG_STATE_NOTIFIER)      += state_notifier.o
 
 ifdef CONFIG_MSM_SUBSYSTEM_RESTART
