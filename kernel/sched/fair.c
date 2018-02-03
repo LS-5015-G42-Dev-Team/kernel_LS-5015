@@ -47,8 +47,8 @@
  *  run vmstat and monitor the context-switches (cs) field)
  */
 #ifdef CONFIG_ZEN_INTERACTIVE
-unsigned int sysctl_sched_latency = 3000000ULL;
-unsigned int normalized_sysctl_sched_latency = 3000000ULL;
+unsigned int sysctl_sched_latency			= 3000000ULL;
+unsigned int normalized_sysctl_sched_latency		= 3000000ULL;
 #else
 unsigned int sysctl_sched_latency = 6000000ULL;
 unsigned int normalized_sysctl_sched_latency = 6000000ULL;
@@ -71,8 +71,8 @@ enum sched_tunable_scaling sysctl_sched_tunable_scaling
  * (default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
  */
 #ifdef CONFIG_ZEN_INTERACTIVE
-unsigned int sysctl_sched_min_granularity = 300000ULL;
-unsigned int normalized_sysctl_sched_min_granularity = 300000ULL;
+unsigned int sysctl_sched_min_granularity		= 300000ULL;
+unsigned int normalized_sysctl_sched_min_granularity	= 300000ULL;
 #else
 unsigned int sysctl_sched_min_granularity = 750000ULL;
 unsigned int normalized_sysctl_sched_min_granularity = 750000ULL;
@@ -110,10 +110,10 @@ unsigned int __read_mostly sysctl_sched_wake_to_idle;
  * have immediate wakeup/sleep latencies.
  */
 #ifdef CONFIG_ZEN_INTERACTIVE
-unsigned int sysctl_sched_wakeup_granularity = 500000UL;
-unsigned int normalized_sysctl_sched_wakeup_granularity = 500000UL;
+unsigned int sysctl_sched_wakeup_granularity		= 500000UL;
+unsigned int normalized_sysctl_sched_wakeup_granularity	= 500000UL;
 
-const_debug unsigned int sysctl_sched_migration_cost = 250000UL;
+const_debug unsigned int sysctl_sched_migration_cost	= 250000UL;
 #else
 unsigned int sysctl_sched_wakeup_granularity = 1000000UL;
 unsigned int normalized_sysctl_sched_wakeup_granularity = 1000000UL;
@@ -2749,7 +2749,7 @@ static inline void __update_tg_runnable_avg(struct sched_avg *sa,
 	long contrib;
 
 	/* The fraction of a cpu used by this cfs_rq */
-	contrib = div_u64((u64)sa->runnable_avg_sum << NICE_0_SHIFT,
+	contrib = div_u64(sa->runnable_avg_sum << NICE_0_SHIFT,
 			  sa->runnable_avg_period + 1);
 	contrib -= cfs_rq->tg_runnable_contrib;
 
@@ -3157,12 +3157,6 @@ static void check_spread(struct cfs_rq *cfs_rq, struct sched_entity *se)
 #endif
 }
 
-static unsigned int Lgentle_fair_sleepers = 1;
-void relay_gfs(unsigned int gfs)
-{
-	Lgentle_fair_sleepers = gfs;
-}
-
 static void
 place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int initial)
 {
@@ -3185,7 +3179,7 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int initial)
 		 * Halve their sleep time's effect, to allow
 		 * for a gentler effect of sleepers:
 		 */
-		if (Lgentle_fair_sleepers)
+		if (sched_feat(GENTLE_FAIR_SLEEPERS))
 			thresh >>= 1;
 
 		vruntime -= thresh;
@@ -3973,7 +3967,7 @@ static int runtime_refresh_within(struct cfs_bandwidth *cfs_b, u64 min_expire)
 	u64 remaining;
 
 	/* if the call-back is running a quota refresh is already occurring */
-	if (hrtimer_callback_running_relaxed(refresh_timer))
+	if (hrtimer_callback_running(refresh_timer))
 		return 1;
 
 	/* is a quota refresh about to occur? */
@@ -4336,7 +4330,7 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 		 *
 		 * note: in the case of encountering a throttled cfs_rq we will
 		 * post the final h_nr_running increment below.
-		 */
+		*/
 		if (cfs_rq_throttled(cfs_rq))
 			break;
 		cfs_rq->h_nr_running++;
@@ -4481,23 +4475,6 @@ static unsigned long cpu_avg_load_per_task(int cpu)
 	return 0;
 }
 
-static void record_wakee(struct task_struct *p)
-{
-	/*
-	 * Rough decay (wiping) for cost saving, don't worry
-	 * about the boundary, really active task won't care
-	 * about the loss.
-	 */
-	if (jiffies > current->wakee_flip_decay_ts + HZ) {
-		current->wakee_flips = 0;
-		current->wakee_flip_decay_ts = jiffies;
-	}
-
-	if (current->last_wakee != p) {
-		current->last_wakee = p;
-		current->wakee_flips++;
-	}
-}
 
 static void task_waking_fair(struct task_struct *p)
 {
@@ -4518,7 +4495,6 @@ static void task_waking_fair(struct task_struct *p)
 #endif
 
 	se->vruntime -= min_vruntime;
-	record_wakee(p);
 }
 
 #ifdef CONFIG_FAIR_GROUP_SCHED
@@ -4637,28 +4613,6 @@ static inline unsigned long effective_load(struct task_group *tg, int cpu,
 
 #endif
 
-static int wake_wide(struct task_struct *p)
-{
-	int factor = this_cpu_read(sd_llc_size);
-
-	/*
-	 * Yeah, it's the switching-frequency, could means many wakee or
-	 * rapidly switch, use factor here will just help to automatically
-	 * adjust the loose-degree, so bigger node will lead to more pull.
-	 */
-	if (p->wakee_flips > factor) {
-		/*
-		 * wakee is somewhat hot, it needs certain amount of cpu
-		 * resource, so if waker is far more hot, prefer to leave
-		 * it alone.
-		 */
-		if (current->wakee_flips > (factor * p->wakee_flips))
-			return 1;
-	}
-
-	return 0;
-}
-
 static int wake_affine(struct sched_domain *sd, struct task_struct *p, int sync)
 {
 	s64 this_load, load;
@@ -4667,13 +4621,6 @@ static int wake_affine(struct sched_domain *sd, struct task_struct *p, int sync)
 	struct task_group *tg;
 	unsigned long weight;
 	int balanced;
-
-	/*
-	 * If we wake multiple tasks be careful to not bounce
-	 * ourselves around too much.
-	 */
-	if (wake_wide(p))
-		return 0;
 
 	idx	  = sd->wake_idx;
 	this_cpu  = smp_processor_id();
@@ -6078,8 +6025,7 @@ fix_small_capacity(struct sched_domain *sd, struct sched_group *group)
  */
 static inline void update_sg_lb_stats(struct lb_env *env,
 			struct sched_group *group, int load_idx,
-			int local_group, int *balance, struct sg_lb_stats *sgs,
-			bool *overload)
+			int local_group, int *balance, struct sg_lb_stats *sgs)
 {
 	unsigned long nr_running, max_nr_running, min_nr_running;
 	unsigned long load, max_cpu_load, min_cpu_load;
@@ -6134,10 +6080,6 @@ static inline void update_sg_lb_stats(struct lb_env *env,
 		sgs->group_cpu_load += cpu_load(i);
 #endif
 		sgs->sum_weighted_load += weighted_cpuload(i);
-
-		if (rq->nr_running > 1)
-			*overload = true;
-
 		if (idle_cpu(i))
 			sgs->idle_cpus++;
 	}
@@ -6264,7 +6206,6 @@ static inline void update_sd_lb_stats(struct lb_env *env,
 	struct sched_group *sg = env->sd->groups;
 	struct sg_lb_stats sgs;
 	int load_idx, prefer_sibling = 0;
-	bool overload = false;
 
 	if (child && child->flags & SD_PREFER_SIBLING)
 		prefer_sibling = 1;
@@ -6276,8 +6217,7 @@ static inline void update_sd_lb_stats(struct lb_env *env,
 
 		local_group = cpumask_test_cpu(env->dst_cpu, sched_group_cpus(sg));
 		memset(&sgs, 0, sizeof(sgs));
-		update_sg_lb_stats(env, sg, load_idx, local_group, balance, &sgs,
-						&overload);
+		update_sg_lb_stats(env, sg, load_idx, local_group, balance, &sgs);
 
 		if (local_group && !(*balance))
 			return;
@@ -6325,12 +6265,6 @@ static inline void update_sd_lb_stats(struct lb_env *env,
 
 		sg = sg->next;
 	} while (sg != env->sd->groups);
-
-	if (!env->sd->parent) {
-		/* update overload indicator if we are at root domain */
-		if (env->dst_rq->rd->overload != overload)
-			env->dst_rq->rd->overload = overload;
-	}
 }
 
 /**
@@ -7016,8 +6950,7 @@ void idle_balance(int this_cpu, struct rq *this_rq)
 
 	this_rq->idle_stamp = this_rq->clock;
 
-	if (this_rq->avg_idle < sysctl_sched_migration_cost ||
-	    !this_rq->rd->overload)
+	if (this_rq->avg_idle < sysctl_sched_migration_cost)
 		return;
 
 	/* If this CPU is not the most power-efficient idle CPU in the
@@ -7701,17 +7634,31 @@ static void task_fork_fair(struct task_struct *p)
 {
 	struct cfs_rq *cfs_rq;
 	struct sched_entity *se = &p->se, *curr;
+	int this_cpu = smp_processor_id();
 	struct rq *rq = this_rq();
+	unsigned long flags;
 
-	raw_spin_lock(&rq->lock);
+	raw_spin_lock_irqsave(&rq->lock, flags);
+
 	update_rq_clock(rq);
 
 	cfs_rq = task_cfs_rq(current);
 	curr = cfs_rq->curr;
-	if (curr) {
-		update_curr(cfs_rq);
+
+	/*
+	 * Not only the cpu but also the task_group of the parent might have
+	 * been changed after parent->se.parent,cfs_rq were copied to
+	 * child->se.parent,cfs_rq. So call __set_task_cpu() to make those
+	 * of child point to valid ones.
+	 */
+	rcu_read_lock();
+	__set_task_cpu(p, this_cpu);
+	rcu_read_unlock();
+
+	update_curr(cfs_rq);
+
+	if (curr)
 		se->vruntime = curr->vruntime;
-	}
 	place_entity(cfs_rq, se, 1);
 
 	if (sysctl_sched_child_runs_first && curr && entity_before(curr, se)) {
@@ -7724,7 +7671,8 @@ static void task_fork_fair(struct task_struct *p)
 	}
 
 	se->vruntime -= cfs_rq->min_vruntime;
-	raw_spin_unlock(&rq->lock);
+
+	raw_spin_unlock_irqrestore(&rq->lock, flags);
 }
 
 /*

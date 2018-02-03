@@ -380,9 +380,6 @@ struct root_domain {
 	cpumask_var_t span;
 	cpumask_var_t online;
 
-	/* Indicate more than one runnable task for any CPU */
-	bool overload;
-
 	/*
 	 * The "RT overload" flag: it gets set if a CPU has more than
 	 * one runnable RT task.
@@ -422,12 +419,6 @@ struct rq {
 	unsigned long last_sched_tick;
 #endif
 	int skip_clock_update;
-
-	/* time-based average load */
-	u64 nr_last_stamp;
-	unsigned int ave_nr_running;
-	u64 nr_running_integral;
-	seqcount_t ave_seqcnt;
 
 	/* capture load from *all* tasks on this cpu: */
 	struct load_weight load;
@@ -629,7 +620,6 @@ static inline struct sched_domain *highest_flag_domain(int cpu, int flag)
 }
 
 DECLARE_PER_CPU(struct sched_domain *, sd_llc);
-DECLARE_PER_CPU(int, sd_llc_size);
 DECLARE_PER_CPU(int, sd_llc_id);
 
 struct sched_group_power {
@@ -864,6 +854,7 @@ static inline void clear_reserved(int cpu)
 
 extern unsigned int sched_enable_hmp;
 extern unsigned int sched_enable_power_aware;
+
 int mostly_idle_cpu(int cpu);
 extern void check_for_migration(struct rq *rq, struct task_struct *p);
 extern void pre_big_small_task_count_change(const struct cpumask *cpus);
@@ -1336,47 +1327,20 @@ static inline u64 steal_ticks(u64 steal)
 }
 #endif
 
-#define NR_AVE_PERIOD_EXP	28
-#define NR_AVE_SCALE(x)		((x) << FSHIFT)
-#define NR_AVE_PERIOD		(1 << NR_AVE_PERIOD_EXP)
-#define NR_AVE_DIV_PERIOD(x)	((x) >> NR_AVE_PERIOD_EXP)
-
-static inline unsigned int do_avg_nr_running(struct rq *rq)
-{
-	s64 nr, deltax;
-	unsigned int ave_nr_running= rq->ave_nr_running;
-
-	deltax = rq->clock_task - rq->nr_last_stamp;
-	nr = NR_AVE_SCALE(rq->nr_running);
-
-	if (deltax > NR_AVE_PERIOD)
-		ave_nr_running = nr;
-	else
-		ave_nr_running +=
-			NR_AVE_DIV_PERIOD(deltax * (nr - ave_nr_running));
-
-	return ave_nr_running;
-}
-
 static inline void inc_nr_running(struct rq *rq)
 {
 	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
 	rq->nr_running++;
 
-	if (rq->nr_running >= 2) {
-#ifdef CONFIG_SMP
-		if (!rq->rd->overload)
-			rq->rd->overload = true;
-#endif
-
 #ifdef CONFIG_NO_HZ_FULL
+	if (rq->nr_running == 2) {
 		if (tick_nohz_full_cpu(rq->cpu)) {
 			/* Order rq->nr_running write against the IPI */
 			smp_wmb();
 			smp_send_reschedule(rq->cpu);
 		}
-#endif
        }
+#endif
 }
 
 static inline void dec_nr_running(struct rq *rq)

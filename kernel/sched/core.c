@@ -121,6 +121,22 @@ const char *task_event_names[] = {"PUT_PREV_TASK", "PICK_NEXT_TASK",
 ATOMIC_NOTIFIER_HEAD(migration_notifier_head);
 ATOMIC_NOTIFIER_HEAD(load_alert_notifier_head);
 
+#ifdef smp_mb__before_atomic
+void __smp_mb__before_atomic(void)
+{
+	smp_mb__before_atomic();
+}
+EXPORT_SYMBOL(__smp_mb__before_atomic);
+#endif
+
+#ifdef smp_mb__after_atomic
+void __smp_mb__after_atomic(void)
+{
+	smp_mb__after_atomic();
+}
+EXPORT_SYMBOL(__smp_mb__after_atomic);
+#endif
+
 void start_bandwidth_timer(struct hrtimer *period_timer, ktime_t period)
 {
 	unsigned long delta;
@@ -2656,10 +2672,9 @@ unsigned long wait_task_inactive(struct task_struct *p, long match_state)
 		 * is actually now running somewhere else!
 		 */
 		while (task_running(rq, p)) {
-			if (match_state && unlikely(cpu_relaxed_read_long
-				(&(p->state)) != match_state))
+			if (match_state && unlikely(p->state != match_state))
 				return 0;
-			cpu_read_relax();
+			cpu_relax();
 		}
 
 		/*
@@ -2985,7 +3000,7 @@ void scheduler_ipi(void)
 {
 	int cpu = smp_processor_id();
 
-	if (llist_empty_relaxed(&this_rq()->wake_list)
+	if (llist_empty(&this_rq()->wake_list)
 			&& !tick_nohz_full_cpu(cpu)
 			&& !got_nohz_idle_kick()
 			&& !got_boost_kick())
@@ -3151,8 +3166,8 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
 	 * If the owning (remote) cpu is still in the middle of schedule() with
 	 * this task as prev, wait until its done referencing the task.
 	 */
-	while (cpu_relaxed_read(&(p->on_cpu)))
-		cpu_read_relax();
+	while (p->on_cpu)
+		cpu_relax();
 	/*
 	 * Pairs with the smp_wmb() in finish_lock_switch().
 	 */
@@ -3403,6 +3418,9 @@ void sched_fork(struct task_struct *p)
 	if (!rt_prio(p->prio))
 		p->sched_class = &fair_sched_class;
 
+	if (p->sched_class->task_fork)
+		p->sched_class->task_fork(p);
+
 	/*
 	 * The child is not yet in the pid-hash so no cgroup attach races,
 	 * and the cgroup is pinned to this child due to cgroup_fork()
@@ -3411,13 +3429,7 @@ void sched_fork(struct task_struct *p)
 	 * Silence PROVE_RCU.
 	 */
 	raw_spin_lock_irqsave(&p->pi_lock, flags);
-	/*
-	 * We're setting the cpu for the first time, we don't migrate,
-	 * so use __set_task_cpu().
-	 */
-	__set_task_cpu(p, cpu);
-	if (p->sched_class->task_fork)
-		p->sched_class->task_fork(p);
+	set_task_cpu(p, cpu);
 	raw_spin_unlock_irqrestore(&p->pi_lock, flags);
 
 #if defined(CONFIG_SCHEDSTATS) || defined(CONFIG_TASK_DELAY_ACCT)
@@ -3456,11 +3468,8 @@ void wake_up_new_task(struct task_struct *p)
 	 * Fork balancing, do it here and not earlier because:
 	 *  - cpus_allowed can change in the fork path
 	 *  - any previously selected cpu might disappear through hotplug
-	 *
-	 * Use __set_task_cpu() to avoid calling sched_class::migrate_task_rq,
-	 * as we're not fully set-up yet.
 	 */
-	__set_task_cpu(p, select_task_rq(p, SD_BALANCE_FORK, 0));
+	set_task_cpu(p, select_task_rq(p, SD_BALANCE_FORK, 0));
 #endif
 
 	rq = __task_rq_lock(p);
@@ -3798,67 +3807,6 @@ unsigned long this_cpu_load(void)
 	return this->cpu_load[0];
 }
 
-unsigned long avg_cpu_nr_running(unsigned int cpu)
-{
-	unsigned int seqcnt, ave_nr_running;
-
-	struct rq *q = cpu_rq(cpu);
-
-	/*
-	 * Update average to avoid reading stalled value if there were
-	 * no run-queue changes for a long time. On the other hand if
-	 * the changes are happening right now, just read current value
-	 * directly.
-	 */
-	seqcnt = read_seqcount_begin(&q->ave_seqcnt);
-	ave_nr_running = do_avg_nr_running(q);
-	if (read_seqcount_retry(&q->ave_seqcnt, seqcnt)) {
-		read_seqcount_begin(&q->ave_seqcnt);
-		ave_nr_running = q->ave_nr_running;
-	}
-	return ave_nr_running;
-}
-EXPORT_SYMBOL(avg_cpu_nr_running);
-
-unsigned long get_avg_nr_running(unsigned int cpu)
-{
-	struct rq *q;
-
-	if (cpu >= nr_cpu_ids)
-		return 0;
-
-	q = cpu_rq(cpu);
-
-	return q->ave_nr_running;
-}
-
-unsigned long avg_nr_running(void)
-{
-	unsigned long i, sum = 0;
-	unsigned int seqcnt, ave_nr_running;
-
-	for_each_online_cpu(i) {
-		struct rq *q = cpu_rq(i);
-
-		/*
-		 * Update average to avoid reading stalled value if there were
-		 * no run-queue changes for a long time. On the other hand if
-		 * the changes are happening right now, just read current value
-		 * directly.
-		 */
-		seqcnt = read_seqcount_begin(&q->ave_seqcnt);
-		ave_nr_running = do_avg_nr_running(q);
-		if (read_seqcount_retry(&q->ave_seqcnt, seqcnt)) {
-			read_seqcount_begin(&q->ave_seqcnt);
-			ave_nr_running = q->ave_nr_running;
-		}
-
-		sum += ave_nr_running;
-	}
-
-	return sum;
-}
-EXPORT_SYMBOL(avg_nr_running);
 
 /*
  * Global load-average calculations
@@ -4504,20 +4452,6 @@ unsigned long long task_sched_runtime(struct task_struct *p)
 	unsigned long flags;
 	struct rq *rq;
 	u64 ns = 0;
-
-#if defined(CONFIG_64BIT) && defined(CONFIG_SMP)
-	/*
-	 * 64-bit doesn't need locks to atomically read a 64bit value.
-	 * So we have a optimization chance when the task's delta_exec is 0.
-	 * Reading ->on_cpu is racy, but this is ok.
-	 *
-	 * If we race with it leaving cpu, we'll take a lock. So we're correct.
-	 * If we race with it entering cpu, unaccounted time is 0. This is
-	 * indistinguishable from the read occurring a few cycles earlier.
-	 */
-	if (!p->on_cpu)
-		return p->se.sum_exec_runtime;
-#endif
 
 	rq = task_rq_lock(p, &flags);
 	ns = p->se.sum_exec_runtime + do_task_delta_exec(p, rq);
@@ -5614,7 +5548,7 @@ int idle_cpu(int cpu)
 		return 0;
 
 #ifdef CONFIG_SMP
-	if (!llist_empty_relaxed(&rq->wake_list))
+	if (!llist_empty(&rq->wake_list))
 		return 0;
 #endif
 
@@ -6913,13 +6847,8 @@ static int __migrate_task(struct task_struct *p, int src_cpu, int dest_cpu)
 	bool moved = false;
 	int ret = 0;
 
-	if (p->flags & PF_KTHREAD) {
-		if (unlikely(!cpu_online(dest_cpu)))
-			return ret;
-	} else {
-		if (unlikely(!cpu_active(dest_cpu)))
-			return ret;
-	}
+	if (unlikely(!cpu_active(dest_cpu)))
+		return ret;
 
 	rq_src = cpu_rq(src_cpu);
 	rq_dest = cpu_rq(dest_cpu);
@@ -7734,23 +7663,18 @@ static void destroy_sched_domains(struct sched_domain *sd, int cpu)
  * two cpus are in the same cache domain, see cpus_share_cache().
  */
 DEFINE_PER_CPU(struct sched_domain *, sd_llc);
-DEFINE_PER_CPU(int, sd_llc_size);
 DEFINE_PER_CPU(int, sd_llc_id);
 
 static void update_top_cache_domain(int cpu)
 {
 	struct sched_domain *sd;
 	int id = cpu;
-	int size = 1;
 
 	sd = highest_flag_domain(cpu, SD_SHARE_PKG_RESOURCES);
-	if (sd) {
+	if (sd)
 		id = cpumask_first(sched_domain_span(sd));
-		size = cpumask_weight(sched_domain_span(sd));
-	}
 
 	rcu_assign_pointer(per_cpu(sd_llc, cpu), sd);
-	per_cpu(sd_llc_size, cpu) = size;
 	per_cpu(sd_llc_id, cpu) = id;
 }
 

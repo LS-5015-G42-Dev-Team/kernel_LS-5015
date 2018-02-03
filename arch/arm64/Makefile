@@ -37,13 +37,6 @@ AS		+= -EL
 LD		+= -EL
 endif
 
-# msm8916_64 optimizations
-arch-$(CONFIG_ARCH_MSM8916)	:= $(call cc-option,-mcpu=cortex-a53+crc+crypto,-march=armv8-a+crc+crypto)
-tune-$(CONFIG_ARCH_MSM8916)	:= -mtune=cortex-a53
-
-KBUILD_CFLAGS	+= $(arch-y) $(tune-y)
-KBUILD_AFLAGS	+= $(arch-y) $(tune-y)
-
 comma = ,
 
 CHECKFLAGS	+= -D__aarch64__
@@ -60,7 +53,6 @@ core-y		+= arch/arm64/kernel/ arch/arm64/mm/
 core-$(CONFIG_XEN)		+= arch/arm64/xen/
 core-$(CONFIG_KVM) += arch/arm64/kvm/
 core-$(CONFIG_CRYPTO) += arch/arm64/crypto/
-core-y		+= arch/arm64/hotplug/
 libs-y		:= arch/arm64/lib/ $(libs-y)
 libs-y		+= $(LIBGCC)
 

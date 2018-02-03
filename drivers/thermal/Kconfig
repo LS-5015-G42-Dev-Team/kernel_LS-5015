@@ -118,26 +118,16 @@ config LIMITS_LITE_HW
 	 supported by LMH Lite, their throttling intensity and the operating
 	 profiles.
 
-choice
-	prompt "MSM Thermal Monitor Types"
-	default FRANCO_THERMAL
-
 config THERMAL_MONITOR
-       bool "Monitor thermal state and limit CPU Frequency"
-       depends on THERMAL_TSENS8960 || THERMAL_TSENS8974
-       depends on CPU_FREQ || CPU_FREQ_MSM
-       help
-	This enables thermal monitoring capability in the kernel in the absence of a system wide thermal monitoring entity or until such an entity starts running in the userspace. Monitors TSENS temperature and limits the max frequency of the cores.
-
-config FRANCO_THERMAL
-       bool "Franco's Thermal Driver"
-       depends on THERMAL_TSENS8960 || THERMAL_TSENS8974
-       depends on CPU_FREQ || CPU_FREQ_MSM
-       help
-	   A Simple Thermal Monitoring and Regulation Alternative with Support for
-	   Shoaib's Core Control.
-
-endchoice
+	bool "Monitor thermal state and limit CPU Frequency"
+	depends on THERMAL_TSENS8960 || THERMAL_TSENS8974
+	depends on CPU_FREQ || CPU_FREQ_MSM
+	default n
+	help
+	  This enables thermal monitoring capability in the kernel in the
+	  absence of a system wide thermal monitoring entity or until such an
+	  entity starts running in the userspace. Monitors TSENS temperature
+	  and limits the max frequency of the cores.
 
 config SUPPLY_LM_MONITOR
 	bool "SUPPLY current monitor driver"
@@ -251,18 +241,4 @@ config THERMAL_QPNP_ADC_TM
 	  Disabling the thermal zone device via the mode file results in disabling
 	  the sensor. Also able to set threshold temperature for both hot and cold
 	  and update when a threshold is reached.
-
-config THERMAL_MONITOR_SIMPLE
-	bool "Simple solution to monitor CPU temp and limit CPU Frequency"
-	depends on THERMAL_TSENS8960 || THERMAL_TSENS8974
-	depends on CPU_FREQ_MSM
-	depends on !THERMAL_MONITOR
-	default n
-	help
-	  This enables thermal monitoring capability in the kernel in the
-	  absence of a system wide thermal monitoring entity. Monitors temperature
-	  via a specified ADC channel on the VADC device, and limits the max frequency
-	  of the CPU cores accordingly. The code is simple, allows for multiple throttling
-	  steps, and is completely configurable via sysfs.
-
 endif

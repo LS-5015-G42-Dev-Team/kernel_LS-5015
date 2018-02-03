@@ -461,12 +461,10 @@
 		qcom,coresight-jtagmm-cpu = <&CPU7>;
 	};
 
-	#ifndef CONFIG_FRANCO_THERMAL
 	qcom,msm-thermal {
 		qcom,core-control-mask = <0xFF>;
 		qcom,freq-mitigation-control-mask = <0xFF>;
 	};
-	#endif
 
 	/delete-node/ regulator@b018000;
 	/delete-node/ regulator@1942130;
