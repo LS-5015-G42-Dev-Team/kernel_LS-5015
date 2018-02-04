@@ -102,7 +102,6 @@ struct cpufreq_policy {
 	 */
 	struct rw_semaphore	rwsem;
 
-	unsigned int util;
 };
 
 /* Only for ACPI */
