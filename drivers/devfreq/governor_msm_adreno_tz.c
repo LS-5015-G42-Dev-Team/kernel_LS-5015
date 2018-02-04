@@ -1,4 +1,3 @@
-
 /* Copyright (c) 2010-2014,2016 The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -384,6 +383,7 @@ static int tz_resume(struct devfreq *devfreq)
 static int tz_suspend(struct devfreq *devfreq)
 {
 	struct devfreq_msm_adreno_tz_data *priv = devfreq->data;
+
 	#ifdef CONFIG_ADRENO_IDLER
 	if (adreno_idler_active == false)
 	{
