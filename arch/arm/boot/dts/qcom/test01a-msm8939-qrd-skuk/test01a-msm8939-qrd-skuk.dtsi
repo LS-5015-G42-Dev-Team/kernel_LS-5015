@@ -333,3 +333,5 @@
 &dsi_ams497_720p_video {
 	qcom,cont-splash-enabled;
 };
+
+#include "lineage-xiaomi-ido.dtsi"
