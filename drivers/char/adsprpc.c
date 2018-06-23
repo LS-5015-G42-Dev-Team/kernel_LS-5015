@@ -726,6 +726,7 @@ static int get_page_list(uint32_t kernel, struct smq_invoke_ctx *ctx)
 		void *buf;
 		int num;
 		size_t len;
+
 		list[i].num = 0;
 		list[i].pgidx = 0;
 		len = pra[i].buf.len;
