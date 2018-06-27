@@ -1,4 +1,3 @@
-
 CONFIG_PROC_DEVICETREE=y
 # CONFIG DEVPORT is not set
 CONFIG_LOCALVERSION="-@ndroiableDroid™"

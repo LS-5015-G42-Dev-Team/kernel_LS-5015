@@ -325,6 +325,7 @@ static int ramoops_pstore_erase(enum pstore_type_id type, u64 id, int count,
 	case PSTORE_TYPE_PMSG:
 		prz = cxt->mprz;
 		break;
+
 	case PSTORE_TYPE_ANNOTATE:
 		prz = cxt->aprz;
 		break;
@@ -455,8 +456,9 @@ static void  ramoops_of_init(struct platform_device *pdev)
 	const struct device *dev = &pdev->dev;
 	struct ramoops_platform_data *pdata;
 	struct device_node *np = pdev->dev.of_node;
-	u32 start, size, console, annotate = 0;
-	u32 record, oops;
+
+	u32 start = 0, size = 0, console = 0, annotate = 0;
+	u32 record = 0, oops = 0 ;
 	int ret;
 
 	pdata = dev_get_drvdata(dev);
@@ -479,6 +481,7 @@ static void  ramoops_of_init(struct platform_device *pdev)
 	if (ret)
 		return;
 
+
 	ret = of_property_read_u32(np, "android,ramoops-annotate-size",
 				&annotate);
 	if (ret)
@@ -494,6 +497,7 @@ static void  ramoops_of_init(struct platform_device *pdev)
 	if (ret)
 		pr_info("oops not configured");
 
+
 	pdata->mem_address = start;
 	pdata->mem_size = size;
 	pdata->console_size = console;
@@ -507,6 +511,7 @@ static inline void ramoops_of_init(struct platform_device *pdev)
 	return;
 }
 #endif
+
 static int ramoops_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
@@ -536,11 +541,13 @@ static int ramoops_probe(struct platform_device *pdev)
 		goto fail_out;
 
 	if (!pdata->mem_size || (!pdata->record_size && !pdata->console_size &&
+
 			!pdata->ftrace_size && !pdata->pmsg_size && !pdata->annotate_size)) {
 		pr_err("The memory size and the record/console size must be "
 			"non-zero\n");
 		goto fail_out;
 	}
+
 
 	if (pdata->mem_size && !is_power_of_2(pdata->mem_size))
 		pdata->mem_size = rounddown_pow_of_two(pdata->mem_size);
@@ -552,6 +559,7 @@ static int ramoops_probe(struct platform_device *pdev)
 		pdata->ftrace_size = rounddown_pow_of_two(pdata->ftrace_size);
 	if (pdata->pmsg_size && !is_power_of_2(pdata->pmsg_size))
 		pdata->pmsg_size = rounddown_pow_of_two(pdata->pmsg_size);
+
 	if (pdata->annotate_size && !is_power_of_2(pdata->annotate_size))
 		pdata->annotate_size =
 			rounddown_pow_of_two(pdata->annotate_size);
@@ -567,6 +575,7 @@ static int ramoops_probe(struct platform_device *pdev)
 	cxt->console_size = pdata->console_size;
 	cxt->ftrace_size = pdata->ftrace_size;
 	cxt->pmsg_size = pdata->pmsg_size;
+
 	cxt->annotate_size = pdata->annotate_size;
 	cxt->dump_oops = pdata->dump_oops;
 	cxt->ecc_info = pdata->ecc_info;
@@ -574,6 +583,7 @@ static int ramoops_probe(struct platform_device *pdev)
 	paddr = cxt->phys_addr;
 
 	dump_mem_sz = cxt->size - cxt->console_size - cxt->ftrace_size
+
 		- cxt->pmsg_size - cxt->annotate_size;
 	err = ramoops_init_przs(dev, cxt, &paddr, dump_mem_sz);
 	if (err)
@@ -592,6 +602,7 @@ static int ramoops_probe(struct platform_device *pdev)
 	err = ramoops_init_prz(dev, cxt, &cxt->mprz, &paddr, cxt->pmsg_size, 0);
 	if (err)
 		goto fail_init_mprz;
+
 	err = ramoops_init_prz(dev, cxt, &cxt->aprz, &paddr,
 			       cxt->annotate_size, 0);
 	if (err)
@@ -629,6 +640,9 @@ static int ramoops_probe(struct platform_device *pdev)
 	mem_address = pdata->mem_address;
 	record_size = pdata->record_size;
 	dump_oops = pdata->dump_oops;
+	ramoops_console_size = pdata->console_size;
+	ramoops_pmsg_size = pdata->pmsg_size;
+	ramoops_ftrace_size = pdata->ftrace_size;
 
 	pr_info("attached 0x%lx@0x%llx, ecc: %d/%d\n",
 		cxt->size, (unsigned long long)cxt->phys_addr,
@@ -641,6 +655,7 @@ fail_buf:
 fail_clear:
 	cxt->pstore.bufsize = 0;
 	cxt->max_dump_cnt = 0;
+
 	kfree(cxt->aprz);
 fail_init_aprz:
 	kfree(cxt->mprz);
@@ -705,6 +720,7 @@ static void ramoops_register_dummy(void)
 	dummy_data->console_size = ramoops_console_size;
 	dummy_data->ftrace_size = ramoops_ftrace_size;
 	dummy_data->pmsg_size = ramoops_pmsg_size;
+
 	dummy_data->annotate_size = ramoops_annotate_size;
 	dummy_data->dump_oops = dump_oops;
 	/*
@@ -739,3 +755,4 @@ module_exit(ramoops_exit);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Marco Stornelli <marco.stornelli@gmail.com>");
 MODULE_DESCRIPTION("RAM Oops/Panic logger/driver");
+
